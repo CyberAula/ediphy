@@ -11,7 +11,8 @@ import { setOptions } from 'react-pdf';
 setOptions({
     workerSrc: pdflib.PDFJS.workerSrc,
 });
-import './EnrichedPDF.scss';
+import { PDFViewerPlugin } from "./Styles";
+
 export function EnrichedPDF(base) {
     return {
         getConfig: function() {
@@ -62,13 +63,6 @@ export function EnrichedPDF(base) {
                             __name: Ediphy.i18n.t('EnrichedPDF.box_style'),
                             icon: 'palette',
                             buttons: {
-                                /* padding: {
-                                    __name: Ediphy.i18n.t('EnrichedPDF.padding'),
-                                    type: 'number',
-                                    value: 0,
-                                    min: 0,
-                                    max: 100,
-                                },*/
                                 borderWidth: {
                                     __name: Ediphy.i18n.t('EnrichedPDF.border_size'),
                                     type: 'number',
@@ -119,15 +113,14 @@ export function EnrichedPDF(base) {
         getRenderTemplate: function(state, props) {
             return (
 
-                <div className="pdfViewerPlugin" style={{ height: "100%", width: "100%" }}>
-                    <EnrichedPDFPluginEditor style={{ width: "100%", height: "100%" }} base={base} props={props} state={state}/>
-                </div>
+                <PDFViewerPlugin>
+                    <EnrichedPDFPluginEditor base={base} props={props} state={state}/>
+                </PDFViewerPlugin>
             );
         },
         handleToolbar: function(name, value) {
             base.setState(name, value);
         },
-
         getDefaultMarkValue(state, boxId) {
             let x = 5.37;
             let y = 8.67;
@@ -145,9 +138,7 @@ export function EnrichedPDF(base) {
             let scrollElement = document.querySelector("#box-" + boxId + ' .react-pdf__Document');
             let xx = (x + 12 + scrollElement.scrollLeft) * 100 / page.clientWidth;
             let yy = (y + 26 + scrollElement.scrollTop) * 100 / page.clientHeight;
-            // console.log(value);
             let numPage = page.getAttribute("data-page-number");
-            // let numPage = document.querySelector(".pdfPage").getAttribute("data-page-number");
             return xx.toFixed(2) + ',' + yy.toFixed(2) + ',' + numPage;
         },
         validateValueInput: function(value) {

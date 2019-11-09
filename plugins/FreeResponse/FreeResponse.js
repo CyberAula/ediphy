@@ -1,9 +1,10 @@
 import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/pluginPlaceholder/PluginPlaceholder';
 import i18n from 'i18next';
-import './_freeResponse.scss';
 import { generateCustomColors } from "../../common/themes/themeLoader";
 import { QUIZ_CONFIG, QUIZ_STYLE } from "../../common/quizzes";
+import { FreeResponsePlugin, AnswerRow, TextArea, ManyCharacters } from "./Styles";
+import { Feedback, FeedbackRow } from "../../sass/exercises";
 /* eslint-disable react/prop-types */
 
 export function FreeResponse() {
@@ -69,29 +70,27 @@ export function FreeResponse() {
 
             let quizColor = state.quizColor.color;
             let customStyle = generateCustomColors(quizColor, 1, true);
+            const manyCharacters = (state.correct && props.exercises.correctAnswer && props.exercises.correctAnswer.length && props.exercises.correctAnswer.length > 100);
 
-            return <div className={"exercisePlugin freeResponsePlugin"} style={ state.quizColor.custom ? customStyle : null }>
-                <div className={"row"} key={0}>
-                    <div className={"col-xs-12"}>
-                        <PluginPlaceholder {...props} key="1"
-                            pluginContainerName={i18n.t('FreeResponse.Question') }
-                            pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("FreeResponse.Statement") + '</p>' } }]}
-                            pluginContainer={'Question'} />
-                        <textarea disabled={!state.correct} className="form-control textAreaQuiz"
-                            placeholder={i18n.t('FreeResponse.PlaceholderEditor')} value={props.exercises.correctAnswer} onChange={clickHandler}/>
-                        {(state.correct && props.exercises.correctAnswer && props.exercises.correctAnswer.length && props.exercises.correctAnswer.length > 100) ? (
-                            <div className={"tooManyCharacters"}>{i18n.t('FreeResponse.TooMany')}</div>) : null}
-                    </div>
-                </div>
-                <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
-                    <div className={"col-xs-12 feedback"}>
+            return <FreeResponsePlugin style={ customStyle }>
+                <AnswerRow key={0}>
+                    <PluginPlaceholder {...props} key="1"
+                        pluginContainerName={i18n.t('FreeResponse.Question') }
+                        pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("FreeResponse.Statement") + '</p>' } }]}
+                        pluginContainer={'Question'} />
+                    <TextArea disabled={!state.correct}
+                        placeholder={i18n.t('FreeResponse.PlaceholderEditor')} value={props.exercises.correctAnswer} onChange={clickHandler}/>
+                    <ManyCharacters show={manyCharacters}>{i18n.t('FreeResponse.TooMany')}</ManyCharacters>
+                </AnswerRow>
+                <FeedbackRow show={ state.showFeedback } key={-2}>
+                    <Feedback>
                         <PluginPlaceholder {...props} key="-2"
                             pluginContainerName={i18n.t("FreeResponse.Feedback")}
                             pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("FreeResponse.FeedbackMsg") + '</p>' } }]}
                             pluginContainer={"Feedback"} />
-                    </div>
-                </div>
-            </div>;
+                    </Feedback>
+                </FeedbackRow>
+            </FreeResponsePlugin>;
 
         },
     };

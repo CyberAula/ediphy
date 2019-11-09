@@ -3,8 +3,6 @@ import EnrichedPlayerPluginEditor from './components/EnrichedPlayerPluginEditor.
 import i18n from 'i18next';
 import { convertSecondsToHMS } from "../../common/commonTools";
 
-require('./EnrichedPlayer.scss');
-
 export function EnrichedPlayer(base) {
     return {
         getConfig: function() {
@@ -100,19 +98,13 @@ export function EnrichedPlayer(base) {
                 controls: true,
             };
         },
-        getRenderTemplate: function(state, props) {
-            return (
-                <div style={{ width: "100%", height: "100%" }}>
-                    <EnrichedPlayerPluginEditor style={{ width: "100%", height: "100%" }} state={state} base={base} props={props}/>
-                </div>
-            );
-        },
+        getRenderTemplate: (state, props) => <EnrichedPlayerPluginEditor state={state} base={base} props={props}/>,
         getDefaultMarkValue() {
             return '0:00';
         },
         parseRichMarkInput: function(x, y, width, height, toolbarState, boxId) {
             let parsed_value = (x + 10) / width;
-            let duration = $("#box-" + boxId + " .enriched-player-wrapper").attr("duration");
+            let duration = $("#box-" + boxId + " .enriched-player-wrapper .duration").attr("duration");
             return convertSecondsToHMS(duration * parsed_value);
         },
         validateValueInput: function(value) {

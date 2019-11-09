@@ -13,6 +13,7 @@ import i18n from 'i18next';
 import './_editorBoxSortable.scss';
 import { instanceExists, releaseClick, findBox, createBox } from '../../../../common/commonTools';
 import { connect } from "react-redux";
+import _handlers from "../../../handlers/_handlers";
 
 /**
  * EditorBoxSortable Component
@@ -25,22 +26,21 @@ class EditorBoxSortable extends Component {
      */
     state = { alert: null };
 
+    h = _handlers(this);
+
     /**
      * Renders React Component
      * @returns {code} React rendered component
      */
     render() {
 
-        const { onBoxSelected } = this.props.handleBoxes;
-        const { onSortableContainerDeleted, onSortableContainerResized } = this.props.handleSortableContainers;
-
-        let box = this.props.boxes[this.props.id];
+        let box = this.props.boxesById[this.props.id];
         return (
             <div className="editorBoxSortable"
                 onMouseDown={e => {
                     if (e.target === e.currentTarget || e.target.classList.contains('colDist-j')) {
                         if(box.children.length !== 0) {
-                            onBoxSelected(this.props.id);
+                            this.h.onBoxSelected(this.props.id);
                         }
                     }
                     e.stopPropagation();
@@ -86,16 +86,10 @@ class EditorBoxSortable extends Component {
                                                         }
                                                     }}>
                                                     {container.children.map((idBox, ind) => {
-                                                        if (this.props.boxes[idBox].col === i && this.props.boxes[idBox].row === j) {
+                                                        if (this.props.boxesById[idBox].col === i && this.props.boxesById[idBox].row === j) {
                                                             return (<EditorBox id={idBox}
                                                                 key={'box-' + idBox}
-                                                                handleBoxes={this.props.handleBoxes}
-                                                                handleMarks={this.props.handleMarks}
-                                                                onToolbarUpdated={this.props.onToolbarUpdated}
-                                                                onSortableContainerResized={onSortableContainerResized}
-                                                                onTextEditorToggled={this.props.onTextEditorToggled}
                                                                 page={this.props.page}
-                                                                setCorrectAnswer={this.props.setCorrectAnswer}
                                                                 pageType={this.props.pageType}
                                                                 themeColors={this.props.themeColors}/>);
 
@@ -137,7 +131,7 @@ class EditorBoxSortable extends Component {
                                             <Button className="popoverButton"
                                                 style={{ float: 'right' }}
                                                 onClick={e => {
-                                                    onSortableContainerDeleted(idContainer, box.id);
+                                                    this.h.onSortableContainerDeleted(idContainer, box.id);
                                                     e.stopPropagation();
                                                     this.setState({ show: false });
                                                 }} >
@@ -169,7 +163,7 @@ class EditorBoxSortable extends Component {
                 <div className="dragContentHere" data-html2canvas-ignore
                     // style={{ backgroundColor: this.props.background }}
                     onClick={e => {
-                        onBoxSelected(-1);
+                        this.h.onBoxSelected(-1);
                         e.stopPropagation();}}>{i18n.t("messages.drag_content")}
                 </div>
 
@@ -178,7 +172,7 @@ class EditorBoxSortable extends Component {
     }
 
     componentDidUpdate() {
-        this.props.boxes[this.props.id].children.map(() => {
+        this.props.boxesById[this.props.id].children.map(() => {
             // this.configureResizable(this.refs[id]);
         });
     }
@@ -187,7 +181,7 @@ class EditorBoxSortable extends Component {
         this.configureDropZone(ReactDOM.findDOMNode(this), "newContainer", ".rib");
         // this.configureDropZone(".editorBoxSortableContainer", "existingContainer", ".rib");
 
-        this.props.boxes[this.props.id].children.map(() => {
+        this.props.boxesById[this.props.id].children.map(() => {
             // this.configureResizable(this.refs[id]);
         });
 
@@ -211,7 +205,7 @@ class EditorBoxSortable extends Component {
                     indexes.push(children[i].getAttribute("data-id"));
                 }
                 if (indexes.length !== 0) {
-                    this.props.handleSortableContainers.onSortableContainerReordered(indexes, this.props.id);
+                    this.h.onSortableContainerReordered(indexes, this.props.id);
                 }
                 list.sortable('cancel');
                 // Unhide EditorShortcuts
@@ -243,14 +237,12 @@ class EditorBoxSortable extends Component {
                 event.target.style.height = event.rect.height + 'px';
             },
             onend: (event) => {
-                this.props.handleSortableContainers.onSortableContainerResized(event.target.getAttribute("data-id"), this.props.id, parseInt(event.target.style.height, 10));
+                this.h.onSortableContainerResized(event.target.getAttribute("data-id"), this.props.id, parseInt(event.target.style.height, 10));
             },
         });
     }
 
     configureDropZone(node, dropArea, selector, extraParams) {
-        const { onBoxAdded, onBoxDropped } = this.props.handleBoxes;
-
         interact(node).dropzone({
             accept: selector,
             overlap: 'pointer',
@@ -302,12 +294,12 @@ class EditorBoxSortable extends Component {
                             page: page,
                             id: (ID_PREFIX_BOX + Date.now()),
                         };
-                        createBox(initialParams, name, false, onBoxAdded, this.props.boxes);
+                        createBox(initialParams, name, false, this.h.onBoxAdded, this.props.boxesById);
                         e.dragEvent.stopPropagation();
                     } else {
-                        let boxDragged = this.props.boxes[this.props.boxSelected];
+                        let boxDragged = this.props.boxesById[this.props.boxSelected];
                         if (boxDragged) {
-                            onBoxDropped(this.props.boxSelected,
+                            this.h.onBoxDropped(this.props.boxSelected,
                                 extraParams.j,
                                 extraParams.i,
                                 this.props.id,
@@ -315,7 +307,7 @@ class EditorBoxSortable extends Component {
                                 boxDragged.parent, boxDragged.container, undefined, newInd);
                         }
 
-                        for (let b in this.props.boxes) {
+                        for (let b in this.props.boxesById) {
                             let dombox = findBox(b);
                             if (dombox) {
                                 dombox.style.opacity = 1;
@@ -342,7 +334,7 @@ class EditorBoxSortable extends Component {
                     }
                     initialParams.id = (ID_PREFIX_BOX + Date.now());
                     initialParams.name = name;
-                    createBox(initialParams, name, false, onBoxAdded, this.props.boxes);
+                    createBox(initialParams, name, false, this.h.onBoxAdded, this.props.boxesById);
                     e.dragEvent.stopPropagation();
 
                 }
@@ -358,7 +350,7 @@ class EditorBoxSortable extends Component {
     getNewIndex = (x, y, parent, container, i, j) => {
         let el = document.elementFromPoint(x, y);
         let rc = releaseClick(el, 'box-');
-        let children = this.props.boxes[parent].sortableContainers[container].children.filter(box=>{return this.props.boxes[box].row === j && this.props.boxes[box].col === i;});
+        let children = this.props.boxesById[parent].sortableContainers[container].children.filter(box=>{return this.props.boxesById[box].row === j && this.props.boxesById[box].col === i;});
         if (rc) {
             let newInd = children.indexOf(rc);
             return newInd === 0 ? 0 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
@@ -438,17 +430,13 @@ class EditorBoxSortable extends Component {
 }
 
 function mapStateToProps(state) {
+    const { boxesById, boxSelected, boxLevelSelected, containedViewSelected } = state.undoGroup.present;
     return {
-        boxes: state.undoGroup.present.boxesById,
-        boxSelected: state.undoGroup.present.boxSelected,
-        boxLevelSelected: state.undoGroup.present.boxLevelSelected,
-        containedViews: state.undoGroup.present.containedViewsById,
-        containedViewSelected: state.undoGroup.present.containedViewSelected,
-        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
-        lastActionDispatched: state.undoGroup.present.lastActionDispatched || "",
-        markCreatorId: state.reactUI.markCreatorVisible,
-        exercises: state.undoGroup.present.exercises,
-        marks: state.undoGroup.present.marksById,
+        boxesById,
+        boxSelected,
+        boxLevelSelected,
+        containedViewSelected,
+        markCreatorVisible: state.reactUI.markCreatorVisible,
     };
 }
 
@@ -462,7 +450,7 @@ EditorBoxSortable.propTypes = {
     /**
      * Object that holds all the boxes, (identified by its ID)
      */
-    boxes: PropTypes.object.isRequired,
+    boxesById: PropTypes.object.isRequired,
     /**
      *  Box selected. If there is none selected the value is, -1
      */
@@ -472,39 +460,15 @@ EditorBoxSortable.propTypes = {
      */
     containedViewSelected: PropTypes.any.isRequired,
     /**
-     * Callback for toggling the CKEditor
-     */
-    onTextEditorToggled: PropTypes.func.isRequired,
-    /**
      * Page type the box is at
      */
     pageType: PropTypes.string.isRequired,
-    /**
-     * Function for setting the right answer of an exercise
-     */
-    setCorrectAnswer: PropTypes.func.isRequired,
     /**
      * Current page
      */
     page: PropTypes.any,
     /**
-     * Function that updates the toolbar of a view
-     */
-    onToolbarUpdated: PropTypes.func,
-    /**
      * Object containing current theme colors
      */
     themeColors: PropTypes.object,
-    /**
-     * Collection of callbacks for sortable containers handling
-     */
-    handleSortableContainers: PropTypes.object.isRequired,
-    /**
-     * Collection of callbacks for boxes handling
-     */
-    handleBoxes: PropTypes.object.isRequired,
-    /**
-     * Collection of callbacks for marks handling
-     */
-    handleMarks: PropTypes.object.isRequired,
 };

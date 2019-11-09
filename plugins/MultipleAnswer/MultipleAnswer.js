@@ -1,10 +1,26 @@
 import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/pluginPlaceholder/PluginPlaceholder';
 import i18n from 'i18next';
-import './_multipleAnswer.scss';
 import { letterFromNumber } from '../../common/commonTools';
 import { generateCustomColors } from "../../common/themes/themeLoader";
 import { QUIZ_CONFIG, QUIZ_STYLE } from "../../common/quizzes";
+import {
+    AnswerInput,
+    AnswerLetter,
+    AnswerRow,
+    AnswerText,
+    CheckboxInput,
+    MultipleAnswerPlugin,
+} from "./Styles";
+import {
+    CheckBoxStyleDangerous,
+    CorrectAnswerFeedback,
+    CorrectAnswerLabel,
+    Feedback,
+    FeedbackRow,
+    QuestionRow,
+} from "../../sass/exercises";
+import { removeLastChar } from "../../common/utils";
 /* eslint-disable react/prop-types */
 
 export const MultipleAnswer = () => ({
@@ -69,85 +85,75 @@ export const MultipleAnswer = () => ({
         quizColor: { color: 'rgba(0, 173, 156, 1)', custom: false },
     }),
     getRenderTemplate: function(state, props = {}) {
-
-        let answers = [];
         let correctAnswers = "";
+        const quizColor = state.quizColor.color;
+        const customStyle = generateCustomColors(quizColor, 1, true);
+        const showLetters = state.letters === i18n.t("MultipleChoice.ShowLetters");
 
-        let quizColor = state.quizColor.color;
-        let customStyle = generateCustomColors(quizColor, 1, true);
-
-        function removeLastChar(s) {
-            if (!s || s.length === 0) {
-                return s;
+        const checked = i => (props.exercises.correctAnswer instanceof Array) && props.exercises.correctAnswer.indexOf(i) > -1;
+        const clickHandler = i => {
+            let newCorrectAnswer = props.exercises.correctAnswer.filter(c => c < answers.length);
+            let index = newCorrectAnswer.indexOf(i);
+            if (index === -1) {
+                newCorrectAnswer.push(i);
+            } else {
+                newCorrectAnswer.splice(index, 1);
             }
-            return s.substring(0, s.length - 1);
-        }
-        for (let i = 0; i < state.nBoxes; i++) {
-            let checked = (props.exercises.correctAnswer && (props.exercises.correctAnswer instanceof Array) && props.exercises.correctAnswer.indexOf(i) > -1);
-            answers.push(<div key={i + 1} className={"row answerRow"}>
-                <div className={"col-xs-2 answerPlaceholder"}>
-                    <div className={"answer_letter"}>{(state.letters === i18n.t("MultipleAnswer.ShowLetters")) ? letterFromNumber(i) : (i + 1)}</div>
-                    <input type="checkbox" className="checkQuiz" name={props.id} value={i} checked={checked} onClick={()=>{
-                        let newCorrectAnswer = props.exercises.correctAnswer.filter((c)=>{
-                            return (c < answers.length);
-                        });
-                        let index = newCorrectAnswer.indexOf(i);
-                        if (index === -1) {
-                            newCorrectAnswer.push(i);
-                        } else {
-                            newCorrectAnswer.splice(index, 1);
-                        }
+            props.setCorrectAnswer(newCorrectAnswer);
+        };
 
-                        props.setCorrectAnswer(newCorrectAnswer);
-                    }}/>
-                </div>
-                <div className={"col-xs-10"}>
+        const Answer = i => (
+            <AnswerRow key={i + 1}>
+                <AnswerInput>
+                    <AnswerLetter>
+                        {(state.letters === i18n.t("MultipleAnswer.ShowLetters")) ? letterFromNumber(i) : (i + 1)}
+                    </AnswerLetter>
+                    <CheckboxInput name={props.id} value={i} checked={checked(i)} onChange={() => clickHandler(i)}/>
+                </AnswerInput>
+                <AnswerText>
                     <PluginPlaceholder {...props} key={i }
                         pluginContainerName={i18n.t("MultipleAnswer.Answer") + " " + (i + 1)}
                         pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("MultipleAnswer.Answer") + " " + (1 + i) + '</p>' } }]}
                         pluginContainer={"Answer" + (i)} />
-                </div>
-            </div>
-            );
-            if (checked) {
-                correctAnswers += (state.letters === i18n.t("MultipleChoice.ShowLetters") ? letterFromNumber(i) : (i + 1)) + ", ";
-            }
+                </AnswerText>
+            </AnswerRow>
+        );
 
-        }
+        let answers = [...Array(state.nBoxes)].map((a, i) => {
+            if (checked(i)) { correctAnswers += (showLetters ? letterFromNumber(i) : (i + 1)) + ", "; }
+            return Answer(i);
+        });
+
         if (!props.exercises.correctAnswer || props.exercises.correctAnswer.length === 0) {
             correctAnswers += i18n.t("MultipleAnswer.None") + ".";
         } else {
             correctAnswers = removeLastChar(removeLastChar(correctAnswers)) + ".";
         }
-        return <div className={"exercisePlugin multipleAnswerPlugin"} style={ state.quizColor.custom ? customStyle : null }>
-            <div className={"row"} key={0}>
-                <div className={"col-xs-12"}>
+
+        return (
+            <MultipleAnswerPlugin style={customStyle}>
+                <QuestionRow key={0}>
                     <PluginPlaceholder {...props} key="0"
                         pluginContainerName={i18n.t("MultipleAnswer.Question")}
                         pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("MultipleAnswer.Statement") + '</p>' } }]}
                         pluginContainer={"Question"} />
-                </div>
-            </div>
-            {answers}
-            <div className={"row feedbackRow"} key={-2}>
-                <div className={"col-xs-12 feedback"}>
-                    <PluginPlaceholder {...props} key="-2"
-                        pluginContainerName={i18n.t("MultipleAnswer.Feedback")}
-                        pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("MultipleAnswer.FeedbackMsg") + '</p>' } }/* , {plugin: 'HotspotImages', initialState:{url: 'nooo'}}*/]}
-                        pluginContainer={"Feedback"} />
-                </div>
-            </div>
-            <div className="correctAnswerFeedback">
-                <span className="correctAnswerLabel"> {i18n.t("MultipleAnswer.correctAnswerFeedback") }:</span> {correctAnswers}
-            </div>
-            <style dangerouslySetInnerHTML={{
-                __html: `
-                   .multipleAnswerPlugin .checkQuiz:checked:after {
-                      color: var(--themeColor1);
-                    }
-                  `,
-            }} />
-        </div>;
+                </QuestionRow>
+                {answers}
+                <FeedbackRow show={state.showFeedback} key={-2}>
+                    <Feedback>
+                        <PluginPlaceholder {...props} key="-2"
+                            pluginContainerName={i18n.t("MultipleAnswer.Feedback")}
+                            pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("MultipleAnswer.FeedbackMsg") + '</p>' } }/* , {plugin: 'HotspotImages', initialState:{url: 'nooo'}}*/]}
+                            pluginContainer={"Feedback"} />
+                    </Feedback>
+                </FeedbackRow>
+                <CorrectAnswerFeedback>
+                    <CorrectAnswerLabel> {i18n.t("MultipleAnswer.correctAnswerFeedback") }:</CorrectAnswerLabel> {correctAnswers}
+                </CorrectAnswerFeedback>
+                <style dangerouslySetInnerHTML={{
+                    __html: CheckBoxStyleDangerous('multipleAnswerPlugin'),
+                }} />
+            </MultipleAnswerPlugin>);
 
     },
 });

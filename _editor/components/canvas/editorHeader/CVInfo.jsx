@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
 import i18n from 'i18next';
+import { connect } from 'react-redux';
 
 import { isSortableBox, isBox, isCanvasElement } from '../../../../common/utils';
 
@@ -9,18 +10,18 @@ import { isSortableBox, isBox, isCanvasElement } from '../../../../common/utils'
  *  Contained View mark information
  *  It shows the current contained view's origin (page, plugin and mark)
  */
-export default class CVInfo extends Component {
+class CVInfo extends Component {
     render() {
         let cvList = [];
-        let marks = this.props.marks;
-        let containedView = this.props.containedView;
+        let marks = this.props.marksById;
+        let containedView = this.props.containedViewsById[this.props.containedViewSelected];
         let boxMarks = {};
         for (let id in containedView.parent) {
             boxMarks[containedView.parent[id]] = [...(boxMarks[containedView.parent[id]] || []), id];
         }
         let at = '@';
         for (let box in boxMarks) {
-            let el = this.props.boxes[box];
+            let el = this.props.boxesById[box];
             let from = "unknown";
             let markName = "";
             for (let m in boxMarks[box]) {
@@ -28,20 +29,20 @@ export default class CVInfo extends Component {
             }
             markName = markName.slice(0, markName.length - 2) + " " + at + " ";
             if (isSortableBox(el.parent)) {
-                let origin = this.props.boxes[el.parent].parent;
-                from = this.props.viewToolbars[origin].viewName;
-            } else if (isBox(el.parent) && this.props.boxes[el.parent].resizable) {
-                let origin = this.props.boxes[el.parent].parent;
-                from = this.props.viewToolbars[origin].viewName;
-            } else if (isBox(el.parent) && !this.props.boxes[el.parent].resizable) {
-                let origin = this.props.boxes[this.props.boxes[el.parent].parent].parent;
-                from = this.props.viewToolbars[origin].viewName;
+                let origin = this.props.boxesById[el.parent].parent;
+                from = this.props.viewToolbarsById[origin].viewName;
+            } else if (isBox(el.parent) && this.props.boxesById[el.parent].resizable) {
+                let origin = this.props.boxesById[el.parent].parent;
+                from = this.props.viewToolbarsById[origin].viewName;
+            } else if (isBox(el.parent) && !this.props.boxesById[el.parent].resizable) {
+                let origin = this.props.boxesById[this.props.boxesById[el.parent].parent].parent;
+                from = this.props.viewToolbarsById[origin].viewName;
             } else if (isCanvasElement(el.parent)) {
-                from = this.props.viewToolbars[el.parent].viewName;
+                from = this.props.viewToolbarsById[el.parent].viewName;
             } else {
                 break;
             }
-            let pluginName = Ediphy.Plugins.get(this.props.pluginToolbars[el.id].pluginId).getConfig().displayName;
+            let pluginName = Ediphy.Plugins.get(this.props.pluginToolbarsById[el.id].pluginId).getConfig().displayName;
             cvList.push(<span className="cvList"
                 key={box}>{markName}<b>{pluginName}</b> {' (' + from + ')'}</span>);
 
@@ -58,25 +59,36 @@ export default class CVInfo extends Component {
     }
 }
 
+function mapStateToProps(state) {
+    const { containedViewsById, containedViewSelected, boxesById, marksById, viewToolbarsById, pluginToolbarsById } = state.undoGroup.present;
+    return{
+        boxesById, containedViewsById, containedViewSelected, marksById, pluginToolbarsById, viewToolbarsById,
+    };
+}
+export default connect(mapStateToProps)(CVInfo);
 CVInfo.propTypes = {
+    /**
+     * Contained views (by ID)
+     */
+    containedViewsById: PropTypes.any.isRequired,
     /**
      * Current contained view (by ID)
      */
-    containedView: PropTypes.any.isRequired,
+    containedViewSelected: PropTypes.any.isRequired,
     /**
      *  Object containing all created boxes (by id)
      */
-    boxes: PropTypes.object.isRequired,
+    boxesById: PropTypes.object.isRequired,
     /**
      * Object containing box marks
      */
-    marks: PropTypes.object,
+    marksById: PropTypes.object,
     /**
      * View toolbars
      */
-    viewToolbars: PropTypes.object,
+    viewToolbarsById: PropTypes.object,
     /**
    * Plugin toolbars
    */
-    pluginToolbars: PropTypes.object,
+    pluginToolbarsById: PropTypes.object,
 };

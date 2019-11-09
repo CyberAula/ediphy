@@ -12,6 +12,7 @@ import { createBox } from '../../../../../common/commonTools';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../../common/constants';
 
 import './_MoodleXMLDataTable.scss';
+import _handlers from "../../../../handlers/_handlers";
 require('react-datatable-bs/css/table-twbs.css');
 
 export default class MoodleHandler extends Component {
@@ -28,6 +29,7 @@ export default class MoodleHandler extends Component {
             i18n.t('FileModal.FileHandlers.question'),
             i18n.t('FileModal.FileHandlers.type'),
         ];
+        this.h = _handlers(this);
     }
 
     /* selectAllRows = (select) => {
@@ -218,17 +220,17 @@ export default class MoodleHandler extends Component {
             if (page) {
                 let containerId = ID_PREFIX_SORTABLE_CONTAINER + Date.now();
                 isTargetSlide = isSlide(page.type);
-                let parent = isTargetSlide ? page.id : page.boxes[0];
+                let parent = isTargetSlide ? page.id : page.boxesById[0];
                 let row = 0;
                 let col = 0;
                 let container = isTargetSlide ? 0 : containerId;
                 let newInd;
-                if (self.props.boxSelected && self.props.boxes[self.props.boxSelected] && isBox(self.props.boxSelected)) {
-                    parent = self.props.boxes[self.props.boxSelected].parent;
-                    container = self.props.boxes[self.props.boxSelected].container;
+                if (self.props.boxSelected && self.props.boxesById[self.props.boxSelected] && isBox(self.props.boxSelected)) {
+                    parent = self.props.boxesById[self.props.boxSelected].parent;
+                    container = self.props.boxesById[self.props.boxSelected].container;
                     isTargetSlide = container === 0;
-                    row = self.props.boxes[self.props.boxSelected].row;
-                    col = self.props.boxes[self.props.boxSelected].col;
+                    row = self.props.boxesById[self.props.boxSelected].row;
+                    col = self.props.boxesById[self.props.boxSelected].col;
                     newInd = self.getIndex(parent, container);
                 }
 
@@ -251,7 +253,7 @@ export default class MoodleHandler extends Component {
             return { initialParams, isTargetSlide };
         };
 
-        let sanitizeInitialParams = (initialParams, boxes) => {
+        let sanitizeInitialParams = (initialParams, boxesById) => {
             let parent = initialParams.parent;
 
             if(isSortableBox(parent) || isPage(parent) || isContainedView(parent)) {
@@ -259,7 +261,7 @@ export default class MoodleHandler extends Component {
             }
 
             if(isBox(parent)) {
-                let box = boxes[parent];
+                let box = boxesById[parent];
                 return { ...initialParams, parent: box.parent, container: box.container };
             }
 
@@ -291,11 +293,11 @@ export default class MoodleHandler extends Component {
                 };
                 delete textParams.exercises;
                 delete textParams.initialState;
-                createBox(textParams, "BasicText", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                createBox(textParams, "BasicText", isTargetSlide, this.h.onBoxAdded, this.props.boxesById);
             }
 
-            let sanitized = sanitizeInitialParams(initialParams, this.props.boxes);
-            createBox(sanitized, question.name, isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+            let sanitized = sanitizeInitialParams(initialParams, this.props.boxesById);
+            createBox(sanitized, question.name, isTargetSlide, this.h.onBoxAdded, this.props.boxesById);
 
             if(question.img) {
                 let imgParams = {
@@ -310,7 +312,7 @@ export default class MoodleHandler extends Component {
                 };
                 delete imgParams.exercises;
                 delete imgParams.initialState;
-                createBox(imgParams, "HotspotImages", isTargetSlide, this.props.onBoxAdded, this.props.boxes);
+                createBox(imgParams, "HotspotImages", isTargetSlide, this.h.onBoxAdded, this.props.boxesById);
 
             }
 
@@ -331,13 +333,9 @@ MoodleHandler.propTypes = {
      */
     close: PropTypes.func.isRequired,
     /**
-     * Object containing all created boxes (by id)
+     * Object containing all created boxesById (by id)
      */
-    boxes: PropTypes.object,
-    /**
-     * Callback for adding a box
-     */
-    onBoxAdded: PropTypes.func.isRequired,
+    boxesById: PropTypes.object,
     /**
      * FileModal Context
      */

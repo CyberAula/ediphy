@@ -16,5 +16,4 @@ import './sass/style.scss';
 // We make sure JQuery UI Sortable Widget is initialized
 // eslint-disable-next-line
 new sortable();
-
 ReactDOM.render((<ReduxProvider />), document.getElementById('root'));

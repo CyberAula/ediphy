@@ -33,25 +33,15 @@ export default class ExternalDropzone extends Component {
      * @returns {code}
      */
     render() {
-        let dropStyle = {
-            borderColor: "#92B0B3",
-            borderStyle: "dashed",
-            borderWidth: "2px",
-            width: "100%",
-            height: "200px",
-            display: "table",
-        };
-
-        if (this.state.hover) {
-            dropStyle.background = "#C8DADF";
-        } else {
-            dropStyle.background = "#FFFFFF";
-        }
         return (
             <FileInput onChange={this.onDrop} className="fileInput" accept={this.props.accept}>
                 <div className="fileDrag">
-                    <span style={{ display: this.state.file ? 'none' : 'block' }}><b>{ Ediphy.i18n.t('FileInput.Drag') }</b>{ Ediphy.i18n.t('FileInput.Drag_2') }<b>{ Ediphy.i18n.t('FileInput.Click') }</b>{ Ediphy.i18n.t('FileInput.Click_2') }</span>
-                    <span className="fileUploaded" style={{ display: this.state.file ? 'block' : 'none' }}><i className="material-icons">insert_drive_file</i> { this.state.file ? this.state.file.name : '' }</span>
+                    <span style={{ display: this.state.file ? 'none' : 'block' }}>
+                        <b>{ Ediphy.i18n.t('FileInput.Drag') }</b>{ Ediphy.i18n.t('FileInput.Drag_2') }<b>{ Ediphy.i18n.t('FileInput.Click') }</b>{ Ediphy.i18n.t('FileInput.Click_2') }
+                    </span>
+                    <span className="fileUploaded" style={{ display: this.state.file ? 'block' : 'none' }}>
+                        <i className="material-icons">insert_drive_file</i> { this.state.file ? this.state.file.name : '' }
+                    </span>
                 </div>
             </FileInput>
         );

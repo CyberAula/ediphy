@@ -1,7 +1,7 @@
 import React from 'react';
-import './_inputText.scss';
 import i18n from 'i18next';
 import { QUIZ_CONFIG } from "../../common/quizzes";
+import { DragHandleInputPlugin, GenericInput, InputTextPlugin } from "./Styles";
 
 /* eslint-disable react/prop-types */
 
@@ -74,10 +74,22 @@ export function InputText() {
                 props.setCorrectAnswer(e.target.value);
             };
             let fs = state.fontSize / 14 + 'em';
-            return <div className={"exercisePlugin inputTextPlugin"} >
-                <input placeholder={i18n.t("InputText.Placeholder")} type={state.type} style={{ fontSize: fs }} className="inputText" name={props.id} value={props.exercises.correctAnswer} onChange={clickHandler}/>
-                <div className="dragHandleInputPlugin" style={{ fontSize: fs }}><i className="material-icons">reorder</i></div>
-            </div>;
+            const isSelected = props.id === props.boxSelected;
+
+            return (
+                <InputTextPlugin className={"exercisePlugin inputTextPlugin"} >
+                    <GenericInput
+                        className={'inputText'}
+                        placeholder={i18n.t("InputText.Placeholder")}
+                        type={state.type}
+                        style={{ fontSize: fs }}
+                        name={props.id}
+                        value={props.exercises.correctAnswer}
+                        onChange={clickHandler}/>
+                    <DragHandleInputPlugin className='dragHandleInputPlugin' show={isSelected} style={{ fontSize: fs }}>
+                        <i className="material-icons">reorder</i>
+                    </DragHandleInputPlugin>
+                </InputTextPlugin>);
 
         },
     };

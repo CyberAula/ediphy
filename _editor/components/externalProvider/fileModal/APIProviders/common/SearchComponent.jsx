@@ -6,10 +6,11 @@ import PropTypes from 'prop-types';
 
 export default class SearchComponent extends React.Component {
     render() {
+        const { disabled, onChange, onSearch } = this.props;
         return <InputGroup className="searchInputTopBar">
-            <FormControl onChange={this.props.onChange} autoFocus ref="query" type="text" disabled={this.props.disabled}/>
+            <FormControl onChange={onChange} autoFocus ref="query" type="text" disabled={disabled}/>
             <InputGroup.Addon className="inputSearch" onClick={(e) => {
-                this.props.onSearch(ReactDOM.findDOMNode(this.refs.query).value);
+                onSearch(ReactDOM.findDOMNode(this.refs.query).value);
                 e.preventDefault();
             }}>
                 <Glyphicon glyph="search" />  {i18n.t("FileModal.APIProviders.search")}

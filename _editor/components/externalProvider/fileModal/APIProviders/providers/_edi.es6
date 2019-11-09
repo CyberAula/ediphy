@@ -41,7 +41,6 @@ export function importExcursion(url, props, callback) {
 }
 
 function insertEdi(res, props) {
-    let counter = 0;
     let resource = res.present ? res.present : res;
     delete resource.globalConfig;
     let importedStateStringified = JSON.stringify(resource);

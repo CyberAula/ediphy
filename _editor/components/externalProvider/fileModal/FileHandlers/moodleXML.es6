@@ -4,8 +4,6 @@ import { ID_PREFIX_BOX } from '../../../../../common/constants';
 import i18n from 'i18next';
 
 export function parseMoodleXML(file, callback) {
-    let parser = new DOMParser();
-    let xmlDoc = "";
     if (isDataURL(file)) {
         let fileReader = new FileReader();
         fileReader.onload = (e)=> {
@@ -24,7 +22,7 @@ export function parseMoodleXML(file, callback) {
             return res.text();
         }).then(xml => {
             convert(xml, callback);
-        }).catch(e=>{
+        }).catch(()=>{
             callback({ success: false, msg: i18n.t('MoodleXML.parse_error') });
         });
     }
@@ -40,7 +38,7 @@ function convert(res, callback) {
                 console.error(e);
             }
             let questions = data.questions.filter(q=>q.type && q.type !== "category");
-            let answers, questiontext, answerTexts, scores, correctAnswer, currentAnswer, feedback, showFeedback;
+            let correctAnswer;
             let filteredQuestions = [];
             for (let q in questions) {
                 let qu = questions[q];

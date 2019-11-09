@@ -9,6 +9,7 @@ import { BackgroundPicker, handleBackground } from "../../../_editor/components/
 import { handleCanvasToolbar } from "./handleCanvasToolbar";
 import { getCurrentColor, getThemes } from "../../../common/themes/themeLoader";
 import { loadBackground } from "../../../common/themes/backgroundLoader";
+import _handlers from "../../../_editor/handlers/_handlers";
 
 /**
  * Render toolbar accordion
@@ -17,41 +18,24 @@ import { loadBackground } from "../../../common/themes/backgroundLoader";
  * @param accordionKeys Unique keys of the accordion
  * @param state Toolbar state
  * @param key Current key
- * @param toolbarProps
+ * @param toolbar
  */
-export function renderAccordion(accordion, tabKey, accordionKeys, state, key, toolbarProps) {
+export function renderAccordion(accordion, tabKey, accordionKeys, state, key, toolbar) {
+    let h = _handlers(toolbar);
+
     if (accordionKeys[0] === 'z__extra') {
         return null;
     }
 
-    let props = {
-        key: key,
-        className: "panelPluginToolbar",
-        header: (
-            <Panel.Heading key={'span' + key} className={"panel-heading"}>
-                <Panel.Title toggle>
-                    <p className={"titleA"} style={{
-                        color: 'white',
-                        paddingTop: '0',
-                        paddingBottom: '0',
-                        paddingLeft: '0',
-                        fontSize: '14.4px',
-                    }}>
-                        <i className="toolbarIcons material-icons">
-                            {accordion.icon ? accordion.icon : <span className="toolbarIcons"/>}
-                        </i>{accordion.__name}
-                    </p>
-                </Panel.Title>
-            </Panel.Heading>
-        ),
-    };
+    let props = { key: key };
+    let toolbarProps = toolbar.props;
     let children = [];
     if (accordion.order) {
         for (let i = 0; i < accordion.order.length; i++) {
             if (accordion.accordions[accordion.order[i]]) {
                 children.push(renderAccordion(accordion.accordions[accordion.order[i]], tabKey, [accordionKeys[0], accordion.order[i]], state, i));
             } else if (accordion.buttons[accordion.order[i]]) {
-                children.push(renderButton(accordion, tabKey, accordionKeys, accordion.order[i], state, i, toolbarProps));
+                children.push(renderButton(accordion, tabKey, accordionKeys, accordion.order[i], state, i, toolbar));
             } else {
                 // eslint-disable-next-line no-console
                 console.error("Element %s not defined", accordion.order[i]);
@@ -68,7 +52,7 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
                         width: buttonWidth,
                         marginRight: buttonMargin,
                     }}>
-                    {renderButton(accordion, tabKey, accordionKeys, buttonKeys[i], state, i, toolbarProps)}
+                    {renderButton(accordion, tabKey, accordionKeys, buttonKeys[i], state, i, toolbar)}
                 </div>,
             );
         }
@@ -78,17 +62,32 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
         children.push(
             <MarksList key="marks_list"
                 state={toolbarProps.marks}
-                viewToolbars={toolbarProps.viewToolbars}
-                box_id={toolbarProps.box.id}
-                onRichMarksModalToggled={toolbarProps.handleMarks.onRichMarksModalToggled}
-                onRichMarkEditPressed={toolbarProps.handleMarks.onRichMarkEditPressed}
-                onRichMarkDeleted={toolbarProps.handleMarks.onRichMarkDeleted}
+                viewToolbarsById={toolbarProps.viewToolbarsById}
+                boxId={toolbarProps.box.id}
+                onRichMarksModalToggled={h.onRichMarksModalToggled}
+                onRichMarkEditPressed={h.onRichMarkEditPressed}
+                onRichMarkDeleted={h.onRichMarkDeleted}
             />,
         );
     }
     return (
         // eslint-disable-next-line react/prop-types
-        <Panel className={"panelPluginToolbar"}{...props}>{props.header}
+        <Panel className={"panelPluginToolbar"}{...props}>
+            <Panel.Heading key={'span' + key} className={"panel-heading"}>
+                <Panel.Title toggle>
+                    <p className={"titleA"} style={{
+                        color: 'white',
+                        paddingTop: '0',
+                        paddingBottom: '0',
+                        paddingLeft: '0',
+                        fontSize: '14.4px',
+                    }}>
+                        <i className="toolbarIcons material-icons">
+                            {accordion.icon ? accordion.icon : <span className="toolbarIcons"/>}
+                        </i>{accordion.__name}
+                    </p>
+                </Panel.Title>
+            </Panel.Heading>
             <Panel.Body collapsible>{children}</Panel.Body>
         </Panel>);
     // React.createElement(Panel, props, children);
@@ -102,25 +101,27 @@ export function renderAccordion(accordion, tabKey, accordionKeys, state, key, to
  * @param buttonKey Unique key of the button
  * @param state Toolbar state
  * @param key Current key
- * @param toolbarProps
+ * @param toolbar
  * @returns {code} Button code
  */
-export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key, toolbarProps) {
+export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state, key, toolbar) {
     let button = accordion.buttons[buttonKey];
+    let toolbarProps = toolbar.props;
+    let h = _handlers(toolbar);
     let id = (toolbarProps.boxSelected !== -1) ? toolbarProps.boxSelected : (toolbarProps.containedViewSelected || toolbarProps.navItemSelected);
     let currentElement = (["structure", "style", "z__extra", "__marks_list", "__score"].indexOf(accordionKeys[0]) === -1) ? "state" : accordionKeys[0];
-    let toolbarPluginState = toolbarProps.boxSelected !== -1 ? toolbarProps.pluginToolbars[toolbarProps.boxSelected] : undefined;
+    let toolbarPluginState = toolbarProps.boxSelected !== -1 ? toolbarProps.pluginToolbarsById[toolbarProps.boxSelected] : undefined;
 
     let commitChanges = (val) => {
         if (toolbarProps.boxSelected === -1) {
-            handleCanvasToolbar(buttonKey, val, accordion, toolbarProps, buttonKey);
+            handleCanvasToolbar(buttonKey, val, accordion, toolbar, buttonKey);
         } else if (currentElement === '__score') {
-            toolbarProps.onScoreConfig(id, buttonKey, val);
+            h.onScoreConfig(id, buttonKey, val, toolbarProps.navItemSelected);
             if (!button.__defaultField) {
-                toolbarProps.handleToolbars.onToolbarUpdated(id, tabKey, 'state', buttonKey, val);
+                h.onToolbarUpdated(id, tabKey, 'state', buttonKey, val);
             }
         } else {
-            toolbarProps.handleToolbars.onToolbarUpdated(id, tabKey, currentElement, buttonKey, val);
+            h.onToolbarUpdated(id, tabKey, currentElement, buttonKey, val);
         }
     };
 
@@ -145,7 +146,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
             if (button.type === 'number' && value === "") {
                 value = button.min ?? 0;
             }
-            handleCanvasToolbar(buttonKey, value, accordion, toolbarProps, buttonKey);
+            handleCanvasToolbar(buttonKey, value, accordion, toolbar, buttonKey);
         },
         onChange: e => {
             let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
@@ -158,7 +159,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
 
     let newValue, handler;
     let navItemSelected = toolbarProps.navItemSelected;
-    let theme = toolbarProps.viewToolbars[navItemSelected]?.theme ?? 'default';
+    let theme = toolbarProps.viewToolbarsById[navItemSelected]?.theme ?? 'default';
 
     let defaultHandler = (e) => {
         let value = (typeof e.target !== 'undefined') ? e.target.value : e.value;
@@ -168,7 +169,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     if (buttonKey === 'width' || buttonKey === 'height' || buttonKey === 'aspectRatio') {
         return SizeButton(toolbarPluginState, buttonKey, toolbarProps, id, props, button, accordionKeys);
     }
-
     switch (button.type) {
     case 'checkbox':
         handler = () => commitChanges(!button.checked);
@@ -188,7 +188,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         return Color(button, handler, props);
     case 'custom_color_plugin':
         handler = e => {
-            theme = toolbarProps.viewToolbars[toolbarProps.navItemSelected].theme ?? 'default';
+            theme = toolbarProps.viewToolbarsById[toolbarProps.navItemSelected].theme ?? 'default';
             const restore = e.currentTarget?.type === 'button';
             newValue = restore ? { color: getCurrentColor(theme), custom: false } :
                 e.color ? { color: e.color, custom: true } : newValue;
@@ -207,7 +207,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     case 'text':
         return Text(button, defaultHandler, props);
     case 'externalProvider':
-        return External(button, props, toolbarProps, defaultHandler);
+        return External(button, props, toolbar, defaultHandler);
     case 'range':
         return Range(button, props, defaultHandler);
     case 'conditionalText':
@@ -230,19 +230,19 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         return FancyRadio(button, buttonKey, toolbarProps);
     case 'background_picker':
         let default_background = loadBackground(theme, 0);
-        handler = e => handleBackground(e, toolbarProps, accordion, buttonKey, commitChanges, button, id);
-        return BackgroundPicker(button, props, toolbarProps, id, default_background, handler);
+        handler = e => handleBackground(e, toolbar, accordion, buttonKey, commitChanges, button, id);
+        return BackgroundPicker(button, props, toolbar, id, default_background, handler);
     case 'number':
         handler = e => {
             newValue = (typeof e.target !== 'undefined') ? e.target.value : e.value;
             // If there's any problem when parsing (NaN) -> take min value if defined; otherwise take 0
             if (!(newValue && newValue.length >= 1 && (newValue.charAt(newValue.length - 1) === '.' || newValue.charAt(newValue.length - 1) === ',' || newValue === 0))) {
                 newValue = parseFloat(newValue) || button.min || 0;
-                if (button.max && value > button.max) {
+                if (button.max && newValue > button.max) {
                     newValue = button.max;
                 }
             }
-            commitChanges(value);
+            commitChanges(newValue);
         };
         return DefaultComponent(button, props, handler);
 

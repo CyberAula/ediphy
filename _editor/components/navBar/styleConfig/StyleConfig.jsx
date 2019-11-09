@@ -173,9 +173,7 @@ class StyleConfig extends Component {
         e.preventDefault();
     };
 
-    close = () => {
-        this.props.dispatch(updateUI('showStyleConfig', false));
-    };
+    close = () => this.props.dispatch(updateUI('showStyleConfig', false));
 
     handleThemeChange = (id) => {
         let newTheme = getThemes()[id];
@@ -188,14 +186,8 @@ class StyleConfig extends Component {
             modifiedState: true });
     };
 
-    handleColorChange = (e)=>{
-        this.setState({ font: e.family, modifiedState: true });
-    };
-
-    handleFontChange = (e)=>{
-        this.setState({ font: e.family, modifiedState: true });
-    };
-
+    handleColorChange = e => this.setState({ font: e.family, modifiedState: true });
+    handleFontChange = e => this.setState({ font: e.family, modifiedState: true });
     handleTransitionChange = (index) => this.setState({ transition: index });
 
 }

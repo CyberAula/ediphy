@@ -3,7 +3,7 @@ import i18n from 'i18next';
 import Map from './components/Map';
 import MarkEditor from "../../_editor/components/richPlugins/markEditor/MarkEditor";
 import Mark from '../../common/components/mark/Mark';
-require('./_virtualTour.scss');
+import { MapPlugin, MiddleAlign, NoInternetBox } from "./Styles";
 window.mapList = [];
 /* eslint-disable react/prop-types */
 
@@ -126,12 +126,13 @@ export function VirtualTour(base) {
             let id = props.id;
             let marks = props.marks || {};
             if (!window.google || !window.navigator.onLine) {
-                return (<div className="dropableRichZone noInternetConnectionBox" style={{ width: '100%', height: '100%', minHeight: '50px' }}>
-                    <div className="middleAlign">
-                        <i className="material-icons dark">signal_wifi_off</i><br/>
-                        {i18n.t('messages.no_internet')}
-                    </div>
-                </div>);
+                return (
+                    <NoInternetBox>
+                        <MiddleAlign>
+                            <i className="material-icons" style={{ color: '#555555' }}>signal_wifi_off</i><br/>
+                            {i18n.t('messages.no_internet')}
+                        </MiddleAlign>
+                    </NoInternetBox>);
             }
             let markElements = Object.keys(marks).map((idKey) => {
                 let value = marks[idKey].value;
@@ -151,7 +152,7 @@ export function VirtualTour(base) {
             });
 
             return (
-                <div className="virtualMap" onDragLeave={e=>{e.stopPropagation();}}>
+                <MapPlugin onDragLeave={e=>{e.stopPropagation();}}>
                     <Map placeholder={i18n.t("VirtualTour.Search")}
                         state={state}
                         id={id}
@@ -163,7 +164,7 @@ export function VirtualTour(base) {
                         }}>
                         {markElements}
                     </Map>
-                </div>);
+                </MapPlugin>);
         },
         getDefaultMarkValue(state) {
             let cfg = state.config;

@@ -9,10 +9,12 @@ import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Radio } 
 
 import Alert from './../../common/alert/Alert';
 import { isSection, isContainedView, nextAvailName, makeBoxes } from '../../../../common/utils';
+import _handlers from "../../../handlers/_handlers";
 import { ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES } from '../../../../common/constants';
 
-import './_richMarksModal.scss';
 import TemplatesModal from "../../carousel/templatesModal/TemplatesModal";
+
+import './_richMarksModal.scss';
 
 /**
  * Modal component to edit marks' configuration
@@ -24,7 +26,7 @@ class RichMarksModal extends Component {
         this.state = {
             connectMode: "new",
             displayMode: "navigate",
-            newSelected: this.props.navItems[this.props.navItemSelected] ? this.props.navItems[this.props.navItemSelected].type : "",
+            newSelected: this.props.navItemsById[this.props.navItemSelected] ? this.props.navItemsById[this.props.navItemSelected].type : "",
             existingSelected: "",
             newType: PAGE_TYPES.SLIDE,
             viewNames: this.returnAllViews(this.props),
@@ -32,6 +34,8 @@ class RichMarksModal extends Component {
             showTemplates: false,
             boxes: [],
         };
+
+        this.h = _handlers(this);
     }
 
     /**
@@ -42,7 +46,7 @@ class RichMarksModal extends Component {
     UNSAFE_componentWillReceiveProps(nextProps) {
         let current = nextProps.currentRichMark;
         let allViews = this.returnAllViews(nextProps);
-        if (!this.props.visible) {
+        if (!this.props.richMarksVisible) {
             if (current) {
                 this.setState({
                     viewNames: allViews,
@@ -50,9 +54,9 @@ class RichMarksModal extends Component {
                     connectMode: current.connectMode || "new",
                     displayMode: current.displayMode || "navigate",
                     newSelected: (current.connectMode === "new" ? current.connection : ""),
-                    newType: nextProps.navItems[nextProps.navItemSelected] ? nextProps.navItems[nextProps.navItemSelected].type : "",
-                    existingSelected: (current.connectMode === "existing" && this.remapInObject(nextProps.navItems, nextProps.containedViews)[current.connection] ?
-                        this.remapInObject(nextProps.navItems, nextProps.containedViews)[current.connection].id : ""),
+                    newType: nextProps.navItemsById[nextProps.navItemSelected] ? nextProps.navItemsById[nextProps.navItemSelected].type : "",
+                    existingSelected: (current.connectMode === "existing" && this.remapInObject(nextProps.navItemsById, nextProps.containedViewsById)[current.connection] ?
+                        this.remapInObject(nextProps.navItemsById, nextProps.containedViewsById)[current.connection].id : ""),
                 });
             } else {
                 this.setState({
@@ -61,7 +65,7 @@ class RichMarksModal extends Component {
                     connectMode: "new",
                     displayMode: "navigate",
                     newSelected: "",
-                    newType: nextProps.navItems[nextProps.navItemSelected] ? nextProps.navItems[nextProps.navItemSelected].type : "",
+                    newType: nextProps.navItemsById[nextProps.navItemSelected] ? nextProps.navItemsById[nextProps.navItemSelected].type : "",
                     existingSelected: "",
                 });
             }
@@ -76,23 +80,25 @@ class RichMarksModal extends Component {
      */
     render() {
         // TODO refactor con ? ??
-        let marksType = this.props.pluginToolbar?.pluginId
-                        && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId)?.getConfig()?.marksType
-            ? Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getConfig().marksType : {};
+        let pluginToolbar = this.props.pluginToolbarsById[this.props.boxSelected];
+
+        let marksType = pluginToolbar?.pluginId
+                        && Ediphy.Plugins.get(pluginToolbar.pluginId)?.getConfig()?.marksType
+            ? Ediphy.Plugins.get(pluginToolbar.pluginId).getConfig().marksType : {};
         let current = this.props.currentRichMark;
-        let selected = this.state.existingSelected && (this.props.containedViews[this.state.existingSelected] || this.props.navItems[this.state.existingSelected]) ? (isContainedView(this.state.existingSelected) ? { label: this.props.containedViews[this.state.existingSelected].name, id: this.state.existingSelected } :
-            { label: this.props.navItems[this.state.existingSelected].name, id: this.state.existingSelected }) : this.returnAllViews(this.props)[0] || [];
+        let selected = this.state.existingSelected && (this.props.containedViewsById[this.state.existingSelected] || this.props.navItemsById[this.state.existingSelected]) ? (isContainedView(this.state.existingSelected) ? { label: this.props.containedViewsById[this.state.existingSelected].name, id: this.state.existingSelected } :
+            { label: this.props.navItemsById[this.state.existingSelected].name, id: this.state.existingSelected }) : this.returnAllViews(this.props)[0] || [];
         let newSelected = "";
-        if (this.props.viewToolbars[this.state.newSelected] !== undefined) {
-            newSelected = this.props.viewToolbars[this.state.newSelected].viewName;
+        if (this.props.viewToolbarsById[this.state.newSelected] !== undefined) {
+            newSelected = this.props.viewToolbarsById[this.state.newSelected].viewName;
         }
-        let plugin = (this.props.pluginToolbar && this.props.pluginToolbar.pluginId && Ediphy.Plugins.get(this.props.pluginToolbar.pluginId)) ? Ediphy.Plugins.get(this.props.pluginToolbar.pluginId) : undefined;
-        let defaultMarkValue = plugin ? Ediphy.Plugins.get(this.props.pluginToolbar.pluginId).getDefaultMarkValue(this.props.pluginToolbar.state, this.props.boxSelected) : '';
-        let pluginType = (this.props.pluginToolbar && this.props.pluginToolbar.config) ? this.props.pluginToolbar.config.displayName : 'Plugin';
+        let plugin = (pluginToolbar && pluginToolbar.pluginId && Ediphy.Plugins.get(pluginToolbar.pluginId)) ? Ediphy.Plugins.get(pluginToolbar.pluginId) : undefined;
+        let defaultMarkValue = plugin ? Ediphy.Plugins.get(pluginToolbar.pluginId).getDefaultMarkValue(pluginToolbar.state, this.props.boxSelected) : '';
+        let pluginType = (pluginToolbar && pluginToolbar.config) ? pluginToolbar.config.displayName : 'Plugin';
         let config = plugin ? plugin.getConfig() : null;
         let newId = "";
         return (
-            <Modal className="pageModal richMarksModal" backdrop bsSize="large" show={this.props.visible}>
+            <Modal className="pageModal richMarksModal" backdrop bsSize="large" show={this.props.richMarksVisible}>
                 <Modal.Header>
                     <Modal.Title><i style={{ fontSize: '18px' }} className="material-icons">room</i> {(current ? i18n.t("marks.edit_mark_to") : i18n.t("marks.add_mark_to")) + pluginType }</Modal.Title>
                 </Modal.Header>
@@ -196,7 +202,7 @@ class RichMarksModal extends Component {
                                 <ControlLabel>{i18n.t("marks.existing_content_label")}</ControlLabel>
                                 {this.state.connectMode === "existing" && <FormControl componentClass="select" onChange={e=>{this.setState({ existingSelected: e.target.value });}}>
                                     {this.returnAllViews(this.props).map(view=>{
-                                        return <option key={view.id} value={view.id}>{this.props.viewToolbars[view.id].viewName}</option>;
+                                        return <option key={view.id} value={view.id}>{this.props.viewToolbarsById[view.id].viewName}</option>;
                                     })}
                                 </FormControl>}
                             </FormGroup>
@@ -244,7 +250,7 @@ class RichMarksModal extends Component {
                 <Modal.Footer>
                     {/* <span>También puedes arrastrar el icono <i className="material-icons">room</i> dentro del plugin del vídeo para añadir una nueva marca</span>*/}
                     <Button onClick={() => {
-                        this.props.handleMarks.onRichMarksModalToggled();
+                        this.h.onRichMarksModalToggled();
                         this.restoreDefaultTemplate();
                     }}>Cancel</Button>
                     <Button bsStyle="primary" onClick={() => {
@@ -255,9 +261,9 @@ class RichMarksModal extends Component {
                         let color = this.state.color || marksType.defaultColor || '#222222';
                         let connection = selected.id;
                         // CV name
-                        let name = connectMode === "existing" ? this.props.viewToolbars[connection].viewName : nextAvailName(i18n.t('contained_view'), this.props.viewToolbars, 'viewName');
+                        let name = connectMode === "existing" ? this.props.viewToolbarsById[connection].viewName : nextAvailName(i18n.t('contained_view'), this.props.viewToolbarsById, 'viewName');
                         // Mark name
-                        title = title || nextAvailName(i18n.t("marks.new_mark"), this.props.marks, 'title');
+                        title = title || nextAvailName(i18n.t("marks.new_mark"), this.props.marksById, 'title');
                         let markState;
 
                         let value = ReactDOM.findDOMNode(this.refs.value).value;
@@ -357,14 +363,14 @@ class RichMarksModal extends Component {
                             };
                             break;
                         }
-                        if(this.props.marks[newMark] === undefined) {
-                            this.props.handleMarks.onRichMarkAdded(markState.mark, markState.view, markState.viewToolbar);
+                        if(this.props.marksById[newMark] === undefined) {
+                            this.h.onRichMarkAdded(markState.mark, markState.view, markState.viewToolbar);
                         } else{
-                            this.props.handleMarks.onRichMarkUpdated(markState.mark, markState.view, markState.viewToolbar);
+                            this.h.onRichMarkUpdated(markState.mark, markState.view, markState.viewToolbar);
                         }
                         this.generateTemplateBoxes(this.state.boxes, newId);
                         this.restoreDefaultTemplate();
-                        this.props.handleMarks.onRichMarksModalToggled();
+                        this.h.onRichMarksModalToggled();
                     }}>{i18n.t("marks.save_changes")}</Button>
                 </Modal.Footer>
                 <Alert className="pageModal"
@@ -378,25 +384,14 @@ class RichMarksModal extends Component {
                     fromRich
                     show={this.state.showTemplates}
                     close={this.toggleTemplatesModal}
-                    navItems={this.props.navItems}
-                    boxes={this.props.boxes}
+                    navItems={this.props.navItemsById}
+                    boxes={this.props.boxesById}
                     onIndexSelected={this.props.onIndexSelected}
                     indexSelected={this.props.indexSelected}
-                    onBoxAdded={this.props.onBoxAdded}
+                    onBoxAdded={this.h.onBoxAdded}
                     calculatePosition={this.calculatePosition}
                     templateClick={this.templateClick}
                     idSlide = {newId || ""}/>
-                {/* <TemplatesModalRich*/}
-                {/*    show={this.state.showTemplates}*/}
-                {/*    close={this.toggleTemplatesModal}*/}
-                {/*    navItems={this.props.navItems}*/}
-                {/*    boxes={this.props.boxes}*/}
-                {/*    onIndexSelected={this.props.onIndexSelected}*/}
-                {/*    indexSelected={this.props.indexSelected}*/}
-                {/*    onBoxAdded={this.props.onBoxAdded}*/}
-                {/*    calculatePosition={this.calculatePosition}*/}
-                {/*    templateClick={this.templateClick}*/}
-                {/*    idSlide = {newId || ""}/>*/}
             </Modal>
         );
 
@@ -413,7 +408,7 @@ class RichMarksModal extends Component {
             if (id === 0) {
                 return;
             }
-            if (props.navItems[id].hidden) {
+            if (props.navItemsById[id].hidden) {
                 return;
             }
             if(!Ediphy.Config.sections_have_content && isSection(id)) {
@@ -424,9 +419,9 @@ class RichMarksModal extends Component {
                 return;
             }
 
-            viewNames.push({ label: props.navItems[id].name, id: id });
+            viewNames.push({ label: props.navItemsById[id].name, id: id });
         });
-        Object.keys(props.containedViews).map(cv=>{
+        Object.keys(props.containedViewsById).map(cv=>{
             if(cv === 0) {
                 return;
             }
@@ -434,7 +429,7 @@ class RichMarksModal extends Component {
             if(props.containedViewSelected === cv) {
                 return;
             }
-            viewNames.push({ label: props.containedViews[cv].name, id: props.containedViews[cv].id });
+            viewNames.push({ label: props.containedViewsById[cv].name, id: props.containedViewsById[cv].id });
         });
         return viewNames;
     };
@@ -450,8 +445,8 @@ class RichMarksModal extends Component {
 
     toggleModal = (e) => {
         let key = e.keyCode ? e.keyCode : e.which;
-        if (key === 27 && this.props.visible) {
-            this.props.handleMarks.onRichMarksModalToggled();
+        if (key === 27 && this.props.richMarksVisible) {
+            this.h.onRichMarksModalToggled();
         }
     };
 
@@ -491,20 +486,25 @@ class RichMarksModal extends Component {
 }
 
 function mapStateToProps(state) {
+    const { markCursorValue, currentRichMark, richMarksVisible } = state.reactUI;
+    const { boxesById, boxSelected, pluginToolbarsById, navItemSelected, viewToolbarsById, containedViewSelected,
+        containedViewsById, marksById, navItemsIds, navItemsById } = state.undoGroup.present;
+
     return{
-        boxSelected: state.undoGroup.present.boxSelected,
-        pluginToolbar: state.undoGroup.present.pluginToolbarsById[state.undoGroup.present.boxSelected],
-        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
-        navItemSelected: state.undoGroup.present.navItemSelected,
-        viewToolbars: state.undoGroup.present.viewToolbarsById,
-        markCursorValue: state.reactUI.markCursorValue,
-        containedViewSelected: state.undoGroup.present.containedViewSelected,
-        containedViews: state.undoGroup.present.containedViewsById,
-        marks: state.undoGroup.present.marksById,
-        navItems: state.undoGroup.present.navItemsById,
-        navItemsIds: state.undoGroup.present.navItemsIds,
-        currentRichMark: state.reactUI.currentRichMark,
-        visible: state.reactUI.richMarksVisible,
+        boxesById,
+        boxSelected,
+        pluginToolbarsById,
+        navItemSelected,
+        viewToolbarsById,
+        markCursorValue,
+        containedViewSelected,
+        containedViewsById,
+        marksById,
+        navItemsById,
+        navItemsIds,
+        currentRichMark,
+        reactUI: state.reactUI,
+        richMarksVisible,
     };
 }
 
@@ -516,25 +516,21 @@ RichMarksModal.propTypes = {
      */
     boxSelected: PropTypes.any.isRequired,
     /**
-     * Toolbar del plugin
-     */
-    pluginToolbar: PropTypes.object,
-    /**
      * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
      * Object containing all contained views (identified by its ID)
      */
-    containedViews: PropTypes.object.isRequired,
+    containedViewsById: PropTypes.object.isRequired,
     /**
      * Object containing all views (by id)
      */
-    navItems: PropTypes.object.isRequired,
+    navItemsById: PropTypes.object.isRequired,
     /**
      * Indica si se muestra o oculta el modal de edición de marcas
      */
-    visible: PropTypes.any.isRequired,
+    richMarksVisible: PropTypes.any.isRequired,
     /**
      * Mark currently being edited
      */
@@ -546,19 +542,19 @@ RichMarksModal.propTypes = {
     /**
      * Object containing all the marks
      */
-    marks: PropTypes.object,
+    marksById: PropTypes.object,
     /**
-     * Object containing all the viewTollbars
+     * Object containing all the viewToolbars
      */
-    viewToolbars: PropTypes.object,
+    viewToolbarsById: PropTypes.object,
+    /**
+     * Object containing all the pluginToolbars
+     */
+    pluginToolbarsById: PropTypes.object,
     /**
      *  Object containing all created boxes (by id)
      */
-    boxes: PropTypes.object,
-    /**
-     * Function for adding a new box
-     */
-    onBoxAdded: PropTypes.func,
+    boxesById: PropTypes.object,
     /**
      * Function for getting the id of the selected template
      */
@@ -567,8 +563,4 @@ RichMarksModal.propTypes = {
      * Contains the id of the selected template
      */
     indexSelected: PropTypes.func,
-    /**
-     * Collection of callbacks for marks handling
-     */
-    handleMarks: PropTypes.object.isRequired,
 };

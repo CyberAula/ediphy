@@ -2,23 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default class TemplateThumbnailPrint extends React.Component {
-    constructor(props) {
-        super(props);
-
-    }
-
     render() {
-        // return <img className={this.props.className} style={this.props.style} src={this.props.image} onClick={this.props.onClick} />;
-        // Thumbnail generated via HTML instead of SVG
-
         return (<div className={this.props.className} style={this.props.style} onClick={this.props.onClick} onDoubleClick={this.props.onDoubleClick}>
 
             {this.props.boxes.map((plugin, index)=>{
                 let { box, thumbnail } = plugin;
-                // let name = toolbar.name;
-                // let config = Ediphy.Plugins.get(name).getConfig();
-                // let icon = config.icon;
-                // let iconFromUrl = config.iconFromUrl;
 
                 return (<div key={index} style={{ position: 'absolute',
                     backgroundColor: thumbnail.color,
@@ -34,7 +22,6 @@ export default class TemplateThumbnailPrint extends React.Component {
             })}
         </div>);
     }
-
 }
 
 TemplateThumbnailPrint.propTypes = {

@@ -155,16 +155,18 @@ export default function() {
                 if (config.initialHeight && !initParams.height) {
                     params.height = floatingBox && config.initialHeightSlide ? config.initialHeightSlide : config.initialHeight;
                 }
-
-                if (config.flavor !== "react") {
-                    template = descendant.getRenderTemplate(state, { exercises: { correctAnswer: [] } });
-                    if(template !== null) { // TODO Revisar
-                        template = html2json(template);
-                        assignPluginContainerIds(template);
+                try {
+                    if (config.flavor !== "react") {
+                        template = descendant.getRenderTemplate(state, { exercises: { correctAnswer: [] } });
+                        if(template !== null) { // TODO Revisar
+                            template = html2json(template);
+                            assignPluginContainerIds(template);
+                        }
+                    } else{
+                        template = descendant.getRenderTemplate(state, { exercises: { correctAnswer: [] } });
+                        assignPluginContainerIdsReact(template);
                     }
-                } else{
-                    template = descendant.getRenderTemplate(state, { exercises: { correctAnswer: [] } });
-                    assignPluginContainerIdsReact(template);
+                } catch (e) {
 
                 }
 

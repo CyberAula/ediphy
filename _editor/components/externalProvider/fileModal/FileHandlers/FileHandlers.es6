@@ -1,13 +1,9 @@
-import React from 'react';
 import { createBox } from '../../../../../common/commonTools';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../../common/constants';
 import { randomPositionGenerator } from '../../../clipboard/clipboard.utils';
 import {
     isSlide,
     isBox,
-    isContainedView,
-    isPage,
-    isSortableBox,
     isDataURL,
     dataURItoBlob,
     isCanvasElement,
@@ -16,6 +12,7 @@ import {
 import i18n from 'i18next';
 import { importEdiphy, importExcursion } from '../APIProviders/providers/_edi';
 import './_ImportFile.scss';
+import _handlers from "../../../../handlers/_handlers";
 
 export const extensionHandlers = {
     'all': { label: i18n.t("vish_search_types.All"), value: '', icon: 'attach_file' },
@@ -42,8 +39,6 @@ export default function handlers(self) {
     let type = self.state.type;
     let page = self.currentPage();
     let { initialParams, isTargetSlide } = getInitialParams(self, page);
-    let currentPlugin = (self.props.fileModalResult && self.props.fileModalResult.id && self.props.pluginToolbars[self.props.fileModalResult.id]) ? self.props.pluginToolbars[self.props.fileModalResult.id].pluginId : null;
-    let apiPlugin = currentPlugin ? Ediphy.Plugins.get(currentPlugin) : undefined;
     let pluginsAllowed = Ediphy.Config.pluginFileMap[(type === '') ? 'all' : type] || [];
     let ext = extensionHandlers[(type === '') ? 'all' : type];
     let icon = ext ? ext.icon : 'attach_file';
@@ -64,7 +59,7 @@ export default function handlers(self) {
                             let xhr = new XMLHttpRequest(),
                                 fileReader = new FileReader();
                             fileReader.onload = (e)=>dataToState(e, self, type, initialParams, isTargetSlide, pluginName);
-                            fileReader.onerror = (e)=>{alert(i18n.t('error.generic'));};
+                            fileReader.onerror = ()=>{alert(i18n.t('error.generic'));};
                             if(isDataURL(self.state.element)) {
                                 fileReader.readAsBinaryString(dataURItoBlob(self.state.element));
                             } else {
@@ -83,7 +78,7 @@ export default function handlers(self) {
                             }
                         } else {
                             initialParams.initialState = { [key]: self.state.element };
-                            createBox(initialParams, pluginName, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+                            createBox(initialParams, pluginName, isTargetSlide, _handlers(self).onBoxAdded, self.props.boxesById);
                             self.close();
                         }
 
@@ -95,7 +90,7 @@ export default function handlers(self) {
                     title: i18n.t('FileModal.FileHandlers.embed'),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type || self.state.name.match(/\.edi$/) || (self.props.fileModalResult && self.props.fileModalResult.id),
                     action: ()=>{
-                        createBox({ ...initialParams, initialState: { url: self.state.element + ".full" } }, "Webpage", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+                        createBox({ ...initialParams, initialState: { url: self.state.element + ".full" } }, "Webpage", isTargetSlide, self.props.onBoxAdded, self.props.boxesById);
                         self.close();
                         return;
 
@@ -121,7 +116,7 @@ export default function handlers(self) {
                     title: i18n.t('FileModal.FileHandlers.embed'),
                     disabled: !page || self.props.disabled || !self.state.element || !self.state.type || (self.props.fileModalResult && self.props.fileModalResult.id),
                     action: () => {
-                        createBox({ ...initialParams, initialState: { url: self.state.element + ".full" } }, "Webpage", isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+                        createBox({ ...initialParams, initialState: { url: self.state.element + ".full" } }, "Webpage", isTargetSlide, self.props.onBoxAdded, self.props.boxesById);
                         self.close();
                         return;
                     },
@@ -166,29 +161,26 @@ export default function handlers(self) {
     };
 }
 function getInitialParams(self, page) {
-    let ids = {};
     let initialParams;
     let isTargetSlide = false;
 
     if (page) {
         let containerId = ID_PREFIX_SORTABLE_CONTAINER + Date.now();
-        let id = ID_PREFIX_BOX + Date.now();
         isTargetSlide = isSlide(page.type);
         let parent = isTargetSlide ? page.id : page.boxes[0];
         let row = 0;
         let col = 0;
         let container = isTargetSlide ? 0 : containerId;
         let newInd;
-        if (self.props.boxSelected && self.props.boxes[self.props.boxSelected] && isBox(self.props.boxSelected)) {
-            parent = self.props.boxes[self.props.boxSelected].parent;
-            container = self.props.boxes[self.props.boxSelected].container;
+        if (self.props.boxSelected && self.props.boxesById[self.props.boxSelected] && isBox(self.props.boxSelected)) {
+            parent = self.props.boxesById[self.props.boxSelected].parent;
+            container = self.props.boxesById[self.props.boxSelected].container;
             isTargetSlide = container === 0;
-            row = self.props.boxes[self.props.boxSelected].row;
-            col = self.props.boxes[self.props.boxSelected].col;
+            row = self.props.boxesById[self.props.boxSelected].row;
+            col = self.props.boxesById[self.props.boxSelected].col;
             newInd = getIndex(parent, container, self.props);
         }
 
-        ids = { id, parent, container, row, col, page: page ? page.id : 0 };
         initialParams = {
             id: ID_PREFIX_BOX + Date.now(),
             parent: parent, //
@@ -212,7 +204,7 @@ function getInsertButtonTitle(allowedPluginKey) {
     return i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t(`${allowedPluginKey}.PluginName`).toLowerCase();
 }
 
-function sanitizeInitialParams(initialParams, boxes) {
+/* function sanitizeInitialParams(initialParams, boxes) {
     let parent = initialParams.parent;
 
     if(isSortableBox(parent) || isPage(parent) || isContainedView(parent)) {
@@ -225,7 +217,7 @@ function sanitizeInitialParams(initialParams, boxes) {
     }
 
     return initialParams;
-}
+}*/
 function csvToState(csv) {
     let lines = csv.split("\n");
 
@@ -260,7 +252,6 @@ function jsonToState(json) {
 }
 
 function validateJson(json) {
-    let data = {};
     if(json.length === 0) {
         return false;
     }
@@ -306,7 +297,7 @@ function dataToState(e, self, format, initialParams, isTargetSlide, plugin) {
 
         if (self.props.fileModalResult && !self.props.fileModalResult.id) {
             initialParams.initialState = value;
-            createBox(initialParams, plugin, isTargetSlide, self.props.onBoxAdded, self.props.boxes);
+            createBox(initialParams, plugin, isTargetSlide, self.props.onBoxAdded, self.props.boxesById);
         }else {
             self.close({ id: self.props.fileModalResult.id, value });
         }

@@ -17,8 +17,8 @@ import {
     UPDATE_PLUGIN_TOOLBAR,
 } from '../../common/actions';
 import Utils, { changeProp, changeProps, isBox, isSortableBox } from '../../common/utils';
-import { sortableContainerCreator } from '../_helpers/boxCreator';
 import sortableContainersReducer from './sortableContainersReducer';
+import { sortableContainerCreator } from "../_helpers/sortableContainerCreator";
 
 export default function boxReducer(state = {}, action = {}) {
     switch (action.type) {

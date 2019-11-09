@@ -10,16 +10,16 @@ import { setOptions } from 'react-pdf';
 setOptions({
     workerSrc: pdflib.PDFJS.workerSrc,
 });
-import '../EnrichedPDF.scss';
+import { PDFViewerPlugin } from "../Styles";
+
 export function EnrichedPDF(base) {
     return {
         getRenderTemplate: function(state, props) {
             return (
-                <div className="pdfViewerPlugin" style={{ height: "100%", width: "100%" }}>
-                    <EnrichedPDFPlugin style={{ width: "100%", height: "100%" }} base={base} props={props} state={state}/>
-                </div>
+                <PDFViewerPlugin>
+                    <EnrichedPDFPlugin base={base} props={props} state={state}/>
+                </PDFViewerPlugin>
             );
         },
-
     };
 }

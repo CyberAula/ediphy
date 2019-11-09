@@ -6,7 +6,7 @@ import audio_placeholder from './../../dist/images/meadow.jpg';
 /* eslint-disable react/prop-types */
 export function AudioCue() {
     return {
-        getConfig: function() {
+        getConfig: () => {
             return {
                 name: 'AudioCue',
                 displayName: i18n.t('AudioCue.PluginName'),
@@ -22,7 +22,7 @@ export function AudioCue() {
                 searchIcon: true,
             };
         },
-        getToolbar: function(state) {
+        getToolbar: (state) => {
             return {
                 main: {
                     __name: "Main",
@@ -70,7 +70,7 @@ export function AudioCue() {
                 },
             };
         },
-        getInitialState: function() {
+        getInitialState: () => {
             return {
                 url: 'http://vishub.org/audios/15288.mp3',
                 autoplay: false,

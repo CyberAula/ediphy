@@ -1,4 +1,3 @@
-// components/waveform.js
 import React from 'react';
 import ReactDOM from 'react-dom';
 import WaveSurfer from 'wavesurfer.js';
@@ -9,34 +8,43 @@ import { setRgbaAlpha } from "../../../common/commonTools";
 
 import ReactResizeDetector from 'react-resize-detector';
 import { getCurrentColor } from "../../../common/themes/themeLoader";
+import {
+    AudioPlugin,
+    Wave,
+    WaveContainer,
+    Progress,
+    Duration,
+    Controls,
+    Play,
+    Volume,
+    MarkBar,
+    AudioMark,
+} from "../Styles";
+
+import _handlers from "../../../_editor/handlers/_handlers";
 /* eslint-disable react/prop-types */
 
 export default class BasicAudioPluginEditor extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            pos: 0,
-            volume: 0.5,
-            controls: true,
-            duration: 1,
-            waves: true,
-            autoplay: false,
-            height: 128,
-            playedSeconds: 0,
-            color: getCurrentColor('default'),
+    state = {
+        pos: 0,
+        volume: 0.5,
+        controls: true,
+        duration: 1,
+        waves: true,
+        autoplay: false,
+        height: 128,
+        playedSeconds: 0,
+        color: getCurrentColor('default'),
+    };
 
-        };
-        this.onProgress = this.onProgress.bind(this);
-        this.onReady = this.onReady.bind(this);
-        this.onMouseMove = this.onMouseMove.bind(this);
-    }
+    h = _handlers(self);
 
-    handleTogglePlay() {
+    handleTogglePlay = () => {
         this.setState({ playing: !this.state.playing });
         this.wavesurfer.playPause();
-    }
+    };
 
-    handlePosChange(e) {
+    handlePosChange = e => {
         let dragging = this.state.dragging;
         if (!dragging) {
             let pos = ((e.clientX - e.currentTarget.getBoundingClientRect().left) / e.currentTarget.getBoundingClientRect().width);
@@ -44,23 +52,23 @@ export default class BasicAudioPluginEditor extends React.Component {
             this.wavesurfer.seekTo(pos);
         }
         document.removeEventListener('mousemove', this.onMouseMove);
-    }
+    };
 
-    onMouseDown() {
+    onMouseDown = () => {
         this.setState({ dragging: false });
         document.addEventListener('mousemove', this.onMouseMove);
-    }
+    };
 
-    onMouseMove() {
+    onMouseMove = () => {
         if (!this.state.dragging) {
             this.setState({ dragging: true });
         }
-    }
+    };
 
-    handleVolumeChange(e) {
+    handleVolumeChange = e => {
         this.setState({ volume: +e.target.value });
         this.wavesurfer.setVolume(this.state.volume);
-    }
+    };
 
     UNSAFE_componentWillReceiveProps(nextProps) {
         let colorThemeChanged = !this.props.state.progressColor.custom && nextProps.props.themeColors !== {} && this.state.color !== nextProps.props.themeColors.themeColor1;
@@ -71,7 +79,6 @@ export default class BasicAudioPluginEditor extends React.Component {
             if (this.props.state.url === nextProps.state.url) {
                 pos = (this.wavesurfer.getCurrentTime() || 0) / (this.wavesurfer.getDuration() || 1);
                 playing = this.state.playing;
-
             }
             if (this.props.state.autoplay !== nextProps.state.autoplay) {
                 return;
@@ -102,9 +109,8 @@ export default class BasicAudioPluginEditor extends React.Component {
 
     }
     createOptions(props) {
-
-        let color = props.state.progressColor.custom ? props.state.progressColor.color : props.props.themeColors.themeColor1;
-
+        let color = props.state.progressColor.custom ? props.state.progressColor.color
+            : props.props.themeColors.themeColor1;
         return {
             scrollParent: props.state.scroll,
             hideScrollbar: !props.state.scroll,
@@ -115,7 +121,6 @@ export default class BasicAudioPluginEditor extends React.Component {
             cursorColor: 'grey',
             height: props.state.waves ? 128 : 0,
         };
-
     }
 
     componentDidMount() {
@@ -135,11 +140,9 @@ export default class BasicAudioPluginEditor extends React.Component {
         this.wavesurfer.stop();
         this.wavesurfer.destroy();
     }
-    onProgress(state) {
-        this.setState({ pos: state });
-    }
+    onProgress = state => this.setState({ pos: state });
 
-    onReady(pos, playing) {
+    onReady = (pos, playing) => {
         this.setState({
             duration: this.wavesurfer.backend.buffer.duration,
             pos: 0,
@@ -158,9 +161,9 @@ export default class BasicAudioPluginEditor extends React.Component {
             this.wavesurfer.play();
             this.setState({ playing: true });
         }
-    }
-    onResize() {
+    };
 
+    onResize = () => {
         if (this.wavesurfer && this.state.ready) {
             let pos = (this.wavesurfer.getCurrentTime() || 0) / (this.wavesurfer.getDuration() || 1);
             this.wavesurfer.empty();
@@ -171,10 +174,11 @@ export default class BasicAudioPluginEditor extends React.Component {
                 this.wavesurfer.play();
             }
         }
-
-    }
+    };
 
     render() {
+        const playIcon = this.state.playing ? <i className="material-icons">pause</i>
+            : <i className="material-icons">play_arrow</i>;
 
         let marks = this.props.props.marks || {}; //
         let markElements = Object.keys(marks).map((id) =>{
@@ -184,39 +188,40 @@ export default class BasicAudioPluginEditor extends React.Component {
             let title = marks[id].title;
             let color = marks[id].color;
             return(
-                <MarkEditor key={id} style={{ left: value, position: "absolute", top: "0.1em" }} boxId={this.props.props.id} time={1.5} mark={id} marks={marks} onRichMarkMoved={this.props.props.handleMarks.onRichMarkMoved} state={this.props.state} base={this.props.base}>
-                    <div className="audioMark" style={{ background: color || "var(--themeColor1)" }}>
-                        <Mark style={{ position: 'relative', top: "-1.7em", left: "-1em" }} color={color || this.state.color || "#17CFC8"} idKey={id} title={title} />
-                    </div>
+                <MarkEditor key={id} style={{ left: value, position: "absolute", top: "0.1em" }}
+                    boxId={this.props.props.id} time={1.5} mark={id} marks={marks} dispatch={this.props.props.dispatch}
+                    onRichMarkMoved={this.h.onRichMarkMoved} state={this.props.state}
+                    base={this.props.base}>
+                    <AudioMark style={{ background: color || "var(--themeColor1)" }}>
+                        <Mark style={{ position: 'relative', top: "-1.7em", left: "-1em" }}
+                            color={color || this.state.color || "#17CFC8"} idKey={id} title={title} />
+                    </AudioMark>
                 </MarkEditor>);
         });
         return (
-            <div className="basic-audio-wrapper" ref={player_wrapper => {this.player_wrapper = player_wrapper;}} duration={this.state.duration}
+            <AudioPlugin ref={player_wrapper => {this.player_wrapper = player_wrapper;}}
                 style={{ width: "100%", height: "100%", pointerEvents: "all" }}>
-                <div className="wavecontainer" style={{ position: 'absolute', height: '100%', width: '100%' }} >
+                <div className={'duration'} duration={this.state.duration} style={{ display: 'none' }}/>
+                <WaveContainer>
                     <ReactResizeDetector handleWidth handleHeight onResize={(e)=>{ this.onResize(e);}} />
-                    <div className='waveform'>
-                        <div className='wave' />
-                    </div>
-                </div>
-                <div className="progress-audio-input dropableRichZone"
+                    <Wave/>
+                </WaveContainer>
+                <Progress
                     onMouseUp={this.handlePosChange.bind(this)}
                     onMouseDown={this.onMouseDown.bind(this)}>
-                    <div className="markBar"> {markElements}</div>
-                </div>
+                    <MarkBar> {markElements}</MarkBar>
+                </Progress>
 
-                <div>
-                    {(this.props.state.controls) && (
-                        <div className="audio-controls" style={{ pointerEvents: 'all' }}>
-                            <button className="play-audio-button" onClick={this.handleTogglePlay.bind(this)} >
-                                {this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}
-                            </button>
-                            <div className="durationField">{ Math.trunc(this.state.pos / 60) + ":" + pad(Math.trunc(this.state.pos % 60)) + "/" + Math.trunc(this.state.duration / 60) + ":" + pad(Math.trunc(this.state.duration % 60))}</div>
-                            <input className="volume-audio-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.handleVolumeChange.bind(this)} />
-                        </div>
-                    )}
-                </div>
-            </div>
+                {(this.props.state.controls) && (
+                    <Controls>
+                        <Play onClick={this.handleTogglePlay.bind(this)}>{playIcon}</Play>
+                        <Duration>{ Math.trunc(this.state.pos / 60) + ":" + pad(Math.trunc(this.state.pos % 60))
+                        + "/" + Math.trunc(this.state.duration / 60) + ":"
+                        + pad(Math.trunc(this.state.duration % 60))}</Duration>
+                        <Volume value={this.state.volume} onChange={this.handleVolumeChange.bind(this)}/>
+                    </Controls>
+                )}
+            </AudioPlugin>
         );
     }
 }

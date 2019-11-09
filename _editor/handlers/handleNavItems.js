@@ -28,20 +28,20 @@ export default (self) => ({
     onNavItemsAdded: (navs, parent) => self.props.dispatch(addNavItems(navs, parent)),
 
     onNavItemDuplicated: (id) => {
-        if (id && self.props.navItems[id]) {
+        if (id && self.props.navItemsById[id]) {
             let newBoxes = [];
-            let navItem = self.props.navItems[id];
+            let navItem = self.props.navItemsById[id];
             let linkedCVs = {};
             if (navItem.boxes) {
                 newBoxes = newBoxes.concat(navItem.boxes);
                 navItem.boxes.forEach(b => {
-                    let box = self.props.boxes[b];
+                    let box = self.props.boxesById[b];
                     if (box.sortableContainers) {
                         for (let sc in box.sortableContainers) {
                             if (box.sortableContainers[sc].children) {
                                 newBoxes = newBoxes.concat(box.sortableContainers[sc].children);
                                 box.sortableContainers[sc].children.forEach(bo => {
-                                    let bx = self.props.boxes[bo];
+                                    let bx = self.props.boxesById[bo];
                                     if (bx.sortableContainers) {
                                         for (let scc in bx.sortableContainers) {
                                             if (bx.sortableContainers[scc].children) {
@@ -57,7 +57,7 @@ export default (self) => ({
             }
             let newBoxesMap = {};
             newBoxes.map(box => {
-                linkedCVs[box] = [...self.props.boxes[box].containedViews];
+                linkedCVs[box] = [...self.props.boxesById[box].containedViews];
                 newBoxesMap[box] = box + Date.now(); });
             self.props.dispatch(duplicateNavItem(id, id + Date.now(), newBoxesMap, Date.now(), linkedCVs));
         }
@@ -68,19 +68,19 @@ export default (self) => ({
     onNavItemExpanded: (id, value) => self.props.dispatch(expandNavItem(id, value)),
 
     onNavItemDeleted: (navsel) => {
-        let viewRemoving = [navsel].concat(self.getDescendantViews(self.props.navItems[navsel]));
+        let viewRemoving = [navsel].concat(self.getDescendantViews(self.props.navItemsById[navsel]));
         let boxesRemoving = [];
         let containedRemoving = {};
         viewRemoving.map(id => {
-            self.props.navItems[id].boxes.map(boxId => {
+            self.props.navItemsById[id].boxes.map(boxId => {
                 boxesRemoving.push(boxId);
-                boxesRemoving = boxesRemoving.concat(getDescendantBoxes(self.props.boxes[boxId], self.props.boxes));
+                boxesRemoving = boxesRemoving.concat(getDescendantBoxes(self.props.boxesById[boxId], self.props.boxesById));
             });
         });
-        let marksRemoving = getDescendantLinkedBoxes(viewRemoving, self.props.navItems) || [];
+        let marksRemoving = getDescendantLinkedBoxes(viewRemoving, self.props.navItemsById) || [];
         dispatch(deleteNavItem(
             viewRemoving,
-            self.props.navItems[navsel].parent,
+            self.props.navItemsById[navsel].parent,
             boxesRemoving,
             containedRemoving,
             marksRemoving));

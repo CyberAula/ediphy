@@ -1,10 +1,11 @@
 import React from 'react';
 import PluginPlaceholder from '../../_editor/components/canvas/pluginPlaceholder/PluginPlaceholder';
-import './_ordering.scss';
 import i18n from 'i18next';
 import { letterFromNumber } from '../../common/commonTools';
 import { generateCustomColors } from "../../common/themes/themeLoader";
 import { QUIZ_CONFIG, QUIZ_STYLE } from "../../common/quizzes";
+import { OrderingPlugin, AnswerLetter, AnswerRow, AnswerPlaceholder, AnswerText } from "./Styles";
+import { Feedback, FeedbackRow, QuestionRow } from "../../sass/exercises";
 /* eslint-disable react/prop-types */
 
 export const Ordering = () => ({
@@ -59,58 +60,51 @@ export const Ordering = () => ({
         allowPartialScore: false,
     }),
     getRenderTemplate: (state, props = {}) => {
-        let answers = [];
-
-        let quizColor = state.quizColor.color;
-        let customStyle = state.quizColor.custom ? generateCustomColors(quizColor, 1, true) : null;
-
-        for (let i = 0; i < state.nBoxes; i++) {
-            let isCorrect = props.exercises.correctAnswer === i;
-            answers.push(<div key={i + 1} className={"row answerRow"} >
-                <div className={"col-xs-2 answerPlaceholder"} >
-                    <div className={"answer_letter"}>{ (i + 1)}</div>
-                </div>
-                <div className={"col-xs-10"} >
+        // eslint-disable-next-line no-unused-vars
+        let correctAnswers = "";
+        const quizColor = state.quizColor.color;
+        const customStyle = state.quizColor.custom ? generateCustomColors(quizColor, 1, true) : null;
+        const showLetters = state.letters === i18n.t("Ordering.ShowLetters");
+        const Answer = i => (
+            <AnswerRow key={i + 1}>
+                <AnswerPlaceholder>
+                    <AnswerLetter>{ (i + 1)}</AnswerLetter>
+                </AnswerPlaceholder>
+                <AnswerText>
                     <PluginPlaceholder {...props} key={i + 1}
                         pluginContainerName={i18n.t("Ordering.Answer") + " " + (i + 1)}
                         pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("Ordering.Answer") + " " + (1 + i) + '</p>' } }]}
                         pluginContainer={"Answer" + i} />
-                </div>
-            </div>
-            );
-            if (isCorrect) {correctAnswers += state.letters === i18n.t("Ordering.ShowLetters") ? letterFromNumber(i) : (i + 1);}
-        }
-        return <div className={"exercisePlugin orderingPlugin"} style={ state.quizColor.custom ? customStyle : null }>
-            <div className={"row"} key={0}>
-                <div className={"col-xs-12"}>
+                </AnswerText>
+            </AnswerRow>
+        );
+
+        const answers = [...Array(state.nBoxes)].map((a, i) => {
+            const isCorrect = props.exercises.correctAnswer === i;
+            if (isCorrect) {correctAnswers += showLetters ? letterFromNumber(i) : (i + 1);}
+            return Answer(i);
+        });
+
+        return (
+            <OrderingPlugin className={"orderingPlugin"} style={customStyle}>
+                <QuestionRow>
                     <PluginPlaceholder {...props} key="1"
                         pluginContainerName={i18n.t("Ordering.Question")}
                         pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("Ordering.Statement") + '</p>' } }]}
                         pluginContainer={"Question"} />
-                </div>
-            </div>
-            {answers}
-            <div className={"row feedbackRow"} key={-2} style={{ display: state.showFeedback ? 'block' : 'none' }}>
-                <div className={"col-xs-12 feedback"}>
-                    <PluginPlaceholder {...props} key="-2"
-                        pluginContainerName={i18n.t("Ordering.Feedback")}
-                        pluginContainer={"Feedback"}
-                        pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("Ordering.FeedbackMsg") + '</p>' } }/* , {plugin: 'HotspotImages', initialState:{url: 'nooo'}}*/]}
-                    />
-                </div>
-            </div>
-            <style dangerouslySetInnerHTML={{
-                __html: `
-                    .orderingPlugin input[type="radio"]  {
-                      background-color: transparent;
-                    }
-                   .orderingPlugin input[type="radio"]:checked:after {
-                      background-color: var(--themeColor1);
-                    }
-                  `,
-            }} />
-        </div>;
-
+                </QuestionRow>
+                {answers}
+                <FeedbackRow show={state.showFeedback} key={-2}>
+                    <Feedback>
+                        <PluginPlaceholder {...props} key="-2"
+                            pluginContainerName={i18n.t("Ordering.Feedback")}
+                            pluginContainer={"Feedback"}
+                            pluginDefaultContent={[{ plugin: 'BasicText', initialState: { __text: '<p>' + i18n.t("Ordering.FeedbackMsg") + '</p>' } }/* , {plugin: 'HotspotImages', initialState:{url: 'nooo'}}*/]}
+                        />
+                    </Feedback>
+                </FeedbackRow>
+            </OrderingPlugin>
+        );
     },
 });
 /* eslint-enable react/prop-types */

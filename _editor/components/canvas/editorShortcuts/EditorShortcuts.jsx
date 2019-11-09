@@ -8,17 +8,20 @@ import { connect } from "react-redux";
 import Ediphy from '../../../../core/editor/main';
 import { isSortableBox, isSortableContainer } from '../../../../common/utils';
 import { blurCKEditor, findBox } from '../../../../common/commonTools';
+import _handlers from "../../../handlers/_handlers";
 
 /**
  * EditorShortcuts component
  * Floating tools that help edit EditorBoxes more easily
  */
 class EditorShortcuts extends Component {
+
     state = { left: 0, top: 0, width: 0, open: false, showOverlay: false, urlValue: "" };
+    h = _handlers(this);
 
     render() {
-        let box = this.props.box;
-        let toolbar = this.props.pluginToolbar;
+        let box = this.props.boxesById[this.props.boxSelected];
+        let toolbar = this.props.pluginToolbarsById[this.props.boxSelected];
 
         if (!box || !toolbar || toolbar.pluginId === "sortable_container") {
             return null;
@@ -28,8 +31,7 @@ class EditorShortcuts extends Component {
             return null;
         }
         let config = apiPlugin.getConfig();
-        let hasURL = false;
-        let hasURLnotextprov = false;
+        let { hasURL, hasURLnotextprov } = false;
         let accept = '*';
         let callbackKey = "url";
         let createFromLibrary = config.createFromLibrary;
@@ -48,12 +50,12 @@ class EditorShortcuts extends Component {
         let nBoxes = [{
             i18nKey: 'add_answer',
             icon: 'playlist_add',
-            callback: ()=>{ this.props.onToolbarUpdated(box.id, "main", "state", 'nBoxes', toolbar.state.nBoxes + 1);},
+            callback: ()=>{ this.h.onToolbarUpdated(box.id, "main", "state", 'nBoxes', toolbar.state.nBoxes + 1);},
         }, {
             i18nKey: 'remove_answer',
             icon: 'delete_sweep',
             callback: ()=>{if (toolbar.state.nBoxes > 1) {
-                this.props.onToolbarUpdated(box.id, "main", "state", 'nBoxes', toolbar.state.nBoxes - 1);}
+                this.h.onToolbarUpdated(box.id, "main", "state", 'nBoxes', toolbar.state.nBoxes - 1);}
             },
         }];
         return (
@@ -132,7 +134,7 @@ class EditorShortcuts extends Component {
                                 }>
                                 <button id="markCreatorButton" className="editorTitleButton" onMouseDown={(e)=>{
                                     e.preventDefault();
-                                    this.props.onMarkCreatorToggled(box.id);
+                                    this.h.onMarkCreatorToggled(box.id);
                                 }}>
                                     <i id="markCreatorButton" className="material-icons">room</i>
                                 </button>
@@ -163,7 +165,7 @@ class EditorShortcuts extends Component {
                                                 currentWidth = '100';
                                                 currentWidthUnit = '%';
                                             }
-                                            this.props.onBoxResized(toolbar.id, { width: currentWidth, widthUnit: currentWidthUnit });
+                                            this.h.onBoxResized(toolbar.id, { width: currentWidth, widthUnit: currentWidthUnit });
                                         }
                                     }}>
                                     <i className="material-icons">code</i>
@@ -182,7 +184,7 @@ class EditorShortcuts extends Component {
                                 <button className="editorTitleButton"
                                     onClick={(e) => {
                                         blurCKEditor(toolbar.id, (text, content)=>{
-                                            this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, text, content);});
+                                            this.h.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, text, content);});
                                         e.stopPropagation();
                                     }}>
                                     <i className="material-icons">mode_edit</i>
@@ -200,9 +202,7 @@ class EditorShortcuts extends Component {
                                 }>
                                 <button id="open_conf" className={"editorTitleButton"}
                                     onClick={() => {
-                                        // TODO Cambiar!
                                         this.props.openConfigModal(toolbar.id);
-                                        // Ediphy.Plugins.get(toolbar.pluginId).openConfigModal(UPDATE_BOX, toolbar.state, toolbar.id);
                                     }}>
                                     <i className="material-icons">build</i>
                                 </button>
@@ -263,11 +263,7 @@ class EditorShortcuts extends Component {
                             </Tooltip>
                         }>
                         <button className="editorTitleButton"
-                            onClick={(e) => {
-                                let page = this.props.containedViewSelected === 0 ? this.props.navItemSelected : this.props.containedViewSelected;
-                                this.props.onBoxDeleted(box.id, box.parent, box.container, page && page.id ? page.id : 0);
-                                e.stopPropagation();
-                            }}>
+                            onClick={this.onDelete}>
                             <i className="material-icons">delete</i>
                         </button>
                     </OverlayTrigger>
@@ -275,9 +271,7 @@ class EditorShortcuts extends Component {
             </div>
         );
     }
-    // handleChange(e) {
-    //     this.setState({ urlValue: e.target.value });
-    // }
+
     resizeAndSetState = (fromUpdate, newProps) => {
         let { width, top, left } = this.resize(fromUpdate, newProps);
         this.setState({ left: left, top: top, width: width });
@@ -286,17 +280,28 @@ class EditorShortcuts extends Component {
     hideOverlay = () => {
         let val = this.refs.url_input.value;
         if (val && val !== '') {
-            this.props.onToolbarUpdated(toolbar.id, "main", "state", "url", this.refs.url_input.value);
+            this.h.onToolbarUpdated(toolbar.id, "main", "state", "url", this.refs.url_input.value);
         }
         this.setState({ showOverlay: false });
     };
 
     showOverlay = () => this.setState({ showOverlay: true });
 
+    onDelete = e => {
+        const containedViewSelected = this.props.containedViewsById[this.props.containedViewSelected] || 0;
+        const navItemSelected = this.props.navItemsById[this.props.navItemSelected];
+        const page = containedViewSelected === 0 ? navItemSelected : containedViewSelected;
+        const box = this.props.boxesById[this.props.boxSelected];
+
+        this.h.onBoxDeleted(box.id, box.parent, box.container, page && page.id ? page.id : 0);
+        e.stopPropagation();
+    };
     resize = (fromUpdate, newProps) => {
         let nextProps = (fromUpdate === 'fromUpdate') ? newProps : this.props;
-        if (nextProps && nextProps.box) {
-            let box = findBox(nextProps.box.id);
+        const containedViewSelected = this.props.containedViewsById[this.props.containedViewSelected] || 0;
+        let nextBox = nextProps?.boxesById?.[nextProps?.boxSelected];
+        if (nextBox) {
+            let box = findBox(nextBox.id);
             // box = box && box.parentNode ? box.parentNode : box;
             let element = ReactDOM.findDOMNode(this.refs.innerContainer);
             let left = 0;
@@ -308,7 +313,7 @@ class EditorShortcuts extends Component {
 
                 box.classList.add('norotate');
                 let boxRect = box.getBoundingClientRect();
-                let canvas = this.props.containedViewSelected === 0 ?
+                let canvas = containedViewSelected === 0 ?
                     document.getElementById('canvas') :
                     document.getElementById('containedCanvas');
                 let canvasRect = canvas.getBoundingClientRect();
@@ -324,34 +329,30 @@ class EditorShortcuts extends Component {
                 } else {
                     width = box.getBoundingClientRect().width;
                 }
-                // let w = boxRect.width / 2;
-                // let h = boxRect.height / 2;
-                // let R = 1 / 2 * Math.sqrt(h * h + w * w);
-                // left = left + w / 2 - R * Math.cos(rotation * Math.PI / 180 + Math.atan2(h, w));
-
                 box.classList.remove('norotate');
 
                 return { left, top, width };
-                // this.setState({ left: left, top: top, width: width });
             }
         }
         return { left: 0, top: 0, width: 0 };
     };
 
     UNSAFE_componentWillReceiveProps(nextProps) {
+        const box = this.props.boxesById[this.props.boxSelected];
+        const nextBox = nextProps.boxesById[nextProps.boxSelected];
+
         if (nextProps !== this.props) {
-            if (nextProps.box) {
+            if (box) {
                 this.resizeAndSetState("fromUpdate", nextProps);
-                // this.setState({ left: left, top: top, width: width });
             }
         }
 
         if(this.props.fileModalResult &&
-            nextProps.fileModalResult && nextProps.box && this.props.box &&
-            nextProps.box.id === nextProps.fileModalResult.id
+            nextProps.fileModalResult && nextBox && box &&
+            nextBox.id === nextProps.fileModalResult.id
             && nextProps.fileModalResult.value &&
             this.state.open && this.props.fileModalResult.value !== nextProps.fileModalResult.value) {
-            this.props.onToolbarUpdated(nextProps.box.id, "main", "state", this.state.callbackKey || 'url', nextProps.fileModalResult.value);
+            this.h.onToolbarUpdated(nextBox.id, "main", "state", this.state.callbackKey || 'url', nextProps.fileModalResult.value);
             this.setState({ open: false, callbackKey: undefined });
         }
     }
@@ -364,15 +365,18 @@ class EditorShortcuts extends Component {
     }
 
     UNSAFE_componentWillUpdate(nextProps) {
+        const box = this.props.boxesById[this.props.boxSelected];
+        const nextBox = nextProps.boxesById[nextProps.boxSelected];
+        const toolbar = this.props.pluginToolbarsById[this.props.boxSelected];
+
         if (nextProps !== this.props) {
-            if (nextProps.box) {
-                // this.resize("fromUpdate", nextProps);
+            if (nextBox) {
                 // Removes pointer events allowance when box is changed
-                if (!this.props.box || nextProps.box.id !== this.props.box.id) {
-                    let boxEl = findBox((this.props.box ? this.props.box.id : ''));
+                if (!box || nextBox.id !== box.id) {
+                    let boxEl = findBox((box?.id ?? ''));
                     if (boxEl) {
                         if (this.props.pointerEventsCallback) {
-                            this.props.pointerEventsCallback('disableAll', this.props.pluginToolbar);
+                            this.props.pointerEventsCallback('disableAll', toolbar);
                         }
                         boxEl.classList.remove('pointerEventsEnabled');
                     }
@@ -386,9 +390,10 @@ class EditorShortcuts extends Component {
     }
 
     componentDidMount() {
+        const box = this.props.boxesById[this.props.boxSelected];
         window.addEventListener('resize', this.resizeAndSetState);
-        if (this.props && this.props.box) {
-            let boxObj = findBox(this.props.box.id);
+        if (box) {
+            let boxObj = findBox(box.id);
             if(boxObj) {
                 boxObj.addEventListener('resize', this.resizeAndSetState);
             }
@@ -397,17 +402,18 @@ class EditorShortcuts extends Component {
     }
 
     componentWillUnmount() {
-        let boxEl = findBox((this.props.box ? this.props.box.id : ''));
+        const box = this.props.boxesById[this.props.boxSelected];
+        const boxEl = findBox((box?.id ?? ''));
         if (boxEl) {
             if (this.props.pointerEventsCallback) {
-                this.props.pointerEventsCallback('disableAll', this.props.pluginToolbar);
+                this.props.pointerEventsCallback('disableAll', this.props.pluginToolbarsById[this.props.boxSelected]);
             }
             boxEl.classList.remove('pointerEventsEnabled');
         }
 
         window.removeEventListener('resize', this.resizeAndSetState);
-        if (this.props && this.props.box) {
-            let boxObj = findBox(this.props.box.id);
+        if (box) {
+            let boxObj = findBox(box.id);
             if(boxObj) {
                 boxObj.removeEventListener('resize', this.resizeAndSetState);
             }
@@ -416,12 +422,17 @@ class EditorShortcuts extends Component {
 }
 
 function mapStateToProps(state) {
+
+    const { boxesById, boxSelected, containedViewsById, containedViewSelected, navItemsById, navItemSelected, pluginToolbarsById } = state.undoGroup.present;
     return {
-        box: state.undoGroup.present.boxesById[state.undoGroup.present.boxSelected],
-        containedViewSelected: state.undoGroup.present.containedViewsById[state.undoGroup.present.containedViewSelected] || 0,
-        navItemSelected: state.undoGroup.present.navItemsById[state.undoGroup.present.navItemSelected],
+        boxesById,
+        boxSelected,
+        containedViewsById,
+        containedViewSelected,
+        navItemsById,
+        navItemSelected,
         fileModalResult: state.reactUI.fileModalResult,
-        pluginToolbar: state.undoGroup.present.pluginToolbarsById[state.undoGroup.present.boxSelected],
+        pluginToolbarsById,
 
     };
 }
@@ -429,37 +440,33 @@ export default connect(mapStateToProps)(EditorShortcuts);
 
 EditorShortcuts.propTypes = {
     /**
-     * Selected box
+     * Object containing all boxes (by ID)
      */
-    box: PropTypes.any,
+    boxesById: PropTypes.any,
+    /**
+     * Object containing all boxes (by ID)
+     */
+    boxSelected: PropTypes.any,
     /**
      * Selected contained view (by ID)
      */
     containedViewSelected: PropTypes.any,
     /**
+     * Object containing all contained views (by ID)
+     */
+    containedViewsById: PropTypes.any,
+    /**
      * Check if component is rendered from contained view
      */
     isContained: PropTypes.bool,
     /**
-     * Callback for toggling CKEditor
-     */
-    onTextEditorToggled: PropTypes.func.isRequired,
-    /**
-     * Callback for toggling creation mark overlay
-     */
-    onMarkCreatorToggled: PropTypes.func.isRequired,
-    /**
-     * Callback for deleting a box
-     */
-    onBoxDeleted: PropTypes.func.isRequired,
-    /**
-     * Callback for resizing a box
-     */
-    onBoxResized: PropTypes.func.isRequired,
-    /**
      *  Callback for enabling pointer events
      */
     pointerEventsCallback: PropTypes.func,
+    /**
+     * Object containing all views (by ID)
+     */
+    navItemsById: PropTypes.any,
     /**
      * Current selected view (by ID)
      */
@@ -467,15 +474,11 @@ EditorShortcuts.propTypes = {
     /**
      * Object containing all the plugins' toolbars
      */
-    pluginToolbar: PropTypes.object,
+    pluginToolbarsById: PropTypes.object,
     /**
      * Function that opens a configuration modal
      */
     openConfigModal: PropTypes.func.isRequired,
-    /**
-     * Function for updating the box's toolbar
-     */
-    onToolbarUpdated: PropTypes.func,
     /**
      * Last files uploaded to server or searched in modal
      */

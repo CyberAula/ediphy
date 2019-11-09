@@ -2,7 +2,8 @@ import React from "react";
 import GoogleMapReact from 'google-map-react';
 import Mark from '../../../common/components/mark/Mark';
 import i18n from 'i18next';
-require('./../_virtualTour.scss');
+import { MiddleAlign, NoInternetBox } from "../Styles";
+import { MapPlugin } from "VirtualTour/Styles";
 
 window.mapsVisor = [];
 /* eslint-disable react/prop-types */
@@ -17,16 +18,16 @@ export function VirtualTour() {
         },
         getRenderTemplate: function(state, props) {
             if (!window.google || !window.navigator.onLine) {
-                return (<div className="dropableRichZone noInternetConnectionBox" style={{ width: '100%', height: '100%' }}>
-                    <div className="middleAlign">
-                        <i className="material-icons dark">signal_wifi_off</i><br/>
+                return (<NoInternetBox>
+                    <MiddleAlign>
+                        <i className="material-icons" style={{ color: '#555555' }}>signal_wifi_off</i><br/>
                         {i18n.t('messages.no_internet')}
-                    </div>
-                </div>);
+                    </MiddleAlign>
+                </NoInternetBox>);
             }
 
             let marks = props.marks || {};
-            let box_id = props.id;
+            let boxId = props.id;
 
             let markElements = Object.keys(marks).map((e) =>{
                 let position = marks[e].value.split(',');
@@ -42,7 +43,7 @@ export function VirtualTour() {
                         isVisor={isVisor}
                         markConnection={marks[e].connection}
                         markValue={marks[e].value}
-                        boxID={box_id}
+                        boxID={boxId}
                         onMarkClicked={props.onMarkClicked}/>
                 );
             });
@@ -51,7 +52,7 @@ export function VirtualTour() {
             let zoom = state.config.zoom && !isNaN(parseFloat(state.config.zoom)) ? parseFloat(state.config.zoom) : 10;
             let center = { lat: lat, lng: lng };
             return(
-                <div className="virtualMap" >
+                <MapPlugin className="virtualMap" >
                     <div style={{ width: '100%', height: '100%' }}>
                         <GoogleMapReact
                             center={center}
@@ -71,7 +72,7 @@ export function VirtualTour() {
                             {markElements}
                         </GoogleMapReact>
                     </div>
-                </div>);
+                </MapPlugin>);
         },
 
     };

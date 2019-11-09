@@ -1,6 +1,7 @@
 import Joyride, { ACTIONS, EVENTS } from 'react-joyride';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
 import i18n from 'i18next';
 import './_joyride.scss';
 import dragdrop from './dragdrop.svg';
@@ -11,10 +12,12 @@ import add from './add.svg';
 import importExport from './exportImport.svg';
 import preview from './preview.svg';
 import help from './help.svg';
+import handleModals from "../../handlers/handleModals";
 
-export default class EdiphyTour extends React.Component {
+class EdiphyTour extends React.Component {
     constructor(props) {
         super(props);
+        this.h = handleModals(this);
         this.state = {
             steps: [
                 { // Canvas
@@ -147,11 +150,11 @@ export default class EdiphyTour extends React.Component {
                 }
             }
             if (action === ACTIONS.CLOSE) {
-                this.props.toggleTour(false);
+                this.h.toggleTour(false);
                 this.setState({ doneSteps: new Set(), stepIndex: 0 });
             }
             if (type === EVENTS.TOUR_END) {
-                this.props.toggleTour(false);
+                this.h.toggleTour(false);
                 this.setState({ doneSteps: new Set(), stepIndex: 0 });
             } else if ([EVENTS.STEP_AFTER, EVENTS.CLOSE, EVENTS.TARGET_NOT_FOUND].includes(type)) {
                 // Since this is a controlled tour you'll need to update the state to advance the tour
@@ -193,13 +196,17 @@ export default class EdiphyTour extends React.Component {
     }
 }
 
+function mapStateToProps(state) {
+    return {
+        reactUI: state.reactUI.showTour,
+    };
+}
+
+export default connect(mapStateToProps)(EdiphyTour);
+
 EdiphyTour.propTypes = {
     /**
      * Whether the joyride is shown or not
      */
     showTour: PropTypes.bool,
-    /**
-     * Opens/closes the joyride
-     */
-    toggleTour: PropTypes.func.isRequired,
 };

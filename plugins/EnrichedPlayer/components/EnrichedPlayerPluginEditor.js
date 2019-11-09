@@ -6,28 +6,36 @@ import MarkEditor from '../../../_editor/components/richPlugins/markEditor/MarkE
 import Mark from '../../../common/components/mark/Mark';
 import { convertHMStoSeconds } from "../../../common/commonTools";
 import { pad } from '../../../common/commonTools';
+import {
+    FakeProgress,
+    MediaControls,
+    Play,
+    PlayerPlugin,
+    Progress,
+    FullScreen,
+    Duration,
+    Volume,
+    MainSlider, VideoMark,
+} from "../Styles";
+import _handlers from "../../../_editor/handlers/_handlers";
 
 /* eslint-disable react/prop-types */
 
 export default class EnrichedPlayerPluginEditor extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            volume: 0.8,
-            duration: 0,
-            played: 0,
-            playedSeconds: 0,
-            seeking: false,
-            fullscreen: false,
-            // controls: this.props.state.controls || true,
-        };
-    }
+    state = {
+        volume: 0.8,
+        duration: 0,
+        played: 0,
+        playedSeconds: 0,
+        seeking: false,
+        fullscreen: false,
+    };
 
-    playPause() {
-        this.setState({ playing: !this.state.playing });
-    }
+    h = _handlers(self);
 
-    onClickFullscreen() {
+    playPause = () => this.setState({ playing: !this.state.playing });
+
+    onClickFullscreen = () => {
         if(!this.state.fullscreen) {
             screenfull.request(findDOMNode(this.player_wrapper));
         } else {
@@ -36,23 +44,13 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
         this.setState({ fullscreen: !this.state.fullscreen });
     }
 
-    setVolume(e) {
-        this.setState({ volume: parseFloat(e.target.value) });
-    }
+    setVolume = e => this.setState({ volume: parseFloat(e.target.value) });
 
-    setPlaybackRate(e) {
-        this.setState({ playbackRate: parseFloat(e.target.value) });
-    }
+    onSeekMouseDown = () => this.setState({ seeking: true });
 
-    onSeekMouseDown() {
-        this.setState({ seeking: true });
-    }
+    onSeekChange = e => this.setState({ played: (e.clientX - e.target.getBoundingClientRect().left) / e.target.getBoundingClientRect().width });
 
-    onSeekChange(e) {
-        this.setState({ played: (e.clientX - e.target.getBoundingClientRect().left) / e.target.getBoundingClientRect().width });
-    }
-
-    onSeekMouseUp(e) {
+    onSeekMouseUp = e => {
         if(e.target.className.indexOf('progress-player-input') !== -1 ||
             e.target.className.indexOf('fakeProgress') !== -1 ||
             e.target.className.indexOf('mainSlider') !== -1) {
@@ -60,21 +58,19 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
             this.player.seekTo(pos);
             this.setState({ seeking: false, played: pos });
         }
-    }
+    };
 
-    onProgress(state) {
+    onProgress = state => {
         // We only want to update time slider if we are not currently seeking
         if (!this.state.seeking) {
             this.setState(state);
         }
-    }
+    };
 
-    getDuration() {
-        return this.state.duration;
-    }
-    onReady() {
-        this.setState({ ready: true });
-    }
+    getDuration = () => this.state.duration;
+
+    onReady = () => this.setState({ ready: true });
+
     render() {
         let marks = this.props.props.marks || {};
         let markElements = Object.keys(marks).map((id) =>{
@@ -84,15 +80,16 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
             let title = marks[id].title;
             let color = marks[id].color;
             return(
-                <MarkEditor key={id} style={{ left: value, position: "absolute", top: "0.3em" }} boxId={this.props.props.id} time={1.5} mark={id} marks={marks} onRichMarkMoved={this.props.props.handleMarks.onRichMarkMoved} state={this.props.state} base={this.props.base}>
-                    <div className="videoMark" style={{ background: color || "#17CFC8" }}>
+                <MarkEditor key={id} style={{ left: value, position: "absolute", top: "0.3em" }} dispatch={this.props.props.dispatch} boxId={this.props.props.id} time={1.5} mark={id} marks={marks} onRichMarkMoved={this.h.onRichMarkMoved} state={this.props.state} base={this.props.base}>
+                    <VideoMark style={{ background: color || "#17CFC8" }}>
                         <Mark style={{ position: 'relative', top: "-1.7em", left: "-0.75em" }} color={color || "#17CFC8"} idKey={id} title={title} />
-                    </div>
+                    </VideoMark>
                 </MarkEditor>);
         });
 
         return (
-            <div ref={player_wrapper => {this.player_wrapper = player_wrapper;}} style={{ width: "100%", height: "100%", pointerEvents: "none" }} className="enriched-player-wrapper" duration={this.state.duration}>
+            <PlayerPlugin className='enriched-player-wrapper' ref={player_wrapper => {this.player_wrapper = player_wrapper;}} duration={this.state.duration}>
+                <div className={'duration'} duration={this.state.duration} style={{ display: 'none' }}/>
                 <ReactPlayer
                     ref={player => { this.player = player; }}
                     style={{ width: "100%", height: "100%" }}
@@ -100,43 +97,38 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
                     width="100%"
                     url={this.props.state.url}
                     playing={this.state.playing}
-                    // fileConfig={{ attributes: { poster: img } }}
                     volume={this.state.volume}
                     onPlay={() => this.setState({ playing: true })}
                     onPause={() => this.setState({ playing: false })}
                     onEnded={() => this.setState({ playing: false })}
-                    onProgress={this.onProgress.bind(this)}
-                    // onMouseDown={this.onSeekMouseDown.bind(this)}
-                    //  onChange={this.onSeekChange.bind(this)}
-                    // onMouseUp={this.onSeekMouseUp.bind(this)}
-                    onReady={this.onReady.bind(this)}
-                    onDuration={duration => this.setState({ duration })}
+                    onProgress={this.onProgress}
+                    onReady={this.onReady}
+                    onDuration={duration => {this.setState({ duration });}}
                 />
                 {this.props.state.controls ?
-                    <div className="player-media-controls flexControls" style={{ pointerEvents: 'all' }}>
-                        <button className="play-player-button" onClick={this.playPause.bind(this)}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
-                        <div className="progress-player-input dropableRichZone" style={{ height: "1.7em", position: "relative", bottom: '0.3em' }}
-                            onMouseDown={this.onSeekMouseDown.bind(this)}
-                            onChange={this.onSeekChange.bind(this)}
-                            onMouseUp={this.onSeekMouseUp.bind(this)}>
-                            <div className="fakeProgress" />
-
-                            <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%" }} />
+                    <MediaControls>
+                        <Play onClick={this.playPause}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</Play>
+                        <Progress
+                            onMouseDown={this.onSeekMouseDown}
+                            onChange={this.onSeekChange}
+                            onMouseUp={this.onSeekMouseUp}>
+                            <FakeProgress/>
+                            <MainSlider style={{ position: "absolute", left: this.state.played * 100 + "%" }} />
                             {this.state.ready ? markElements : null}
-                        </div>
-                        <div className="durationField">{ Math.trunc(this.state.playedSeconds / 60) + ":" + pad(Math.trunc(this.state.playedSeconds % 60)) + "/" + Math.trunc(this.state.duration / 60) + ":" + pad(Math.trunc(this.state.duration % 60))}</div>
-                        <input className="volume-player-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume.bind(this)} />
-                        <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen) ? <i className="material-icons">fullscreen</i> : <i className="material-icons">fullscreen_exit</i>}</button>
-                    </div> :
+                        </Progress>
+                        <Duration>{ Math.trunc(this.state.playedSeconds / 60) + ":" + pad(Math.trunc(this.state.playedSeconds % 60)) + "/" + Math.trunc(this.state.duration / 60) + ":" + pad(Math.trunc(this.state.duration % 60))}</Duration>
+                        <Volume value={this.state.volume} onChange={this.setVolume} />
+                        <FullScreen onClick={this.onClickFullscreen}>{(!this.state.fullscreen) ? <i className="material-icons">fullscreen</i> : <i className="material-icons">fullscreen_exit</i>}</FullScreen>
+                    </MediaControls> :
 
-                    <div className="player-media-controls flexControls" style={{ pointerEvents: 'all', visibility: 'hidden' }}>
-                        <div className="progress-player-input dropableRichZone" style={{ height: "1.7em", position: "relative", bottom: '0.3em' }}>
-                            <div className="fakeProgress" />
-                            <div className="mainSlider" style={{ position: "absolute", left: this.state.played * 100 + "%" }} />
+                    <MediaControls style={{ pointerEvents: 'all', visibility: 'hidden' }}>
+                        <Progress>
+                            <FakeProgress/>
+                            <MainSlider style={{ position: "absolute", left: this.state.played * 100 + "%" }} />
                             {this.state.ready ? markElements : null}
-                        </div>
-                    </div>}
-            </div>
+                        </Progress>
+                    </MediaControls>}
+            </PlayerPlugin>
         );
     }
 }

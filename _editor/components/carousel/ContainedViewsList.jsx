@@ -1,24 +1,26 @@
 import React, { Component } from 'react';
 import i18n from "i18next";
 import PropTypes from "prop-types";
+import { connect } from 'react-redux';
 
 import { isSlide } from "../../../common/utils";
 import EditorIndexTitle from "./editorIndexTitle/EditorIndexTitle";
+import _handlers from "../../handlers/_handlers";
 
-export default class ContainedViewsList extends Component {
+class ContainedViewsList extends Component {
+    h = _handlers(this);
 
     render() {
 
-        const { containedViews, showContainedViews, showSortableItems, indexSelected, containedViewSelected, viewToolbars, onIndexSelected } = this.props;
-        const { onContainedViewNameChanged, onContainedViewSelected } = this.props.handleContainedViews;
+        const { containedViewsById, showContainedViews, showSortableItems, indexSelected, containedViewSelected, viewToolbarsById } = this.props;
 
-        let containedViewsIncluded = Object.keys(containedViews).length > 0;
+        let containedViewsByIdIncluded = Object.keys(containedViewsById).length > 0;
         return (<div className="containedViewsList" style={{ height: (showContainedViews) ? ((showSortableItems) ? "calc(50% - 126px)" : "calc(100% - 126px)") : "0px",
             display: 'block', overflowY: 'auto', overflowX: 'hidden' }}>
-            <div className="empty-info" style={{ display: (containedViewsIncluded) ? "none" : "block" }}>{i18n.t("empty.cv_empty")}</div>
+            <div className="empty-info" style={{ display: (containedViewsByIdIncluded) ? "none" : "block" }}>{i18n.t("empty.cv_empty")}</div>
 
             {
-                Object.keys(containedViews).map((id)=>{
+                Object.keys(containedViewsById).map((id)=>{
                     let classIndexSelected = id === indexSelected ? ' classIndexSelected ' : ' ';
                     let isContainedViewSelected = id === containedViewSelected ? ' selected ' : ' ';
                     return (
@@ -26,20 +28,18 @@ export default class ContainedViewsList extends Component {
                             <div key={id}
                                 className={'file navItemBlock ' + classIndexSelected }
                                 onDoubleClick={e => {
-                                    onContainedViewSelected(id);
+                                    this.h.onContainedViewSelected(id);
                                     e.stopPropagation();
                                 }}
-                                onMouseDown={() => {
-                                    onIndexSelected(id);
-                                }}>
-                                <i className="material-icons fileIcon">{isSlide(containedViews[id].type) ? "slideshow" : "insert_drive_file"}</i>
+                                onMouseDown={() => this.h.onIndexSelected(id)}>
+                                <i className="material-icons fileIcon">{isSlide(containedViewsById[id].type) ? "slideshow" : "insert_drive_file"}</i>
                                 <EditorIndexTitle
                                     id={id}
-                                    title={viewToolbars[id].viewName}
+                                    title={viewToolbarsById[id].viewName}
                                     index={1}
                                     hidden={false}
                                     selected = {containedViewSelected}
-                                    onNameChanged={onContainedViewNameChanged} />
+                                    onNameChanged={this.h.onContainedViewNameChanged} />
                             </div>
                         </div>
                     );
@@ -51,11 +51,22 @@ export default class ContainedViewsList extends Component {
     }
 }
 
+function mapStateToProps(state) {
+    const { containedViewsById, containedViewSelected, viewToolbarsById } = state.undoGroup.present;
+    return {
+        containedViewsById,
+        containedViewSelected,
+        viewToolbarsById,
+    };
+}
+
+export default connect(mapStateToProps)(ContainedViewsList);
+
 ContainedViewsList.propTypes = {
     /**
      *  Object containing all contained views (identified by its ID)
      */
-    containedViews: PropTypes.object.isRequired,
+    containedViewsById: PropTypes.object.isRequired,
     /**
      * Selected contained view
      */
@@ -65,17 +76,9 @@ ContainedViewsList.propTypes = {
      */
     indexSelected: PropTypes.any,
     /**
-     * Collection of callbacks for contained views handling
-     */
-    handleContainedViews: PropTypes.object.isRequired,
-    /**
-     * Callback for renaming view
-     */
-    onIndexSelected: PropTypes.func.isRequired,
-    /**
      * Object containing all the pages' toolbars
      */
-    viewToolbars: PropTypes.object.isRequired,
+    viewToolbarsById: PropTypes.object.isRequired,
     /**
      * Indicates if contained views should be displayed
      */

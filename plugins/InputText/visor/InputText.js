@@ -1,6 +1,7 @@
 import React from 'react';
 import { correctNumericInput, correctTextInput } from '../../../core/visor/correctionFunctions';
 import i18n from "i18next";
+import { GenericInput, InputTextPlugin, ExerciseScore } from "../Styles";
 /* eslint-disable react/prop-types */
 
 export function InputText() {
@@ -15,10 +16,12 @@ export function InputText() {
             score = (props.exercises.weight === 0) ? i18n.t("InputText.notCount") : ((score) + "/" + (props.exercises.weight));
             let correct = this.checkAnswer(props.exercises.currentAnswer, props.exercises.correctAnswer, state);
             let fs = state.fontSize / 14 + 'em';
-            return <span className={"exercisePlugin inputTextPlugin" + (attempted ? " attempted " : " ") + (correct ? "correct " : "incorrect ") + (props.exercises.showFeedback ? "showFeedback" : "") }>
-                <input type={state.type} disabled={attempted} style={{ fontSize: fs }} className="inputText" name={props.id} value={props.exercises.currentAnswer} onChange={clickHandler}/>
-                <span className="exerciseScore">{score}</span>
-            </span>;
+            return (
+                <InputTextPlugin className={"exercisePlugin inputTextPlugin" + (attempted ? " attempted " : " ") + (correct ? "correct " : "incorrect ") + (props.exercises.showFeedback ? "showFeedback" : "") }>
+                    <GenericInput type={state.type} disabled={attempted} style={{ fontSize: fs }} className="inputText" name={props.id} value={props.exercises.currentAnswer} onChange={clickHandler}/>
+                    <ExerciseScore show={attempted}>{score}</ExerciseScore>
+                </InputTextPlugin>
+            );
         },
         checkAnswer(current, correct, state) {
             if (state.type === 'text') {

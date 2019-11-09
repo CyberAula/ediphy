@@ -13,6 +13,7 @@ import { isSection, isContainedView, getDescendantLinkedBoxes, getDescendantBoxe
 import { connect } from 'react-redux';
 import './_carouselButtons.scss';
 import TemplatesModal from "../templatesModal/TemplatesModal";
+import _handlers from "../../../handlers/_handlers";
 
 /**
  * Ediphy CarouselButtons Component
@@ -25,30 +26,33 @@ class CarouselButtons extends Component {
         showTemplates: false,
     };
 
+    h = _handlers(this);
+
     /**
      * Get the parent of the currently selected navItem
      * @returns {*}
      */
     getParent = () => {
-        if (!this.props.indexSelected || this.props.indexSelected === -1) {
+        const { indexSelected, navItemsById } = this.props;
+        if (!indexSelected || indexSelected === -1) {
             return { id: 0 };
         }
         // If the selected navItem is not a section, it cannot have children -> we return its parent
-        if (isSection(this.props.indexSelected)) {
-            return this.props.navItems[this.props.indexSelected];
+        if (isSection(indexSelected)) {
+            return navItemsById[indexSelected];
         }
-        return this.props.navItems[this.props.navItems[this.props.indexSelected].parent] || this.props.navItems[0];
+        return navItemsById[navItemsById[indexSelected].parent] || navItemsById[0];
     };
 
     /**
      * Expand siblings of added navItem
      */
     expandSiblings = (parentId) => {
-        const children = this.props.navItems[parentId].children;
+        const children = this.props.navItemsById[parentId].children;
 
         for (let child of children) {
-            if (this.props.navItems[child].type !== 'section') {
-                this.props.handleNavItems.onNavItemExpanded(child, true);
+            if (this.props.navItemsById[child].type !== 'section') {
+                this.h.onNavItemExpanded(child, true);
             }
         }
     };
@@ -67,10 +71,8 @@ class CarouselButtons extends Component {
 
         // Starting after item's parent, if level is the same or lower -> we found the place we want
         for(let i = ids.indexOf(parent.id) + 1; i < ids.length; i++) {
-            if(ids[i]) {
-                if(this.props.navItems[ids[i]].level <= parent.level) {
-                    return i;
-                }
+            if(ids[i] && this.props.navItemsById[ids[i]].level <= parent.level) {
+                return i;
             }
         }
 
@@ -85,14 +87,13 @@ class CarouselButtons extends Component {
      */
     canDeleteContainedView = (id) => {
         if (id !== 0 && isContainedView(id)) {
-            let thisPage = this.props.containedViews[id];
-            let boxes = this.props.boxes;
-            let parent = thisPage.parent;
-            let boxDoesntExistAnyMore = parent && !boxes[parent];
-            let deletedMark = parent && boxes[parent] && boxes[parent].containedViews && boxes[parent].containedViews.indexOf(id) === -1;
+            const thisPage = this.props.containedViewsById[id];
+            const boxesById = this.props.boxesById;
+            const parent = thisPage.parent;
+            const boxDoesntExistAnyMore = parent && !boxesById[parent];
+            const deletedMark = parent && boxesById[parent] && boxesById[parent].containedViewsById && boxesById[parent].containedViewsById.indexOf(id) === -1;
             return boxDoesntExistAnyMore || deletedMark;
         }
-
         return false;
     };
 
@@ -101,13 +102,12 @@ class CarouselButtons extends Component {
     * @returns {code}
     */
     render() {
-        const { boxes, indexSelected, navItems, carouselShow } = this.props;
-        const { onNavItemAdded, onNavItemDuplicated } = this.props.handleNavItems;
+        const { boxesById, indexSelected, navItemsById, carouselShow } = this.props;
         const buttons = [
             {
                 tooltip: i18n.t('create new folder'),
                 name: "newFolder",
-                disabled: indexSelected === -1 || isContainedView(indexSelected) || navItems[indexSelected].level >= 10,
+                disabled: indexSelected === -1 || isContainedView(indexSelected) || navItemsById[indexSelected].level >= 10,
                 onClick: this.addSection,
                 icon: "create_new_folder",
             },
@@ -129,7 +129,7 @@ class CarouselButtons extends Component {
                 tooltip: i18n.t('DuplicateNavItem'),
                 name: "duplicateNav",
                 disabled: indexSelected === 0 || isContainedView(indexSelected) || isSection(indexSelected),
-                onClick: () => onNavItemDuplicated(indexSelected),
+                onClick: () => this.h.onNavItemDuplicated(indexSelected),
                 icon: "control_point_duplicate",
             },
             {
@@ -197,14 +197,14 @@ class CarouselButtons extends Component {
                 <TemplatesModal key="templatesModal"
                     show={this.state.showTemplates}
                     close={this.toggleTemplatesModal}
-                    navItems={navItems}
-                    boxes={boxes}
+                    navItemsById={navItemsById}
+                    boxesById={boxesById}
                     onNavItemAdded={(id, name, type, color, num, extra) => {
-                        onNavItemAdded(id, name, this.getParent().id, type, this.calculatePosition(), color, num, extra);
+                        this.h.onNavItemAdded(id, name, this.getParent().id, type, this.calculatePosition(), color, num, extra);
                         this.expandSiblings(this.getParent().id);}}
-                    onIndexSelected={this.props.onIndexSelected}
+                    onIndexSelected={this.h.onIndexSelected}
                     indexSelected={indexSelected}
-                    onBoxAdded={this.props.onBoxAdded}
+                    onBoxAdded={this.h.onBoxAdded}
                     calculatePosition={this.calculatePosition}/>
             </div>
         );
@@ -236,8 +236,8 @@ class CarouselButtons extends Component {
     };
 
     addSection = (e) => {
-        let idnuevo = ID_PREFIX_SECTION + Date.now();
-        this.props.dispatch(addNavItem(idnuevo,
+        let newId = ID_PREFIX_SECTION + Date.now();
+        this.props.dispatch(addNavItem(newId,
             i18n.t("section"),
             this.getParent().id,
             PAGE_TYPES.SECTION,
@@ -248,33 +248,31 @@ class CarouselButtons extends Component {
     };
 
     deleteItem = () => {
-        const { boxes, containedViews, indexSelected, navItems } = this.props;
+        const { boxesById, containedViewsById, indexSelected, navItemsById } = this.props;
         if(indexSelected !== 0) {
             if (isContainedView(indexSelected) /* && this.canDeleteContainedView(this.props.indexSelected)*/) {
-                let cvid = this.props.indexSelected;
-                let boxesRemoving = [];
-                containedViews[cvid].boxes.map(boxId => {
-                    boxesRemoving.push(boxId);
-                    boxesRemoving = boxesRemoving.concat(getDescendantBoxes(boxes[boxId], boxes));
+                let boxesByIdRemoving = [];
+                containedViewsById[indexSelected].boxesById.map(boxId => {
+                    boxesByIdRemoving.push(boxId);
+                    boxesByIdRemoving = boxesByIdRemoving.concat(getDescendantBoxes(boxesById[boxId], boxesById));
                 });
 
-                this.props.dispatch(deleteContainedView([cvid], boxesRemoving, containedViews[cvid].parent));
+                this.props.dispatch(deleteContainedView([indexSelected], boxesByIdRemoving, containedViewsById[cvId].parent));
             } else {
-                let navsel = this.props.indexSelected;
-                let viewRemoving = [navsel].concat(getDescendantViews(navItems[navsel]));
-                let boxesRemoving = [];
+                let viewRemoving = [indexSelected].concat(getDescendantViews(navItemsById[indexSelected]));
+                let boxesByIdRemoving = [];
                 let containedRemoving = {};
                 viewRemoving.map(id => {
-                    this.props.navItems[id].boxes.map(boxId => {
-                        boxesRemoving.push(boxId);
-                        boxesRemoving = boxesRemoving.concat(getDescendantBoxes(boxes[boxId], boxes));
+                    navItemsById[id].boxesById.map(boxId => {
+                        boxesByIdRemoving.push(boxId);
+                        boxesByIdRemoving = boxesByIdRemoving.concat(getDescendantBoxes(boxesById[boxId], boxesById));
                     });
                 });
-                let marksRemoving = getDescendantLinkedBoxes(viewRemoving, navItems) || [];
+                let marksRemoving = getDescendantLinkedBoxes(viewRemoving, navItemsById) || [];
                 this.props.dispatch(deleteNavItem(
                     viewRemoving,
-                    this.props.navItems[navsel].parent,
-                    boxesRemoving,
+                    navItemsById[indexSelected].parent,
+                    boxesByIdRemoving,
                     containedRemoving,
                     marksRemoving));
             }
@@ -286,24 +284,27 @@ class CarouselButtons extends Component {
 export default connect(mapStateToProps)(CarouselButtons);
 
 function mapStateToProps(state) {
+    const { boxesById, containedViewsById, indexSelected, navItemsById, navItemsIds } = state.undoGroup.present;
+    const { carouselShow } = state.reactUI;
     return {
-        boxes: state.undoGroup.present.boxesById,
-        containedViews: state.undoGroup.present.containedViewsById,
-        indexSelected: state.undoGroup.present.indexSelected,
-        navItems: state.undoGroup.present.navItemsById,
-        navItemsIds: state.undoGroup.present.navItemsIds,
+        boxesById,
+        carouselShow,
+        containedViewsById,
+        indexSelected,
+        navItemsById,
+        navItemsIds,
     };
 }
 
 CarouselButtons.propTypes = {
     /**
-     * Object containing all created boxes (by id)
+     * Object containing all created boxesById (by id)
      */
-    boxes: PropTypes.object.isRequired,
+    boxesById: PropTypes.object.isRequired,
     /**
      * Object containing all contained views (identified by its ID)
      */
-    containedViews: PropTypes.object.isRequired,
+    containedViewsById: PropTypes.object.isRequired,
     /**
      * Redux actions dispatcher
      */
@@ -315,25 +316,13 @@ CarouselButtons.propTypes = {
     /**
      * Dictionary containing all created views, each one with its *id* as the key
      */
-    navItems: PropTypes.object.isRequired,
+    navItemsById: PropTypes.object.isRequired,
     /**
      * Array containing all created views, each identified by its *id*
      */
     navItemsIds: PropTypes.array.isRequired,
     /**
-     * Callback for adding a box
-     */
-    onBoxAdded: PropTypes.func.isRequired,
-    /**
-     * Selects a view/contained view in the index's context
-     */
-    onIndexSelected: PropTypes.func.isRequired,
-    /**
      * Index displayed indicator
      */
     carouselShow: PropTypes.bool.isRequired,
-    /**
-     * Collection of callbacks for nav items handling
-     */
-    handleNavItems: PropTypes.object.isRequired,
 };

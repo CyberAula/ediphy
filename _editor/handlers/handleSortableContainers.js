@@ -8,10 +8,10 @@ export default (self) => ({
     onSortableContainerReordered: (ids, parent) => self.props.dispatch(reorderSortableContainer(ids, parent)),
 
     onSortableContainerDeleted: (id, parent) => {
-        let boxes = self.props.boxes;
-        let containedViews = self.props.containedViews;
+        let boxes = self.props.boxesById;
+        let containedViews = self.props.containedViewsById;
         let page = self.props.containedViewSelected && self.props.containedViewSelected !== 0 ? self.props.containedViewSelected : self.props.navItemSelected;
-        let descBoxes = getDescendantBoxesFromContainer(boxes[parent], id, self.props.boxes, self.props.containedViews);
+        let descBoxes = getDescendantBoxesFromContainer(boxes[parent], id, self.props.boxesById, self.props.containedViewsById);
         let cvs = {};
         for (let b in descBoxes) {
             let box = boxes[descBoxes[b]];

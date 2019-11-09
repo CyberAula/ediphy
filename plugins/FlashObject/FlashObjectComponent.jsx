@@ -1,5 +1,5 @@
 import React from 'react';
-import './_flashObject.scss';
+import { FlashObjectPlugin } from "./Styles";
 /* eslint-disable react/prop-types */
 
 export default class FlashObjectComponent extends React.Component {
@@ -10,7 +10,12 @@ export default class FlashObjectComponent extends React.Component {
         };
     }
     render() {
-        return <embed className="flashObject" key={this.state.key} wmode="opaque" src={this.props.src} width="100%" onClick={(e)=>{e.currentTarget.classList.add('pointerevents');}} height="100%"/>;
+        return <FlashObjectPlugin
+            key={this.state.key}
+            wmode="opaque"
+            src={this.props.src}
+            onClick={(e)=>{e.currentTarget.classList.add('pointerevents');}}
+        />;
     }
     UNSAFE_componentWillReceiveProps(nextProps) {
         if (this.props.src !== nextProps.src) {

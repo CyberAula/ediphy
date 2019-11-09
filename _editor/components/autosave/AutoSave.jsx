@@ -61,7 +61,7 @@ class AutoSave extends Component {
             UPDATE_UI,
         ];
 
-        if (this.state.modifiedState === false && ignoredActions.indexOf(nextProps.lastAction) === -1) {
+        if (this.state.modifiedState === false && ignoredActions.indexOf(nextProps.lastActionDispatched) === -1) {
             // The last action isn't part of the ignored ones
             this.setState({ modifiedState: true });
         }
@@ -86,8 +86,10 @@ class AutoSave extends Component {
 }
 
 function mapStateToProps(state) {
+    const { isBusy, lastActionDispatched } = state.undoGroup.present;
     return {
-        lastAction: state.undoGroup.present.lastActionDispatched,
+        isBusy,
+        lastActionDispatched,
         visorVisible: state.reactUI.visorVisible,
     };
 }
@@ -102,7 +104,7 @@ AutoSave.propTypes = {
     /**
    * Last Redux action dispatched
    */
-    lastAction: PropTypes.any,
+    lastActionDispatched: PropTypes.any,
     /**
    * Indicates if there is a current server operation
    */

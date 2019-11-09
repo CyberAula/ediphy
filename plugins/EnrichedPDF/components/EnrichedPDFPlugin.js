@@ -10,6 +10,18 @@ const pdfjsWorkerBlob = new Blob([pdfjsWorker]);
 const pdfjsWorkerBlobURL = URL.createObjectURL(pdfjsWorkerBlob);
 pdflib.PDFJS.workerSrc = pdfjsWorkerBlobURL;
 import { setOptions, Document, Page } from 'react-pdf';
+import {
+    ButtonsContainer,
+    DroppableRichZone,
+    FullScreen,
+    PageNumber,
+    PDFButton,
+    PDFContainer, PDFDocument, PDFPage,
+    RotateL,
+    RotateR,
+    ScaleButton,
+    TopBar,
+} from "../Styles";
 setOptions({
     workerSrc: pdflib.PDFJS.workerSrc,
 });
@@ -146,50 +158,46 @@ export default class EnrichedPDFPlugin extends React.Component {
 
         return (
 
-            <div ref={pdf_wrapper => {this.pdf_wrapper = pdf_wrapper;}} style={{ width: "100%", height: "100%" }} className={"pdfDiv"}>
-                <div className="topBar topBarVisor">
-                    <div className="rotationButtons">
-                        <button className={"PDFrotateL"} onClick={this.buttonRotateLeft}>
+            <PDFContainer ref={pdf_wrapper => {this.pdf_wrapper = pdf_wrapper;}}>
+                <TopBar visor>
+                    <ButtonsContainer>
+                        <RotateL onClick={this.buttonRotateLeft}>
                             <i className={"material-icons"}>rotate_left</i>
-                        </button>
-                        <button className={"PDFrotateR"} onClick={this.buttonRotateRight}>
+                        </RotateL>
+                        <RotateR onClick={this.buttonRotateRight}>
                             <i className={"material-icons"}>rotate_right</i>
-                        </button>
-                    </div>
+                        </RotateR>
+                    </ButtonsContainer>
 
                     <div className="PDFpages">
-                        <button className={"PDFback"} onClick={this.buttonBack}>
+                        <PDFButton className={"PDFback"} onClick={this.buttonBack}>
                             <i className={"material-icons"}>keyboard_arrow_left</i>
-                        </button>
-                        <span className={"PDFnumPages"}>
-                            {this.state.pageNumber} of {this.state.numPages}
-                        </span>
-                        <button className={"PDFnext"} onClick={this.buttonNext}>
+                        </PDFButton>
+                        <PageNumber> {this.state.pageNumber} of {this.state.numPages} </PageNumber>
+                        <PDFButton className={"PDFnext"} onClick={this.buttonNext}>
                             <i className={"material-icons"}>keyboard_arrow_right</i>
-                        </button>
+                        </PDFButton>
                     </div>
-                    <div className="actionButtons">
-                        <button className="fullscreen-player-button" onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen) ? <i className="material-icons">fullscreen</i> : <i className="material-icons">fullscreen_exit</i>}</button>
-                        <button className="scale-button" disabled={this.state.scale >= 5} onClick={this.onZoomIn.bind(this)}> <i className="material-icons">zoom_in</i></button>
-                        <button className="scale-button" disabled={this.state.scale <= 0.25} onClick={this.onZoomOut.bind(this)}> <i className="material-icons">zoom_out</i></button>
-                    </div>
+                    <ButtonsContainer>
+                        <FullScreen onClick={this.onClickFullscreen.bind(this)}>{(!this.state.fullscreen) ? <i className="material-icons">fullscreen</i> : <i className="material-icons">fullscreen_exit</i>}</FullScreen>
+                        <ScaleButton disabled={this.state.scale >= 5} onClick={this.onZoomIn.bind(this)}> <i className="material-icons">zoom_in</i></ScaleButton>
+                        <ScaleButton disabled={this.state.scale <= 0.25} onClick={this.onZoomOut.bind(this)}> <i className="material-icons">zoom_out</i></ScaleButton>
+                    </ButtonsContainer>
 
-                </div>
-
-                <Document className={"react-pdf__Document"} style={{ width: "100%", height: "100%" }}
-                    file = {this.props.state.url} loading={<div>Please wait!</div>}
-                    onLoadSuccess={this.onDocumentLoad} rotate={this.state.rotate}>
-                    <div className="dropableRichZone">
-                        <Page className="pdfPage" scale={this.state.scale}
-                            pageNumber={this.state.pageNumber}
-                        >
-                            {this.state.rotate === 0 || this.state.rotate === 360 ? markElements : null}
-                        </Page>
-
-                    </div>
-
-                </Document>
-            </div>
+                </TopBar>
+                <PDFDocument>
+                    <Document file = {this.props.state.url} loading={<div>Please wait!</div>}
+                        onLoadSuccess={this.onDocumentLoad} rotate={this.state.rotate}>
+                        <DroppableRichZone className={'dropableRichZone'}>
+                            <PDFPage>
+                                <Page className='pdfPage' scale={this.state.scale} pageNumber={this.state.pageNumber}>
+                                    {this.state.rotate === 0 || this.state.rotate === 360 ? markElements : null}
+                                </Page>
+                            </PDFPage>
+                        </DroppableRichZone>
+                    </Document>
+                </PDFDocument>
+            </PDFContainer>
         );
     }
 }

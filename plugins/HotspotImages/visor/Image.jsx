@@ -1,15 +1,13 @@
 import React from 'react';
-import { isURL } from "../../../_editor/components/clipboard/clipboard.utils";
+import { BasicImage, ImagePluginVisor, Link } from "../Styles";
+import { checkHyperlink } from "../../../common/utils";
 /* eslint-disable react/prop-types */
 
 export default class Image extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { error: false };
-    }
+    state = { error: false };
     render() {
         let { state, markElements } = this.props;
-        let hyperlink = this.checkHyperlink(state.hyperlink);
+        let hyperlink = checkHyperlink(state.hyperlink);
         let scale = state.scale || 1;
         let translateX = (state.translate ? state.translate.x : 0) || 0;
         let translateY = (state.translate ? state.translate.y : 0) || 0;
@@ -24,10 +22,9 @@ export default class Image extends React.Component {
             { content: 'var(--' + state.url.replace(/\//g, '_') + ')' };
 
         return(
-            <div style={{ overflow: "hidden", height: "100%", width: "100%" }} className="draggableImageVisor" ref="draggableImageVisor">
-                <a href={hyperlink} target="_blank" style={{ pointerEvents: hyperlink ? "initial" : "none", overflow: "hidden", height: "100%", width: "100%" }}>
-                    <img ref="img"
-                        className="basicImageClass"
+            <ImagePluginVisor ref="draggableImageVisor">
+                <Link href={hyperlink} target="_blank" hyperlink={hyperlink}>
+                    <BasicImage ref="img"
                         style={{ ...customImage, width: state.allowDeformed ? "100%" : "100%", height: state.allowDeformed ? "" : "auto", transform, WebkitTransform: transform, MozTransform: transform }}
                         src={state.url}
                         onError={(e)=>{
@@ -37,30 +34,8 @@ export default class Image extends React.Component {
                             }
                         }}/>
                     {markElements}
-                </a>
-            </div>);
-    }
-
-    componentDidMount() {
-
-    }
-
-    // Checks if link is provided. If so, it formats it to 'http://www...' in case it was 'www...'. Returns false if no link is provided.
-    checkHyperlink(hyperlink) {
-        if (hyperlink === null || hyperlink === undefined) {
-            return false;
-        }
-        hyperlink = hyperlink.replace(/\s/g, "");
-        if (hyperlink === "") {
-            return false;
-        }
-        if (hyperlink.substring(0, 4) === "www.") {
-            hyperlink = "http://" + hyperlink;
-        }
-        if (isURL(hyperlink)) {
-            return hyperlink;
-        }
-        return false;
+                </Link>
+            </ImagePluginVisor>);
     }
 }
 /* eslint-enable react/prop-types */

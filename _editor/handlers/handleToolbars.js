@@ -8,7 +8,7 @@ import { ID_PREFIX_BOX } from "../../common/constants";
 export default (self) => ({
     onToolbarUpdated: (id, tab, accordion, name, value) => {
         if (isBox(id) || isSortableBox(id)) {
-            let toolbar = self.props.pluginToolbars[id];
+            let toolbar = self.props.pluginToolbarsById[id];
             let pluginAPI = Ediphy.Plugins.get(toolbar.pluginId);
             let config = pluginAPI.getConfig();
             let deletedBoxes = [];
@@ -41,10 +41,10 @@ export default (self) => ({
                                         initialState: newBox.initialState,
                                         id: ID_PREFIX_BOX + Date.now() + '_' + ind,
                                         draggable: true,
-                                        resizable: self.props.boxes[id].resizable,
+                                        resizable: self.props.boxesById[id].resizable,
                                     }, newBox.type, false,
                                     (...params)=>{self.props.dispatch(addBox(...params));},
-                                    self.props.boxes);
+                                    self.props.boxesById);
                                 });
 
                             }
@@ -54,8 +54,8 @@ export default (self) => ({
                 } else if (toolbar.state.__pluginContainerIds && (Object.keys(toolbar.state.__pluginContainerIds).length > Object.keys(pluginContainerIds).length)) {
                     for (let s in toolbar.state.__pluginContainerIds) {
                         if (!pluginContainerIds[s]) {
-                            if (self.props.boxes[id].sortableContainers[s].children) {
-                                deletedBoxes = deletedBoxes.concat(self.props.boxes[id].sortableContainers[s].children);
+                            if (self.props.boxesById[id].sortableContainers[s].children) {
+                                deletedBoxes = deletedBoxes.concat(self.props.boxesById[id].sortableContainers[s].children);
                             }
                         }
                     }
@@ -71,7 +71,7 @@ export default (self) => ({
         }
     },
 
-    onPluginToolbarUpdated: (id, state) => self.props.dispatch(updateBox(id, "", self.props.pluginToolbars[self.props.reactUI.pluginConfigModal], state)),
+    onPluginToolbarUpdated: (id, state) => self.props.dispatch(updateBox(id, "", self.props.pluginToolbarsById[self.props.reactUI.pluginConfigModal], state)),
 
     onViewToolbarUpdated: (id, toolbar) => self.props.dispatch(updateViewToolbar(id, toolbar)),
 });

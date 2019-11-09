@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { FormGroup, InputGroup, FormControl } from 'react-bootstrap';
+import { InputGroup, FormControl } from 'react-bootstrap';
+import { SearchBoxContainer } from "../Styles";
 export default class SearchBox extends React.Component {
     constructor(props) {
         super(props);
@@ -10,14 +11,15 @@ export default class SearchBox extends React.Component {
     }
     render() {
         return (
-            <FormGroup id={"map-" + this.props.id} className="searchBox">
+            <SearchBoxContainer id={"map-" + this.props.id}>
                 <InputGroup>
-                    <FormControl type="text" ref={"input-" + this.props.id} placeholder={this.props.placeholder}/>
-                    <InputGroup.Addon style={{ padding: "0.2em 0.5em " }}>
-                        <i className="material-icons">search</i>
+                    <FormControl type="text" ref={"input-" + this.props.id} placeholder={this.props.placeholder}
+                        style={{ height: '2.3em', padding: '0.4em 0.8em', fontSize: '1em' }}/>
+                    <InputGroup.Addon style={{ padding: "0.2em 0.5em", fontSize: '1.2em', height: '1.7em' }}>
+                        <i className="material-icons" style={{ fontSize: '1.2em' }}>search</i>
                     </InputGroup.Addon>
                 </InputGroup>
-            </FormGroup>
+            </SearchBoxContainer>
         );
     }
     onPlacesChanged() {

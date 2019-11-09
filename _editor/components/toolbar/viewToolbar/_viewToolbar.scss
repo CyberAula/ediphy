@@ -8,12 +8,12 @@
 }
 
 /*Toolbar wrapper including tab*/
-.wrapper {
-  @include animacion(top, 0.3s);
-  margin: 0;
-  position: fixed;
-  bottom: 0;
-}
+//.wrapper {
+//  @include animacion(top, 0.3s);
+//  margin: 0;
+//  position: fixed;
+//  bottom: 0;
+//}
 
 /*Wrapper when no box is selected*/
 .hiddenWrapper {
@@ -152,20 +152,20 @@
 }
 
 /*Pestaña (old)*/
-.pestana {
-  border-width: 8px;
-  border-style: solid;
-  text-align: center;
-  display: inline-block;
-  position: absolute;
-  top: 24px;
-  right: 100%;
-  border-color: transparent;
-  border-right-color: $darkest;
-  color: $verdeadams;
-  z-index: 1000;
-  cursor: pointer;
-}
+//.pestana {
+//  border-width: 8px;
+//  border-style: solid;
+//  text-align: center;
+//  display: inline-block;
+//  position: absolute;
+//  top: 24px;
+//  right: 100%;
+//  border-color: transparent;
+//  border-right-color: $darkest;
+//  color: $verdeadams;
+//  z-index: 1000;
+//  cursor: pointer;
+//}
 
 /*Collapsible panel*/
 .panelPluginToolbar {

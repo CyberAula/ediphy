@@ -83,13 +83,9 @@ class EditorNavBar extends Component
 export default connect(mapStateToProps)(EditorNavBar);
 
 function mapStateToProps(state) {
+    const { globalConfig } = state.undoGroup.present;
     return {
-        status: state.status,
-        everPublished: state.everPublished,
-        globalConfig: state.undoGroup.present.globalConfig,
-        navItemSelected: state.undoGroup.present.navItemSelected,
-        navItems: state.undoGroup.present.navItemsById,
-        boxSelected: state.undoGroup.present.boxSelected,
+        globalConfig,
         reactUI: state.reactUI,
     };
 }

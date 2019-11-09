@@ -9,6 +9,7 @@ webpack.config.js~
 *.orig
 *.snap
 .sass-cache
+.env
 ediphy_server/config.json
 ediphy_server/node_modules
 doc/esdoc

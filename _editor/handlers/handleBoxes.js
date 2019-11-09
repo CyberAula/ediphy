@@ -14,10 +14,10 @@ export default (self) => ({
     onBoxAdded: (...params) => self.props.dispatch(addBox(...params)),
 
     onBoxDeleted: (id, parent, container, page) => {
-        let bx = getDescendantBoxes(self.props.boxes[id], self.props.boxes);
-        let cvs = [...self.props.boxes[id].containedViews];
+        let bx = getDescendantBoxes(self.props.boxesById[id], self.props.boxesById);
+        let cvs = [...self.props.boxesById[id].containedViews];
         bx.map(box=>{
-            cvs = [...cvs, ...self.props.boxes[box].containedViews];
+            cvs = [...cvs, ...self.props.boxesById[box].containedViews];
         });
         self.props.dispatch(deleteBox(id,
             parent,
@@ -27,7 +27,9 @@ export default (self) => ({
             page));
     },
 
-    onBoxSelected: (id) => self.props.dispatch(selectBox(id, self.props.boxes[id])),
+    onBoxSelected: (id) => {
+        self.props.dispatch(selectBox(id, self.props.boxesById[id]));
+    },
 
     onBoxLevelIncreased: () => self.props.dispatch(increaseBoxLevel()),
 

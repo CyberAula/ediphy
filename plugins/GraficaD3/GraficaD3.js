@@ -1,8 +1,8 @@
 import React from "react";
 import Chart from './components/chart-component';
 import Config from './components/config-component';
+import { ChartContainer } from "./Styles";
 
-require('./_graficaD3.scss');
 /* eslint-disable react/prop-types */
 
 export function GraficaD3() {
@@ -102,7 +102,9 @@ export function GraficaD3() {
         },
         getRenderTemplate: function(state, props) {
             return (
-                <Chart id={props.id} dataProcessed={state.dataProcessed} options={state.options} />
+                <ChartContainer>
+                    <Chart id={props.id} dataProcessed={state.dataProcessed} options={state.options} />
+                </ChartContainer>
             );
 
         },

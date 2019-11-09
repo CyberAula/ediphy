@@ -14,19 +14,18 @@ import { getThemeColors } from "../../../../common/themes/themeLoader";
 
 class EditorCanvasDoc extends Component {
     render() {
-        const { aspectRatio, boxSelected, containedViewSelected, fromCV, lastActionDispatched, navItemSelected,
-            navItems, onToolbarUpdated, pluginToolbars, styleConfig, title, viewToolbars, handleBoxes, handleMarks, handleSortableContainers } = this.props;
+        const { aspectRatio, boxSelected, containedViewsById, containedViewSelected, fromCV, lastActionDispatched, navItemsById, navItemSelected, onToolbarUpdated, pluginToolbarsById, styleConfig, title, viewToolbarsById, handleBoxes, handleMarks } = this.props;
 
         const { onTextEditorToggled, onTitleChanged, onViewTitleChanged } = this.props.handleCanvas;
         const { openConfigModal, openFileModal } = this.props.handleModals;
 
-        const itemSelected = fromCV ? containedViewSelected : navItemSelected;
-        const titles = getTitles(itemSelected, viewToolbars, navItems, fromCV);
+        const itemSelected = fromCV ? containedViewsById[containedViewSelected] : navItemsById[navItemSelected];
+        const titles = getTitles(itemSelected, viewToolbarsById, navItemsById, fromCV);
 
         let itemBoxes = itemSelected ? itemSelected.boxes : [];
         let show = itemSelected && itemSelected.id !== 0;
 
-        let toolbar = viewToolbars[itemSelected.id];
+        let toolbar = viewToolbarsById[itemSelected.id];
         let theme = toolbar && toolbar.theme ? toolbar.theme : styleConfig && styleConfig.theme ? styleConfig.theme : 'default';
         let colors = toolbar && toolbar.colors ? toolbar.colors : getThemeColors(theme);
 
@@ -67,14 +66,8 @@ class EditorCanvasDoc extends Component {
                                     return <EditorBoxSortable
                                         key={id}
                                         id={id}
-                                        handleBoxes = {handleBoxes}
-                                        handleMarks={handleMarks}
-                                        handleSortableContainers={handleSortableContainers}
-                                        onTextEditorToggled={onTextEditorToggled}
                                         pageType={itemSelected.type || 0}
-                                        setCorrectAnswer={this.props.setCorrectAnswer}
                                         page={itemSelected ? itemSelected.id : 0}
-                                        onToolbarUpdated={onToolbarUpdated}
                                         themeColors={colors}
                                     />;
                                 })}
@@ -97,7 +90,7 @@ class EditorCanvasDoc extends Component {
                     onToolbarUpdated={onToolbarUpdated}
                     openFileModal={openFileModal}
                     lastActionDispatched={lastActionDispatched}
-                    pointerEventsCallback={pluginToolbars[boxSelected] && pluginToolbars[boxSelected].config && pluginToolbars[boxSelected].config.name && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name) ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).pointerEventsCallback : null}
+                    pointerEventsCallback={pluginToolbarsById[boxSelected] && pluginToolbarsById[boxSelected].config && pluginToolbarsById[boxSelected].config.name && Ediphy.Plugins.get(pluginToolbarsById[boxSelected].config.name) ? Ediphy.Plugins.get(pluginToolbarsById[boxSelected].config.name).pointerEventsCallback : null}
                     onMarkCreatorToggled={handleMarks.onMarkCreatorToggled}
                 />
             </Col>
@@ -108,8 +101,9 @@ class EditorCanvasDoc extends Component {
 export default connect(mapStateToProps)(EditorCanvasDoc);
 
 function mapStateToProps(state) {
+    const { styleConfig } = state.undoGroup.present;
     return {
-        styleConfig: state.undoGroup.present.styleConfig,
+        styleConfig,
     };
 }
 
@@ -125,7 +119,7 @@ EditorCanvasDoc.propTypes = {
     /**
      * Object containing all views (by id)
      */
-    navItems: PropTypes.object.isRequired,
+    navItemsById: PropTypes.object.isRequired,
     /**
      * Current selected view (by ID)
      */
@@ -135,25 +129,25 @@ EditorCanvasDoc.propTypes = {
      */
     containedViewSelected: PropTypes.any.isRequired,
     /**
+     * Object containing every contained view (by id)
+     */
+    containedViewsById: PropTypes.object.isRequired,
+    /**
      * Course title
      */
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     /**
      * Object containing every view toolbar (by id)
      */
-    viewToolbars: PropTypes.object.isRequired,
+    viewToolbarsById: PropTypes.object.isRequired,
     /**
      * Object containing every plugin toolbar (by id)
      */
-    pluginToolbars: PropTypes.object.isRequired,
+    pluginToolbarsById: PropTypes.object.isRequired,
     /**
      * Last action dispatched in Redux
      */
     lastActionDispatched: PropTypes.any.isRequired,
-    /**
-   * Callback for setting the right answer of an exercise
-   */
-    setCorrectAnswer: PropTypes.func.isRequired,
     /**
    * Callback for updating view toolbar
    */
@@ -182,8 +176,4 @@ EditorCanvasDoc.propTypes = {
      * Collection of callbacks for modals handling
      */
     handleModals: PropTypes.object.isRequired,
-    /**
-     * Collection of callbacks for sortable containers handling
-     */
-    handleSortableContainers: PropTypes.object.isRequired,
 };

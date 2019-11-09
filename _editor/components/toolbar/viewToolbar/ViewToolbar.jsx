@@ -15,14 +15,14 @@ import './_viewToolbar.scss';
 class ViewToolbar extends Component {
 
     render() {
-        const { containedViewSelected, containedViews, styleConfig, navItemSelected, navItems, viewToolbars, exercises } = this.props;
+        const { containedViewSelected, containedViewsById, styleConfig, navItemSelected, navItemsById, viewToolbarsById, exercises } = this.props;
         const id = containedViewSelected !== 0 ? containedViewSelected : navItemSelected;
-        const pageObj = containedViewSelected !== 0 ? containedViews[containedViewSelected] : navItems[navItemSelected];
+        const pageObj = containedViewSelected !== 0 ? containedViewsById[containedViewSelected] : navItemsById[navItemSelected];
         const type = pageObj.type;
         const isContainedView = containedViewSelected !== 0;
 
         const doc_type = this.getDocType(type, id);
-        const viewToolbar = sanitizeThemeToolbar(viewToolbars[id], styleConfig);
+        const viewToolbar = sanitizeThemeToolbar(viewToolbarsById[id], styleConfig);
 
         let controls = {
             main: {
@@ -153,7 +153,7 @@ class ViewToolbar extends Component {
             return (null);
         }
         // when no plugin selected, but new navitem
-        let toolbar = sanitizeThemeToolbar(viewToolbars[id]);
+        let toolbar = sanitizeThemeToolbar(viewToolbarsById[id]);
 
         return Object.keys(controls).map((tabKey, index) => {
             let tab = controls[tabKey];
@@ -167,7 +167,7 @@ class ViewToolbar extends Component {
                                 [accordionKey],
                                 toolbar,
                                 ind,
-                                this.props
+                                this
                             );
                         })}
                     </PanelGroup>
@@ -192,7 +192,7 @@ ViewToolbar.propTypes = {
     /**
      * Object containing all views (by id)
     */
-    navItems: PropTypes.object.isRequired,
+    navItemsById: PropTypes.object.isRequired,
     /**
    *Current selected view (by ID)
    */
@@ -200,7 +200,7 @@ ViewToolbar.propTypes = {
     /**
    * Object containing all contained views (identified by its ID)
    */
-    containedViews: PropTypes.object.isRequired,
+    containedViewsById: PropTypes.object.isRequired,
     /**
    * Selected contained view (by ID)
    */
@@ -212,7 +212,7 @@ ViewToolbar.propTypes = {
     /**
      * Page toolbars
     */
-    viewToolbars: PropTypes.object,
+    viewToolbarsById: PropTypes.object,
     /**
      * Style config params
      */

@@ -8,14 +8,15 @@ import Clipboard from '../../clipboard/Clipboard';
 import { isSlide, isBox } from '../../../../common/utils';
 import { connect } from 'react-redux';
 import { changeBoxLayer, updateUI } from '../../../../common/actions';
+import handleBoxes from "../../../handlers/handleBoxes";
 
 class ActionsRibbon extends Component {
 
     state = { buttons: [], clipboardAlert: false };
-
+    hB = handleBoxes(this);
     isPage = () => {
-        return this.props.containedViews[this.props.containedViewSelected] ? this.props.containedViews[this.props.containedViewSelected] : (
-            this.props.navItems[this.props.navItemSelected] ? this.props.navItems[this.props.navItemSelected] : null
+        return this.props.containedViewsById[this.props.containedViewSelected] ? this.props.containedViewsById[this.props.containedViewSelected] : (
+            this.props.navItemsById[this.props.navItemSelected] ? this.props.navItemsById[this.props.navItemSelected] : null
         );
     };
     /**
@@ -37,7 +38,7 @@ class ActionsRibbon extends Component {
         let slide = page && isSlide(page.type);
         let container = 0;
         let box_layer = page.boxes.indexOf(this.props.boxSelected);
-        let disable_bt = (this.props.boxSelected !== -1 && isBox(this.props.boxes[this.props.boxSelected].parent)) || this.props.boxSelected === -1 || page.boxes.length === 1;
+        let disable_bt = (this.props.boxSelected !== -1 && isBox(this.props.boxesById[this.props.boxSelected].parent)) || this.props.boxSelected === -1 || page.boxes.length === 1;
         let boxes = page.boxes;
 
         // TODO:revisar este código para que puedan funcionar las capas en los documentos (posición absoluta combinada con relativa...mal)
@@ -91,7 +92,7 @@ class ActionsRibbon extends Component {
                         return button(act, ind);}) : null }
                     <Clipboard
                         key="clipboard"
-                        onBoxDeleted={this.props.onBoxDeleted}>
+                        onBoxDeleted={this.hB.onBoxDeleted}>
                         { clipboardActions.map((act, ind)=>{
                             return button(act, ind);
                         })}
@@ -124,16 +125,14 @@ class ActionsRibbon extends Component {
 export default connect(mapStateToProps)(ActionsRibbon);
 
 function mapStateToProps(state) {
+    const { boxesById, boxSelected, containedViewsById, containedViewSelected, navItemSelected, navItemsById } = state.undoGroup.present;
     return {
-        navItemSelected: state.undoGroup.present.navItemSelected,
-        containedViewSelected: state.undoGroup.present.containedViewSelected,
-        boxSelected: state.undoGroup.present.boxSelected,
-        boxes: state.undoGroup.present.boxesById,
-        navItems: state.undoGroup.present.navItemsById,
-        marks: state.undoGroup.present.marksById,
-        exercises: state.undoGroup.present.exercises,
-        containedViews: state.undoGroup.present.containedViewsById,
-        pluginToolbars: state.undoGroup.present.pluginToolbarsById,
+        navItemSelected,
+        containedViewSelected,
+        boxSelected,
+        boxesById,
+        navItemsById,
+        containedViewsById,
         grid: state.reactUI.grid,
     };
 }
@@ -154,11 +153,11 @@ ActionsRibbon.propTypes = {
     /**
      * Object containing all views (by id)
      */
-    navItems: PropTypes.object,
+    navItemsById: PropTypes.object,
     /**
      * Object containing all contained views (identified by its ID)
      */
-    containedViews: PropTypes.object,
+    containedViewsById: PropTypes.object,
     /**
      * Height of the ribbon in px (contains the string px)
      */
@@ -174,9 +173,5 @@ ActionsRibbon.propTypes = {
     /**
      * Object containing all created boxes (by id)
      */
-    boxes: PropTypes.any,
-    /**
-      * Callback for deleting a box
-      */
-    onBoxDeleted: PropTypes.any,
+    boxesById: PropTypes.any,
 };

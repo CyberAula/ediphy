@@ -7,7 +7,7 @@ export default (self) => ({
     onTitleChanged: (id = 'title', titleStr) => self.props.dispatch(changeGlobalConfig(id, titleStr)),
 
     onTextEditorToggled: (caller, value, text, content) => {
-        let pluginToolbar = self.props.pluginToolbars[caller];
+        let pluginToolbar = self.props.pluginToolbarsById[caller];
         if(pluginToolbar && pluginToolbar.pluginId !== "sortable_container") {
             let state = Object.assign({}, pluginToolbar.state, { __text: text });
             let toolbar = Ediphy.Plugins.get(pluginToolbar.pluginId).getToolbar(state);

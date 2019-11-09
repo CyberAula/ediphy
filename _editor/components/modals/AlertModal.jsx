@@ -9,19 +9,19 @@ import ToggleSwitch from "@trendmicro/react-toggle-switch";
 
 class AlertModal extends React.Component {
     render() {
-        const { marks, markInfo, viewToolbars } = this.props;
-        const mark = marks[markInfo];
+        const { marksById, markInfo, viewToolbarsById } = this.props;
+        const mark = marksById[markInfo];
         const cvId = mark ? mark.connection : 0;
 
-        const confirmText = viewToolbars.hasOwnProperty(cvId) && viewToolbars[cvId].viewName ?
-            i18n.t("messages.confirm_delete_CV_also_1") + viewToolbars[cvId].viewName + i18n.t("messages.confirm_delete_CV_also_2")
+        const confirmText = viewToolbarsById.hasOwnProperty(cvId) && viewToolbarsById[cvId].viewName ?
+            i18n.t("messages.confirm_delete_CV_also_1") + viewToolbarsById[cvId].viewName + i18n.t("messages.confirm_delete_CV_also_2")
             : '';
 
         return(
 
-            this.props.show ?
+            this.props.showCVAlert ?
                 <Alert className="pageModal"
-                    show={this.props.show}
+                    show={this.props.showCVAlert}
                     hasHeader
                     title={
                         <span>
@@ -41,20 +41,20 @@ class AlertModal extends React.Component {
     }
 
     close = (bool) => {
-        const { boxes, containedViews, marks, markInfo } = this.props;
-        const mark = marks[markInfo];
+        const { boxesById, containedViewsById, marksById, markInfo } = this.props;
+        const mark = marksById[markInfo];
         const cvId = mark ? mark.connection : 0;
         if (bool && mark) {
             this.props.dispatch(deleteRichMark(mark));
             let deleteAlsoCV = document.getElementById('deleteAlsoCv').classList.toString().indexOf('checked') > 0;
             if(deleteAlsoCV) {
                 let boxesRemoving = [];
-                this.props.containedViews[cvId].boxes.map(boxId => {
+                this.props.containedViewsById[cvId].boxes.map(boxId => {
                     boxesRemoving.push(boxId);
-                    boxesRemoving = boxesRemoving.concat(getDescendantBoxes(boxes[boxId], boxes));
+                    boxesRemoving = boxesByIdRemoving.concat(getDescendantBoxes(boxes[boxId], boxesById));
                 });
 
-                this.props.dispatch(deleteContainedView([cvId], boxesRemoving, containedViews[cvId]));
+                this.props.dispatch(deleteContainedView([cvId], boxesRemoving, containedViewsById[cvId]));
             }
         } else {
 
@@ -65,13 +65,15 @@ class AlertModal extends React.Component {
 }
 
 function mapStateToProps(state) {
+    const { boxesById, containedViewsById, marksById, viewToolbarsById } = state.undoGroup.present;
+    const { showCVAlert, markInfo } = state.reactUI;
     return {
-        marks: state.undoGroup.present.marksById,
-        viewToolbars: state.undoGroup.present.viewToolbarsById,
-        containedViews: state.undoGroup.present.containedViewsById,
-        boxes: state.undoGroup.present.boxesById,
-        show: state.reactUI.showCVAlert,
-        markInfo: state.reactUI.markInfo,
+        marksById,
+        viewToolbarsById,
+        containedViewsById,
+        boxesById,
+        showCVAlert,
+        markInfo,
     };
 }
 
@@ -81,15 +83,15 @@ AlertModal.propTypes = {
     /**
      *  Object containing all created boxes (by id)
      */
-    boxes: PropTypes.object.isRequired,
+    boxesById: PropTypes.object.isRequired,
     /**
      * Redux actions dispatcher
      */
     dispatch: PropTypes.func.isRequired,
     /**
-     * Object containing box marks
+     * Object containing box marksById
      */
-    marks: PropTypes.object,
+    marksById: PropTypes.object,
     /**
      * Id of mark to be deleted
      */
@@ -97,13 +99,13 @@ AlertModal.propTypes = {
     /**
      * Show CV alert
      */
-    show: PropTypes.bool,
+    showCVAlert: PropTypes.bool,
     /**
      * Object containing every view toolbar (by id)
      */
-    viewToolbars: PropTypes.object.isRequired,
+    viewToolbarsById: PropTypes.object.isRequired,
     /**
      * Object containing all contained views (by id)
      */
-    containedViews: PropTypes.object.isRequired,
+    containedViewsById: PropTypes.object.isRequired,
 };

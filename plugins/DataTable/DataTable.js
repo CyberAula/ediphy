@@ -2,7 +2,6 @@ import React from "react";
 import TableComponent from './components/table-component';
 import i18n from 'i18next';
 import Config from './components/config-component';
-require('./_datatable.scss');
 
 export function DataTable(base) {
     return {

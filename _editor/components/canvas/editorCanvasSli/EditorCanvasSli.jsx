@@ -11,7 +11,7 @@ import EditorShortcuts from '../editorShortcuts/EditorShortcuts';
 import Alert from './../../common/alert/Alert';
 import EditorHeader from '../editorHeader/EditorHeader';
 import { getTitles, isSlide } from '../../../../common/utils';
-import { aspectRatio, createBox, instanceExists, changeFontBase } from '../../../../common/commonTools';
+import { aspectRatio as aspectRatioFunction, createBox, instanceExists, changeFontBase } from '../../../../common/commonTools';
 import Ediphy from '../../../../core/editor/main';
 import { SnapGrid } from './SnapGrid';
 import { ID_PREFIX_BOX } from '../../../../common/constants';
@@ -21,6 +21,7 @@ import ThemeCSS from '../../../../common/themes/ThemeCSS';
 import { loadBackgroundStyle } from "../../../../common/themes/backgroundLoader";
 
 import { connect } from "react-redux";
+import _handlers from "../../../handlers/_handlers";
 
 /**
  * EditorCanvasSli component
@@ -34,21 +35,21 @@ class EditorCanvasSli extends Component {
         fontBase: 14,
     };
 
+    h = _handlers(this);
+
     render() {
         // eslint-disable-next-line no-shadow
-        const { aspectRatio, boxSelected, containedViewSelected, fromCV, grid, navItemSelected, navItems, onToolbarUpdated, pluginToolbars,
-            setCorrectAnswer, showCanvas, styleConfig, title, viewToolbars } = this.props;
+        const { boxSelected, containedViewsById, containedViewSelected, fromCV, grid, globalConfig, navItemSelected,
+            navItemsById, pluginToolbarsById, styleConfig, viewToolbarsById } = this.props;
 
-        const { onBoxSelected, onBoxResized, onBoxDeleted } = this.props.handleBoxes;
-        const { onMarkCreatorToggled } = this.props.handleMarks;
-        const { openConfigModal, openFileModal } = this.props.handleModals;
-        const { onTextEditorToggled, onTitleChanged, onViewTitleChanged } = this.props.handleCanvas;
-
-        const itemSelected = fromCV ? containedViewSelected : navItemSelected;
-        const titles = getTitles(itemSelected, viewToolbars, navItems, fromCV);
+        const itemSelected = fromCV ? containedViewsById[containedViewSelected] : navItemsById[navItemSelected];
+        const titles = getTitles(itemSelected, viewToolbarsById, navItemsById, fromCV);
+        const title = globalConfig.title || '---';
+        const aspectRatio = globalConfig.canvasRatio;
         const overlayHeight = this.getOverlayHeight(fromCV);
+        const showCanvas = navItemSelected !== 0;
 
-        let toolbar = viewToolbars[itemSelected.id];
+        let toolbar = viewToolbarsById[itemSelected.id];
         let theme = toolbar && toolbar.theme ? toolbar.theme : styleConfig && styleConfig.theme ? styleConfig.theme : 'default';
         let itemBoxes = itemSelected ? itemSelected.boxes : [];
 
@@ -75,10 +76,7 @@ class EditorCanvasSli extends Component {
                         {gridOn ? <div style={{ zIndex: '-1' }} onClick={this.deselectBoxes}><SnapGrid key={fromCV}/></div> : null}
                         <EditorHeader
                             titles={titles}
-                            onBoxSelected={onBoxSelected}
                             courseTitle={title}
-                            onTitleChanged={onTitleChanged}
-                            onViewTitleChanged={onViewTitleChanged}
                         />
 
                         <br/>
@@ -98,11 +96,6 @@ class EditorCanvasSli extends Component {
                             return <EditorBox
                                 key={id} id={id} grid={gridOn}
                                 page={itemSelected ? itemSelected.id : 0}
-                                handleMarks={this.props.handleMarks}
-                                handleBoxes={this.props.handleBoxes}
-                                onToolbarUpdated={onToolbarUpdated}
-                                onTextEditorToggled={onTextEditorToggled}
-                                setCorrectAnswer={setCorrectAnswer}
                                 themeColors={toolbar.colors ? toolbar.colors : getThemeColors(theme)}
                                 pageType={itemSelected.type || 0}
                             />;
@@ -117,20 +110,20 @@ class EditorCanvasSli extends Component {
                 />
                 <ReactResizeDetector handleWidth handleHeight onResize={this.onResize} />
                 <EditorShortcuts
-                    openConfigModal={openConfigModal}
+                    openConfigModal={this.h.openConfigModal}
                     isContained={fromCV}
-                    onTextEditorToggled={onTextEditorToggled}
-                    onBoxResized={onBoxResized}
-                    onBoxDeleted={onBoxDeleted}
-                    onToolbarUpdated={onToolbarUpdated}
-                    openFileModal={openFileModal}
+                    onTextEditorToggled={this.h.onTextEditorToggled}
+                    onBoxResized={this.h.onBoxResized}
+                    onBoxDeleted={this.h.onBoxDeleted}
+                    onToolbarUpdated={this.h.onToolbarUpdated}
+                    openFileModal={this.h.openFileModal}
                     pointerEventsCallback={
-                        pluginToolbars[boxSelected]
-                        && pluginToolbars[boxSelected].config
-                        && pluginToolbars[boxSelected].config.name
-                        && Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name)
-                            ? Ediphy.Plugins.get(pluginToolbars[boxSelected].config.name).pointerEventsCallback : null}
-                    onMarkCreatorToggled={onMarkCreatorToggled}
+                        pluginToolbarsById[boxSelected]
+                        && pluginToolbarsById[boxSelected].config
+                        && pluginToolbarsById[boxSelected].config.name
+                        && Ediphy.Plugins.get(pluginToolbarsById[boxSelected].config.name)
+                            ? Ediphy.Plugins.get(pluginToolbarsById[boxSelected].config.name).pointerEventsCallback : null}
+                    onMarkCreatorToggled={this.h.onMarkCreatorToggled}
                 />
             </Col>
         );
@@ -167,8 +160,8 @@ class EditorCanvasSli extends Component {
     }
 
     UNSAFE_componentWillUpdate(nextProps, nextState) {
-        if (this.props.aspectRatio !== nextProps.aspectRatio || this.props.navItemSelected !== nextProps.navItemSelected) {
-            window.canvasRatio = nextProps.aspectRatio;
+        if (this.props.globalConfig.canvasRatio !== nextProps.globalConfig.canvasRatio || this.props.navItemSelected !== nextProps.navItemSelected) {
+            window.canvasRatio = nextProps.globalConfig.canvasRatio;
             let calculated = this.aspectRatio(nextProps, nextState);
             this.setState({ fontBase: changeFontBase(calculated.width) });
         }
@@ -181,11 +174,11 @@ class EditorCanvasSli extends Component {
     };
 
     aspectRatio = (props = this.props, state = this.state) => {
-        let ar = props.aspectRatio;
+        let ar = props.globalConfig.canvasRatio;
         let fromCV = props.fromCV;
         let itemSelected = fromCV ? props.containedViewSelected : props.navItemSelected;
         let customSize = itemSelected.customSize;
-        let calculated = aspectRatio(ar, fromCV ? 'airlayer_cv' : 'airlayer', fromCV ? 'containedCanvas' : 'canvas', customSize);
+        let calculated = aspectRatioFunction(ar, fromCV ? 'airlayer_cv' : 'airlayer', fromCV ? 'containedCanvas' : 'canvas', customSize);
         let { width, height, marginTop, marginBottom } = state;
         let current = { width, height, marginTop, marginBottom };
         if (JSON.stringify(calculated) !== JSON.stringify(current)) {
@@ -195,11 +188,11 @@ class EditorCanvasSli extends Component {
     };
 
     getOverlayHeight = (fromCV) => {
-        let maincontent = document.getElementById(fromCV ? "contained_maincontent" : "maincontent");
+        let mainContent = document.getElementById(fromCV ? "contained_maincontent" : "maincontent");
         let actualHeight;
-        if (maincontent) {
-            actualHeight = parseInt(maincontent.scrollHeight, 10);
-            actualHeight = (parseInt(maincontent.clientHeight, 10) < actualHeight) ? (actualHeight) + 'px' : '100%';
+        if (mainContent) {
+            actualHeight = parseInt(mainContent.scrollHeight, 10);
+            actualHeight = (parseInt(mainContent.clientHeight, 10) < actualHeight) ? (actualHeight) + 'px' : '100%';
         }
 
         return actualHeight ? actualHeight : '100%';
@@ -207,7 +200,7 @@ class EditorCanvasSli extends Component {
 
     hideTitle = e => {
         if (e.target === e.currentTarget) {
-            this.props.handleBoxes.onBoxSelected(-1);
+            this.h.onBoxSelected(-1);
             this.setState({ showTitle: false });
         }
         e.stopPropagation();
@@ -257,7 +250,7 @@ class EditorCanvasSli extends Component {
                     return;
                 }
             }
-            let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
+            let itemSelected = this.props.fromCV ? this.props.containedViewsById[this.props.containedViewSelected] : this.props.navItemsById[this.props.navItemSelected];
             let page = itemSelected.id;
             let ids = {
                 parent: page,
@@ -266,13 +259,13 @@ class EditorCanvasSli extends Component {
                 id: (ID_PREFIX_BOX + Date.now()),
                 page: page,
             };
-            createBox(ids, name, true, this.props.handleBoxes.onBoxAdded, this.props.boxes);
+            createBox(ids, name, true, this.h.onBoxAdded, this.props.boxesById);
 
         } else {
-            let boxDragged = this.props.boxes[this.props.boxSelected];
-            let itemSelected = this.props.fromCV ? this.props.containedViewSelected : this.props.navItemSelected;
+            let boxDragged = this.props.boxesById[this.props.boxSelected];
+            let itemSelected = this.props.fromCV ? this.props.containedViewsById[this.props.containedViewSelected] : this.props.navItemsById[this.props.navItemSelected];
             if (boxDragged.parent !== itemSelected.id && (itemSelected.id !== boxDragged.parent || !isSlide(itemSelected.id))) {
-                this.props.handleBoxes.onBoxDropped(this.props.boxSelected,
+                this.h.onBoxDropped(this.props.boxSelected,
                     0, 0, itemSelected.id, 0, boxDragged.parent, boxDragged.container, position);
             }
             let clone = document.getElementById('clone');
@@ -288,14 +281,15 @@ class EditorCanvasSli extends Component {
         this.setState({ fontBase: changeFontBase(calculated.width) });
     };
 
-    deselectBoxes = () => this.props.handleBoxes.onBoxSelected(-1);
+    deselectBoxes = () => this.h.onBoxSelected(-1);
 }
 
 export default connect(mapStateToProps)(EditorCanvasSli);
 
 function mapStateToProps(state) {
+    const { styleConfig } = state.undoGroup.present;
     return {
-        styleConfig: state.undoGroup.present.styleConfig,
+        styleConfig,
     };
 }
 EditorCanvasSli.propTypes = {
@@ -304,13 +298,9 @@ EditorCanvasSli.propTypes = {
      */
     fromCV: PropTypes.bool,
     /**
-     * Canvas show flag in current selected view
-     */
-    showCanvas: PropTypes.bool,
-    /**
      *  Object containing all created boxes (by id)
      */
-    boxes: PropTypes.object.isRequired,
+    boxesById: PropTypes.object.isRequired,
     /**
      * Current Box selected. If there isn't, -1
      */
@@ -318,61 +308,37 @@ EditorCanvasSli.propTypes = {
     /**
      * Object containing all views (by id)
      */
-    navItems: PropTypes.object.isRequired,
+    navItemsById: PropTypes.object.isRequired,
     /**
      * Current selected view (by ID)
      */
     navItemSelected: PropTypes.any.isRequired,
     /**
+     * Object containing all contained views (by id)
+     */
+    containedViewsById: PropTypes.object.isRequired,
+    /**
      * Selected contained view (by ID)
      */
     containedViewSelected: PropTypes.any.isRequired,
     /**
-     * Course title
-     */
-    title: PropTypes.string.isRequired,
-    /**
      * Object containing every view toolbar (by id)
      */
-    viewToolbars: PropTypes.object.isRequired,
+    viewToolbarsById: PropTypes.object.isRequired,
     /**
      * Object containing every plugin toolbar (by id)
      */
-    pluginToolbars: PropTypes.object.isRequired,
+    pluginToolbarsById: PropTypes.object.isRequired,
     /**
      * Whether or not the grid is activated for slides
      */
     grid: PropTypes.bool,
     /**
-   * Function for setting the right answer of an exercise
-   */
-    setCorrectAnswer: PropTypes.func.isRequired,
-    /**
-   * Function that updates the toolbar of a view
-   */
-    onToolbarUpdated: PropTypes.func,
-    /**
-     * Aspect ratio of slides
-     */
-    aspectRatio: PropTypes.number,
-    /**
      * Style config params
      */
     styleConfig: PropTypes.object,
     /**
-     * Collection of callbacks for boxes handling
+     * Config
      */
-    handleBoxes: PropTypes.object.isRequired,
-    /**
-     * Collection of callbacks for marks handling
-     */
-    handleMarks: PropTypes.object.isRequired,
-    /**
-     * Collection of callbacks for modals handling
-     */
-    handleModals: PropTypes.object.isRequired,
-    /**
-     * Collection of callbacks for text and titles handling
-     */
-    handleCanvas: PropTypes.object.isRequired,
+    globalConfig: PropTypes.object,
 };

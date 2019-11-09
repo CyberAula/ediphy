@@ -6,6 +6,7 @@ import help from "../joyride/help.svg";
 import { updateUI } from "../../../common/actions";
 
 import { connect } from "react-redux";
+import handleModals from "../../handlers/handleModals";
 
 class HelpModal extends React.Component {
 
@@ -25,7 +26,7 @@ class HelpModal extends React.Component {
                         <img src={help} alt="" style={{ width: '100%' }}/>
                     </div>
                     <div className={"help_options"}>
-                        <button onClick={this.props.showTour} className={"help_item"}>Paseo de bienvenida a EDiphy</button>
+                        <button onClick={handleModals(this).showTour} className={"help_item"}>Paseo de bienvenida a EDiphy</button>
                         <a href="http://ging.github.io/ediphy/#/manual" target="_blank"><div className={"help_item"}>
                             Si después del paseo inicial te ha quedado alguna duda, consulta nuestro manual de usuario
                         </div></a>
@@ -54,10 +55,6 @@ HelpModal.propTypes = {
      * Redux actions dispatcher
      */
     dispatch: PropTypes.func.isRequired,
-    /**
-     * Show tour
-     */
-    showTour: PropTypes.func,
     /**
      * Show help button
      */

@@ -20,6 +20,7 @@ import ToolbarFileProvider from "../../externalProvider/fileModal/APIProviders/c
 import Select from "react-select";
 import RadioButtonFormGroup from "../radioButtonFormGroup/RadioButtonFormGroup";
 import React from "react";
+import handleModals from "../../../handlers/handleModals";
 
 export const Checkbox = (button, onChange, props) => {
     return (
@@ -46,7 +47,7 @@ export const Color = (button, onChange, props) => {
 };
 
 export const PluginColor = (button, onChange, props, toolbarProps, id) => {
-    let theme = toolbarProps.viewToolbars[id] && toolbarProps.viewToolbars[id].theme ? toolbarProps.viewToolbars[id].theme : 'default';
+    let theme = toolbarProps.viewToolbarsById[id] && toolbarProps.viewToolbarsById[id].theme ? toolbarProps.viewToolbarsById[id].theme : 'default';
     return (
         <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
             <ControlLabel key={'label_' + button.__name}> Color </ControlLabel>
@@ -127,7 +128,7 @@ export const Size = (button, onChange, props, accordionKeys, buttonKey, toolbar_
                     checked={toolbar_plugin_state.structure[buttonKey] === "auto"}
                     onChange={autoSizeChange}/>
                 {/* Disable px size in slides*/}
-                {isSlide(toolbar_props.navItems[toolbar_props.navItemSelected].type) ?
+                {isSlide(toolbar_props.navItemsById[toolbar_props.navItemSelected].type) ?
                     (<span/>) :
                     (<div><br/>
                         <ControlLabel>{i18n.t("Units")}</ControlLabel>
@@ -167,15 +168,16 @@ export const Size = (button, onChange, props, accordionKeys, buttonKey, toolbar_
     return null;
 };
 
-export const External = (button, props, toolbar_props, onChange) => {
+export const External = (button, props, toolbar, onChange) => {
+    let hM = handleModals(toolbar);
     return (
         <ToolbarFileProvider
-            id={toolbar_props.boxSelected}
+            id={toolbar.props.boxSelected}
             key={button.__name}
             formControlProps={props}
-            openModal={toolbar_props.handleModals.openFileModal}
+            openModal={hM.openFileModal}
             buttontext={i18n.t('importFile.title')}
-            fileModalResult={toolbar_props.fileModalResult}
+            fileModalResult={toolbar.props.fileModalResult}
             onChange={onChange}
             accept={button.accept}
             hide={button.hide}

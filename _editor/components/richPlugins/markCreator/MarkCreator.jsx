@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { findBox } from '../../../../common/commonTools';
+import { connect } from 'react-redux';
+import _handlers from "../../../handlers/_handlers";
 
 /**
  * Mark Creator overlay component
  */
-export default class MarkCreator extends React.Component {
+class MarkCreator extends React.Component {
 
     state = {
         onCreation: false,
@@ -15,6 +17,8 @@ export default class MarkCreator extends React.Component {
         promptRes: "",
         modalToggled: false,
     };
+
+    h = _handlers(this);
 
     /**
      * React render component
@@ -35,7 +39,7 @@ export default class MarkCreator extends React.Component {
             let dom_element = ReactDOM.findDOMNode(element);
             let dropableElement = dom_element.getElementsByClassName('dropableRichZone')[0];
 
-            if(!nextState.onCreation && nextProps.markCreatorId !== false && this.props.currentId === nextProps.markCreatorId) {
+            if(!nextState.onCreation && nextProps.markCreatorVisible !== false && this.props.currentId === nextProps.markCreatorVisible) {
                 /* find dropableRichZone*/
 
                 let overlay = document.createElement("div");
@@ -52,7 +56,7 @@ export default class MarkCreator extends React.Component {
                 let cursor_x_offset = 12;
                 let cursor_y_offset = 20;
                 let cursorStyle = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
-                let thisBox = findBox(this.props.markCreatorId);
+                let thisBox = findBox(this.props.markCreatorVisible);
                 if (thisBox) {
                     thisBox.style.cursor = cursorStyle;
                 }
@@ -89,7 +93,7 @@ export default class MarkCreator extends React.Component {
 
                     let value = parseRichMarkInput(x, y, width, height, toolbarState, boxSelected);
                     component.setState({ value: value });
-                    component.props.onRichMarksModalToggled(value, boxSelected);
+                    component.h.onRichMarksModalToggled(value, boxSelected);
                     component.exitFunction();
                 };
 
@@ -126,7 +130,7 @@ export default class MarkCreator extends React.Component {
             overlay.remove();
         }
         dropableElement.classList.remove('rich_overlay');
-        this.props.deleteMarkCreator();
+        this.h.deleteMarkCreator();
         this.setState({ onCreation: false, promptRes: "" });
     };
 
@@ -140,92 +144,25 @@ export default class MarkCreator extends React.Component {
             this.exitFunction();
         }
     };
-
-    /**
-     * Mark name entered callback
-     * @param exit
-     */
-    /* processPrompt = (exit) => {
-        let connectMode = 'new';
-        let title = i18n.t('marks.new_mark');
-        let type = this.props.pageType;
-        let newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
-        let markId = ID_PREFIX_RICH_MARK + Date.now();
-        let marksType = this.props.toolbar && this.props.toolbar.config && this.props.toolbar.config.marksType ? this.props.toolbar.config.marksType : {};
-        let color = marksType.defaultColor || '#222222'; // default dark grey
-        let pageName = nextAvailName(i18n.t('contained_view'), this.props.containedViews);
-        let connection = {
-            id: newId,
-            parent: { [this.props.boxSelected]: [markId] },
-            name: pageName,
-            boxes: [],
-            type: type,
-            extraFiles: {},
-            header: {
-                elementContent: {
-                    documentTitle: pageName,
-                    documentSubtitle: '',
-                    numPage: '' },
-                display: {
-                    courseTitle: 'hidden',
-                    documentTitle: 'expanded',
-                    documentSubtitle: 'hidden',
-                    breadcrumb: "hidden",
-                    pageNumber: "hidden" },
-            },
-        };
-
-        let displayMode = 'navigate';
-
-        let promptRes = this.state.promptRes;// prompt(i18n.t("marks.create_mark"));
-        if (promptRes === null || !exit) {
-            this.exitFunction();
-            return;
-        }
-        if(this.props.toolbar && this.props.toolbar.state && this.props.toolbar.state.__marks) {
-            title = promptRes || nextAvailName(title, this.props.toolbar.state.__marks, 'title');
-        }
-
-        pageName = promptRes || pageName;
-        connection.name = pageName;
-        connection.header.elementContent.documentTitle = pageName;
-
-        let value = this.state.value;
-        this.props.addMarkShortcut({ id: markId, title, connectMode, connection, displayMode, value, color });
-        if(type === PAGE_TYPES.DOCUMENT) {
-            this.props.onBoxAdded({ parent: newId, container: 0, id: ID_PREFIX_SORTABLE_BOX + Date.now() }, false, false);
-        }
-        /!* This is to delete all elements involved *!/
-        this.exitFunction();
-    };*/
-
 }
 
+function mapStateToProps(state) {
+    return {
+        boxes: state.undoGroup.present.boxesById,
+        reactUI: state.reactUI,
+    };
+}
+export default connect(mapStateToProps)(MarkCreator);
+
 MarkCreator.propTypes = {
-    /**
-     * Add a new mark
-     */
-    // addMarkShortcut: PropTypes.func.isRequired,
-    /**
-     * Add a new box (used to add an EditorBoxSortable if a document contained view is created)
-     */
-    // onBoxAdded: PropTypes.func.isRequired,
     /**
      * Selected box
      */
     boxSelected: PropTypes.any.isRequired,
     /**
-     * Object containing all contained views (identified by its ID)
-     */
-    // containedViews: PropTypes.object.isRequired,
-    /**
      * Box selected Toolbar
      */
     toolbar: PropTypes.object.isRequired,
-    /**
-     * Deletes marks creation overlay
-     */
-    deleteMarkCreator: PropTypes.func.isRequired,
     /**
      * Transforms mouse position into coordinates, according to the function described in the plugin definition
      */
@@ -233,13 +170,9 @@ MarkCreator.propTypes = {
     /**
      * Marks creator identifier
      */
-    markCreatorId: PropTypes.any.isRequired,
+    markCreatorVisible: PropTypes.any.isRequired,
     /**
      * Selected box
      */
     currentId: PropTypes.any.isRequired,
-    /**
-     * Type of current page
-     */
-    // pageType: PropTypes.string.isRequired,
 };

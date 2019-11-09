@@ -7,13 +7,17 @@ import ColorPicker from "../../common/colorPicker/ColorPicker";
 
 import { handleCanvasToolbar } from "../../../../core/editor/toolbar/handleCanvasToolbar";
 import { isColor, isSlide, isURI } from "../../../../common/utils";
+import _handlers from "../../../handlers/_handlers";
 /* eslint-disable react/prop-types */
-export const BackgroundPicker = (button, props, toolbarProps, id, defaultBackground, onChange) => {
+export const BackgroundPicker = (button, props, toolbar, id, defaultBackground, onChange) => {
 
-    let isSli = isSlide(toolbarProps.navItems[id].type);
-    let background_attr = toolbarProps.viewToolbars[id].backgroundAttr;
-    let background_attr_zoom = toolbarProps.viewToolbars[id].backgroundZoom ?? 100;
+    const isSli = isSlide(toolbar.props.navItemsById[id].type);
+    const isBackURI = isURI(props.value.background);
+    const isBackColor = isColor(props.value.background);
 
+    const { backgroundAttr, backgroundZoom = 100 } = toolbar.props.viewToolbarsById[id];
+
+    let h = _handlers(toolbar);
     const ImageDisplay = (options) => {
         return (
             <div key={'radioDislay'}>
@@ -21,8 +25,8 @@ export const BackgroundPicker = (button, props, toolbarProps, id, defaultBackgro
                     return (
                         <Radio key={i + '_' + option}
                             name={'image_display'}
-                            checked={background_attr === option}
-                            style={{ display: isColor ? "none" : "block" }}
+                            checked={backgroundAttr === option}
+                            style={{ display: isBackColor ? "none" : "block" }}
                             onChange={onChange} value={option}>
                             {i18n.t(`background.${option}`)}
                         </Radio>
@@ -35,19 +39,19 @@ export const BackgroundPicker = (button, props, toolbarProps, id, defaultBackgro
         <div key={'container_' + button.__name} style={{ display: 'block' }}>
             <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
                 <ToolbarFileProvider
-                    id={toolbarProps.navItemSelected}
+                    id={toolbar.props.navItemSelected}
                     key={button.__name}
                     formControlProps={{ ...props }}
                     label={'URL'}
-                    value={(isURI || isColor || (props.value?.match && !props.value.match('http'))) ? '' : props.value.background}
-                    openModal={toolbarProps.handleModals.openFileModal}
-                    fileModalResult={toolbarProps.fileModalResult}
+                    value={(isBackURI || isBackColor || (props.value?.match && !props.value.match('http'))) ? '' : props.value.background}
+                    openModal={h.openFileModal}
+                    fileModalResult={toolbar.props.fileModalResult}
                     buttontext={i18n.t('importFile.title')}
                     onChange={onChange}
                     accept={"image/*"}
                 />
             </FormGroup>
-            {!isColor && ImageDisplay(['full', 'repeat', 'centered'])}
+            {!isColor(props.value.background) && ImageDisplay(['full', 'repeat', 'centered'])}
         </div>
     );
     return (
@@ -55,15 +59,15 @@ export const BackgroundPicker = (button, props, toolbarProps, id, defaultBackgro
             <ControlLabel key={'label1_' + button.__name}>{i18n.t('background.backgroundColor')}</ControlLabel>
             <ColorPicker
                 key={'cpicker_' + props.label}
-                value={(isColor && props.value) ? props.value.background : defaultBackground}
+                value={(isBackColor && props.value) ? props.value.background : defaultBackground}
                 onChange={onChange}
             />
             {isSli && ImagePicker}
-            {(!isColor && background_attr !== "full") && [
+            {(!isBackColor && backgroundAttr !== "full") && [
                 <ControlLabel key={'label_zoom'}>{i18n.t('background.backgroundZoom')}</ControlLabel>,
-                <span className="rangeOutput" style={{ marginTop: 0 }}>{background_attr_zoom}%</span>,
+                <span className="rangeOutput" style={{ marginTop: 0 }}>{backgroundZoom}%</span>,
                 <input key="image_display_zoom" name='image_display_zoom' type='range' min={1} max={200}
-                    value={background_attr_zoom} style={{ display: isColor ? "none" : "block" }}
+                    value={backgroundZoom} style={{ display: isBackColor ? "none" : "block" }}
                     onChange={onChange}/>,
             ]}
             <br key={'br'}/>
@@ -76,7 +80,7 @@ export const BackgroundPicker = (button, props, toolbarProps, id, defaultBackgro
     );
 };
 
-export function handleBackground(e, toolbarProps, accordion, buttonKey, commitChanges, button, id) {
+export function handleBackground(e, toolbar, accordion, buttonKey, commitChanges, button, id) {
     let value;
     if (e.color) {
         value = { background: e.color, backgroundAttr: 'full', backgroundZoom: 100, customBackground: true };
@@ -108,7 +112,7 @@ export function handleBackground(e, toolbarProps, accordion, buttonKey, commitCh
     if (e.target?.name === "image_display_zoom") {
         value = {
             background: button.value.background,
-            backgroundAttr: (toolbarProps.viewToolbars[id].backgroundAttr) ? toolbarProps.viewToolbars[id].backgroundAttr : 'repeat',
+            backgroundAttr: (toolbar.props.viewToolbarsById[id].backgroundAttr) ? toolbar.props.viewToolbarsById[id].backgroundAttr : 'repeat',
             backgroundZoom: e.target.value,
         };
     }
@@ -128,7 +132,7 @@ export function handleBackground(e, toolbarProps, accordion, buttonKey, commitCh
                         backgroundAttr: 'full',
                         backgroundZoom: 100,
                         customBackground: true,
-                    }, accordion, toolbarProps);
+                    }, accordion, toolbar);
                 };
                 img.src = data;
             };

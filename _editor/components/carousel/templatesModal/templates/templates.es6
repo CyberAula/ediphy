@@ -1,5 +1,5 @@
 import i18n from 'i18next';
-export const templates = (theme = 'default') => { return (
+export const templates = () => { return (
     [{
         "name": i18n.t('templates.template1'),
         "boxes": [

@@ -1,5 +1,6 @@
 import React from "react";
-import { ResponsiveContainer, PieChart, AreaChart, BarChart, LineChart, Pie, Area, Bar, Line, XAxis, YAxis, CartesianGrid, Legend, Tooltip } from "recharts";
+import { ResponsiveContainer, PieChart, AreaChart, BarChart, LineChart, Pie, Area, Bar, Line, XAxis, YAxis,
+    CartesianGrid, Legend, Tooltip } from "recharts";
 /* eslint-disable react/prop-types */
 
 export default class Chart extends React.Component {

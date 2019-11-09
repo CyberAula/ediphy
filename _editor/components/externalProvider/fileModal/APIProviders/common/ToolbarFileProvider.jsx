@@ -3,35 +3,27 @@ import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 export default class ToolbarFileProvider extends Component {
-    /**
-     * Constructor
-     * @param props
-     */
-    constructor(props) {
-        super(props);
-        this.index = 0;
-    }
 
     /**
      * Render React Component
      * @returns {XML}
      */
     render() {
-        let bckg = this.props.formControlProps ? (this.props.value !== undefined ? this.props.value : this.props.formControlProps.value) : null;
-        let isURI = (/data\:/).test(bckg);
-        let props = { ...this.props.formControlProps,
-            placeholder: isURI ? 'http://...' : '',
-            value: isURI ? '' : bckg };
-        return (<FormGroup style={{ display: this.props.hide ? "none" : "block" }}>
-            {this.props.formControlProps ? [<ControlLabel key={1}>{props.label}</ControlLabel>,
-                <FormControl key={2}{...props} onChange={e => {
-                    this.props.onChange({ value: e.target.value });
-                }}/>] : null}
-            <Button className={'toolbarButton'}
-                onClick={() => {
-                    this.props.openModal(this.props.id, this.props.accept);
-                }}>{this.props.buttontext}</Button>
-        </FormGroup>);
+        const { accept, buttontext, formControlProps, hide, id, value, onChange, openModal } = this.props;
+        const bckg = value ?? formControlProps?.value ?? null;
+        const isURI = (/data\:/).test(bckg);
+        const props = { ...formControlProps, placeholder: isURI ? 'http://...' : '', value: isURI ? '' : bckg };
+        return (
+            <FormGroup style={{ display: hide ? "none" : "block" }}>
+                {formControlProps ? [<ControlLabel key={1}>{props.label}</ControlLabel>,
+                    <FormControl key={2}{...props} onChange={e => {
+                        onChange({ value: e.target.value });
+                    }}/>] : null}
+                <Button className={'toolbarButton'}
+                    onClick={() => {
+                        openModal(id, accept);
+                    }}>{buttontext}</Button>
+            </FormGroup>);
     }
     UNSAFE_componentWillReceiveProps(nextProps) {
         if(nextProps.id === nextProps.fileModalResult?.id

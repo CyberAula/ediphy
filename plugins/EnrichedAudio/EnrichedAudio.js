@@ -2,7 +2,6 @@ import React from "react";
 import EnrichedAudioPluginEditor from './components/EnrichedAudioPluginEditorWS.js';
 import i18n from 'i18next';
 import { convertSecondsToHMS } from "../../common/commonTools";
-require('./EnrichedAudio.scss');
 /* eslint-disable react/prop-types */
 
 export function EnrichedAudio(base) {
@@ -130,9 +129,7 @@ export function EnrichedAudio(base) {
             if (state.url.match(/^https?\:\/\/api.soundcloud.com\//g)) {
                 return <iframe style={{ pointerEvents: 'none' }} width="100%" height="100%" scrolling="no" frameBorder="no" allow="autoplay" src={"https://w.soundcloud.com/player/?url=" + encodeURI(state.url) + "&color=%2317cfc8&auto_play=false&hide_related=true&show_comments=true&show_user=false&show_reposts=false&show_teaser=false&visual=" + (state.waves ? "false" : "true")} />;
             }
-            return (<div style={{ height: "100%", width: "100%", overflow: "hidden" }}>
-                <EnrichedAudioPluginEditor style={{ width: "100%", height: "100%" }} base={base} props={props} state={state}/>
-            </div>
+            return (<EnrichedAudioPluginEditor style={{ width: "100%", height: "100%" }} base={base} props={props} state={state}/>
             );
 
         },
@@ -142,7 +139,7 @@ export function EnrichedAudio(base) {
         },
         parseRichMarkInput: function(x, y, width, height, toolbarState, boxId) {
             let parsed_value = (x + 10) / width;
-            let duration = $("#box-" + boxId + " .basic-audio-wrapper").attr("duration");
+            let duration = $("#box-" + boxId + " .basic-audio-wrapper .duration").attr("duration");
             return convertSecondsToHMS(duration * parsed_value);
         },
         validateValueInput: function(value) {

@@ -170,7 +170,7 @@ function mapStateToProps(state) {
         reactUI: state.reactUI,
         navItemSelected: state.undoGroup.present.navItemSelected,
         isBusy: state.undoGroup.present.isBusy,
-        undoDisabled: state.undoGroup.present.undoDisabled,
+        undoDisabled: state.undoGroup.past.length === 0,
     };
 }
 

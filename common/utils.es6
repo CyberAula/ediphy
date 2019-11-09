@@ -1,6 +1,17 @@
-import { ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_FILE,
-    ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_SORTABLE_CONTAINER, PAGE_TYPES } from './constants';
-import { createBox } from "./commonTools";
+import {
+    ID_PREFIX_BOX,
+    ID_PREFIX_CONTAINED_VIEW,
+    ID_PREFIX_FILE,
+    ID_PREFIX_PAGE,
+    ID_PREFIX_SECTION,
+    ID_PREFIX_SORTABLE_BOX,
+    ID_PREFIX_SORTABLE_CONTAINER,
+    PAGE_TYPES,
+} from './constants';
+import { createBox, releaseClick } from "./commonTools";
+import Ediphy from "../core/editor/main";
+import i18n from "i18next";
+import { isURL } from "../_editor/components/clipboard/clipboard.utils";
 
 export default {
     // This would be a good post to explore if we don't want to use JSON Stringify: http://stackoverflow.com/questions/728360/how-do-i-correctly-clone-a-javascript-object
@@ -128,6 +139,7 @@ export function deleteProp(object, key) {
     // rest of properties are stored in a new object (rest) -> state is not mutated!!
 
     let {
+        // eslint-disable-next-line no-unused-vars
         [key]: omit,
         ...rest
     } = object;
@@ -423,8 +435,7 @@ export function dataURItoBlob(dataURI) {
     }
 
     // write the ArrayBuffer to a blob, and you're done
-    let blob = new Blob([ab], { type: mimeString });
-    return blob;
+    return new Blob([ab], { type: mimeString });
 
 }
 
@@ -529,9 +540,82 @@ export function makeBoxes(boxes, newId, props) {
 export function getIndex(parent, container, props) {
     let newInd;
     if(isSortableContainer(container)) {
-        let children = props.boxes[parent].sortableContainers[container].children;
+        let children = props.boxesById[parent].sortableContainers[container].children;
         newInd = children.indexOf(props.boxSelected) + 1;
         newInd = newInd === 0 ? 1 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
     }
     return newInd;
+}
+
+export function getIndexFromPoint(boxes, parent, container, x, y, forbidden, currentBox) {
+    let rc = document.elementFromPoint(x, y);
+    let children = boxes[parent].sortableContainers[container].children;
+    let bid = releaseClick(rc, 'box-');
+    let newInd = children.indexOf(bid);
+    if (forbidden) {
+        newInd = children.indexOf(currentBox);
+    }
+    return newInd === 0 ? 0 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
+}
+
+export function isComplex(pluginName) {
+    let plug = Ediphy.Plugins.get(pluginName);
+    return plug && (plug.getConfig().isComplex || plug.getConfig().category === 'evaluation');
+}
+
+export function get_browser() {
+    let ua = navigator.userAgent, tem, M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+    if((/trident/i).test(M[1])) {
+        tem = (/\brv[ :]+(\d+)/g).exec(ua) || [];
+        return { name: 'IE', version: (tem[1] || '') };
+    }
+    if(M[1] === 'Chrome') {
+        tem = ua.match(/\bOPR|Edge\/(\d+)/);
+        if(tem !== null) {return { name: 'Opera', version: tem[1] };}
+    }
+    M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
+    if((tem = ua.match(/version\/(\d+)/i)) !== null) {M.splice(1, 1, tem[1]);}
+    return {
+        name: M[0],
+        version: M[1],
+    };
+}
+
+export function checkFeedback(pluginName, props) {
+    let feedbackText = props.toolbars[props.boxes[props.id].sortableContainers['sc-Feedback'].children[0]].state.__text;
+    return !props.boxes[props.id].sortableContainers['sc-Feedback'].children ||
+        props.boxes[props.id].sortableContainers['sc-Feedback'].children.length === 0 ||
+        feedbackText === "<p>" + i18n.t("text_here") + "</p>" ||
+        feedbackText === encodeURI("<p>" + i18n.t("text_here") + "</p>") ||
+        feedbackText === encodeURI("<p>" + i18n.t("text_here") + "</p>\n") ||
+        feedbackText === encodeURI('<p>' + i18n.t(`${pluginName}.FeedbackMsg`) + '</p>\n') ||
+        feedbackText === '<p>' + i18n.t(`${pluginName}.FeedbackMsg`) + '</p>';
+}
+
+export function getScore(pluginName, props) {
+    let score = props.exercises.score || 0;
+    score = Math.round(score * 100) / 100;
+    return (props.exercises.weight === 0) ? i18n.t(`${pluginName}.notCount`) : ((score) + "/" + (props.exercises.weight));
+}
+
+export function removeLastChar(s) {
+    return (!s || s.length === 0) ? s : s.substring(0, s.length - 1);
+}
+
+// Checks if link is provided. If so, it formats it to 'http://www...' in case it was 'www...'. Returns false if no link is provided.
+export function checkHyperlink(hyperlink) {
+    if (hyperlink === null || hyperlink === undefined) {
+        return false;
+    }
+    hyperlink = hyperlink.replace(/\s/g, "");
+    if (hyperlink === "") {
+        return false;
+    }
+    if (hyperlink.substring(0, 4) === "www.") {
+        hyperlink = "http://" + hyperlink;
+    }
+    if (isURL(hyperlink)) {
+        return hyperlink;
+    }
+    return false;
 }

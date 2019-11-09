@@ -12,17 +12,21 @@ import { renderAccordion } from "../../../../core/editor/toolbar/toolbarRenderer
 import { blurCKEditor } from '../../../../common/commonTools';
 
 import './_pluginToolbar.scss';
+import _handlers from "../../../handlers/_handlers";
 
 /**
  * Toolbar component for configuring boxes or pages
  */
 export default class PluginToolbar extends Component {
+
+    h = _handlers(this);
+
     /**
      * Render React component
      * @returns {code}
      */
     render() {
-        let toolbar = this.props.pluginToolbars[this.props.box.id];
+        let toolbar = this.props.pluginToolbarsById[this.props.box.id];
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
         let config = apiPlugin ? apiPlugin.getConfig() : {};
         let controls = apiPlugin ? apiPlugin.getToolbar(toolbar.state) : {};
@@ -51,7 +55,7 @@ export default class PluginToolbar extends Component {
                         className={toolbar.showTextEditor ? 'toolbarButton textediting' : 'toolbarButton'}
                         onClick={() => {
                             blurCKEditor(toolbar.id, (text, content)=>{
-                                this.props.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, text, content);});
+                                this.h.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, text, content);});
                         }}>
                         <i className="toolbarIcons material-icons">mode_edit</i>
                         {i18n.t("edit_text")}1
@@ -91,7 +95,7 @@ export default class PluginToolbar extends Component {
                                 [accordionKey],
                                 controls,
                                 ind,
-                                this.props
+                                this
                             );
                         })}
                         { children.map((id, ind) => {
@@ -112,11 +116,11 @@ export default class PluginToolbar extends Component {
                                             <GridConfigurator id={id}
                                                 parentId={this.props.box.id}
                                                 container={container}
-                                                onColsChanged={this.props.handleBoxes.onColsChanged}
-                                                onRowsChanged={this.props.handleBoxes.onRowsChanged}
+                                                onColsChanged={this.h.onColsChanged}
+                                                onRowsChanged={this.h.onRowsChanged}
                                                 sortableProps={this.props.box.sortableContainers[id]}
-                                                onSortablePropsChanged={this.props.handleSortableContainers.onSortablePropsChanged}
-                                                onSortableContainerResized={this.props.handleSortableContainers.onSortableContainerResized}/>
+                                                onSortablePropsChanged={this.h.onSortablePropsChanged}
+                                                onSortableContainerResized={this.h.onSortableContainerResized}/>
                                         </Panel.Body>
                                     </Panel>);
                             }
@@ -138,25 +142,13 @@ PluginToolbar.propTypes = {
    */
     box: PropTypes.object,
     /**
-     * Collection of callbacks for sortable containers handling
-     */
-    handleSortableContainers: PropTypes.object.isRequired,
-    /**
-     * Collection of callbacks for boxes handling
-     */
-    handleBoxes: PropTypes.object.isRequired,
-    /**
-   * Callback for toggling the CKEDitor
-   */
-    onTextEditorToggled: PropTypes.func.isRequired,
-    /**
      * Callback for opening global configuration modal
      */
     openConfigModal: PropTypes.func,
     /**
      * Plugin toolbars
      */
-    pluginToolbars: PropTypes.object,
+    pluginToolbarsById: PropTypes.object,
     /**
      * Object containing all exercises
      */

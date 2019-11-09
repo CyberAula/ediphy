@@ -11,10 +11,10 @@ export default (self) => ({
 
     onContainedViewDeleted: (cvid) => {
         let boxesRemoving = [];
-        self.props.containedViews[cvid].boxes.map(boxId => {
+        self.props.containedViewsById[cvid].boxes.map(boxId => {
             boxesRemoving.push(boxId);
-            boxesRemoving = boxesRemoving.concat(getDescendantBoxes(self.props.boxes[boxId], self.props.boxes));
+            boxesRemoving = boxesRemoving.concat(getDescendantBoxes(self.props.boxesById[boxId], self.props.boxesById));
         });
-        self.props.dispatch(deleteContainedView([cvid], boxesRemoving, self.props.containedViews[cvid].parent));
+        self.props.dispatch(deleteContainedView([cvid], boxesRemoving, self.props.containedViewsById[cvid].parent));
     },
 });

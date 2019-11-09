@@ -2,31 +2,27 @@ import React from 'react';
 import { convertHMStoSeconds, pad, setRgbaAlpha } from '../../../common/commonTools';
 import ReactWavesurfer from 'react-wavesurfer';
 import Mark from '../../../common/components/mark/Mark';
+import { AudioPlugin, WaveSurferContainer, VisorControls, Duration, AudioMark, MarkBar, Volume, Play } from "../Styles";
 /* eslint-disable react/prop-types */
 
 export default class BasicAudioPlugin extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            pos: 0,
-            posPctg: 0,
-            volume: 0.5,
-            controls: true,
-            duration: 1,
-            waves: this.props.state.waves,
-            autoplay: this.props.state.autoplay,
-            ondas: null,
-            toBeTriggered: [],
-            triggering: false,
-            playedSeconds: 0,
-        };
-    }
+    state = {
+        pos: 0,
+        posPctg: 0,
+        volume: 0.5,
+        controls: true,
+        duration: 1,
+        waves: this.props.state.waves,
+        autoplay: this.props.state.autoplay,
+        ondas: null,
+        toBeTriggered: [],
+        triggering: false,
+        playedSeconds: 0,
+    };
 
-    handleTogglePlay() {
-        this.setState({ playing: !this.state.playing });
-    }
+    handleTogglePlay = () => this.setState({ playing: !this.state.playing });
 
-    handlePosChange(e) {
+    handlePosChange = e => {
         try {
             if (e.wavesurfer.backend.ac.currentTime) {
             }
@@ -38,19 +34,11 @@ export default class BasicAudioPlugin extends React.Component {
             // eslint-disable-next-line no-console
             console.error(err);
         }
-    }
+    };
 
-    handleVolumeChange(e) {
-        this.setState({
-            volume: +e.target.value,
-        });
-    }
+    handleVolumeChange = e => this.setState({ volume: +e.target.value });
 
-    onProgress(state) {
-        this.setState(state);
-    }
-
-    onReady(e) {
+    onReady = e => {
         let pos = this.state.pos;
         let posPctg = 0;
         let duration = e.wavesurfer.backend.buffer.duration;
@@ -62,7 +50,6 @@ export default class BasicAudioPlugin extends React.Component {
                 // eslint-disable-next-line no-console
                 console.log(_e);
             }
-
         }
         this.setState({
             duration,
@@ -75,8 +62,7 @@ export default class BasicAudioPlugin extends React.Component {
             waveColor: e.wavesurfer.params.waveColor,
             progressColor: e.wavesurfer.params.progressColor,
         });
-
-    }
+    };
     UNSAFE_componentWillUpdate(nextProps, nextState) {
         if(nextState.pos !== this.state.pos) {
             let prevPos = parseFloat(this.state.pos).toFixed(3);
@@ -138,6 +124,9 @@ export default class BasicAudioPlugin extends React.Component {
             height: this.props.state.waves ? 128 : 0,
         };
 
+        const playIcon = this.state.playing ? <i className="material-icons">pause</i>
+            : <i className="material-icons">play_arrow</i>;
+
         /* Podemos pasar una devolución de llamada en los refs*/
         let marks = this.props.props.marks || {};
         let markElements = Object.keys(marks).map((id) =>{
@@ -151,7 +140,7 @@ export default class BasicAudioPlugin extends React.Component {
             let noTrigger = false;
             let isVisor = true;
             return(
-                <div key={id} className="audioMark" style={{ background: markColor || themeColor || "#17CFC8", left: value, position: "absolute" }} >
+                <AudioMark key={id} style={{ background: markColor || themeColor || "#17CFC8", left: value, position: "absolute" }} >
                     <Mark style={{ position: 'relative', top: "-1.7em", left: "-1em" }}
                         color={markColor || themeColor || "#17CFC8"}
                         idKey={id}
@@ -161,45 +150,41 @@ export default class BasicAudioPlugin extends React.Component {
                         markConnection={marks[id].connection}
                         noTrigger={noTrigger}
                         onMarkClicked={()=>{this.props.props.onMarkClicked(this.props.props.id, marks[id].value, true);}}/>
-                </div>
+                </AudioMark>
             );
         });
 
         return (
-            <div className="basic-audio-wrapper"
+            <AudioPlugin
                 ref={player_wrapper => {this.player_wrapper = player_wrapper;}}
                 style={{ width: "100%", height: "100%", pointerEvents: "auto" }}>
-                <div>
-
-                    <div className="markBar"> {markElements}</div>
-                    <div className="react-wavesurfer" duration={this.state.duration} style={{ width: "100%", height: "100%" }}>
-                        <ReactWavesurfer
-                            style={{ width: "100%", height: "100%" }}
-                            height="100%"
-                            width="100%"
-                            audioFile={this.props.state.url}
-                            playing={this.state.playing}
-                            volume={this.state.volume}
-                            options={waveOptions}
-                            pos={this.state.pos}
-                            onPosChange={this.handlePosChange.bind(this)}
-                            onReady= {this.onReady.bind(this)}
-                            onPlay={() => this.setState({ playing: true })}
-                            onPause={() => this.setState({ playing: false })}
-                            onFinish={() => this.setState({ playing: false })}
-                        />
-                    </div>
-                </div>
-                <div>
-                    {(this.props.state.controls) && (
-                        <div className="audio-controls visorControls" style={{ pointerEvents: 'auto' }}>
-                            <button className="play-audio-button" onClick={this.handleTogglePlay.bind(this)} style={{ zIndex: 9999 }}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</button>
-                            <div className="durationField">{ Math.trunc(this.state.pos / 60) + ":" + pad(Math.trunc(this.state.pos % 60)) + "/" + Math.trunc(this.state.duration / 60) + ":" + pad(Math.trunc(this.state.duration % 60))}</div>
-                            <input className="volume-audio-input " type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.handleVolumeChange.bind(this)} />
-                        </div>
-                    )}
-                </div>
-            </div>
+                <MarkBar> {markElements}</MarkBar>
+                <div className={'duration'} duration={this.state.duration} style={{ display: 'none' }}/>
+                <WaveSurferContainer duration={this.state.duration} style={{ width: "100%", height: "100%" }}>
+                    <ReactWavesurfer
+                        style={{ width: "100%", height: "100%" }}
+                        height="100%"
+                        width="100%"
+                        audioFile={this.props.state.url}
+                        playing={this.state.playing}
+                        volume={this.state.volume}
+                        options={waveOptions}
+                        pos={this.state.pos}
+                        onPosChange={this.handlePosChange.bind(this)}
+                        onReady= {this.onReady.bind(this)}
+                        onPlay={() => this.setState({ playing: true })}
+                        onPause={() => this.setState({ playing: false })}
+                        onFinish={() => this.setState({ playing: false })}
+                    />
+                </WaveSurferContainer>
+                {(this.props.state.controls) && (
+                    <VisorControls className="audio-controls visorControls" style={{ pointerEvents: 'auto' }}>
+                        <Play onClick={this.handleTogglePlay.bind(this)}>{playIcon}</Play>
+                        <Duration>{ Math.trunc(this.state.pos / 60) + ":" + pad(Math.trunc(this.state.pos % 60)) + "/" + Math.trunc(this.state.duration / 60) + ":" + pad(Math.trunc(this.state.duration % 60))}</Duration>
+                        <Volume value={this.state.volume} onChange={this.handleVolumeChange.bind(this)} />
+                    </VisorControls>
+                )}
+            </AudioPlugin>
         );
     }
 }
