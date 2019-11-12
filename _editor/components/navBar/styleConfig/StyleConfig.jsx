@@ -17,7 +17,6 @@ import '@trendmicro/react-toggle-switch/dist/react-toggle-switch.css';
 
 // Styles
 import 'react-select/dist/react-select.css';
-import './_globalConfig.scss';
 import { getThemeFont } from "../../../../common/themes/themeLoader";
 import ThemePreview from "../../../../common/themes/ThemePreview";
 import TransitionPicker from "../../common/transitionPicker/TransitionPicker";
