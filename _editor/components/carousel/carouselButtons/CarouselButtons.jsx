@@ -6,7 +6,8 @@ import { Tooltip, Button, OverlayTrigger, Popover, Overlay } from 'react-bootstr
 import {
     addNavItem,
     selectIndex,
-    deleteContainedView, deleteNavItem } from '../../../../common/actions';
+    deleteContainedView, deleteNavItem,
+} from '../../../../common/actions';
 
 import { ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, PAGE_TYPES } from '../../../../common/constants';
 import { isSection, isContainedView, getDescendantLinkedBoxes, getDescendantBoxes, getDescendantViews } from '../../../../common/utils';
@@ -14,6 +15,8 @@ import { connect } from 'react-redux';
 import './_carouselButtons.scss';
 import TemplatesModal from "../templatesModal/TemplatesModal";
 import _handlers from "../../../handlers/_handlers";
+import { CarouselButton } from './Styles';
+import { PopoverButton } from '../Styles';
 
 /**
  * Ediphy CarouselButtons Component
@@ -65,13 +68,13 @@ class CarouselButtons extends Component {
         let parent = this.getParent();
         let ids = this.props.navItemsIds;
         // If we are at top level, the new navItem it's always going to be in last position
-        if(parent.id === 0) {
+        if (parent.id === 0) {
             return ids.length;
         }
 
         // Starting after item's parent, if level is the same or lower -> we found the place we want
-        for(let i = ids.indexOf(parent.id) + 1; i < ids.length; i++) {
-            if(ids[i] && this.props.navItemsById[ids[i]].level <= parent.level) {
+        for (let i = ids.indexOf(parent.id) + 1; i < ids.length; i++) {
+            if (ids[i] && this.props.navItemsById[ids[i]].level <= parent.level) {
                 return i;
             }
         }
@@ -137,7 +140,7 @@ class CarouselButtons extends Component {
                 name: "delete",
                 disabled: indexSelected === 0,
                 onClick: () => this.setState({ showOverlay: true }),
-                ref: button => {this.overlayTarget = button;},
+                ref: button => { this.overlayTarget = button; },
                 style: { float: 'right' },
                 icon: "delete",
 
@@ -149,14 +152,14 @@ class CarouselButtons extends Component {
                 {
                     buttons.map(button => {
                         return <OverlayTrigger key={button.name} placement="top" overlay={<Tooltip id="duplicateNavTooltip">{button.tooltip}</Tooltip>}>
-                            <Button className="carouselButton"
+                            <CarouselButton
                                 name={button.name}
                                 disabled={button.disabled}
                                 onClick={button.onClick}
                                 ref={button.ref}
                                 style={button.style}>
                                 <i className="material-icons">{button.icon}</i>
-                            </Button>
+                            </CarouselButton>
                         </OverlayTrigger>;
                     })
                 }
@@ -174,23 +177,23 @@ class CarouselButtons extends Component {
                         <i style={{ color: 'yellow', fontSize: '13px', padding: '0 5px' }} className="material-icons">warning</i>
                         {isSection(indexSelected) ? i18n.t("messages.delete_section") :
                             (isContainedView(indexSelected) && !this.canDeleteContainedView(indexSelected)) ? i18n.t("messages.delete_busy_cv") : i18n.t("messages.delete_page")}
-                        <br/>
-                        <br/>
-                        <Button className="popoverButton"
+                        <br />
+                        <br />
+                        <PopoverButton
                             name="popoverCancelButton"
                             disabled={indexSelected === 0}
                             onClick={() => this.setState({ showOverlay: false })}
                             style={{ float: 'right' }} >
                             {i18n.t("Cancel")}
-                        </Button>
+                        </PopoverButton>
 
-                        <Button className="popoverButton"
+                        <PopoverButton
                             name="popoverAcceptButton"
                             disabled={indexSelected === 0}
                             style={{ float: 'right' }}
                             onClick={this.deleteItem}>
                             {i18n.t("Accept")}
-                        </Button>
+                        </PopoverButton>
                         <div style={{ clear: "both" }} />
                     </Popover>
                 </Overlay>
@@ -201,11 +204,12 @@ class CarouselButtons extends Component {
                     boxesById={boxesById}
                     onNavItemAdded={(id, name, type, color, num, extra) => {
                         this.h.onNavItemAdded(id, name, this.getParent().id, type, this.calculatePosition(), color, num, extra);
-                        this.expandSiblings(this.getParent().id);}}
+                        this.expandSiblings(this.getParent().id);
+                    }}
                     onIndexSelected={this.h.onIndexSelected}
                     indexSelected={indexSelected}
                     onBoxAdded={this.h.onBoxAdded}
-                    calculatePosition={this.calculatePosition}/>
+                    calculatePosition={this.calculatePosition} />
             </div>
         );
     }
@@ -249,21 +253,21 @@ class CarouselButtons extends Component {
 
     deleteItem = () => {
         const { boxesById, containedViewsById, indexSelected, navItemsById } = this.props;
-        if(indexSelected !== 0) {
+        if (indexSelected !== 0) {
             if (isContainedView(indexSelected) /* && this.canDeleteContainedView(this.props.indexSelected)*/) {
                 let boxesByIdRemoving = [];
-                containedViewsById[indexSelected].boxesById.map(boxId => {
+                containedViewsById[indexSelected].boxes.map(boxId => {
                     boxesByIdRemoving.push(boxId);
                     boxesByIdRemoving = boxesByIdRemoving.concat(getDescendantBoxes(boxesById[boxId], boxesById));
                 });
 
                 this.props.dispatch(deleteContainedView([indexSelected], boxesByIdRemoving, containedViewsById[cvId].parent));
             } else {
-                let viewRemoving = [indexSelected].concat(getDescendantViews(navItemsById[indexSelected]));
+                let viewRemoving = [indexSelected].concat(getDescendantViews(navItemsById[indexSelected], navItemsById));
                 let boxesByIdRemoving = [];
                 let containedRemoving = {};
                 viewRemoving.map(id => {
-                    navItemsById[id].boxesById.map(boxId => {
+                    navItemsById[id].boxes.map(boxId => {
                         boxesByIdRemoving.push(boxId);
                         boxesByIdRemoving = boxesByIdRemoving.concat(getDescendantBoxes(boxesById[boxId], boxesById));
                     });

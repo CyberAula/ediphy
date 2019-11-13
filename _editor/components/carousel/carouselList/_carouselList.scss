@@ -121,14 +121,6 @@
             float: right;
             padding: 4px;
         }
-        .carouselButton {
-            .material-icons {
-                font-size: 1em;
-            }
-            &:hover{
-                @include scale(1.2);
-            }
-        }
     }
     .toolbarHide + .courseTitleCarousel {
         display: none;

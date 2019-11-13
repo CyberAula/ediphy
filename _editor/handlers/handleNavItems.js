@@ -58,7 +58,8 @@ export default (self) => ({
             let newBoxesMap = {};
             newBoxes.map(box => {
                 linkedCVs[box] = [...self.props.boxesById[box].containedViews];
-                newBoxesMap[box] = box + Date.now(); });
+                newBoxesMap[box] = box + Date.now();
+            });
             self.props.dispatch(duplicateNavItem(id, id + Date.now(), newBoxesMap, Date.now(), linkedCVs));
         }
     },
@@ -68,7 +69,7 @@ export default (self) => ({
     onNavItemExpanded: (id, value) => self.props.dispatch(expandNavItem(id, value)),
 
     onNavItemDeleted: (navsel) => {
-        let viewRemoving = [navsel].concat(self.getDescendantViews(self.props.navItemsById[navsel]));
+        let viewRemoving = [navsel].concat(self.getDescendantViews(self.props.navItemsById[navsel], self.props.navItemsById));
         let boxesRemoving = [];
         let containedRemoving = {};
         viewRemoving.map(id => {
