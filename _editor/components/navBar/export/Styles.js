@@ -8,8 +8,9 @@ import {
     PRIMARY_BLUE_TRANSPARENT,
 } from "../../../../sass/general/constants";
 import { EDRadio } from "../../../../sass/general/EDInputs";
+import { EDModal } from "../../../../sass/general/EDModal";
 
-export const ModalContainer = styled(Modal).attrs({ className: 'exportModal' })`
+export const ModalContainer = styled(EDModal).attrs({ className: 'exportModal' })`
   .spinnerFloat {
     position: absolute;
     right: 20%;

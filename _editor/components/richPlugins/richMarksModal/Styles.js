@@ -1,6 +1,8 @@
-@import "../../../../sass/general/_variables.scss";
+import styled from 'styled-components';
+import { PRIMARY_BLUE } from "../../../../sass/general/constants";
+import { EDModal } from "../../../../sass/general/EDModal";
 
-.richMarksModal{
+export const ModalContainer = styled(EDModal).attrs({ className: 'richMarksModal pageModal' })`
   .modal-body{
     .row{
       margin: 5px 0 10px;
@@ -17,15 +19,11 @@
       color: #444 !important;
     }
   }
-}
-.colorPanel.rc-color-picker-panel {
-  border-radius: 0%;
-  box-shadow: none;
-  -webkit-transform: translate(0px, 0px);
-  -moz-transform: translate(0px, 0px);
-  -ms-transform: translate(0px, 0px);
-  -o-transform: translate(0px, 0px);
-  transform: translate(0px, 0px);
+  
+  .colorPanel.rc-color-picker-panel {
+    border-radius: 0%;
+    box-shadow: none;
+    transform: translate(0px, 0px);
 
   .rc-color-picker-panel-board-hsv {
     height: 50px;
@@ -49,7 +47,9 @@
     }
   }
 }
-.typeSelector{
+`;
+
+export const TypeSelector = styled.div.attrs({ className: 'typeSelector' })`
   display: flex;
   align-items: center;
   .templateSettingMarks{
@@ -62,13 +62,13 @@
     width: 34px;
     border: 0;
     background-color: transparent;
-    color: $blueprimary;
+    color: ${PRIMARY_BLUE};
     padding: 0;
     outline: none;
     transition: 0.2s all ease-in;
     &:active {
       background-color: transparent !important;
-      color: $blueprimary;
+      color: ${PRIMARY_BLUE};
       border: none;
       box-shadow: none !important;
     }
@@ -76,4 +76,4 @@
       transform: rotate(90deg);
     }
   }
-}
+`;

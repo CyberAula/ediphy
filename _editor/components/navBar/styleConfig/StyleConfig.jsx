@@ -20,6 +20,7 @@ import 'react-select/dist/react-select.css';
 import { getThemeFont } from "../../../../common/themes/themeLoader";
 import ThemePreview from "../../../../common/themes/ThemePreview";
 import TransitionPicker from "../../common/transitionPicker/TransitionPicker";
+import { EDModal } from "../../../../sass/general/EDModal";
 
 /**
  * Global course configuration modal
@@ -39,7 +40,7 @@ class StyleConfig extends Component {
     render() {
         return (
             <div>
-                <Modal className="pageModal"
+                <EDModal
                     show={this.props.show}
                     backdrop={'static'} bsSize="large"
                     // aria-labelledby="contained-modal-title-lg"
@@ -142,7 +143,7 @@ class StyleConfig extends Component {
                             {i18n.t("globalConfig.Accept")}
                         </Button>{'   '}
                     </Modal.Footer>
-                </Modal>
+                </EDModal>
             </div>
         );
     }

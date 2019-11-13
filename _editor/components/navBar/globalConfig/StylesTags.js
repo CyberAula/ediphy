@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { FormGroup } from "react-bootstrap";
+import { PRIMARY_BLUE } from "../../../../sass/general/constants";
 
 export const Keywords = styled(FormGroup)`
 /* Example Styles for React Tags*/
@@ -9,20 +10,10 @@ div.ReactTags__tags {
 
 /* Styles for the input */
 div.ReactTags__tagInput {
-    width: 200px;
+    width: 100%;
     border-radius: 2px;
     display: inline-block;
 }
-/*div.ReactTags__tagInput input.ReactTags__tagInputField,
-div.ReactTags__tagInput input.ReactTags__tagInputField:focus {
-     height: 31px;
-    margin: 0;
-    font-size: 12px;
-    width: 100%;
-    border: 1px solid #eee; 
-
-}*/
-
 
  input.ReactTags__tagInputField {
    margin-top: 5px; 
@@ -69,20 +60,27 @@ div.ReactTags__tagInput input.ReactTags__tagInputField:focus {
 
 /* Styles for selected tags */
 div.ReactTags__selected span.ReactTags__tag {
-    border: 1px solid #ddd;
-    background: #eee;
+    border: 0! important;
+    color: white;
+    background-color: ${PRIMARY_BLUE};
     display: inline-block;
-    padding: 5px;
-    height:  34px;
+    padding: 4px 8px;
+    height:  auto;
     margin: 3px 5px;
     cursor: move;
-    border-radius: 2px;
+    border-radius: 0;
 }
 div.ReactTags__selected a.ReactTags__remove {
-    color: #aaa;
+    color: white;
     margin-left: 5px;
     cursor: pointer;
+    opacity: 0.5;
 }
+
+div.ReactTags__selected a.ReactTags__remove:hover {
+    opacity: 1;
+}
+
 
 /* Styles for suggestions */
 div.ReactTags__suggestions {

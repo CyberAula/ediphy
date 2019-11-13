@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import { ControlLabel, FormGroup, InputGroup, Modal } from "react-bootstrap";
+import { ControlLabel, FormGroup, InputGroup } from "react-bootstrap";
 import { LIGHTEST_GREY } from "../../../../sass/general/constants";
 import { EDRadio } from "../../../../sass/general/EDInputs";
+import { EDModal } from "../../../../sass/general/EDModal";
 
 export const ConfigRange = `
 
@@ -88,7 +89,7 @@ input[type=range]::-moz-focus-outer {
 }
 `;
 
-export const GlobalConfigModal = styled(Modal).attrs({ className: 'pageModal' })`
+export const GlobalConfigModal = styled(EDModal).attrs({ className: 'pageModal' })`
 .gcModalBody {
 position: relative;
 top: -1px;
@@ -165,11 +166,12 @@ export const ConfigInputGroup = styled(InputGroup)`
 export const ConfigMiniIcon = styled.a.attrs({ id: 'helpIcon' })`
   right: 15px;
   position: absolute;
-.material-icons{
+  .material-icons{
     font-size: 18px;
+    color: #9a9a9a;
     vertical-align: middle;
     cursor: help;
-}
+  }
 `;
 
 export const ConfigDescription = styled(FormGroup)`

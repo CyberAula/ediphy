@@ -1,4 +1,8 @@
-.pageModal{
+import styled from 'styled-components';
+import {Modal} from "react-bootstrap";
+import {ADAMS_GREY, GREY_PANEL_HEADINGS, MEDIUM_GREY, PRIMARY_BLUE} from "./constants";
+
+export const EDModal = styled(Modal)`
   button{
     border-radius: 0;
   }
@@ -11,7 +15,7 @@
       border-radius:0;
       font-size: 1.1em;
       color: white;
-      background-color: $greyPanelHeadings;
+      background-color: ${GREY_PANEL_HEADINGS};
       margin: -1px;
       .modal-title{
         margin: 0;
@@ -29,12 +33,12 @@
         width: auto;
         h4{
           padding: 0px;
-          color: $grismedio;
+          color: ${MEDIUM_GREY};
           display: inline-block;
           margin: 0 20px 5px 0;
         }
         h5{
-          color: $blueprimary;
+          color: ${PRIMARY_BLUE};
           font-weight: bold;
         }
         hr{
@@ -50,14 +54,11 @@
         }
       }
 
-      button{
-        //margin-top: 30px;
-      }
       .form-control, .Select-control, .input-group-addon, .ReactTags__tagInputField{
         border-radius: 0;
       }
       .miniIcon{
-        color: $grismedio;
+        color: ${MEDIUM_GREY};
         float: right;
         opacity: 0.5;
         margin: 5px 0;
@@ -69,28 +70,27 @@
         margin: 5px 0;
         padding: 0;
         font-size: 1em;
-        color: $blueprimary;
+        color: ${PRIMARY_BLUE};
       }
 
     }
   	.modal-footer{
         border: none;
 		.btn-primary{
-			background-color: $blueprimary;
+			background-color: $;
 			&:hover{
-				background-color: darken($blueprimary, 7%) !important;
+				background-color: darken(${PRIMARY_BLUE}, 7%) !important;
 			}
 		}
         .btn-secondary{
-          background-color: $grisadams;
+          background-color: ${ADAMS_GREY};
           &:hover{
-            background-color: darken($grisadams, 10%) !important;
+            background-color: darken(${ADAMS_GREY}, 10%) !important;
           }
         }
 		.btn-default{
 			background-color: #555;
 			&:hover{
-				//background-color: darken($greyPanelHeadings, 50%) !important;
               background-color: darken(#555, 10%) !important;
 			}
 		}
@@ -99,16 +99,4 @@
 			border: none;
 		}
  	}
-}
-
-.pluginconfig {
-	.form-control {
-		border-radius: 0;
- 		box-shadow: none;
-		-webkit-box-shadow: none;
-		&:focus{
-			border-color: $blueprimary;
-		}
-		margin-bottom: 5px;
-	}
-}
+`;
