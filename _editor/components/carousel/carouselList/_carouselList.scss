@@ -249,19 +249,7 @@
     min-width: 20% !important;
 }
 
-/*Delete popover*/
 
-.popoverButton {
-    @extend .editorTitleButton;
-    margin-top: 0px !important;
-    padding: 2px 4px !important;
-    width: auto !important;
-    height: auto !important;
-    border-radius: 0;
-    &:hover {
-        background-color: $blueprimary;
-    }
-}
 
 #popov {
     width: 200px;

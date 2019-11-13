@@ -20,5 +20,11 @@ border-radius:0;
     color: ${DETAIL_GREEN};
 
 }
+${props => props.popoverURLChildren && css`
+    margin: 0 !important;
+    padding: 2px 10px !important;
+    flex-shrink: 1;
+`}
+
 `
     ;
