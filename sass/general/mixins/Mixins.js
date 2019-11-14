@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 
+export function animation=(prop = "all", duration = "0.3s") => {
+
+}
 export const CustomRange = styled.div`
   input[type=range] {
     -webkit-appearance: none;

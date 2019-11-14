@@ -2,7 +2,7 @@ import i18n from 'i18next';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Tooltip, Button, OverlayTrigger, Popover, Overlay } from 'react-bootstrap';
+import { Tooltip, OverlayTrigger, Popover, Overlay } from 'react-bootstrap';
 import {
     addNavItem,
     selectIndex,
@@ -12,11 +12,9 @@ import {
 import { ID_PREFIX_PAGE, ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX, PAGE_TYPES } from '../../../../common/constants';
 import { isSection, isContainedView, getDescendantLinkedBoxes, getDescendantBoxes, getDescendantViews } from '../../../../common/utils';
 import { connect } from 'react-redux';
-import './_carouselButtons.scss';
 import TemplatesModal from "../templatesModal/TemplatesModal";
 import _handlers from "../../../handlers/_handlers";
-import { CarouselButton } from './Styles';
-import { PopoverButton } from '../Styles';
+import { CarouselButton, PopoverButton, BottomLine, BottomGroups } from './Styles';
 
 /**
  * Ediphy CarouselButtons Component
@@ -147,8 +145,8 @@ class CarouselButtons extends Component {
             },
         ];
         return (
-            <div id="addbuttons" className="bottomGroup" style={{ display: carouselShow ? 'block' : 'none' }}>
-                <div key="bottomLine" className="bottomLine" />
+            <BottomGroups id="addbuttons" style={{ display: carouselShow ? 'block' : 'none' }}>
+                <BottomLine key="bottomLine" />
                 {
                     buttons.map(button => {
                         return <OverlayTrigger key={button.name} placement="top" overlay={<Tooltip id="duplicateNavTooltip">{button.tooltip}</Tooltip>}>
@@ -210,7 +208,7 @@ class CarouselButtons extends Component {
                     indexSelected={indexSelected}
                     onBoxAdded={this.h.onBoxAdded}
                     calculatePosition={this.calculatePosition} />
-            </div>
+            </BottomGroups>
         );
     }
     /**

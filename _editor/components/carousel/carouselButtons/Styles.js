@@ -2,8 +2,36 @@ import styled from "styled-components";
 import { MEDDIUM_GREY } from '../../../../sass/general/constants';
 import { Button } from 'react-bootstrap';
 
-/* Buttons that act upon navItems*/
+export const BottomGroups = styled.div`
+width: 212px;
+    position: fixed;
+    bottom: 0;
+    .material-icons {
+        padding: 8px;
+    }
 
+    /*Overriding bootstrap*/
+    h3, h4 {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+    .open > .dropdown-toggle.btn-default {
+        color: white !important;
+    }
+    .btn-default, .open > .dropdown-toggle.btn-default {
+        &:focus {
+            color: white !important;
+        }
+    }
+`;
+
+export const BottomLine = styled.div`
+width: 100%;
+border-top: 1px solid #555;
+`;
+
+/* Buttons that act upon navItems*/
 export const CarouselButton = styled(Button)`
   border: 0;
   padding: 0px;
