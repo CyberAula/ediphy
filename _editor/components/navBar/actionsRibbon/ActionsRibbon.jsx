@@ -2,22 +2,22 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col } from 'react-bootstrap';
 import i18n from "i18next";
-import './_ActionsRibbon.scss';
 import Alert from '../../common/alert/Alert';
 import Clipboard from '../../clipboard/Clipboard';
 import { isSlide, isBox } from '../../../../common/utils';
 import { connect } from 'react-redux';
 import { changeBoxLayer, updateUI } from '../../../../common/actions';
 import handleBoxes from "../../../handlers/handleBoxes";
+import { ActionBtn, ActionRibbonContainer, Actions, Separator } from "./Styles";
+import { MatIcon } from "../../../../sass/general/constants";
 
 class ActionsRibbon extends Component {
 
     state = { buttons: [], clipboardAlert: false };
     hB = handleBoxes(this);
     isPage = () => {
-        return this.props.containedViewsById[this.props.containedViewSelected] ? this.props.containedViewsById[this.props.containedViewSelected] : (
-            this.props.navItemsById[this.props.navItemSelected] ? this.props.navItemsById[this.props.navItemSelected] : null
-        );
+        const { containedViewsById, containedViewSelected, navItemsById, navItemSelected } = this.props;
+        return containedViewsById[containedViewSelected] ?? navItemsById[navItemSelected] ?? null;
     };
     /**
      * Render React Component
@@ -69,27 +69,21 @@ class ActionsRibbon extends Component {
 
         ];
         let button = (act) => {
-            return <button key={act.key}
-                className={(act.key === "Grid" && this.props.grid) ? "ActionBtn active" : "ActionBtn"}
+            return <ActionBtn key={act.key} active={(act.key === "Grid" && this.props.grid)}
                 disabled={act.disabled}
                 name={act.key}
                 onClick={(e)=>{act.onClick(e); document.activeElement.blur();}}>
-                <i className="material-icons">{act.icon}</i>
+                <MatIcon>{act.icon}</MatIcon>
                 <span className="hideonresize">{ i18n.t(act.i18nkey) }</span>
-            </button>;
+            </ActionBtn>;
         };
         return (
-            <Col id="ActionRibbon" md={12} xs={12}
-                style={{
-                    height: this.props.ribbonHeight,
-                    overflowY: 'hidden',
-                }} ref="holder">
-                <div id="Actions">
-                    { slide ? layerActions.map((act, ind) => {
-                        if (act === "separator") {
-                            return <span id="vs" key={ind} />;
-                        }
-                        return button(act, ind);}) : null }
+            <ActionRibbonContainer md={12} xs={12}
+                height={this.props.ribbonHeight} ref="holder">
+                <Actions>
+                    { slide ?
+                        layerActions.map((act, i) => (act === "separator") ? <Separator key={i}/> : button(act, i))
+                        : null }
                     <Clipboard
                         key="clipboard"
                         onBoxDeleted={this.hB.onBoxDeleted}>
@@ -99,8 +93,8 @@ class ActionsRibbon extends Component {
                     </Clipboard>
 
                     {this.createAlert(this.state.clipboardAlert, onClick)}
-                </div>
-            </Col>
+                </Actions>
+            </ActionRibbonContainer>
         );
     }
     createAlert(state, callback) {

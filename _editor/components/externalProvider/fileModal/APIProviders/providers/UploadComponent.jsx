@@ -4,7 +4,6 @@ import i18n from 'i18next';
 import { Button, Row, Col, FormGroup } from 'react-bootstrap';
 import ExternalDropzone from '../common/ExternalDropzone';
 import { extensionHandlers as extensions } from '../../FileHandlers/FileHandlers';
-import '../../../../navBar/globalConfig/_reactTags.scss';
 import { FILE_UPLOAD_ERROR, FILE_UPLOADING } from '../../../../../../common/constants';
 import { isFile } from '../../../../../../common/utils';
 let spinner = require('../../../../../../dist/images/spinner.svg');

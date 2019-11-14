@@ -14,6 +14,7 @@ import LogoComponent from './providers/LogoComponent';
 // import PhetComponent from './PhetComponent';
 import OpenClipArtComponent from './providers/OpenClipArtComponent';
 // import GiphyComponent from './providers/GiphyComponent';
+import PixabayComponent from './providers/PixabayComponent';
 
 import VISHIcon from './logos/vish.svg';
 import FlickrIcon from './logos/flickrsvg.svg';
@@ -26,6 +27,7 @@ import PolyIcon from './logos/PolyLogo.png';
 import OpenClipArtIcon from './logos/openclipart.svg';
 // import GiphyIcon from './logos/giphy.png';
 import LogoIcon from './logos/avatar-gallery.png';
+import PixabayIcon from './logos/PixabayLogo.svg';
 
 import i18n from 'i18next';
 export default function menus(self) {
@@ -190,6 +192,13 @@ export default function menus(self) {
             icon: LogoIcon,
             show: (avatar),
             component: LogoComponent,
+            props: { ...commonProps },
+        },
+        {
+            name: 'Pixabay',
+            icon: PixabayIcon,
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
+            component: PixabayComponent,
             props: { ...commonProps },
         },
     ];

@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 import i18n from 'i18next';
 import { updateUI } from "../../../../common/actions";
 import _handlers from "../../../handlers/_handlers";
+import { EDModal } from "../../../../sass/general/EDModal";
 
 const initialState = {
     menu: 0,
@@ -47,7 +48,7 @@ class FileModal extends React.Component {
         let menus = APIProviders(this); // Retrieves all API providers
         let handler = FileHandlers(this); // Retrieves all file-handling actions
         return(
-            <Modal className="pageModal fileModal"
+            <EDModal className="pageModal fileModal"
                 backdrop bsSize="large"
                 show={!!this.props.showFileUpload}
                 onHide={this.close}>
@@ -129,7 +130,7 @@ class FileModal extends React.Component {
                         </div>
                     </div>
                 </Modal.Body>
-            </Modal>);
+            </EDModal>);
     }
 
     /**

@@ -1,7 +1,6 @@
 @import "./../../../../sass/general/_variables.scss";
 @import './../../../../sass/general/mixins/mixins';
 @import "../../canvas/editorHeader/editorHeader";
-@import "../../navBar/pluginRibbon/_pluginRibbon.scss";
 
 /* Índice */
 .carList {
@@ -51,16 +50,6 @@
 .classIndexSelected i, .classIndexSelected .actualSectionTitle {
     color: $blueprimary;
 }
-
-///*NavItem Selected*/
-//.selected {
-//    font-size: 0.9em;
-//    background-color: #222;
-//    color: white;
-//    /*.actualSectionTitle{
-//        color: $blueprimary;
-//    }*/
-//}
 
 /*NavItem NOT Selected*/
 .notSelected {

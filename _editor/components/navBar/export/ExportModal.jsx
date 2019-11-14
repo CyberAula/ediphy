@@ -1,18 +1,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Alert from '../../common/alert/Alert';
-import { Modal, Grid, Row, Col, FormGroup, ControlLabel, Radio, Button } from 'react-bootstrap';
+import { Modal, Grid, Row, Col, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import Panel from 'react-bootstrap/lib/Panel';
 import PanelGroup from 'react-bootstrap/lib/PanelGroup';
 
 import ToggleSwitch from '@trendmicro/react-toggle-switch';
 import i18n from 'i18next';
-import './_exportModal.scss';
 let spinner = require('../../../../dist/images/spinner.svg');
 
 import { templatesSliDoc, templatesSli, templatesDoc } from "./templates/templates";
 import TemplateThumbnailPrint from "./TemplateThumbnailPrint";
 import { connect } from "react-redux";
+import {
+    BrowserExplanation, BrowserTitle,
+    Explanation,
+    ExportRadio, InfoIcon,
+    ModalContainer,
+    PageTemplates, PrintBody, PrintExplanation,
+    PrintSettingsExplanation, PrintTitle,
+    TemplateItem,
+} from "./Styles";
 
 /**
  * Export course modal
@@ -75,7 +83,7 @@ class ExportModal extends Component {
             { format: "MoodleXML", handler: () => {this.props.export('MoodleXML', callback, this.state.selfContained); } },
         ];
         return (
-            <Modal className="pageModal exportoScormModalBody"
+            <ModalContainer className="pageModal exportoScormModalBody"
                 show={this.props.show}
                 backdrop={'static'}
                 aria-labelledby="contained-modal-title-md"
@@ -98,27 +106,26 @@ class ExportModal extends Component {
                                         title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">warning</i>{i18n.t("messages.error")}</span>}
                                         onClose={()=>{ this.setState({ showPrintAlert: false, showLoader: false }); }}>
                                         <div> <p><b>{i18n.t("export.null_print")}</b></p>
-                                            <ul className={"print-settings-explanation"}>
+                                            <PrintSettingsExplanation>
                                                 <li className={"error-setting"}><span className={"setting-title"}>{i18n.t("export.sli_doc")}:</span> <span> {i18n.t("export.sli_doc_explanation")}</span></li>
                                                 <li className={"error-setting"}><span className={"setting-title"}>{i18n.t("export.sli")}:</span> <span> {i18n.t("export.sli_explanation")}</span></li>
                                                 <li className={"error-setting"}><span className={"setting-title"}>{i18n.t("export.doc")}:</span> <span> {i18n.t("export.doc_explanation")}</span></li>
-                                            </ul>
-
+                                            </PrintSettingsExplanation>
                                         </div><br/>
                                     </Alert>) : null}
                                     <FormGroup >
                                         <ControlLabel> {i18n.t("messages.export_to_label")}</ControlLabel><br/>
                                         {this.state.showLoader ? (<img className="spinnerFloat" src={spinner} alt={'loading'}/>) : null}
                                         {exportFormats.map((format, i) => {
-                                            return (<Radio key={i} name="radioGroup" className="radioExportScorm" checked={this.state.format === i}
+                                            return (<ExportRadio key={i} name="radioGroup" className="radioExportScorm" checked={this.state.format === i}
                                                 onChange={() => {this.setState({ format: i });}}>
                                                 {format.formatRender || format.format}<br/>
-                                            </Radio>);
+                                            </ExportRadio>);
                                         })}
                                     </FormGroup>
                                 </Col>
                                 <Col xs={12} md={12}>
-                                    <div className={"explanation"}>
+                                    <Explanation>
                                         {this.state.format <= 1 ? i18n.t("SCORM Explanation") : null}
                                         {this.state.format === 2 ? i18n.t("HTML Explanation") : null}
                                         {this.state.format === 4 ? i18n.t("EDI Explanation") : null}
@@ -134,10 +141,10 @@ class ExportModal extends Component {
                                                             <Panel.Title toggle>{i18n.t('messages.slides_and_pages')}<em className={"material-icons expandArrow"}>expand_more</em></Panel.Title>
                                                         </Panel.Heading>
                                                         <Panel.Body collapsible>
-                                                            <div className={"pageTemplates"}>
+                                                            <PageTemplates>
                                                                 {this.templatesSliDoc.map((item, index) => {
                                                                     let border = (this.state.itemSelected === index && this.state.settingType === 1) ? "solid #17CFC8 3px" : "solid #eee 1px";
-                                                                    return (<div key={index} className="template_item" style={{ position: 'relative', border: border, width: (index === 0 || index === 2) ? '110px' : '80px', height: (index === 0 || index === 2) ? '80px' : '110px' }}>
+                                                                    return (<TemplateItem key={index} style={{ position: 'relative', border: border, width: (index === 0 || index === 2) ? '110px' : '80px', height: (index === 0 || index === 2) ? '80px' : '110px' }}>
                                                                         <TemplateThumbnailPrint key={index} index={index}
                                                                             onClick={() => {
                                                                                 this.setState({ itemSelected: index });
@@ -154,11 +161,10 @@ class ExportModal extends Component {
                                                                                 }
                                                                             }}
                                                                             boxes={item.boxes}/>
-                                                                        {/* <div className={'template_name'} style={{ display: this.state.itemSelected === index ? 'block' : 'none' }}>{item.name}</div>*/}
-                                                                    </div>
+                                                                    </TemplateItem>
                                                                     );
                                                                 })}
-                                                            </div>
+                                                            </PageTemplates>
                                                         </Panel.Body>
                                                     </Panel>
                                                     <Panel eventKey="2">
@@ -166,16 +172,15 @@ class ExportModal extends Component {
                                                             <Panel.Title toggle>{i18n.t('messages.only_slides')}<em className={"material-icons expandArrow"}>expand_more</em></Panel.Title>
                                                         </Panel.Heading>
                                                         <Panel.Body collapsible>
-                                                            <div className={"pageTemplates"}>
+                                                            <PageTemplates>
                                                                 {this.templatesSli.map((item, index) => {
                                                                     let border = (this.state.itemSelected === index && this.state.settingType === 2) ? "solid #17CFC8 3px" : "solid #eee 1px";
-                                                                    return (<div key={index} className="template_item" style={{ display: ((index === 0 && !isChrome) || (index === 4 && isFirefox)) ? 'none' : 'flex', position: 'relative', border: border,
+                                                                    return (<TemplateItem key={index} style={{ display: ((index === 0 && !isChrome) || (index === 4 && isFirefox)) ? 'none' : 'flex', position: 'relative', border: border,
                                                                         width: isChrome ? ((index === 0) ? '100px' : ((index === 1 || index === 4) ? '100px' : '70px')) : (index === 0 || index === 1 || index === 4) ? '110px' : '80px',
                                                                         height: isChrome ? ((index === 0) ? (aspectRatio === (16 / 9) ? '60px' : '75px') : ((index === 1 || index === 4) ? '70px' : '100px')) : (index === 0 || index === 1 || index === 4) ? '80px' : '110px' }}>
                                                                         <TemplateThumbnailPrint key={index} index={index}
                                                                             onClick={() => {
                                                                                 this.setState({ itemSelected: index });
-
                                                                                 switch (index) {
                                                                                 case 0:
                                                                                     this.setState({ slidesPerPage: 1, slidesWithComments: false, settingType: 2, optionName: "fullSlideCustom", explanation: i18n.t("export.full_sli"), landscape: true });
@@ -198,12 +203,11 @@ class ExportModal extends Component {
                                                                                 }
                                                                             }}
                                                                             boxes={item.boxes}/>
-                                                                        {/* <div className={'template_name'} style={{ display: this.state.itemSelected === index ? 'block' : 'none' }}>{item.name}</div>*/}
 
-                                                                    </div>
+                                                                    </TemplateItem>
                                                                     );
                                                                 })}
-                                                            </div>
+                                                            </PageTemplates>
                                                         </Panel.Body>
                                                     </Panel>
                                                     <Panel eventKey="3">
@@ -211,10 +215,10 @@ class ExportModal extends Component {
                                                             <Panel.Title toggle>{i18n.t('messages.only_pages')}<em className={"material-icons expandArrow"}>expand_more</em></Panel.Title>
                                                         </Panel.Heading>
                                                         <Panel.Body collapsible>
-                                                            <div className={"pageTemplates"}>
+                                                            <PageTemplates>
                                                                 {this.templatesDoc.map((item, index) => {
                                                                     let border = (this.state.itemSelected === index && this.state.settingType === 3) ? "solid #17CFC8 3px" : "solid #eee 1px";
-                                                                    return (<div key={index} className="template_item" style={{ display: ((isSafari || isFirefox) && (index === 1)) ? 'none' : 'flex', position: 'relative', border: border, width: index % 2 === 1 ? '110px' : '80px', height: index % 2 === 1 ? '80px' : '110px' }}>
+                                                                    return (<TemplateItem key={index} style={{ display: ((isSafari || isFirefox) && (index === 1)) ? 'none' : 'flex', border: border, width: index % 2 === 1 ? '110px' : '80px', height: index % 2 === 1 ? '80px' : '110px' }}>
                                                                         <TemplateThumbnailPrint key={index} index={index}
                                                                             onClick={() => {
                                                                                 this.setState({ itemSelected: index });
@@ -232,26 +236,26 @@ class ExportModal extends Component {
                                                                             }}
                                                                             boxes={item.boxes}/>
                                                                         {/* <div className={'template_name'} style={{ display: this.state.itemSelected === index ? 'block' : 'none' }}>{item.name}</div>*/}
-                                                                    </div>
+                                                                    </TemplateItem>
                                                                     );
                                                                 })}
-                                                            </div>
+                                                            </PageTemplates>
                                                         </Panel.Body>
                                                     </Panel>
                                                 </PanelGroup>
-                                                <div className={"print-explanation"}>
-                                                    <div className={"print-explanation-title"}><em className={"material-icons printer-icon"}>print</em> Print settings</div>
-                                                    <div className={"print-explanation-body"}> {this.state.explanation} </div>
-                                                </div>
+                                                <PrintExplanation>
+                                                    <PrintTitle><InfoIcon children='print'/> Print settings</PrintTitle>
+                                                    <PrintBody children={this.state.explanation}/>
+                                                </PrintExplanation>
                                                 {(isSafari || isFirefox) ?
-                                                    <div className={"browser-explanation"}>
-                                                        <div className={"browser-explanation-title"}><em className={"material-icons warning-icon"}>warning</em> Warning</div>
-
+                                                    <BrowserExplanation>
+                                                        <BrowserTitle><InfoIcon children='warning'/> Warning</BrowserTitle>
                                                         {(this.state.landscape) ? (isSafari ?
                                                             <div>{i18n.t("export.safari_landscape")}</div> : (isFirefox ?
                                                                 <div>{i18n.t("export.firefox_landscape")}</div> : null)) : (isSafari ?
                                                             <div>{i18n.t("export.safari_portrait")}</div> : (isFirefox ?
-                                                                <div>{i18n.t("export.firefox_portrait")}</div> : null))}</div>
+                                                                <div>{i18n.t("export.firefox_portrait")}</div> : null))}
+                                                    </BrowserExplanation>
                                                     : null}
 
                                                 <div className={"selfContained"}>
@@ -262,7 +266,7 @@ class ExportModal extends Component {
                                             </div>)
 
                                         }
-                                    </div>
+                                    </Explanation>
                                 </Col>
                             </Row>
                         </form>
@@ -280,7 +284,7 @@ class ExportModal extends Component {
                     }}>{i18n.t("messages.export_course")}</Button>{'   '}
                 </Modal.Footer>
 
-            </Modal>
+            </ModalContainer>
         );
     }
 

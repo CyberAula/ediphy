@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col } from 'react-bootstrap';
 import { connect } from "react-redux";
 import screenfull from 'screenfull';
 
@@ -13,7 +12,7 @@ import StyleConfig from '../styleConfig/StyleConfig';
 import { updateUI } from "../../../../common/actions";
 import { UI } from "../../../../common/UI.es6";
 
-import './_navBar.scss';
+import { ED, Gradient, IconBar, Logo } from "./Styles";
 
 /**
  * Upper navigation bar component
@@ -27,11 +26,9 @@ class EditorNavBar extends Component
 
     render() {
         return (
-            <Col id="iconBar">
-                <div className="grad1" />
-                <div className="identity">
-                    <span className="highlight">ED</span>iphy
-                </div>
+            <IconBar>
+                <Gradient/>
+                <Logo><ED/>iphy</Logo>
                 <PluginsMenu/>
                 <NavActionButtons
                     save={this.props.handleExportImport.save}
@@ -51,15 +48,15 @@ class EditorNavBar extends Component
                     export={this.props.handleExportImport.exportResource}
                     scorm={this.props.handleExportImport.exportToScorm}
                     close={this.toggleExport} />
-            </Col>
+            </IconBar>
         );
     }
 
     /**
        * Shows/Hides the Export course modal
        */
-    toggleExport = (forceClose) => {
-        let newExportState = forceClose ? false : !this.props.reactUI.showExportModal;
+    toggleExport = () => {
+        let newExportState = !this.props.reactUI.showExportModal;
         this.props.dispatch(updateUI(UI.showExportModal, newExportState));
     };
     /**

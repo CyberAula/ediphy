@@ -32,6 +32,8 @@ import { handleBoxes, handleContainedViews, handleSortableContainers, handleMark
 import ErrorBoundary from "./ErrorBoundary";
 import HTML5Backend from "react-dnd-html5-backend";
 import { DragDropContext } from "react-dnd";
+import { NavBar } from "../components/navBar/editorNavBar/Styles";
+import { RibbonRow } from "../components/navBar/pluginRibbon/Styles";
 
 const cookies = new Cookies();
 
@@ -76,7 +78,7 @@ class EditorApp extends Component {
         return (
             <ErrorBoundary context={'app'}>
                 <Grid id="app" fluid style={{ height: '100%', overflow: 'hidden' }} ref={'app'}>
-                    <Row className="navBar">
+                    <NavBar>
                         <ErrorBoundary context={'navBar'}>
                             <EdiphyTour/>
                             <HelpModal/>
@@ -86,7 +88,7 @@ class EditorApp extends Component {
                             <EditorNavBar globalConfig={{ ...globalConfig, status, everPublished }} handleExportImport={this.handleExportImport}/>
                             {Ediphy.Config.autosave_time > 1000 && <AutoSave save={this.handleExportImport.save}/>})
                         </ErrorBoundary>
-                    </Row>
+                    </NavBar>
                     <Row style={{ height: 'calc(100% - 60px)' }} id="mainRow">
                         <EditorCarousel/>
                         <Col id="colRight" xs={12}
@@ -96,9 +98,9 @@ class EditorApp extends Component {
                                 <ActionsRibbon ribbonHeight={ ribbonHeight + 'px'}/>
                             </Row>
 
-                            <Row id="ribbonRow" style={{ top: '-1px', left: (reactUI.carouselShow ? '15px' : '147px') }}>
+                            <RibbonRow style={{ top: '-1px', left: (reactUI.carouselShow ? '15px' : '147px') }}>
                                 <PluginRibbon disabled={disabled} ribbonHeight={ ribbonHeight + 'px'}/>
-                            </Row>
+                            </RibbonRow>
 
                             <Row id="canvasRow" style={{ height: 'calc(100% - ' + ribbonHeight + 'px)' }}>
                                 <EditorCanvas {...canvasProps}/>

@@ -9,6 +9,8 @@ import { importStateAsync, updateUI } from "../../../../common/actions";
 
 import { connect } from "react-redux";
 import { UI } from "../../../../common/UI.es6";
+import { DropdownButton, EDDropDown } from "./Styles";
+import { MatIcon } from "../../../../sass/general/constants";
 /**
  * Dropdown menu in the editor's navbar
  */
@@ -30,96 +32,24 @@ class NavDropdown extends Component
      */
     render() {
         return (
-            <Dropdown id="dropdown-menu" style={{ float: 'right' }}>
+            <EDDropDown id="dropdown-menu">
                 <Dropdown.Toggle noCaret className="navButton">
-                    <i className="material-icons">more_vert</i>
+                    <MatIcon>more_vert</MatIcon>
                     <span className="hideonresize" style={{ fontSize: '12px' }}>Menu</span>
                 </Dropdown.Toggle>
-                <Dropdown.Menu id="topMenu" className="pageMenu super-colors topMenu">
-                    {(Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button) &&
-                    <MenuItem eventKey="6" key="6">
-                        <button className="dropdownButton"
-                            disabled={this.props.undoDisabled}
-                            onClick={() => {
-                                this.props.save();
-                                this.props.dispatch(updateUI(UI.serverModal, true));
-                            }}>
-                            <i className="material-icons">save</i>
-                            {i18n.t('Save')}
-                        </button>
-                    </MenuItem>}
-                    <MenuItem disabled={this.props.undoDisabled} eventKey="1" key="1">
-                        <button className="dropdownButton" title={i18n.t('messages.import')}
-                            disabled={ false }
-                            onClick={()=>{this.props.toggleFileUpload(undefined, '*');}}>
-                            <i className="material-icons">file_upload</i>
-                            {i18n.t('messages.import')}
-                        </button>
-                    </MenuItem>
-                    <MenuItem eventKey="2" key="2">
-                        <button className="dropdownButton" title={i18n.t('messages.export')}
-                            disabled={this.props.navItemSelected === 0}
-                            onClick={()=>this.props.toggleExport()}><i className="material-icons">file_download</i>
-                            {i18n.t('messages.export')}
-                        </button>
-                    </MenuItem>
-                    <MenuItem disabled={false} eventKey="3" key="3">
-                        <button className="dropdownButton" title={i18n.t('messages.globalConfig')}
-                            disabled={false}
-                            onClick={() => this.props.dispatch(updateUI(UI.showGlobalConfig, true))}><i className="material-icons">settings</i>
-                            {i18n.t('messages.globalConfig')}
-                        </button>
-                    </MenuItem>
-                    {Ediphy.Config.externalProviders.enable_catalog_modal &&
-                    [<MenuItem divider key="div_4"/>,
-                        <MenuItem eventKey="4" key="4">
-                            <button className="dropdownButton" title={i18n.t('Open_Catalog')}
-                                onClick={() => {
-                                    this.props.onExternalCatalogToggled();
-                                }}><i className="material-icons">grid_on</i>
-                                {i18n.t('Open_Catalog')}
-                            </button>
-                        </MenuItem>]}
-                    {(Ediphy.Config.open_button_enabled === undefined || Ediphy.Config.open_button_enabled) &&
-                    [<MenuItem divider key="div_5"/>,
-                        <MenuItem eventKey="5" key="5">
-                            <button className="dropdownButton"
-                                onClick={() => {
-                                    this.props.dispatch(updateUI(UI.serverModal, true));
-                                    this.props.dispatch(importStateAsync());
-                                }}>
-                                <i className="material-icons">folder_open</i>
-                                {i18n.t('Open')}
-                            </button>
-                        </MenuItem>]}
-                    <MenuItem disabled={false} eventKey="6" key="6">
-                        <button className="dropdownButton" title={i18n.t('messages.help')}
-                            disabled={false}
-                            onClick={() => this.props.dispatch(updateUI(UI.showHelpButton, true))}><i className="material-icons">help</i>
-                            {i18n.t('messages.help')}
-                        </button>
-                    </MenuItem>
-                    {(this.isAlreadySaved()) ? <MenuItem disabled={false} eventKey="7" key="7">
-                        <button className="dropdownButton" title={i18n.t('delete')}
-                            disabled={false}
-                            onClick={this.onDeleteDocument}><i className="material-icons">delete</i>
-                            {i18n.t('delete')}
-                        </button>
-                    </MenuItem> : null}
-                    {(Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button) &&
-                    <MenuItem disabled={false} eventKey="8" key="8">
-                        <button className="dropdownButton" title={i18n.t('messages.help')}
-                            disabled={false}
-                            onClick={() => {
-                                this.props.dispatch(updateUI(UI.showExitModal, true));
-                            }}><i className="material-icons">exit_to_app</i>
-                            {i18n.t('messages.exit')}
-                        </button>
-                    </MenuItem>}
-
+                <Dropdown.Menu id="topMenu" style={{ left: 'auto', right: 0 }} className="pageMenu super-colors topMenu">
+                    { this.dropdownButtons.map((button, i) => (
+                        button.show ?
+                            (button.divider ?
+                                <MenuItem divider key={'div_' + i}/> :
+                                <MenuItem eventKey={i} key={i}>
+                                    <DropdownButton disabled={button.disabled} onClick={button.onClick}>
+                                        <MatIcon>{button.icon}</MatIcon>{button.text}
+                                    </DropdownButton>
+                                </MenuItem>) : null))}
                 </Dropdown.Menu>
                 {this.state.alert}
-            </Dropdown>
+            </EDDropDown>
         );
     }
     isAlreadySaved = () => {
@@ -163,6 +93,87 @@ class NavDropdown extends Component
             </Alert>);
         this.setState({ alert: alertComponent });
     };
+
+    dropdownButtons = [
+        {
+            icon: 'save',
+            text: i18n.t('Save'),
+            show: Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button,
+            disabled: this.props.undoDisabled,
+            onClick: () => {
+                this.props.save();
+                this.props.dispatch(updateUI(UI.serverModal, true));
+            },
+        },
+        {
+            icon: 'file_upload',
+            text: i18n.t('messages.import'),
+            show: true,
+            disabled: false,
+            onClick: () => this.props.toggleFileUpload(undefined, '*'),
+        },
+        {
+            icon: 'file_download',
+            text: i18n.t('messages.export'),
+            show: true,
+            disabled: this.props.navItemSelected === 0,
+            onClick: this.props.toggleExport,
+        },
+        {
+            icon: 'settings',
+            text: i18n.t('messages.globalConfig'),
+            show: true,
+            disabled: false,
+            onClick: () => this.props.dispatch(updateUI(UI.showGlobalConfig, true)),
+        },
+        {
+            divider: true,
+            show: Ediphy.Config.externalProviders.enable_catalog_modal,
+        },
+        {
+            icon: 'grid_on',
+            text: i18n.t('Open_Catalog'),
+            show: Ediphy.Config.externalProviders.enable_catalog_modal,
+            disabled: false,
+            onClick: this.props.onExternalCatalogToggled,
+        },
+        {
+            divider: true,
+            show: Ediphy.Config.open_button_enabled === undefined || Ediphy.Config.open_button_enabled,
+        },
+        {
+            icon: 'folder_open',
+            text: i18n.t('Open'),
+            show: Ediphy.Config.open_button_enabled === undefined || Ediphy.Config.open_button_enabled,
+            disabled: false,
+            onClick: () => {
+                this.props.dispatch(updateUI(UI.serverModal, true));
+                this.props.dispatch(importStateAsync());
+            },
+        },
+        {
+            icon: 'help',
+            text: i18n.t('messages.help'),
+            show: true,
+            disabled: false,
+            onClick: () => this.props.dispatch(updateUI(UI.showHelpButton, true)),
+        },
+        {
+            icon: 'delete',
+            text: i18n.t('delete'),
+            show: this.isAlreadySaved(),
+            disabled: false,
+            onClick: this.onDeleteDocument,
+        },
+        {
+            icon: 'exit_to_app',
+            text: i18n.t('messages.exit'),
+            show: Ediphy.Config.publish_button !== undefined && Ediphy.Config.publish_button,
+            disabled: false,
+            onClick: () => this.props.dispatch(updateUI(UI.showExitModal, true)),
+        },
+
+    ];
 }
 
 function mapStateToProps(state) {

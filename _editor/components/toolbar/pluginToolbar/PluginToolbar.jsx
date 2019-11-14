@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, PanelGroup, Panel } from 'react-bootstrap';
+import { PanelGroup, Panel } from 'react-bootstrap';
 import '@trendmicro/react-toggle-switch/dist/react-toggle-switch.css';
 import i18n from 'i18next';
 import PropTypes from 'prop-types';

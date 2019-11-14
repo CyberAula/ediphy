@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { updateUI } from "../../../common/actions";
 import _handlers from "../../handlers/_handlers";
+import { ConfigContainer } from "./Styles";
 
 /**
  * Configuration modal for plugins that require it
@@ -44,7 +45,7 @@ class PluginConfigModal extends Component {
             stepsnumber = template.n_steps;
         }
         return (
-            <Modal className="pageModal pluginconfig"
+            <ConfigContainer
                 backdrop="static"
                 bsSize="large"
                 keyboard
@@ -80,7 +81,7 @@ class PluginConfigModal extends Component {
                         }}>{(this.state.currentStep < stepsnumber) ? i18n.t("step_next") + " >" : i18n.t("confirmChanges")}</Button>
                 </Modal.Footer>
 
-            </Modal>
+            </ConfigContainer>
         );
     }
 

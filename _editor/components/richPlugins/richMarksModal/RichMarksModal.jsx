@@ -13,8 +13,7 @@ import _handlers from "../../../handlers/_handlers";
 import { ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES } from '../../../../common/constants';
 
 import TemplatesModal from "../../carousel/templatesModal/TemplatesModal";
-
-import './_richMarksModal.scss';
+import { ModalContainer, TypeSelector } from "./Styles";
 
 /**
  * Modal component to edit marks' configuration
@@ -98,7 +97,7 @@ class RichMarksModal extends Component {
         let config = plugin ? plugin.getConfig() : null;
         let newId = "";
         return (
-            <Modal className="pageModal richMarksModal" backdrop bsSize="large" show={this.props.richMarksVisible}>
+            <ModalContainer backdrop bsSize="large" show={this.props.richMarksVisible}>
                 <Modal.Header>
                     <Modal.Title><i style={{ fontSize: '18px' }} className="material-icons">room</i> {(current ? i18n.t("marks.edit_mark_to") : i18n.t("marks.add_mark_to")) + pluginType }</Modal.Title>
                 </Modal.Header>
@@ -181,7 +180,7 @@ class RichMarksModal extends Component {
                                 <ControlLabel style={{
                                     display: this.state.newSelected === "" ? "initial" : "none",
                                 }}>{i18n.t("marks.new_content_label")}</ControlLabel>
-                                <div className={"typeSelector"}>
+                                <TypeSelector>
                                     <FormControl componentClass="select"
                                         defaultValue={this.state.newType}
                                         style={{
@@ -196,7 +195,7 @@ class RichMarksModal extends Component {
                                     </FormControl>
 
                                     <Button className={"templateSettingMarks"} style={{ display: this.state.newType === "slide" ? 'flex' : 'none' }} onClick={this.toggleTemplatesModal} > <i className={"material-icons"}>settings</i> </Button>
-                                </div>
+                                </TypeSelector>
                             </FormGroup>
                             <FormGroup style={{ display: this.state.connectMode === "existing" ? "initial" : "none" }}>
                                 <ControlLabel>{i18n.t("marks.existing_content_label")}</ControlLabel>
@@ -392,7 +391,7 @@ class RichMarksModal extends Component {
                     calculatePosition={this.calculatePosition}
                     templateClick={this.templateClick}
                     idSlide = {newId || ""}/>
-            </Modal>
+            </ModalContainer>
         );
 
     }
