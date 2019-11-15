@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Modal, Radio } from "react-bootstrap";
+import { Radio } from "react-bootstrap";
 import {
     ADAMS_ORANGE,
     LIGHT_ORANGE,

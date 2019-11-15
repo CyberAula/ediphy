@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { OverlayTrigger, Popover } from 'react-bootstrap';
+import { OverlayTrigger } from 'react-bootstrap';
 import i18n from 'i18next';
 import { connect } from 'react-redux';
 
 import { isSortableBox, isBox, isCanvasElement } from '../../../../common/utils';
+import { CVList, CVPopover, InfoIcon } from "./Styles";
 
 /**
  *  Contained View mark information
@@ -43,17 +44,16 @@ class CVInfo extends Component {
                 break;
             }
             let pluginName = Ediphy.Plugins.get(this.props.pluginToolbarsById[el.id].pluginId).getConfig().displayName;
-            cvList.push(<span className="cvList"
-                key={box}>{markName}<b>{pluginName}</b> {' (' + from + ')'}</span>);
+            cvList.push(<CVList key={box}>{markName}<b>{pluginName}</b> {' (' + from + ')'}</CVList>);
 
         }
 
         return (<OverlayTrigger placement="bottom" overlay={
-            <Popover className="cvPopover" id="popover-positioned-bottom" title={ i18n.t("containedViewPopover") }>
+            <CVPopover className="cvPopover" id="popover-positioned-bottom" title={ i18n.t("containedViewPopover") }>
                 {cvList && cvList.length > 0 && cvList.map(it => { return it; }) }
-                {!cvList || cvList.length === 0 ? (<span className="cvList">{i18n.t("contained_view_nowhere")}</span>) : null}
-            </Popover>}>
-            <i className="material-icons infoIcon" >info</i>
+                {!cvList || cvList.length === 0 ? (<CVList children={i18n.t("contained_view_nowhere")}/>) : null}
+            </CVPopover>}>
+            <InfoIcon>info</InfoIcon>
         </OverlayTrigger>);
 
     }

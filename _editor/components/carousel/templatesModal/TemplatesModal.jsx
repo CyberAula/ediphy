@@ -12,6 +12,7 @@ import TemplateThumbnail from "./TemplateThumbnail";
 import { getThemeTemplates } from "../../../../common/themes/themeLoader";
 import './_templatesModal.scss';
 import handleNavItems from "../../../handlers/handleNavItems";
+import { EDModal } from "../../../../sass/general/EDModal";
 
 class TemplatesModal extends Component {
     constructor(props) {
@@ -38,7 +39,7 @@ class TemplatesModal extends Component {
         let themeTemplates = getThemeTemplates(this.props.styleConfig.theme);
         templatesCopy = templatesCopy.concat(themeTemplates);
         return (
-            <Modal className="pageModal" id="TemplatesModal" show={this.props.show}>
+            <EDModal className="pageModal" id="TemplatesModal" show={this.props.show}>
                 <Modal.Header>
                     <Modal.Title><span id="previewTitle">Elige una plantilla</span></Modal.Title>
                 </Modal.Header>
@@ -89,7 +90,7 @@ class TemplatesModal extends Component {
                         e.stopPropagation();
                     }}>{i18n.t("importFile.footer.ok")}</Button>
                 </Modal.Footer>
-            </Modal>
+            </EDModal>
         );
     }
 

@@ -1,6 +1,5 @@
 @import "./../../../../sass/general/_variables.scss";
 @import './../../../../sass/general/mixins/mixins';
-@import "../../canvas/editorHeader/editorHeader";
 
 /* Índice */
 .carList {
@@ -19,9 +18,7 @@
     border: none !important;
     outline: none !important;
     &:hover, &:active, &:focus {
-        -webkit-box-shadow: none !important;
         box-shadow: none !important;
-        -moz-box-shadow: none !important;
         outline: none;
     }
 }
@@ -249,7 +246,27 @@
 /*Delete popover*/
 
 .popoverButton {
-    @extend .editorTitleButton;
+    width: 32px;
+    height: 32px;
+    margin: 4px;
+    padding: 8px;
+    border: 0;
+    color: $verdeoscurogrisaceo;
+    background-color: $lightestgrey;
+    display: inline-block;
+    &:hover {
+      color: $detailgreen;
+    }
+    .material-icons {
+      font-size: 16px;
+    }
+    background-color: $grismedio !important;
+    color: white !important;
+    border-radius: 3px;
+    text-align: center;
+    &:hover {
+      background-color: var(--themeColor1, $blueprimary) !important;
+    }
     margin-top: 0px !important;
     padding: 2px 4px !important;
     width: auto !important;

@@ -10,7 +10,6 @@ import { RESIZE_SORTABLE_CONTAINER } from '../../../../common/actions';
 import { isSortableContainer } from '../../../../common/utils';
 import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
 
-import './_pluginPlaceHolder.scss';
 import Cell from "./Cell";
 import i18n from "i18next";
 import Alert from "../../common/alert/Alert";
