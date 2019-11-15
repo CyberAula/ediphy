@@ -33,11 +33,11 @@ class IconPicker extends React.Component {
         let temp = [];
         for(let i = 0; i < ICONLIST.length; i += 4) {
             temp.push(
-                <tr>
-                    <th> <IconButton handleClick={this.handleClick} text={ICONLIST[i]}/></th>
-                    <th>{(i + 1) <= ICONLIST.length ? <IconButton handleClick={this.handleClick} text={ICONLIST[i + 1]}/> : null} </th>
-                    <th>{(i + 2) <= ICONLIST.length ? <IconButton handleClick={this.handleClick} text={ICONLIST[i + 2]}/> : null} </th>
-                    <th>{(i + 3) <= ICONLIST.length ? <IconButton handleClick={this.handleClick} text={ICONLIST[i + 3]}/> : null} </th>
+                <tr key={i}>
+                    <td> <IconButton handleClick={this.handleClick} text={ICONLIST[i]}/></td>
+                    <td>{(i + 1) <= ICONLIST.length ? <IconButton handleClick={this.handleClick} text={ICONLIST[i + 1]}/> : null} </td>
+                    <td>{(i + 2) <= ICONLIST.length ? <IconButton handleClick={this.handleClick} text={ICONLIST[i + 2]}/> : null} </td>
+                    <td>{(i + 3) <= ICONLIST.length ? <IconButton handleClick={this.handleClick} text={ICONLIST[i + 3]}/> : null} </td>
                 </tr>);
         }
         return temp;

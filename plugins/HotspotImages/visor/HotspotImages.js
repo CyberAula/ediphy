@@ -12,12 +12,14 @@ export function HotspotImages() {
             let markElements = Object.keys(marks).map((e) =>{
                 let position = marks[e].value.split(',');
                 let title = marks[e].title;
+                let text = marks[e].text;
                 let color = marks[e].color;
                 let isPopUp = marks[e].connectMode === "popup";
                 let isVisor = true;
                 return(
                     <div key={e} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width: '24px', height: '26px' }}>
                         <Mark color={color}
+                            text={text}
                             idKey={e}
                             title={title}
                             isPopUp={isPopUp}

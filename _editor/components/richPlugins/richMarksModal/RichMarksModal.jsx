@@ -131,7 +131,7 @@ class RichMarksModal extends Component {
                                     onChange={e=>{this.setState({ color: e.color });}}
                                     mode="RGB" />
                             </Col>
-                            <Col xs={4} md={2}>
+                            <Col xs={8} md={6}>
                                 <IconPicker onChange={e=>{this.setState({ text: e.text });}}/>
                                 <br/>
                             </Col>
