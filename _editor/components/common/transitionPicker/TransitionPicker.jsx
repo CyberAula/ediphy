@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
-import './transition_picker.scss';
 
 import { TRANSITIONS } from "../../../../common/themes/transitions/transitions";
+import { TransitionPickerContainer } from "./Styles";
 
 export default class TransitionPicker extends React.Component {
     state = {
@@ -32,9 +32,7 @@ export default class TransitionPicker extends React.Component {
         });
 
         return(
-            <div className={"transition_picker_container"} style={{ width: '100%' }}>
-                {transitions}
-            </div>
+            <TransitionPickerContainer children={transitions}/>
         );
     }
 }
