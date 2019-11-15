@@ -181,7 +181,6 @@ class EdiphyTour extends React.Component {
                         backgroundColor: '#ffffff',
                         primaryColor: '#17CFC8',
                         textColor: '#333',
-                        // overlayColor: 'rgba(79, 26, 0, 0.4)',
                     },
                 }}
             />

@@ -9,6 +9,7 @@ import Ediphy from '../../../../core/editor/main';
 import { isSortableBox, isSortableContainer } from '../../../../common/utils';
 import { blurCKEditor, findBox } from '../../../../common/commonTools';
 import _handlers from "../../../handlers/_handlers";
+import { TitleButton } from "./Styles";
 
 /**
  * EditorShortcuts component
@@ -100,11 +101,11 @@ class EditorShortcuts extends Component {
                                         {i18n.t('messages.Change_source')}
                                     </Tooltip>
                                 }>
-                                <button id="open_conf" className={"editorTitleButton"}
+                                <TitleButton id="open_conf"
                                     ref={ button => {this.overlayTarget = button;}}
                                     onClick={this.showOverlay}>
                                     <i className="material-icons">search</i>
-                                </button>
+                                </TitleButton>
                             </OverlayTrigger>
                         ) : null
                     }
@@ -116,13 +117,13 @@ class EditorShortcuts extends Component {
                                         {i18n.t('messages.Change_source')}
                                     </Tooltip>
                                 }>
-                                <button id="open_conf" className={"editorTitleButton"}
+                                <TitleButton id="open_conf"
                                     onClick={() => {
                                         this.props.openFileModal(box.id, accept);
                                         this.setState({ open: true, callbackKey });
                                     }}>
                                     <i className="material-icons">search</i>
-                                </button>
+                                </TitleButton>
                             </OverlayTrigger>
                         ) : null
                     }
@@ -132,12 +133,12 @@ class EditorShortcuts extends Component {
                                 overlay={
                                     <Tooltip id="richMark">{i18n.t('messages.add_new_mark')}</Tooltip>
                                 }>
-                                <button id="markCreatorButton" className="editorTitleButton" onMouseDown={(e)=>{
+                                <TitleButton id="markCreatorButton" onMouseDown={(e)=>{
                                     e.preventDefault();
                                     this.h.onMarkCreatorToggled(box.id);
                                 }}>
                                     <i id="markCreatorButton" className="material-icons">room</i>
-                                </button>
+                                </TitleButton>
                             </OverlayTrigger>)
                             : null
                     }
@@ -149,7 +150,7 @@ class EditorShortcuts extends Component {
                                         {i18n.t('messages.adjust_to_document')}
                                     </Tooltip>
                                 }>
-                                <button className="editorTitleButton"
+                                <TitleButton
                                     onClick={() => {
                                         if (toolbar && toolbar.structure) {
                                             let currentWidth = toolbar.structure.width;
@@ -169,7 +170,7 @@ class EditorShortcuts extends Component {
                                         }
                                     }}>
                                     <i className="material-icons">code</i>
-                                </button>
+                                </TitleButton>
                             </OverlayTrigger>
                         ) : null
                     }
@@ -181,14 +182,14 @@ class EditorShortcuts extends Component {
                                         {i18n.t('messages.edit_text')}
                                     </Tooltip>
                                 }>
-                                <button className="editorTitleButton"
+                                <TitleButton
                                     onClick={(e) => {
                                         blurCKEditor(toolbar.id, (text, content)=>{
                                             this.h.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, text, content);});
                                         e.stopPropagation();
                                     }}>
                                     <i className="material-icons">mode_edit</i>
-                                </button>
+                                </TitleButton>
                             </OverlayTrigger>
                         ) : null
                     }
@@ -200,12 +201,12 @@ class EditorShortcuts extends Component {
                                         {i18n.t('open_conf')}
                                     </Tooltip>
                                 }>
-                                <button id="open_conf" className={"editorTitleButton"}
+                                <TitleButton id="open_conf"
                                     onClick={() => {
                                         this.props.openConfigModal(toolbar.id);
                                     }}>
                                     <i className="material-icons">build</i>
-                                </button>
+                                </TitleButton>
                             </OverlayTrigger>
                         ) : null
                     }
@@ -217,7 +218,7 @@ class EditorShortcuts extends Component {
                                         {i18n.t('messages.pointer_events')}
                                     </Tooltip>
                                 }>
-                                <button id="pebutton" className={boxEl && boxEl.classList.contains('pointerEventsEnabled') ? "editorTitleButton dtbSelected" : "editorTitleButton"}
+                                <TitleButton id="pebutton" className={boxEl && boxEl.classList.contains('pointerEventsEnabled') ? "dtbSelected" : ""}
                                     onClick={(e) => {
                                         boxEl.classList.toggle('pointerEventsEnabled');
                                         let but = document.getElementById('pebutton');
@@ -233,7 +234,7 @@ class EditorShortcuts extends Component {
                                         }
                                     }}>
                                     <i className="material-icons">pan_tool</i>
-                                </button>
+                                </TitleButton>
                             </OverlayTrigger>
                         ) : null
                     }
@@ -246,13 +247,13 @@ class EditorShortcuts extends Component {
                                             {i18n.t('messages.' + nBox.i18nKey)}
                                         </Tooltip>
                                     }>
-                                    <button id="pebutton" className={"editorTitleButton"}
+                                    <TitleButton id="pebutton"
                                         onClick={(e) => {
                                             nBox.callback();
                                             e.stopPropagation();
                                         }}>
                                         <i className="material-icons">{nBox.icon}</i>
-                                    </button>
+                                    </TitleButton>
                                 </OverlayTrigger>);})
                         ) : null
                     }
@@ -262,10 +263,10 @@ class EditorShortcuts extends Component {
                                 {i18n.t('messages.erase_plugin')}
                             </Tooltip>
                         }>
-                        <button className="editorTitleButton"
+                        <TitleButton
                             onClick={this.onDelete}>
                             <i className="material-icons">delete</i>
-                        </button>
+                        </TitleButton>
                     </OverlayTrigger>
                 </div>
             </div>
