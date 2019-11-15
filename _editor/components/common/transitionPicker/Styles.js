@@ -1,7 +1,7 @@
-@import './../../../../sass/general/mixins/mixins';
-@import './../../../../sass/general/variables';
+import styled from 'styled-components';
+import { PRIMARY_BLUE } from "../../../../sass/general/constants";
 
-.transition_picker_container {
+export const TransitionPickerContainer = styled.div`
   box-sizing: border-box;
   height: 150px;
   width: 100%;
@@ -15,7 +15,6 @@
     width: 90px;
     height: 60px;
     border-radius: 0px;
-    //border: 0.5px solid $grismedio;
     color: grey;
     background-color: #ececec;
     display: flex;
@@ -25,8 +24,8 @@
     justify-content: center;
     &:hover{
       cursor: pointer;
-      @include scale(1.1);
-      @include animacion(all, 0.2s);
+      transform: scale(1.1);
+      transition: all 0.2s ease-in;
     }
     img{
       flex: 3;
@@ -46,11 +45,11 @@
   }
 
   .active {
-    border: 3px solid $blueprimary;
+    border: 3px solid ${PRIMARY_BLUE};
     box-sizing: border-box;
     .view_name{
-      background-color: $blueprimary;
+      background-color: ${PRIMARY_BLUE};
       margin-bottom: -3px;
     }
   }
-}
+`;
