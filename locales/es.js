@@ -314,6 +314,8 @@ let es = {
             "value": "Valor",
             "wrong_value": "Valor incorrecto",
             "save_changes": "Guardar",
+            "selector": "Elija icono",
+
         },
         "messages": {
             "add_new_mark": "Añadir nueva marca",

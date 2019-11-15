@@ -314,6 +314,8 @@ let en = {
             "value": "Value",
             "wrong_value": "Wrong value",
             "save_changes": "Save changes",
+            "selector": "Choose icon",
+
         },
         "messages": {
             "add_new_mark": "Add new mark",

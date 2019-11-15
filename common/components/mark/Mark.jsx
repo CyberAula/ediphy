@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { OverlayTrigger, Tooltip, Popover } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+
 export default class Mark extends Component {
     render() {
         let PopoverMark = (<Popover id="popover-trigger-click-root-close" >{this.props.markConnection}</Popover>);
@@ -8,6 +9,7 @@ export default class Mark extends Component {
         let triggerType = ['hover', 'focus'];
         if (this.props.isPopUp && !this.props.noTrigger) { triggerType = "click"; }
         if (this.props.noTrigger) { triggerType = "focus"; }
+        let text = this.props.text ? this.props.text : "room";
         return (
             <OverlayTrigger key={this.props.idKey}
                 text={this.props.title}
@@ -16,7 +18,7 @@ export default class Mark extends Component {
                 overlay={this.props.isPopUp ? PopoverMark : ToolTipDefault }
                 trigger={triggerType} rootClose>
                 <a id={'mark-' + this.props.idKey} className="mapMarker" style={{ pointerEvents: 'all' }} href="#" onClick={(this.props.isVisor && !this.props.noTrigger) ? ()=>{this.props.onMarkClicked(this.props.boxID, this.props.markValue);} : null}>
-                    <i key="i" style={{ color: this.props.color }} className="material-icons">room</i>
+                    <i key="i" style={{ color: this.props.color }} className="material-icons">{text}</i>
                 </a>
             </OverlayTrigger>
         );
@@ -32,6 +34,10 @@ Mark.propTypes = {
      * Mark color
      */
     color: PropTypes.any,
+    /**
+     * Text of the mark to determine type of material-icon
+     */
+    text: PropTypes.string,
     /**
      * Id of the mark
      */

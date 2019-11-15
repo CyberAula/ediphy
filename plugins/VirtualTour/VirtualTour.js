@@ -137,6 +137,7 @@ export function VirtualTour(base) {
             let markElements = Object.keys(marks).map((idKey) => {
                 let value = marks[idKey].value;
                 let title = marks[idKey].title;
+                let text = marks[idKey].text;
                 let color = marks[idKey].color;
                 let position;
                 if (value && value.split(',').length === 2) {
@@ -146,7 +147,7 @@ export function VirtualTour(base) {
                 }
                 return (
                     <MarkEditor key={idKey} time={1.5} boxId={id} mark={idKey} base={base} onRichMarkMoved={props.onRichMarkMoved} state={state} lat={position[0]} lng={position[1]}>
-                        <Mark idBox={props.id} idKey={idKey} title={title} color={color} />
+                        <Mark idBox={props.id} idKey={idKey} title={title} color={color} text={text}/>
                     </MarkEditor>);
 
             });

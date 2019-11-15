@@ -6,6 +6,7 @@ import './../../../../node_modules/rc-color-picker/assets/index.css';
 import { connect } from "react-redux";
 import Picker from 'rc-color-picker';
 import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Radio } from 'react-bootstrap';
+import IconPicker from "../../common/iconPicker/IconPicker";
 
 import Alert from './../../common/alert/Alert';
 import { isSection, isContainedView, nextAvailName, makeBoxes } from '../../../../common/utils';
@@ -16,7 +17,7 @@ import TemplatesModal from "../../carousel/templatesModal/TemplatesModal";
 import { ModalContainer, TypeSelector } from "./Styles";
 
 /**
- * Modal component to edit marks' configuration
+ * Modal component to   edit marks' configuration
  */
 class RichMarksModal extends Component {
 
@@ -103,7 +104,7 @@ class RichMarksModal extends Component {
                 </Modal.Header>
 
                 <Modal.Body>
-                    <Row>
+                    <Row >
                         <FormGroup>
                             <Col xs={4} md={2}>
                                 <ControlLabel>{i18n.t("marks.mark_name")}</ControlLabel>
@@ -129,8 +130,13 @@ class RichMarksModal extends Component {
                                     color={this.state.color || marksType.defaultColor}
                                     onChange={e=>{this.setState({ color: e.color });}}
                                     mode="RGB" />
-                                <br/>
                             </Col>
+                        </FormGroup>
+                    </Row>
+                    <Row>
+                        <FormGroup>
+                            <IconPicker onChange={e=>{this.setState({ text: e.text });}}/>
+                            <br/>
                         </FormGroup>
                     </Row>
                     <Row>
@@ -259,6 +265,7 @@ class RichMarksModal extends Component {
                         let connectMode = this.state.connectMode;
                         let color = this.state.color || marksType.defaultColor || '#222222';
                         let connection = selected.id;
+                        let text = this.state.text;
                         // CV name
                         let name = connectMode === "existing" ? this.props.viewToolbarsById[connection].viewName : nextAvailName(i18n.t('contained_view'), this.props.viewToolbarsById, 'viewName');
                         // Mark name
@@ -292,6 +299,7 @@ class RichMarksModal extends Component {
                                     connectMode: connectMode,
                                     displayMode: this.state.displayMode,
                                     value: value,
+                                    text: text,
                                 },
                                 view: {
                                     info: "new",
@@ -321,6 +329,7 @@ class RichMarksModal extends Component {
                                     connectMode: connectMode,
                                     displayMode: this.state.displayMode,
                                     value: value,
+                                    text: text,
                                 },
                                 view: {
                                     info: "new",
@@ -344,6 +353,7 @@ class RichMarksModal extends Component {
                                     connectMode: connectMode,
                                     displayMode: this.state.displayMode,
                                     value: value,
+                                    text: text,
                                 },
                             };
                             break;
@@ -358,6 +368,7 @@ class RichMarksModal extends Component {
                                     connectMode: connectMode,
                                     displayMode: this.state.displayMode,
                                     value: value,
+                                    text: text,
                                 },
                             };
                             break;
