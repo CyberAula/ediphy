@@ -10,9 +10,9 @@ import { makeBoxes } from "../../../../common/utils";
 import TemplateThumbnail from "./TemplateThumbnail";
 
 import { getThemeTemplates } from "../../../../common/themes/themeLoader";
-import './_templatesModal.scss';
 import handleNavItems from "../../../handlers/handleNavItems";
 import { EDModal } from "../../../../sass/general/EDModal";
+import { ItemsContainer } from "./Styles";
 
 class TemplatesModal extends Component {
     constructor(props) {
@@ -44,7 +44,7 @@ class TemplatesModal extends Component {
                     <Modal.Title><span id="previewTitle">Elige una plantilla</span></Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="gcModalBody" style={{ overFlowY: 'auto' }}>
-                    <div className="items_container">
+                    <ItemsContainer>
                         <div id="empty"
                             className="template_item"
                             key="-1"
@@ -71,7 +71,7 @@ class TemplatesModal extends Component {
                             </div>
                             );
                         })}
-                    </div>
+                    </ItemsContainer>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button bsStyle="default" id="import_file_button" onClick={ e => {

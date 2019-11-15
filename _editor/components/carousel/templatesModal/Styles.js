@@ -1,6 +1,7 @@
-@import './../../../../sass/general/mixins/mixins';
-@import './../../../../sass/general/variables';
-.items_container{
+import styled from 'styled-components';
+import { PRIMARY_BLUE } from "../../../../sass/general/constants";
+
+export const ItemsContainer = styled.div.attrs({ className: 'itemsContainer' })`
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
@@ -8,14 +9,14 @@
     margin: 0.5em;
     border-radius: 0.25em;
     &:hover{
-      @include scale(1.05);
-      @include animacion(all, 0.2s);
+      transform: scale(1.05);
+      transition: all 0.2s ease-in;
     }
     .template_name{
       position: absolute;
       bottom: -0.25em;
       width: 100%;
-      background: $blueprimary;
+      background: ${PRIMARY_BLUE};
       padding: 0.2em 0.4em;
       text-transform: uppercase;
       font-size: smaller;
@@ -24,29 +25,15 @@
       display: none;
     }
   }
-}
-.template2_item{
+  .template2_item{
     padding: 0.5em;
     font-size: 2em;
-    //height: 100%;
     .custom_color{
       color: var(--themeColor7);
     }
-}
-.bulleted_list{
-  font-size: 1.6em;
-  line-height: 1.6em;
-}
-
-/*.lightRed{
-  background-color: #ff444d;
-}
-.lightGreen{
-  background-color: #4cff9f;
-}
-.lightBlue{
-  background-color: #65caff;
-}
-.lightYellow{
-  background-color: #ffbf45;
-}*/
+  }
+  .bulleted_list{
+    font-size: 1.6em;
+    line-height: 1.6em;
+  }
+`;
