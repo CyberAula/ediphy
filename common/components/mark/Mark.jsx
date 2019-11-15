@@ -33,6 +33,10 @@ Mark.propTypes = {
      */
     color: PropTypes.any,
     /**
+     * Text of the mark to determine type of material-icon
+     */
+    text: PropTypes.string,
+    /**
      * Id of the mark
      */
     idKey: PropTypes.any,
