@@ -3,6 +3,7 @@ import IconButton from "./IconButton";
 import { ICONLIST } from "./icons";
 import PropTypes from 'prop-types';
 import { Col, ControlLabel } from "react-bootstrap";
+import i18n from 'i18next';
 
 class IconPicker extends React.Component {
     constructor(props) {
@@ -16,12 +17,16 @@ class IconPicker extends React.Component {
         return (
             <React.Fragment>
                 <Col xs={4} md={2}>
-                    <ControlLabel>Selector</ControlLabel>
+                    <ControlLabel>{i18n.t("marks.selector")}</ControlLabel>
                 </Col>
-                <Col xs={8} md={6}>
-                    <i className="material-icons">{this.state.icon}</i>
+                <Col xs={1} md={1} >
+                    <div>
+                        <i className="material-icons">{this.state.icon}</i>
+                    </div>
+                </Col>
+                <Col xs={7} md={5}>
                     <br/>
-                    <div className="table-responsive" style={{ height: "200px" }}>
+                    <div className="table-responsive " style={{ height: "200px" }}>
                         <table className="table">
                             <tbody>
                                 {this.renderTable()}
@@ -53,10 +58,10 @@ class IconPicker extends React.Component {
 
 export default IconPicker;
 
-IconPicker.PropTypes = {
+IconPicker.propTypes = {
     /**
-     * Function to hancle changes
+     * Function to handle changes
      */
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
 
 };

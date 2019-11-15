@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { OverlayTrigger, Tooltip, Popover } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+
 export default class Mark extends Component {
     render() {
         let PopoverMark = (<Popover id="popover-trigger-click-root-close" >{this.props.markConnection}</Popover>);
