@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import './../../../../node_modules/rc-color-picker/assets/index.css';
 import { connect } from "react-redux";
 import Picker from 'rc-color-picker';
-import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Radio, Table } from 'react-bootstrap';
+import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Radio } from 'react-bootstrap';
 import IconPicker from "../../common/iconPicker/IconPicker";
 
 import Alert from './../../common/alert/Alert';
@@ -131,10 +131,12 @@ class RichMarksModal extends Component {
                                     onChange={e=>{this.setState({ color: e.color });}}
                                     mode="RGB" />
                             </Col>
-                            <Col xs={8} md={6}>
-                                <IconPicker onChange={e=>{this.setState({ text: e.text });}}/>
-                                <br/>
-                            </Col>
+                        </FormGroup>
+                    </Row>
+                    <Row>
+                        <FormGroup>
+                            <IconPicker onChange={e=>{this.setState({ text: e.text });}}/>
+                            <br/>
                         </FormGroup>
                     </Row>
                     <Row>

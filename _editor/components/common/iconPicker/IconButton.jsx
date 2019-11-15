@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+/* eslint-disable react/prop-types */
 class IconButton extends Component {
     constructor(props) {
         super(props);
@@ -15,3 +16,4 @@ class IconButton extends Component {
 }
 
 export default IconButton;
+/* eslint-enable react/prop-types */

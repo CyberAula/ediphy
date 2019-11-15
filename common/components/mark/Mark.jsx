@@ -8,6 +8,7 @@ export default class Mark extends Component {
         let triggerType = ['hover', 'focus'];
         if (this.props.isPopUp && !this.props.noTrigger) { triggerType = "click"; }
         if (this.props.noTrigger) { triggerType = "focus"; }
+        let text = this.props.text ? this.props.text : "room";
         return (
             <OverlayTrigger key={this.props.idKey}
                 text={this.props.title}
@@ -16,7 +17,7 @@ export default class Mark extends Component {
                 overlay={this.props.isPopUp ? PopoverMark : ToolTipDefault }
                 trigger={triggerType} rootClose>
                 <a id={'mark-' + this.props.idKey} className="mapMarker" href="#" onClick={(this.props.isVisor && !this.props.noTrigger) ? ()=>{this.props.onMarkClicked(this.props.boxID, this.props.markValue);} : null}>
-                    <i key="i" style={{ color: this.props.color }} className="material-icons">{this.props.text}</i>
+                    <i key="i" style={{ color: this.props.color }} className="material-icons">{text}</i>
                 </a>
             </OverlayTrigger>
         );

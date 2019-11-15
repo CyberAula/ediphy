@@ -1,27 +1,34 @@
 import React from 'react';
 import IconButton from "./IconButton";
 import { ICONLIST } from "./icons";
+import PropTypes from 'prop-types';
+import { Col, ControlLabel } from "react-bootstrap";
 
 class IconPicker extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            icon: "face",
+            icon: "room",
         };
         this.handleClick = this.handleClick.bind(this);
     }
     render() {
         return (
             <React.Fragment>
-                <h2>Selector</h2>
-                <i className="material-icons">{this.state.icon}</i>
-                <div className="table-responsive" style={{ height: "200px" }}>
-                    <table className="table">
-                        <tbody>
-                            {this.renderTable()}
-                        </tbody>
-                    </table>
-                </div>
+                <Col xs={4} md={2}>
+                    <ControlLabel>Selector</ControlLabel>
+                </Col>
+                <Col xs={8} md={6}>
+                    <i className="material-icons">{this.state.icon}</i>
+                    <br/>
+                    <div className="table-responsive" style={{ height: "200px" }}>
+                        <table className="table">
+                            <tbody>
+                                {this.renderTable()}
+                            </tbody>
+                        </table>
+                    </div>
+                </Col>
             </React.Fragment>
         );
     }
@@ -45,3 +52,11 @@ class IconPicker extends React.Component {
 }
 
 export default IconPicker;
+
+IconPicker.PropTypes = {
+    /**
+     * Function to hancle changes
+     */
+    onChange: PropTypes.func.isRequired,
+
+};
