@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Modal } from 'react-bootstrap';
 import i18n from 'i18next';
+import { EDModal } from "../../../../sass/general/EDModal";
 /** *
  * Custom alert component
  * @example  <Alert show={this.state.showAlert}      | true : displays alert / false: hides alert
@@ -28,7 +29,7 @@ export default class Alert extends Component {
         const { acceptButtonText, backdrop, bsStyle, cancelButton, cancelButtonText, children,
             className, closeButton, hasHeader, onClose, show, title } = this.props;
         return(
-            <Modal id="alertModal" className={className || 'popupAlert'}
+            <EDModal id="alertModal" className={className || 'popupAlert'}
                 onKeyUp={(e)=>{
                     if (e.keyCode === 13) {
                         onClose(true);
@@ -60,7 +61,7 @@ export default class Alert extends Component {
                         { acceptButtonText || i18n.t('messages.OK') }
                     </Button>
                 </Modal.Footer>
-            </Modal>
+            </EDModal>
         );
     }
 
