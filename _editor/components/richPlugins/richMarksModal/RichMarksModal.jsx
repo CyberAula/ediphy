@@ -50,6 +50,7 @@ class RichMarksModal extends Component {
             if (current) {
                 this.setState({
                     viewNames: allViews,
+                    text: current.text,
                     color: current.color,
                     connectMode: current.connectMode || "new",
                     displayMode: current.displayMode || "navigate",
@@ -62,6 +63,7 @@ class RichMarksModal extends Component {
                 this.setState({
                     viewNames: allViews,
                     color: null,
+                    text: "room",
                     connectMode: "new",
                     displayMode: "navigate",
                     newSelected: "",
@@ -135,7 +137,7 @@ class RichMarksModal extends Component {
                     </Row>
                     <Row>
                         <FormGroup>
-                            <IconPicker onChange={e=>{this.setState({ text: e.text });}}/>
+                            <IconPicker text={this.state.text} onChange={e=>{this.setState({ text: e.text });}}/>
                             <br/>
                         </FormGroup>
                     </Row>
