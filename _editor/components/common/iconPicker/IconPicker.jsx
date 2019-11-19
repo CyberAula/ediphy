@@ -9,7 +9,7 @@ class IconPicker extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            icon: "room",
+            icon: this.props.text,
         };
         this.handleClick = this.handleClick.bind(this);
     }
@@ -63,5 +63,8 @@ IconPicker.propTypes = {
      * Function to handle changes
      */
     onChange: PropTypes.func,
-
+    /**
+     * Text to change the icon
+     */
+    text: PropTypes.string,
 };

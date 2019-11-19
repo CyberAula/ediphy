@@ -26,6 +26,7 @@ export default class MarksList extends Component {
                         }
                         let name = mark.connection;
                         let color = mark.color || '#337ab7';
+                        let text = mark.text || "room";
                         let widthScroll = Math.max(mark.title.length / 11 * 100, 100);
                         try {
                             switch (mark.connectMode) {
@@ -51,7 +52,7 @@ export default class MarksList extends Component {
                                         overlay={(<Tooltip id={"markToolTip-" + id}>
                                             {i18n.t('marks.hover_message') + "\"" + name + "\""}
                                         </Tooltip>)}>
-                                        <i style={{ color: color }} className="material-icons marklist main">room</i>
+                                        <i style={{ color: color }} className="material-icons marklist main">{text}</i>
                                     </OverlayTrigger>) :
                                     (<i style={{ color: color }} className="material-icons marklist">room</i>)}
                                 <div className="markNameInToolbarContainer"
