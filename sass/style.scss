@@ -389,3 +389,21 @@ input[type="radio"]{
     pointer-events: all !important;
 }
 
+// React-joyride
+.__floater {
+  z-index: 9999 !important;
+  border-radius: 0 !important;
+  &>div {
+    border-radius: 0 !important;
+  }
+  &>div>div {
+    border-radius: 0px !important;
+  }
+  .step_text{
+    text-align: left;
+    color: #999;
+  }
+  button {
+    border-radius: 0px !important;
+  }
+}

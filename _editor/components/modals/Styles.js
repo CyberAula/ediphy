@@ -1,40 +1,16 @@
-// React-joyride
-.__floater {
-  z-index: 9999 !important;
-  border-radius: 0 !important;
-  &>div {
-    border-radius: 0 !important;
-  }
-  &>div>div {
-    border-radius: 0px !important;
-  }
-  .step_text{
-    text-align: left;
-    color: #999;
-  }
-  button {
-    border-radius: 0px !important;
-  }
-}
-.welcomeModal {
+import styled from 'styled-components';
+import { EDModal } from "../../../sass/general/EDModal";
+import Alert from "../common/alert/Alert";
+
+export const WelcomeModalStyle = `
   &.fade:not(.in) {
-    -moz-transition: all  1s ease-in;
-    -webkit-transition: all  1s ease-in;
-    -o-transition: all  1s ease-in;
     transition: all 1s ease-in;
     transform: translate(0,0) !important;
-    -webkit-transform:  translate(0,0) !important;
-    -ms-transform:  translate(0,0) !important;
-    transform:  translate(0,0) !important;
     .modal-dialog {
       transform: translate(50vw,-50vh) scale(0.1);
-      -webkit-transform:  translate(50vw,-50vh) scale(0.1);
-      -ms-transform:  translate(50vw,-50vh) scale(0.1);
-      transform:  translate(50vw,-50vh) scale(0.1);
     }
   }
   .modal-content{
-    //top: 100px;
     .modal-body {
       padding: 30px;
       .welcomeModalDiv {
@@ -52,9 +28,11 @@
       }
     }
   }
-}
-.helpModal{
-  h2{
+`;
+
+export const HelpModalContainer = styled(EDModal)`
+  ${WelcomeModalStyle}
+    h2{
     margin: 0;
     color: #555555;
     font-size: 1.5em;
@@ -89,13 +67,8 @@
       }
     }
   }
-}
-.tourCloned {
-  position: fixed;
-  top: 0;
-  left: 0;
-}
+`;
 
-.joyride-spotlight {
-  border-radius: 0px !important;
-}
+export const AlertContainer = styled(Alert)`
+${WelcomeModalStyle}
+`;

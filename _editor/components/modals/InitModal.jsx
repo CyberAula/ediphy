@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import i18n from "i18next";
 import screen from "../joyride/pantalla.svg";
-import Alert from "../common/alert/Alert";
 import Cookies from 'universal-cookie';
+import { AlertContainer } from "./Styles";
 
 const cookies = new Cookies();
 
@@ -15,7 +15,7 @@ export default class InitModal extends React.Component {
 
     render() {
         return(
-            <Alert className="pageModal welcomeModal"
+            <AlertContainer
                 show={this.state.initModal}
                 hasHeader={false}
                 title={<span><i style={{ fontSize: '14px', marginRight: '5px' }} className="material-icons">delete</i>{i18n.t("messages.confirm_delete_cv")}</span>}
@@ -33,7 +33,7 @@ export default class InitModal extends React.Component {
                     <p>{i18n.t('joyride.ediphy_description')}</p>
                     <p><strong>{i18n.t('joyride.need_help')}</strong></p>
                 </div>
-            </Alert>
+            </AlertContainer>
         );
     }
 }

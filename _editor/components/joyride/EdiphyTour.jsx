@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import i18n from 'i18next';
-import './_joyride.scss';
 import dragdrop from './dragdrop.svg';
 import edit from './edit.svg';
 import indexImg from './index.svg';
@@ -182,9 +181,7 @@ class EdiphyTour extends React.Component {
                         primaryColor: '#17CFC8',
                         textColor: '#333',
                     },
-                }}
-            />
-
+                }}/>
         </div>
         ) : null;
     }
