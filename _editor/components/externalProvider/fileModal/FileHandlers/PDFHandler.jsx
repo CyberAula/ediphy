@@ -9,6 +9,7 @@ import { ID_PREFIX_BOX, ID_PREFIX_PAGE, ID_PREFIX_SORTABLE_CONTAINER, PAGE_TYPES
 // styles
 import { createBox } from '../../../../../common/commonTools';
 import _handlers from "../../../../handlers/_handlers";
+import { PDFDialog } from "../Styles";
 let spinner = require('../../../../../dist/images/spinner.svg');
 
 // PDF Library conf.
@@ -114,7 +115,7 @@ export default class PDFHandler extends Component {
      * @returns {code}
      */
     render() {
-        return (<div className="pdfFileDialog">
+        return (<PDFDialog>
             <form action="javascript:void(0);" onSubmit={e=>e.preventDefault()}>
                 <div className="fileLoaded" style={{ display: 'block' }}>
                     <h2>{i18n.t("Preview")}</h2>
@@ -130,8 +131,8 @@ export default class PDFHandler extends Component {
                                 {i18n.t("importFile.pages.whole_file")} ({ this.state.FilePages })
                             </Radio>
                             <Radio name="radioPages" inline>
-                                <FormGroup >
-                                    <InputGroup className="inputGroup">
+                                <FormGroup>
+                                    <InputGroup className="inputGroup" style={{ width: '30%', display: 'inline-table', marginRight: '10px' }}>
                                         <InputGroup.Addon>{i18n.t("importFile.pages.from")}</InputGroup.Addon>
                                         <FormControl type="number"
                                             style={{ minWidth: '55px' }}
@@ -140,14 +141,14 @@ export default class PDFHandler extends Component {
                                             max={this.state.FilePages}
                                             onChange={e => {this.setState({ PagesFrom: e.target.value });}}/>
                                     </InputGroup>
-                                    <InputGroup className="inputGroup">
+                                    <InputGroup className="inputGroup" style={{ width: '30%', display: 'inline-table' }}>
                                         <InputGroup.Addon>{i18n.t("importFile.pages.to")}</InputGroup.Addon>
                                         <FormControl type="number"
-                                            style={{ minWidth: '55px' }}
+                                            style={{ minWidth: '55px', width: '30%' }}
                                             value={this.state.PagesTo}
                                             min={1}
                                             max={this.state.FilePages}
-                                            onChange={e => {this.setState({ PagesTo: e.target.value });}}/>
+                                            onChange={e => {this.setState({ PagesTo: e.target.value > this.state.FilePages ? this.state.FilePages : e.target.value });}}/>
                                     </InputGroup>
                                 </FormGroup>
                             </Radio>
@@ -178,7 +179,7 @@ export default class PDFHandler extends Component {
                     </Col>
                 </Row>
             </form>
-        </div>
+        </PDFDialog>
         );
     }
 

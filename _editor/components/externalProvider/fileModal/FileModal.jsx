@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button, ListGroupItem, ListGroup } from 'react-bootstrap';
-import '../_external.scss';
 import { isContainedView } from '../../../../common/utils';
 import FileHandlers from './FileHandlers/FileHandlers';
 import APIProviders from './APIProviders/APIProviders';
@@ -81,6 +80,7 @@ class FileModal extends React.Component {
                                     </div>
                                     <div id="drawerContent">
                                         <PDFHandler
+                                            dispatch={this.props.dispatch}
                                             navItemSelected={this.props.navItemSelected}
                                             boxesById={this.props.boxesById}
                                             navItemsIds={this.props.navItemsIds}
