@@ -1,5 +1,16 @@
-@import "../../../../sass/general/_variables.scss";
-.pageModal.fileModal {
+import styled from 'styled-components';
+import { EDModal } from "../../../../sass/general/EDModal";
+import {
+    ADAMS_ORANGE,
+    DARKEST_GREY,
+    DETAIL_GREEN,
+    DETAIL_GREEN_TRANSPARENT,
+    GREY, LIGHT_ORANGE, LIGHT_RED, LIGHT_RED_TRANSPARENT,
+    LIGHTEST_GREY,
+    PRIMARY_BLUE, PRIMARY_BLUE_TRANSPARENT,
+} from "../../../../sass/general/constants";
+
+export const FileModalContainer = styled(EDModal)`
   .modal-footer {
     height: 62px;
     display: flex;
@@ -26,8 +37,7 @@
       padding: 0;
       border-right: 1px solid grey;
       flex-shrink: 0;
-      background-color: $lightestgrey;
-      //max-height: 520px;
+      background-color: ${LIGHTEST_GREY};
       overflow: auto;
       .list-group {
         margin: 0;
@@ -41,7 +51,7 @@
             font-size: 1.1em;
             vertical-align: middle;
             margin-right: 10px;
-            color: $darkest;
+            color: ${DARKEST_GREY};
           }
           .fileMenuIcon {
             width: auto;
@@ -55,7 +65,7 @@
           }
           &.active {
             background-color: #ddd;
-            color: $grey;
+            color: ${GREY};
             font-weight: bold;
           }
         }
@@ -71,13 +81,12 @@
 
       .contentComponent{
         padding: 20px 0;
-        min-height: 557px;
         min-height: 57vh;
         flex: 1;
         h5 {
           margin: 0;
           padding: 0 20px;
-          color: $blueprimary;
+          color: ${PRIMARY_BLUE};
           font-size: 16px;
           .searchInputTopBar {
             width:60%;
@@ -109,7 +118,6 @@
         hr{ margin: 20px 0 0 0; }
       }
       .ExternalResults{
-        min-height:  370px;
         min-height: 44vh;
         overflow-y: auto;
         max-height: 390px;
@@ -234,19 +242,19 @@
             margin-right: 10px;
           }
           &#errorMsg {
-            color: $lightred;
-            border: 1px solid $lightred;
-            background-color: $lightredtransparent;
+            color: ${LIGHT_RED};
+            border: 1px solid ${LIGHT_RED};
+            background-color: ${LIGHT_RED_TRANSPARENT};
           }
           &#uploadedMsg{
-            color: $detailgreen;
-            border: 1px solid $detailgreen;
-            background-color: $detailgreentransparent;
+            color: ${DETAIL_GREEN};
+            border: 1px solid ${DETAIL_GREEN};
+            background-color: ${DETAIL_GREEN_TRANSPARENT};
           }
           &#warningMsg{
-            color: $naranjaadams;
-            border: 1px solid $naranjaadams;
-            background-color: $naranjaclaro;
+            color: ${ADAMS_ORANGE};
+            border: 1px solid ${ADAMS_ORANGE};
+            background-color: ${LIGHT_ORANGE};
           }
         }
         #spinnerFloatContainer {
@@ -287,9 +295,9 @@
       #serverMsg, .empty {
         width: 100%;
         text-align: center;
-        background-color: $blueprimarytransparent;
+        background-color: ${PRIMARY_BLUE_TRANSPARENT};
         padding: 20px;
-        color: $blueprimary;
+        color: ${PRIMARY_BLUE};
         font-weight: bold;
       }
       .myFile {
@@ -297,7 +305,7 @@
           display: none;
         }
         .deleteButton, .downloadButton, .previewFileButton {
-          background-color: $blueprimary;
+          background-color: ${PRIMARY_BLUE};
           color: white;
           position: absolute;
           padding: 2px 5px;
@@ -324,7 +332,7 @@
           background-position: center;
           background-size: cover;
           &.active {
-            border-color: $blueprimary !important;
+            border-color: ${PRIMARY_BLUE} !important;
           }
           i {
             font-size: 40px;
@@ -389,9 +397,6 @@
         width: 0;
         position: absolute;
         right: 0;
-        -moz-transition: width 0.5s ease;
-        -webkit-transition:  width 0.5s ease;
-        -o-transition: width 0.5s ease;
         transition: width 0.5s ease;
         top: 0;
         z-index: 9999;
@@ -420,7 +425,7 @@
               display: flex;
             }
             .moodleXmlFeedback {
-              color: $blueprimary;
+              color: ${PRIMARY_BLUE};
             }
           }
         }
@@ -470,161 +475,4 @@
       display: none;
     }
   }
-}
-
-
-.picker, .picker-dialog {
-  z-index: 9999 !important;
-}
-.dropbox-preview{
-
-}
-.dropbox-button {
-  padding: 20px;
-  text-align: center;
-  p {
-    font-size: 16px;
-    color: #777;
-    padding: 10px;
-    //font-weight: bold;
-  }
-  button {
-    span {
-
-    }
-    svg {
-      vertical-align: middle;
-      margin-right: 8px;
-    }
-  }
-  cursor: pointer;
-}
-
-.DropboxResults {
-
-  height: 100%;
-  display: flex;
-
-   >div{
-    display: flex;
-    flex: 1;
-  }
-
-  #fileNameTitle {
-    height: 68px;
-  }
-
-  .dropbox-modal {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-
-    .left-side {
-      width: 50%;
-      padding: 15px 10px;
-      flex: 1;
-      display: flex;
-      justify-content: flex-start;
-      align-items: self-start;
-    }
-
-    .right-side {
-      width: 50%;
-      //height: 100%;
-      display: flex;
-      flex-direction: column;
-      //align-items: center;
-      margin-top: 20px;
-      margin-bottom: 20px;
-      padding-left: 15px;
-
-      .fileNameTitle{
-        align-self: flex-start;
-        color: #555;
-        font-size: 16px;
-        font-weight: bold;
-      }
-
-      .info-messages{
-        width: 100%;
-
-        .spinnerFloat{
-          width: 10%;
-        }
-        .uploadModalMsg {
-          padding: 12px;
-          margin: 10px 0px;
-          display: flex;
-          i {
-            vertical-align: middle;
-            margin-right: 10px;
-          }
-          &#errorMsg {
-            color: $lightred;
-            border: 1px solid $lightred;
-            background-color: $lightredtransparent;
-          }
-          &#uploadedMsg{
-            color: $detailgreen;
-            border: 1px solid $detailgreen;
-            background-color: $detailgreentransparent;
-          }
-          &#warningMsg{
-            color: $naranjaadams;
-            border: 1px solid $naranjaadams;
-            background-color: $naranjaclaro;
-          }
-        }
-      }
-
-
-
-
-      #spinnerFloatContainer{
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-      }
-
-      .dropbox-button{
-        //width: 90%;
-        padding: 0;
-        margin-bottom: 10px;
-        text-align: left;
-        button{
-          //width: 100%;
-        }
-      }
-    }
-  }
-
-  iframe {
-    border: 1px solid grey;
-    margin-right: 10px;
-    width: 100%;
-    flex: 1;
-    height: 100%;
-  }
-
-  .dropbox-container{
-    display: flex;
-    flex: 1;
-  }
-
-  .dropbox-click-upload{
-    display: flex;
-    align-items: center;
-    flex: 1;
-
-    .dropbox-button{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-
-
-    }
-  }
-
-
-}
+`;

@@ -29,8 +29,7 @@ class EdiphyTour extends React.Component {
                     offset: 30,
                     disableBeacon: true, // The first step needs to have this so the beacon does not appear and the tour starts right away
                     tooltipOptions: { footer: null },
-                    callback: ()=>{
-                    },
+                    callback: ()=>{},
                 },
                 { // Plugin selection
                     target: '#ribbonList',
@@ -80,9 +79,7 @@ class EdiphyTour extends React.Component {
                         <div className={'step_text'}>{i18n.t('joyride.index')}</div>
                     </div>),
                     placement: 'auto',
-                    callback: ()=>{
-                        document.getElementById('toolbarFlap').click();
-                    },
+                    callback: ()=>document.getElementById('toolbarFlap').click(),
                 },
                 { // Add buttons - Carrousel list
                     target: '#addbuttons',
@@ -91,10 +88,8 @@ class EdiphyTour extends React.Component {
                         <div className={'step_text'}>{i18n.t('joyride.carrousel')}</div>
                     </div>),
                     placement: 'auto',
-                    callback: ()=>{
-                    },
+                    callback: ()=>{},
                 },
-
                 { // Right-corner menu - importExport
                     target: '#topMenu',
                     content: (<div>
@@ -102,10 +97,7 @@ class EdiphyTour extends React.Component {
                         <div className={'step_text'}>{i18n.t('joyride.menu')}</div></div>),
                     offset: 10,
                     placement: 'auto',
-                    callback: ()=>{
-                        document.getElementById('dropdown-menu').click();
-
-                    },
+                    callback: ()=>document.getElementById('dropdown-menu').click(),
                 },
                 { // Right-corner menu - preview
                     target: '.navbarButton_preview',
@@ -113,25 +105,17 @@ class EdiphyTour extends React.Component {
                         <img src={preview} alt="" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.preview')}</div>
                     </div>),
-                    // offset: 60,
                     placement: 'bottom',
-                    callback: ()=>{
-                        // document.querySelector('.navbarButton_preview').click();
-
-                    },
+                    callback: ()=>{},
                 },
                 { // Right-corner menu - help
                     target: '#topMenu',
                     content: (<div>
                         <img src={help} alt="" style={{ width: '100%' }}/>
                         <div className={'step_text'}>{i18n.t('joyride.manual')} <a target="_blank" href="http://ging.github.io/ediphy/#/manual"> {i18n.t('joyride.manual2')}</a></div></div>),
-                    // offset: 60,
                     placement: 'auto',
-                    callback: ()=>{
-                        document.getElementById('dropdown-menu').click();
-                    },
+                    callback: ()=>document.getElementById('dropdown-menu').click(),
                 },
-
             ],
             run: this.props.showTour,
             doneSteps: new Set(),
@@ -142,7 +126,7 @@ class EdiphyTour extends React.Component {
         const { action, index, type } = tour;
         if (this.refs.joyride) {
             if (index || index === 0) {
-                if (tour.step && tour.step.callback && type === 'tooltip' /* && undone*/) {
+                if (tour.step && tour.step.callback && type === 'tooltip') {
                     let doneSteps = (new Set(this.state.doneSteps)).add(index);
                     tour.step.callback();
                     this.setState({ doneSteps });
@@ -185,6 +169,7 @@ class EdiphyTour extends React.Component {
         </div>
         ) : null;
     }
+
     UNSAFE_componentWillReceiveProps(nextProps) {
         if (this.props.showTour !== nextProps.showTour) {
             this.setState({ run: nextProps.showTour });
