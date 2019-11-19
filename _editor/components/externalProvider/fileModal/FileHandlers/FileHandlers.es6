@@ -204,20 +204,6 @@ function getInsertButtonTitle(allowedPluginKey) {
     return i18n.t('FileModal.FileHandlers.insert') + ' ' + i18n.t(`${allowedPluginKey}.PluginName`).toLowerCase();
 }
 
-/* function sanitizeInitialParams(initialParams, boxes) {
-    let parent = initialParams.parent;
-
-    if(isSortableBox(parent) || isPage(parent) || isContainedView(parent)) {
-        return initialParams;
-    }
-
-    if(isBox(parent)) {
-        let box = boxes[parent];
-        return { ...initialParams, parent: box.parent, container: box.container };
-    }
-
-    return initialParams;
-}*/
 function csvToState(csv) {
     let lines = csv.split("\n");
 
