@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { LIGHT_GREY } from '../../../../sass/general/constants';
+import { animacion } from './../../../../sass/general/mixins/mixins';
 
 export const CarouselListTitle = styled.div`
-cursor: pointer;
+    cursor: pointer;
     color: ${LIGHT_GREY};
     * {
-        @include animacion(all, 0.2s);
+        ${animacion(all, "0.2s")};
     }
     &:hover {
         color: #fff !important;
@@ -26,6 +27,7 @@ cursor: pointer;
     .btnFullCarousel {
         right: 0;
     }
+
 `
     ;
 
