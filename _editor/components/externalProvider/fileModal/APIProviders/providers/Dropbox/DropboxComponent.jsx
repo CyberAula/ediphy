@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { Form, Button } from 'react-bootstrap';
 import i18n from 'i18next';
 import DropboxChooser from 'react-dropbox-chooser';
-import { extensionHandlers as extensionsH } from '../../FileHandlers/FileHandlers';
-import { FILE_UPLOAD_ERROR, FILE_UPLOADING } from '../../../../../../common/constants';
-import { isFile } from '../../../../../../common/utils';
-let loadingBox = require('../../../../../../dist/images/loading-box.gif');
+import { extensionHandlers as extensionsH } from '../../../FileHandlers/FileHandlers';
+import { FILE_UPLOAD_ERROR, FILE_UPLOADING } from '../../../../../../../common/constants';
+import { isFile } from '../../../../../../../common/utils';
+let loadingBox = require('../../../../../../../dist/images/loading-box.gif');
 
 export default class DropboxComponent extends React.Component {
     state = {

@@ -1,13 +1,10 @@
 import React from 'react';
 import i18n from 'i18next';
 
-import { ImagesPreview } from "./ImagesPreview";
+import { ImagesPreview } from "../ImagesPreview";
 
-export default class PixabayComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.onSearch = this.onSearch.bind(this);
-    }
+export default class FlickrComponent extends React.Component {
+
     state = {
         results: [],
         query: '',
@@ -16,18 +13,17 @@ export default class PixabayComponent extends React.Component {
 
     render = () => ImagesPreview(this);
 
-    onSearch(text) {
-        const BASE = "https://pixabay.com/api/?key=14212908-b76b2fe79bc5d3c216e4b4d4e&q=" + encodeURI(text) + "&image_type=photo";
+    onSearch = (text) => {
+        let flickrURL = "http://api.flickr.com/services/feeds/photos_public.gne?tags=" + encodeURI(text) + "&tagmode=any&format=json&jsoncallback=?";
         this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
-        $.getJSON(BASE, (imgs)=>{
+        $.getJSON(flickrURL, (imgs)=>{
             try{
                 if (imgs) {
-                    if (imgs && imgs.hits) {
-                        let results = imgs.hits.map(img=>{
+                    if (imgs && imgs.items) {
+                        let results = imgs.items.map(img=>{
                             return {
-                                title: String(img.id),
-                                url: img.largeImageURL,
-                                thumnnail: img.previewURL,
+                                title: img.title,
+                                url: img.media.m.replace(/_m/i, ""),
                             };
                         });
                         this.setState({ results, msg: results.length > 0 ? '' : i18n.t("FileModal.APIProviders.no_files") });
@@ -40,5 +36,5 @@ export default class PixabayComponent extends React.Component {
             }
 
         });
-    }
+    };
 }

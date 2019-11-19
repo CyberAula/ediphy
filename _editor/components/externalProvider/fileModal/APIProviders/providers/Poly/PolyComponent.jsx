@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Col, Form, FormGroup, ControlLabel, Button, ModalBody } from 'react-bootstrap';
+import { Modal, ModalBody, Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import i18n from 'i18next';
-import SearchComponent from '../common/SearchComponent';
+import SearchComponent from '../../common/SearchComponent';
 
-import placeholder from '../logos/soundcloud_placeholder.png';
-export default class SoundCloudComponent extends React.Component {
+import placeholder from '../../logos/soundcloud_placeholder.png';
+export default class PolyComponent extends React.Component {
 
     state = {
         results: [],
@@ -27,7 +27,6 @@ export default class SoundCloudComponent extends React.Component {
                             e.preventDefault();
                         }}>{i18n.t("vish_search_button")}
                         </Button>
-
                     </Col>
                 </FormGroup>
 
@@ -41,33 +40,36 @@ export default class SoundCloudComponent extends React.Component {
                             {this.state.results.map((item, index) => {
                                 let border = item.url === this.props.elementSelected ? "solid #17CFC8 2px" : "solid transparent 2px";
                                 let background = item.url === this.props.elementSelected ? "rgba(23,207,200,0.1)" : "transparent";
-                                let duration = new Date(item.duration);
                                 return (
                                     <div
                                         className={"audioItem"} key={index} style={{ border: border, backgroundColor: background }}
                                         onClick={() => {
-                                            this.props.onElementSelected(item.title, item.url, 'audio');
-                                            this.setState({ preview: false });
+                                            this.props.onElementSelected(item.title, item.url, 'webapp');
                                         }}>
-                                        <div className={"videoGroupFlex"}> <img key={index} src={item.thumbnail || placeholder} className={'soundCloudSong'} onError={(e)=>{
+                                        <img key={index} src={item.thumbnail || placeholder} className={'polyObj'} onError={(e)=>{
                                             e.target.src = placeholder;
                                         }} />
-                                        <div className={"videoInfo"}>
+                                        <div className={"videoInfo polyInfo"}>
                                             <div><strong>{item.title}</strong></div>
-                                            <div className={"lightFont"}>{item.userName}</div>
-                                            <div className={"lightFont"}>{duration.toLocaleString(undefined, { minute: '2-digit', second: '2-digit' })}</div>
-                                        </div></div>
+                                            <div className={"lightFont overflowHidden"}>{item.userName}</div>
+                                            <div className={"lightFont overflowHidden"}>{item.description}</div>
+                                        </div>
                                         {item.url === this.props.elementSelected ? (
                                             <Button title={i18n.t("Preview")} onClick={(e)=>{this.setState({ preview: !this.state.preview }); e.stopPropagation();}} className={"previewButton"}>
-                                                <i className="material-icons">volume_up</i>
+                                                <i className="material-icons">remove_red_eye</i>
                                             </Button>) :
                                             null}
-                                        {/* {(this.state.preview && this.props.elementSelected === item.url) ? <iframe  width="0px" height="0px" scrolling="no" frameBorder="no" allow="autoplay" src={"https://w.soundcloud.com/player/?url=" + encodeURI(this.props.elementSelected) + "&color=%2317cfc8&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false"} /> : null}*/}
-
                                     </div>
-
                                 );
                             })}
+                            <Modal className="pageModal previewVideoModal" onHide={()=>{this.setState({ preview: false });}} show={this.state.preview && this.props.elementSelected}>
+                                <Modal.Header closeButton><Modal.Title>{i18n.t("Preview")}</Modal.Title></Modal.Header>
+                                <ModalBody>
+                                    <iframe src={this.props.elementSelected} frameBorder="0" style={{ width: '100%', height: '400px', zIndex: 0, border: '1px solid grey' }} allowvr="yes" allow="vr; xr; accelerometer; magnetometer; gyroscope; autoplay;" allowFullScreen
+                                        webkitallowfullscreen="true"
+                                        mozallowfullscreen="true" onMouseWheel="" scrolling={"no"}/>
+                                </ModalBody>
+                            </Modal>
                         </FormGroup>
                     ) :
                     (
@@ -76,44 +78,39 @@ export default class SoundCloudComponent extends React.Component {
                         </FormGroup>
                     )
                 }
-                <Modal className="pageModal previewVideoModal" onHide={()=>{this.setState({ preview: false });}} show={this.state.preview && this.props.elementSelected}>
-                    <Modal.Header closeButton><Modal.Title>{i18n.t("Preview")}</Modal.Title></Modal.Header>
-                    <ModalBody>
-                        <iframe width="100%" height="100%" scrolling="no" frameBorder="no" allow="autoplay" src={"https://w.soundcloud.com/player/?url=" + encodeURI(this.props.elementSelected) + "&color=%2317cfc8&auto_play=false&hide_related=true&show_comments=true&show_user=false&show_reposts=false&show_teaser=false&visual=true"} />
-                    </ModalBody>
-                </Modal>
             </Form>
         </div>;
     }
 
     onSearch = (text) => {
-        const BASE = 'https://api.soundcloud.com/tracks?client_id=bb5aebd03b5d55670ba8fa5b5c3a3da5&q=' + text + '&format=json';
+        const BASE = 'https://poly.googleapis.com/v1/assets?key=AIzaSyBcvRyyiuZVCrbIf3Jb4547rpm5rqTh1pE&format=OBJ&keywords=' + text;
         this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
         fetch(encodeURI(BASE))
             .then(res => res.text()
             ).then(audioStr => {
-                let songs = JSON.parse(audioStr);
-                if (songs) {
-                    let results = songs.map(song=>{
+                let response = JSON.parse(audioStr);
+                let objects = response.assets;
+                if (objects) {
+                    let results = objects.map(obj=>{
                         return {
-                            title: song.title,
-                            userName: song.user.username,
-                            duration: song.duration,
-                            url: song.uri, // song.uri
-                            thumbnail: song.artwork_url, // TODO Add default
+                            title: obj.displayName,
+                            userName: obj.authorName,
+                            description: obj.description,
+                            url: 'https://poly.google.com/view/' + obj.name.replace("assets/", "") + '/embed', // song.uri
+                            thumbnail: obj.thumbnail.url, // TODO Add default
                         };
                     });
 
                     this.setState({ results, msg: results.length > 0 ? '' : i18n.t("FileModal.APIProviders.no_files") });
                 }
             }).catch(e=>{
-                // eslint-disable-next-line no-console
+            // eslint-disable-next-line no-console
                 console.error(e);
                 this.setState({ msg: i18n.t("FileModal.APIProviders.error") });
             });
     };
 }
-SoundCloudComponent.propTypes = {
+PolyComponent.propTypes = {
     /**
      * Selected Element
      */

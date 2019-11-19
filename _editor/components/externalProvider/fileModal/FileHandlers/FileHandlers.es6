@@ -10,7 +10,7 @@ import {
     getIndex,
 } from '../../../../../common/utils';
 import i18n from 'i18next';
-import { importEdiphy, importExcursion } from '../APIProviders/providers/_edi';
+import { importEdiphy, importExcursion } from '../APIProviders/providers/EDiphy/_edi';
 import _handlers from "../../../../handlers/_handlers";
 
 export const extensionHandlers = {

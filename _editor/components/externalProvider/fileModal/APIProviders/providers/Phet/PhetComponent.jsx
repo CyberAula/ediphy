@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import i18n from 'i18next';
-import SearchComponent from '../common/SearchComponent';
-import ImageComponent from '../common/ImageComponent';
+import SearchComponent from '../../common/SearchComponent';
+import ImageComponent from '../../common/ImageComponent';
 
 export default class PhetComponent extends React.Component {
     state = {

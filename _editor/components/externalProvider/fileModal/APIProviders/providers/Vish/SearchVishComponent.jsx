@@ -3,8 +3,8 @@ import { Modal, FormControl, Col, Form, FormGroup, ControlLabel, Button, ModalBo
 import i18n from 'i18next';
 import PropTypes from 'prop-types';
 
-import SearchComponent from '../common/SearchComponent';
-import { extensionHandlers as extensions } from '../../FileHandlers/FileHandlers';
+import SearchComponent from '../../common/SearchComponent';
+import { extensionHandlers as extensions } from '../../../FileHandlers/FileHandlers';
 
 const categories = {
     "Picture": { label: i18n.t("vish_search_types.Picture"), type: "image", icon: "picture" },

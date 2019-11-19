@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import i18n from 'i18next';
-import SearchComponent from '../common/SearchComponent';
-import ImageComponent from '../common/ImageComponent';
-import attribution from '../logos/PoweredBy_200px-White_HorizText.png';
+import SearchComponent from '../../common/SearchComponent';
+import ImageComponent from '../../common/ImageComponent';
+import attribution from '../../logos/PoweredBy_200px-White_HorizText.png';
 export default class GiphyComponent extends React.Component {
 
     state = {

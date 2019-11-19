@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import i18n from 'i18next';
 import { Button, Row, Col, Grid, FormGroup, FormControl, ModalBody, Modal } from 'react-bootstrap';
-import CodePreview from "./CodePreview";
+import CodePreview from "../Code/CodePreview";
 import Select from 'react-select';
-import Alert from "../../../../common/alert/Alert";
-import { extensionHandlers as extensions } from '../../FileHandlers/FileHandlers';
+import Alert from "../../../../../common/alert/Alert";
+import { extensionHandlers as extensions } from '../../../FileHandlers/FileHandlers';
 export default class MyFilesComponent extends React.Component {
     state = {
         file: undefined,

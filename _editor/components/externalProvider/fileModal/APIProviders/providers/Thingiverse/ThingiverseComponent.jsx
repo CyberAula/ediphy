@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import i18n from 'i18next';
-import SearchComponent from '../common/SearchComponent';
-import placeholder from '../logos/soundcloud_placeholder.png';
+import SearchComponent from '../../common/SearchComponent';
+import placeholder from '../../logos/soundcloud_placeholder.png';
 
 export default class ThingiverseComponent extends React.Component {
     state = {
