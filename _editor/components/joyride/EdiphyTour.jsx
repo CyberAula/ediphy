@@ -197,7 +197,7 @@ class EdiphyTour extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        reactUI: state.reactUI.showTour,
+        showTour: state.reactUI.showTour,
     };
 }
 

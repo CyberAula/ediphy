@@ -38,14 +38,8 @@ export default class Alert extends Component {
                 backdrop={backdrop ?? true}
                 show={show}
                 onHide={()=>{onClose(false);}}>
-                { hasHeader ?
-                    (<Modal.Header closeButton={closeButton}>
-                        { title }
-                    </Modal.Header>) :
-                    null}
-                <Modal.Body>
-                    { children }
-                </Modal.Body>
+                { hasHeader ? <Modal.Header closeButton={closeButton} children={title}/> : null}
+                <Modal.Body children={children}/>
                 <Modal.Footer>
                     { cancelButton ? (
                         <Button bsStyle={bsStyle || 'default'}
