@@ -6,6 +6,7 @@ import DropboxChooser from 'react-dropbox-chooser';
 import { extensionHandlers as extensionsH } from '../../../FileHandlers/FileHandlers';
 import { FILE_UPLOAD_ERROR, FILE_UPLOADING } from '../../../../../../../common/constants';
 import { isFile } from '../../../../../../../common/utils';
+import { DropboxResults } from "./Styles";
 let loadingBox = require('../../../../../../../dist/images/loading-box.gif');
 
 export default class DropboxComponent extends React.Component {
@@ -93,8 +94,7 @@ export default class DropboxComponent extends React.Component {
                 <hr />
 
             </Form>
-            <div className={"ExternalResults DropboxResults"}>
-
+            <DropboxResults className={"DropboxResults"}>
                 {
                     this.props.elementSelected ? (
                         <div className={"dropbox-modal"}>
@@ -163,7 +163,7 @@ export default class DropboxComponent extends React.Component {
                                 </div></div></div></DropboxChooser>)
                 }
 
-            </div>
+            </DropboxResults>
         </div>;
     }
     onSuccess = (files) => {
