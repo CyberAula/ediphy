@@ -33,6 +33,8 @@ class RichMarksModal extends Component {
             showAlert: false,
             showTemplates: false,
             boxes: [],
+            size: 40,
+            icon: "room",
         };
 
         this.h = _handlers(this);
@@ -52,6 +54,7 @@ class RichMarksModal extends Component {
                     viewNames: allViews,
                     text: current.text,
                     color: current.color,
+                    size: current.size,
                     connectMode: current.connectMode || "new",
                     displayMode: current.displayMode || "navigate",
                     newSelected: (current.connectMode === "new" ? current.connection : ""),
@@ -137,9 +140,30 @@ class RichMarksModal extends Component {
                     </Row>
                     <Row>
                         <FormGroup>
+                            <Col xs={4} md={2}>
+                                <ControlLabel>{i18n.t("marks.selector")}</ControlLabel>
+                            </Col>
+                            <Col xs={4} md={2} >
+                                <div>
+                                    <i className="material-icons" style={{ color: (this.state.color || "black"), fontSize: Math.floor(this.state.size / 10) + "em" }}>{this.state.text}</i>
+                                </div>
+                            </Col>
                             <IconPicker text={this.state.text} onChange={e=>{this.setState({ text: e.text });}}/>
                             <br/>
                         </FormGroup>
+                    </Row>
+                    <Row>
+                        <FormGroup>
+                            <Col xs={4} md={2}>
+                                <ControlLabel>{i18n.t("marks.resize")}</ControlLabel>
+                            </Col>
+                            <Col xs={8} md={6}>
+                                <div className="slidecontainer">
+                                    <input type="range" min="10" max="110" value={this.state.size} onChange={()=>{this.setState({ size: event.target.value });}} className="slider" id="myRange"/>
+                                </div>
+                            </Col>
+                        </FormGroup>
+
                     </Row>
                     <Row>
                         <Col xs={4} md={2} />
@@ -268,6 +292,7 @@ class RichMarksModal extends Component {
                         let color = this.state.color || marksType.defaultColor || '#222222';
                         let connection = selected.id;
                         let text = this.state.text;
+                        let size = this.state.size;
                         // CV name
                         let name = connectMode === "existing" ? this.props.viewToolbarsById[connection].viewName : nextAvailName(i18n.t('contained_view'), this.props.viewToolbarsById, 'viewName');
                         // Mark name
@@ -302,6 +327,7 @@ class RichMarksModal extends Component {
                                     displayMode: this.state.displayMode,
                                     value: value,
                                     text: text,
+                                    size: size,
                                 },
                                 view: {
                                     info: "new",
@@ -332,6 +358,7 @@ class RichMarksModal extends Component {
                                     displayMode: this.state.displayMode,
                                     value: value,
                                     text: text,
+                                    size: size,
                                 },
                                 view: {
                                     info: "new",
@@ -356,6 +383,7 @@ class RichMarksModal extends Component {
                                     displayMode: this.state.displayMode,
                                     value: value,
                                     text: text,
+                                    size: size,
                                 },
                             };
                             break;
@@ -371,6 +399,7 @@ class RichMarksModal extends Component {
                                     displayMode: this.state.displayMode,
                                     value: value,
                                     text: text,
+                                    size: size,
                                 },
                             };
                             break;

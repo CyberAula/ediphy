@@ -140,6 +140,7 @@ export const HotspotImages = (base) => ({
             let title = marks[id].title;
             let color = marks[id].color;
             let text = marks[id].text;
+            let size = marks[id].size;
 
             let position;
             if (value && value.split(',').length === 2) {
@@ -149,7 +150,7 @@ export const HotspotImages = (base) => ({
             }
             return (
                 <MarkEditor key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} time={1.5} dispatch={ props.dispatch } onRichMarkMoved={_handlers({ props }).onRichMarkMoved} mark={id} base={base} marks={marks} state={state}>
-                    <Mark style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} color={color} idKey={id} text={text} title={title} />
+                    <Mark style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} color={color} idKey={id} text={text} size={size} title={title} />
                 </MarkEditor>
             );
         });

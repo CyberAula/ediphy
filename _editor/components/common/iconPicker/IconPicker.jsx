@@ -8,37 +8,24 @@ import i18n from 'i18next';
 class IconPicker extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            icon: this.props.text,
-        };
         this.handleClick = this.handleClick.bind(this);
     }
     render() {
         return (
-            <React.Fragment>
-                <Col xs={4} md={2}>
-                    <ControlLabel>{i18n.t("marks.selector")}</ControlLabel>
-                </Col>
-                <Col xs={1} md={1} >
-                    <div>
-                        <i className="material-icons">{this.state.icon}</i>
-                    </div>
-                </Col>
-                <Col xs={7} md={5}>
-                    <br/>
-                    <div className="table-responsive " style={{ height: "200px" }}>
-                        <table className="table">
-                            <tbody>
-                                {this.renderTable()}
-                            </tbody>
-                        </table>
-                    </div>
-                </Col>
-            </React.Fragment>
+            <Col xs={7} md={5}>
+                <br/>
+                <div className="table-responsive " style={{ height: "200px" }}>
+                    <table className="table">
+                        <tbody>
+                            {this.renderTable()}
+                        </tbody>
+                    </table>
+                </div>
+            </Col>
+
         );
     }
     handleClick(text) {
-        this.setState({ icon: text });
         this.props.onChange({ text });
     }
     renderTable() {
@@ -62,7 +49,7 @@ IconPicker.propTypes = {
     /**
      * Function to handle changes
      */
-    onChange: PropTypes.func,
+    onChange: PropTypes.func.isRequired,
     /**
      * Text to change the icon
      */

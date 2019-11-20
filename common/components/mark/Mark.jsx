@@ -10,6 +10,7 @@ export default class Mark extends Component {
         if (this.props.isPopUp && !this.props.noTrigger) { triggerType = "click"; }
         if (this.props.noTrigger) { triggerType = "focus"; }
         let text = this.props.text ? this.props.text : "room";
+        let size = (Math.floor(this.props.size / 10)) + 'em' || '1em';
         return (
             <OverlayTrigger key={this.props.idKey}
                 text={this.props.title}
@@ -18,7 +19,7 @@ export default class Mark extends Component {
                 overlay={this.props.isPopUp ? PopoverMark : ToolTipDefault }
                 trigger={triggerType} rootClose>
                 <a id={'mark-' + this.props.idKey} className="mapMarker" style={{ pointerEvents: 'all' }} href="#" onClick={(this.props.isVisor && !this.props.noTrigger) ? ()=>{this.props.onMarkClicked(this.props.boxID, this.props.markValue);} : null}>
-                    <i key="i" style={{ color: this.props.color }} className="material-icons">{text}</i>
+                    <i key="i" style={{ color: this.props.color, fontSize: size }} className="material-icons">{text}</i>
                 </a>
             </OverlayTrigger>
         );
@@ -38,6 +39,10 @@ Mark.propTypes = {
      * Text of the mark to determine type of material-icon
      */
     text: PropTypes.string,
+    /**
+     * Size of the mark
+     */
+    size: PropTypes.any,
     /**
      * Id of the mark
      */

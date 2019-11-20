@@ -136,6 +136,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
             let title = marks[id].title;
             let text = marks[id].text;
             let color = marks[id].color;
+            let size = marks[id].size;
             let isPopUp = marks[id].connectMode === "popup";
             let noTrigger = false;
             let isVisor = true;
@@ -144,6 +145,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                     <Mark style={{ position: 'relative', top: "-1.7em", left: "-0.75em" }}
                         color={color || "#17CFC8"}
                         text={text}
+                        size={size}
                         idKey={id}
                         title={title}
                         isVisor={isVisor}
