@@ -2,8 +2,6 @@ import React from 'react';
 import IconButton from "./IconButton";
 import { ICONLIST } from "./icons";
 import PropTypes from 'prop-types';
-import { Col, ControlLabel } from "react-bootstrap";
-import i18n from 'i18next';
 
 class IconPicker extends React.Component {
     constructor(props) {
@@ -12,16 +10,14 @@ class IconPicker extends React.Component {
     }
     render() {
         return (
-            <Col xs={7} md={5}>
-                <br/>
-                <div className="table-responsive " style={{ height: "200px" }}>
-                    <table className="table">
-                        <tbody>
-                            {this.renderTable()}
-                        </tbody>
-                    </table>
-                </div>
-            </Col>
+
+            <div className="table-responsive " style={{ height: "200px", width: "40%" }}>
+                <table className="table">
+                    <tbody>
+                        {this.renderTable()}
+                    </tbody>
+                </table>
+            </div>
 
         );
     }

@@ -33,8 +33,6 @@ class RichMarksModal extends Component {
             showAlert: false,
             showTemplates: false,
             boxes: [],
-            size: 40,
-            icon: "room",
         };
 
         this.h = _handlers(this);
@@ -67,6 +65,7 @@ class RichMarksModal extends Component {
                     viewNames: allViews,
                     color: null,
                     text: "room",
+                    size: 40,
                     connectMode: "new",
                     displayMode: "navigate",
                     newSelected: "",
@@ -143,12 +142,12 @@ class RichMarksModal extends Component {
                             <Col xs={4} md={2}>
                                 <ControlLabel>{i18n.t("marks.selector")}</ControlLabel>
                             </Col>
-                            <Col xs={4} md={2} >
-                                <div>
-                                    <i className="material-icons" style={{ color: (this.state.color || "black"), fontSize: Math.floor(this.state.size / 10) + "em" }}>{this.state.text}</i>
+                            <Col xs={12} md={8}>
+                                <div style={{ display: "flex", justifyContent: "start", alignItems: "center" }}>
+                                    <i className="material-icons" style={{ color: (this.state.color || "black"), fontSize: (this.state.size / 10) + "em", padding: "10px" }}>{this.state.text}</i>
+                                    <IconPicker text={this.state.text} onChange={e=>{this.setState({ text: e.text });}}/>
                                 </div>
                             </Col>
-                            <IconPicker text={this.state.text} onChange={e=>{this.setState({ text: e.text });}}/>
                             <br/>
                         </FormGroup>
                     </Row>
@@ -159,7 +158,7 @@ class RichMarksModal extends Component {
                             </Col>
                             <Col xs={8} md={6}>
                                 <div className="slidecontainer">
-                                    <input type="range" min="10" max="110" value={this.state.size} onChange={()=>{this.setState({ size: event.target.value });}} className="slider" id="myRange"/>
+                                    <input type="range" min="10" max="200" value={this.state.size} onChange={()=>{this.setState({ size: event.target.value });}} className="slider" id="myRange"/>
                                 </div>
                             </Col>
                         </FormGroup>
