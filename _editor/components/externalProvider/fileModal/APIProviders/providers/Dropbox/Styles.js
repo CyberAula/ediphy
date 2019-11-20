@@ -11,7 +11,6 @@ import { ExternalResults } from "../../../Styles";
 export const DropboxResults = styled(ExternalResults)`
   height: 100%;
   display: flex;
-
    >div{
     display: flex;
     flex: 1;
@@ -21,11 +20,19 @@ export const DropboxResults = styled(ExternalResults)`
     height: 68px;
   }
 
-  .dropbox-modal {
+  iframe {
+    border: 1px solid grey;
+    margin-right: 10px;
+    width: 100%;
+    flex: 1;
+    height: 100%;
+  }
+`;
+
+export const DropboxModal = styled.div.attrs({ className: 'dropbox-modal' })`
     width: 100%;
     display: flex;
     flex-direction: row;
-
     .left-side {
       width: 50%;
       padding: 15px 10px;
@@ -34,7 +41,6 @@ export const DropboxResults = styled(ExternalResults)`
       justify-content: flex-start;
       align-items: self-start;
     }
-
     .right-side {
       width: 50%;
       display: flex;
@@ -42,17 +48,45 @@ export const DropboxResults = styled(ExternalResults)`
       margin-top: 20px;
       margin-bottom: 20px;
       padding-left: 15px;
-
       .fileNameTitle{
         align-self: flex-start;
         color: #555;
         font-size: 16px;
         font-weight: bold;
       }
+      #spinnerFloatContainer{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+      .dropbox-button{
+        padding: 0;
+        margin-bottom: 10px;
+        text-align: left;
+      }
+    }
+`;
 
-      .info-messages{
+export const DropboxContainer = styled.div.attrs({ className: 'dropbox-container' })`
+    display: flex;
+    flex: 1;
+  .dropbox-click-upload{
+    display: flex;
+    align-items: center;
+    flex: 1;
+
+    .dropbox-button{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+
+
+    }
+  }
+`;
+export const InfoMessages = styled.div.attrs({ className: 'info-messages' })`
         width: 100%;
-
         .spinnerFloat{
           width: 10%;
         }
@@ -80,54 +114,4 @@ export const DropboxResults = styled(ExternalResults)`
             background-color: ${ADAMS_ORANGE};
           }
         }
-      }
-
-
-
-
-      #spinnerFloatContainer{
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-      }
-
-      .dropbox-button{
-        //width: 90%;
-        padding: 0;
-        margin-bottom: 10px;
-        text-align: left;
-        button{
-          //width: 100%;
-        }
-      }
-    }
-  }
-
-  iframe {
-    border: 1px solid grey;
-    margin-right: 10px;
-    width: 100%;
-    flex: 1;
-    height: 100%;
-  }
-
-  .dropbox-container{
-    display: flex;
-    flex: 1;
-  }
-
-  .dropbox-click-upload{
-    display: flex;
-    align-items: center;
-    flex: 1;
-
-    .dropbox-button{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-
-
-    }
-  }
 `;
