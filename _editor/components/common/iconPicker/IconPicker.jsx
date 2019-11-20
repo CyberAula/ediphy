@@ -46,8 +46,5 @@ IconPicker.propTypes = {
      * Function to handle changes
      */
     onChange: PropTypes.func.isRequired,
-    /**
-     * Text to change the icon
-     */
-    text: PropTypes.string,
+
 };
