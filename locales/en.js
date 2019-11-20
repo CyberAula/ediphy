@@ -311,6 +311,7 @@ let en = {
             "popup": "Show PopUp",
             "popup_label": "Mark text",
             "popup_placeholder": "Write the text you want to show when you click on mark",
+            "resize": "Select size",
             "value": "Value",
             "wrong_value": "Wrong value",
             "save_changes": "Save changes",

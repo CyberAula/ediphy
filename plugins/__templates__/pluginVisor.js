@@ -18,6 +18,7 @@ export function ${options.name}(base) {
             let position = marks[e].value.split(',');
             let title = marks[e].title;
             let text = marks[e].text;
+            let size = marks[ed].size;
             let color = marks[e].color;
             let isPopUp = marks[e].connectMode === "popup";
             let isVisor = true;
@@ -25,6 +26,7 @@ export function ${options.name}(base) {
                 <div key={e} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width: '24px', height: '26px' }}>
                     <Mark color={color}
                         text={text}
+                        size={size}
                         idKey={e}
                         title={title}
                         isPopUp={isPopUp}

@@ -311,6 +311,7 @@ let es = {
             "popup": "Mostrar PopUp",
             "popup_label": "Texto de la marca",
             "popup_placeholder": "Escribe el texto que quieres que aparezca al hacer click en la marca",
+            "resize": "Seleccione el tamaño",
             "value": "Valor",
             "wrong_value": "Valor incorrecto",
             "save_changes": "Guardar",
