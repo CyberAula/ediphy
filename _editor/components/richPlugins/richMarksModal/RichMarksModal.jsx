@@ -65,7 +65,7 @@ class RichMarksModal extends Component {
                     viewNames: allViews,
                     color: null,
                     text: "room",
-                    size: 40,
+                    size: 25,
                     connectMode: "new",
                     displayMode: "navigate",
                     newSelected: "",
@@ -144,8 +144,8 @@ class RichMarksModal extends Component {
                             </Col>
                             <Col xs={12} md={8}>
                                 <div style={{ display: "flex", justifyContent: "start", alignItems: "center" }}>
-                                    <i className="material-icons" style={{ color: (this.state.color || "black"), fontSize: (this.state.size / 10) + "em", padding: "10px" }}>{this.state.text}</i>
                                     <IconPicker text={this.state.text} onChange={e=>{this.setState({ text: e.text });}}/>
+                                    <i className="material-icons" style={{ color: (this.state.color || "black"), fontSize: (this.state.size / 10) + "em", padding: "7%" }}>{this.state.text}</i>
                                 </div>
                             </Col>
                             <br/>
@@ -158,7 +158,7 @@ class RichMarksModal extends Component {
                             </Col>
                             <Col xs={8} md={6}>
                                 <div className="slidecontainer">
-                                    <input type="range" min="10" max="200" value={this.state.size} onChange={()=>{this.setState({ size: event.target.value });}} className="slider" id="myRange"/>
+                                    <input type="range" min="10" max="100" value={this.state.size} onChange={()=>{this.setState({ size: event.target.value });}} className="slider" id="myRange"/>
                                 </div>
                             </Col>
                         </FormGroup>
