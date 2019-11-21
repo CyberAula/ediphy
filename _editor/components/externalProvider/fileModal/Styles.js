@@ -126,79 +126,6 @@ export const FileModalContainer = styled(EDModal)`
         }
         hr{ margin: 20px 0 0 0; }
       }
-      .ExternalResults{
-        min-height: 44vh;
-        overflow-y: auto;
-        max-height: 390px;
-        margin-top: -10px;
-        margin-bottom: -20px;
-        padding: 0 20px;
-        .attribution {
-          float: left;
-          position: absolute;
-          margin: -5px;
-          width: 188px;
-        }
-        .control-label{
-          width: 100%;
-          text-align: right;
-          margin: 0;
-        }
-        .polyInfo {
-          flex: 1;
-        }
-        .videoItem, .audioItem{
-          display: flex;
-          background-color: transparent;
-          flex-flow: nowrap row;
-          justify-content: space-between;
-          align-items: flex-start;
-          padding: 5px;
-          border: 2px solid rgb(23, 207, 200);
-          .videoGroupFlex {
-            display: flex;
-            flex-flow: nowrap row;
-            justify-content: flex-start;
-            align-items: flex-start;
-          }
-          .youtubeVideo{
-            margin-right: 10px;
-            width: 120px;
-            height: 95px;
-          }
-          .vishSearchIcon {
-            line-height: 111px;
-            text-align: center;
-            background-color: #ddd;
-            i {
-              font-size:  32px;
-            }
-          }
-          .videoInfo{
-            .lightFont{
-              color: #888;
-              font-weight: lighter;
-              &.overflowHidden {
-                text-overflow: ellipsis;
-                overflow: hidden;
-                word-break: break-word;
-                word-wrap: no-wrap;
-                max-width: 100%;
-              }
-            }
-          }
-          .soundCloudSong{
-            margin-right: 10px;
-            width: 100px;
-            height: 100px;
-          }
-          .polyObj{
-            margin-right: 10px;
-            width: 100px;
-            height: 75px;
-          }
-        }
-      }
       .uploadComponent {
         padding: 20px;
         hr{     margin: 25px -20px; }
@@ -725,6 +652,79 @@ export const MoodleDialog = styled.div.attrs({ className: 'moodleDialog' })`
         margin-left: -1em;
       }
     }
-
   }
+`;
+
+export const ExternalResults = styled.div.attrs({ className: 'externalResults' })`
+        min-height: 44vh;
+        overflow-y: auto;
+        max-height: 390px;
+        margin-top: -10px;
+        margin-bottom: -20px;
+        padding: 0 20px;
+        .attribution {
+          float: left;
+          position: absolute;
+          margin: -5px;
+          width: 188px;
+        }
+        .control-label{
+          width: 100%;
+          text-align: right;
+          margin: 0;
+        }
+        .polyInfo {
+          flex: 1;
+        }
+        .videoItem, .audioItem{
+          display: flex;
+          background-color: transparent;
+          flex-flow: nowrap row;
+          justify-content: space-between;
+          align-items: flex-start;
+          padding: 5px;
+          border: 2px solid rgb(23, 207, 200);
+          .videoGroupFlex {
+            display: flex;
+            flex-flow: nowrap row;
+            justify-content: flex-start;
+            align-items: flex-start;
+          }
+          .youtubeVideo{
+            margin-right: 10px;
+            width: 120px;
+            height: 95px;
+          }
+          .vishSearchIcon {
+            line-height: 111px;
+            text-align: center;
+            background-color: #ddd;
+            i {
+              font-size:  32px;
+            }
+          }
+          .videoInfo{
+            .lightFont{
+              color: #888;
+              font-weight: lighter;
+              &.overflowHidden {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                word-break: break-word;
+                word-wrap: no-wrap;
+                max-width: 100%;
+              }
+            }
+          }
+          .soundCloudSong{
+            margin-right: 10px;
+            width: 100px;
+            height: 100px;
+          }
+          .polyObj{
+            margin-right: 10px;
+            width: 100px;
+            height: 75px;
+          }
+        }
 `;

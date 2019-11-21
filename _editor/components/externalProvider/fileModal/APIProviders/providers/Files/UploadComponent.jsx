@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import i18n from 'i18next';
 import { Button, Row, Col, FormGroup } from 'react-bootstrap';
-import ExternalDropzone from '../common/ExternalDropzone';
-import { extensionHandlers as extensions } from '../../FileHandlers/FileHandlers';
-import { FILE_UPLOAD_ERROR, FILE_UPLOADING } from '../../../../../../common/constants';
-import { isFile } from '../../../../../../common/utils';
-let spinner = require('../../../../../../dist/images/spinner.svg');
+import ExternalDropzone from '../../common/ExternalDropzone';
+import { extensionHandlers as extensions } from '../../../FileHandlers/FileHandlers';
+import { FILE_UPLOAD_ERROR, FILE_UPLOADING } from '../../../../../../../common/constants';
+import { isFile } from '../../../../../../../common/utils';
+let spinner = require('../../../../../../../dist/images/spinner.svg');
 
 export default class UploadComponent extends React.Component {
     state = {

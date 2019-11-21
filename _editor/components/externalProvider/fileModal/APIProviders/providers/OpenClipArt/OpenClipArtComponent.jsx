@@ -1,9 +1,9 @@
 import React from 'react';
 import i18n from 'i18next';
-import { ImagesPreview } from "./ImagesPreview";
 
-export default class EuropeanaComponent extends React.Component {
+import { ImagesPreview } from "../ImagesPreview";
 
+export default class OpenClipArtComponent extends React.Component {
     state = {
         results: [],
         query: '',
@@ -13,18 +13,18 @@ export default class EuropeanaComponent extends React.Component {
     render = () => ImagesPreview(this);
 
     onSearch = (text) => {
-        const BASE = 'https://www.europeana.eu/api/v2/search.json?wskey=ZDcCZqSZ5&query=' + (text || "europeana") + '&qf=TYPE:IMAGE&profile=RICH&media=true&rows=100&qf=IMAGE_SIZE:small';
+        const BASE_OPENCLIPART = "https://openclipart.org";
+        const BASE = BASE_OPENCLIPART + "/search/json/?query=" + encodeURI(text) + "&amount=20";
         this.setState({ msg: i18n.t("FileModal.APIProviders.searching"), results: [] });
-        fetch(encodeURI(BASE))
-            .then(res => res.text()
-            ).then(imgStr => {
-                let imgs = JSON.parse(imgStr);
-                if (imgs && imgs.items) {
-                    let results = imgs.items.map(img=>{
+        fetch((BASE))
+            .then(res => res.json()
+            ).then(imgs => {
+                if (imgs && imgs.payload) {
+                    let results = imgs.payload.map(img=>{
                         return {
-                            title: img.title[0],
-                            url: img.edmIsShownBy,
-                            thumbnail: img.edmPreview,
+                            title: img.title,
+                            url: (img.svg.url || img.svg.png_2400px),
+                            thumbnail: (img.svg.url || img.svg.png_thumb),
                         };
                     });
 
@@ -37,3 +37,4 @@ export default class EuropeanaComponent extends React.Component {
             });
     };
 }
+

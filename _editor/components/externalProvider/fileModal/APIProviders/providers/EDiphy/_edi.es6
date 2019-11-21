@@ -1,8 +1,8 @@
 import {
     ID_PREFIX_BOX, ID_PREFIX_CONTAINED_VIEW, ID_PREFIX_FILE, ID_PREFIX_PAGE, ID_PREFIX_RICH_MARK,
     ID_PREFIX_SECTION, ID_PREFIX_SORTABLE_BOX,
-} from '../../../../../../common/constants';
-import { isBox, isSection } from '../../../../../../common/utils';
+} from '../../../../../../../common/constants';
+import { isBox, isSection } from '../../../../../../../common/utils';
 
 export function importEdiphy(url, props, callback) {
     let isVish = (/ediphy_documents/).test(url);
