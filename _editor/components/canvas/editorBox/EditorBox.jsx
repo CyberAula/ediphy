@@ -11,15 +11,14 @@ import {
     isSortableContainer, isAncestorOrSibling, isContainedView, isBox,
     vendorTransform,
 } from '../../../../common/utils';
-import './_editorBox.scss';
 import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
-import CKEDitorComponent from './CKEDitorComponent';
 const SNAP_DRAG = 5;
 const SNAP_SIZE = 2;
 import { connect } from "react-redux";
 import _handlers from "../../../handlers/_handlers";
 import ErrorBoundary from "../../../containers/ErrorBoundary";
 import BoxContent from "./BoxContent";
+import { CKText, EditorBoxContainer, Overlay, ResizeContainer, ResizeHelper } from "./Styles";
 
 /**
  * Ediphy Box component.
@@ -53,7 +52,6 @@ class EditorBox extends Component {
         };
         let marks = this.getMarks(this.props.marksById, this.props.id);
         let { width, height, widthUnit, heightUnit } = toolbar.structure;
-        let classNames = "";
         let apiPlugin = Ediphy.Plugins.get(toolbar.pluginId);
         let config = apiPlugin.getConfig();
         if (config.needsTextEdition) {
@@ -112,26 +110,12 @@ class EditorBox extends Component {
         };
 
         let border = (
-            <div style={{ visibility: (vis ? 'visible' : 'hidden') }}>
-                <div style={{
-                    position: 'absolute',
-                    top: -(this.state.borderSize),
-                    left: -(this.state.borderSize),
-                    width: '100%',
-                    height: '100%',
-                    boxSizing: 'content-box',
-                }} />
-                <div style={{ zIndex: 9999, display: 'initial' }}>
-                    <div className="helpersResizable" onClick={this.stopEventPropagation}
-                        style={{ left: -cornerSize / 2, top: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: 'nw-resize' }} />
-                    <div className="helpersResizable" onClick={this.stopEventPropagation}
-                        style={{ right: -cornerSize / 2, top: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: 'ne-resize' }} />
-                    <div className="helpersResizable" onClick={this.stopEventPropagation}
-                        style={{ left: -cornerSize / 2, bottom: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: 'sw-resize' }} />
-                    <div className="helpersResizable" onClick={this.stopEventPropagation}
-                        style={{ right: -cornerSize / 2, bottom: -cornerSize / 2, width: cornerSize, height: cornerSize, cursor: 'se-resize' }} />
-                </div>
-            </div>
+            <ResizeContainer visible={vis}>
+                <ResizeHelper onClick={this.stopEventPropagation} cornerSize={cornerSize} left top cursor={'nw-resize'}/>
+                <ResizeHelper onClick={this.stopEventPropagation} cornerSize={cornerSize} right top cursor={'ne-resize'}/>
+                <ResizeHelper onClick={this.stopEventPropagation} cornerSize={cornerSize} left bottom cursor={'sw-resize'}/>
+                <ResizeHelper onClick={this.stopEventPropagation} cornerSize={cornerSize} right bottom cursor={'se-resize'}/>
+            </ResizeContainer>
         );
 
         let classes = "wholebox";
@@ -148,7 +132,7 @@ class EditorBox extends Component {
 
         wholeBoxStyle.verticalAlign = verticalAlign;
         return (
-            <div className={classes} id={'box-' + this.props.id} name={toolbar.pluginId}
+            <EditorBoxContainer selectedBox={this.props.id === this.props.boxSelected} className={classes} id={'box-' + this.props.id} name={toolbar.pluginId}
                 onClick={e => {
                     if (this.props.boxSelected !== this.props.id) {
                         // Do not stop propagation if we are not allowed to select this box because of its level, so it selects the parent instead of itself
@@ -169,7 +153,7 @@ class EditorBox extends Component {
                     }
                 }}
                 style={wholeBoxStyle}>
-                <div className="boxOverlay" style={{ display: showOverlay }} />
+                <Overlay showOverlay={showOverlay}/>
                 {border}
                 <ErrorBoundary context={'plugin'} pluginName={toolbar.pluginId}>
                     {toolbar.showTextEditor ? null :
@@ -178,11 +162,10 @@ class EditorBox extends Component {
                             toolbar={toolbar}
                             props={props}
                             config={config}
-                            classNames={classNames}
                             renderChildren={this.renderChildren}
                         /> }
-                    {toolbar.state.__text ? <CKEDitorComponent key={"ck-" + this.props.id} boxSelected={this.props.boxSelected} box={this.props.boxesById[this.props.id]}
-                        style={textareaStyle} className={classNames + " textAreaStyle"} pluginToolbarsById={this.props.pluginToolbarsById} id={this.props.id}
+                    {toolbar.state.__text ? <CKText key={"ck-" + this.props.id} boxSelected={this.props.boxSelected} box={this.props.boxesById[this.props.id]}
+                        style={textareaStyle} className={"textAreaStyle"} pluginToolbarsById={this.props.pluginToolbarsById} id={this.props.id}
                         onBlur={this.blurTextarea}/> : null}
                     <MarkCreator
                         boxSelected={this.props.boxSelected}
@@ -193,7 +176,7 @@ class EditorBox extends Component {
                         pageType={this.props.pageType}
                     />
                 </ErrorBoundary>
-            </div>
+            </EditorBoxContainer>
         );
     }
 

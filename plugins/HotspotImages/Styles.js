@@ -23,6 +23,12 @@ export const ImagePluginVisor = styled.div.attrs({ className: 'draggableImageVis
 `;
 
 export const BasicImage = styled.img.attrs({ className: 'basicImageClass' })`
+     left: 0;
+     top: 0;
+     width: 100%;
+     height: 100%;
+     margin: 0;
+     pointer-events: none;
      &:not(.pointerEventsEnabled) &.dropableRichZone {
        pointer-events: none !important;
      }

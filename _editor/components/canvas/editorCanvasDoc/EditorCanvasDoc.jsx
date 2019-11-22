@@ -11,6 +11,7 @@ import { getTitles, isSortableBox } from '../../../../common/utils';
 
 import ThemeCSS from "../../../../common/themes/ThemeCSS";
 import { getThemeColors } from "../../../../common/themes/themeLoader";
+import { CanvasEditor } from "./Styles";
 
 class EditorCanvasDoc extends Component {
     render() {
@@ -49,7 +50,7 @@ class EditorCanvasDoc extends Component {
                         onViewTitleChanged={onViewTitleChanged}
                         onTitleChanged={onTitleChanged}
                     />
-                    <div className="outter canvaseditor" style={{ display: show ? 'block' : 'none' }}>
+                    <CanvasEditor className="outter canvaseditor" style={{ display: show ? 'block' : 'none' }}>
                         <div id={fromCV ? 'airlayer_cv' : 'airlayer'}
                             className={(fromCV ? 'airlayer_cv' : 'airlayer') + ' doc_air'}
                             style={{ visibility: (show ? 'visible' : 'hidden') }}>
@@ -73,7 +74,7 @@ class EditorCanvasDoc extends Component {
                                 })}
                             </div>
                         </div>
-                    </div>
+                    </CanvasEditor>
                 </div>
                 <ThemeCSS
                     styleConfig={styleConfig}

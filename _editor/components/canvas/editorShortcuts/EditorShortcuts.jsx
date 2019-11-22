@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import { Tooltip, OverlayTrigger, Button, Popover, Overlay } from 'react-bootstrap';
+import { Tooltip, OverlayTrigger, Button, Overlay } from 'react-bootstrap';
 import i18n from 'i18next';
 import { connect } from "react-redux";
 
@@ -9,7 +9,7 @@ import Ediphy from '../../../../core/editor/main';
 import { isSortableBox, isSortableContainer } from '../../../../common/utils';
 import { blurCKEditor, findBox } from '../../../../common/commonTools';
 import _handlers from "../../../handlers/_handlers";
-import { TitleButton } from "./Styles";
+import { IconsContainer, PopoverURL, TitleButton } from "./Styles";
 
 /**
  * EditorShortcuts component
@@ -60,38 +60,30 @@ class EditorShortcuts extends Component {
             },
         }];
         return (
-            <div id={this.props.isContained ? "contained_editorBoxIcons" : "editorBoxIcons"}
-                className=""
+            <IconsContainer id={this.props.isContained ? "contained_editorBoxIcons" : "editorBoxIcons"}
                 onClick={(e)=>{e.stopPropagation();}}
                 onMouseDown={(e)=>{e.stopPropagation();}}
                 ref="container"
                 style={{
                     display: (box && box.id && isSortableBox(box.id)) || !box || !box.id ? 'none' : 'block',
-                    position: 'absolute',
                     left: this.state.left + 10,
                     top: this.state.top,
                     transform: 'rotate(' + (toolbar.structure.rotation || 0) + 'deg)',
-                    transformOrigin: '0px 100%',
-                    // width: this.state.width !== 0 ? this.state.width : "auto"
                 }}>
                 <div ref="innerContainer" style={{ display: "inline-block", minWidth: "50px", overflow: 'hidden', height: '37px' }}>
-                    <span className="namePlugin">{config.displayName || ""}</span>
                     <Overlay rootClose
                         name="urlOverlay"
                         show={this.state.showOverlay} placement='top'
                         target={() => ReactDOM.findDOMNode(this.overlayTarget)}
                         onHide={() => this.setState({ showOverlay: false })}>
-                        <Popover id="popov" title={i18n.t('messages.popoverUrlTitle')} className="popoverURL">
+                        <PopoverURL id="popov" title={i18n.t('messages.popoverUrlTitle')}>
                             <input type="text" className="form-control" ref={'url_input'} placeholder={'http://... '} onKeyDown={e=>{
                                 if (e.keyCode === 13) {this.hideOverlay();}
                             }}/>
-                            <Button className="popoverButton"
-                                name="popoverAcceptButton"
-                                // disabled={ this.state.urlValue === ""}
-                                onClick={this.hideOverlay}>
+                            <Button className="popoverButton" name="popoverAcceptButton" onClick={this.hideOverlay}>
                                 {i18n.t("Accept")}
                             </Button>
-                        </Popover>
+                        </PopoverURL>
                     </Overlay>
                     {
                         (hasURLnotextprov) ? (
@@ -269,7 +261,7 @@ class EditorShortcuts extends Component {
                         </TitleButton>
                     </OverlayTrigger>
                 </div>
-            </div>
+            </IconsContainer>
         );
     }
 
@@ -311,7 +303,6 @@ class EditorShortcuts extends Component {
             if (box) {
                 // This is added so the position of the box is calculated on the non-rotated box, preventing the shortcuts from moving when the box is rotated.
                 // Do not forget to remove this class later
-
                 box.classList.add('norotate');
                 let boxRect = box.getBoundingClientRect();
                 let canvas = containedViewSelected === 0 ?
