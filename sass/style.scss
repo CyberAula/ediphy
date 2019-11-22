@@ -445,3 +445,12 @@ input[type="radio"]{
     word-break: break-all;
   }
 }
+
+// MIGHT BE USED BY VISOR
+.editorBoxSortableContainer{
+    min-height: 70px;
+    text-align: center;
+    line-height: 100%;
+    box-sizing: border-box;
+    position: relative;
+}

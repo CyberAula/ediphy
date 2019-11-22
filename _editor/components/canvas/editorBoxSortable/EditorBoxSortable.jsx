@@ -10,10 +10,16 @@ import { isSortableBox } from '../../../../common/utils';
 import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 
-import './_editorBoxSortable.scss';
 import { instanceExists, releaseClick, findBox, createBox } from '../../../../common/commonTools';
 import { connect } from "react-redux";
 import _handlers from "../../../handlers/_handlers";
+import {
+    Container, DeleteButton,
+    DnDZone,
+    EditorBoxSortableContainer,
+    SortableContainerBox,
+    SwapButton,
+} from "./Styles";
 
 /**
  * EditorBoxSortable Component
@@ -36,7 +42,7 @@ class EditorBoxSortable extends Component {
 
         let box = this.props.boxesById[this.props.id];
         return (
-            <div className="editorBoxSortable"
+            <Container
                 onMouseDown={e => {
                     if (e.target === e.currentTarget || e.target.classList.contains('colDist-j')) {
                         if(box.children.length !== 0) {
@@ -45,13 +51,13 @@ class EditorBoxSortable extends Component {
                     }
                     e.stopPropagation();
                 }}>
-                <div ref="sortableContainer"
+                <SortableContainerBox ref="sortableContainer"
                     className={(this.props.id === this.props.boxSelected && box.children.length > 0) ? ' selectedBox sortableContainerBox' : ' sortableContainerBox'}
                     style={{ position: 'relative', boxSizing: 'border-box' }}>
                     {this.state.alert}
                     {box.children.map((idContainer, index)=> {
                         let container = box.sortableContainers[idContainer];
-                        return (<div key={'sortableContainer-' + index}
+                        return (<EditorBoxSortableContainer key={'sortableContainer-' + index}
                             className={"editorBoxSortableContainer pos_relative " + container.style.className}
                             data-id={idContainer}
                             id={idContainer}
@@ -92,7 +98,6 @@ class EditorBoxSortable extends Component {
                                                                 page={this.props.page}
                                                                 pageType={this.props.pageType}
                                                                 themeColors={this.props.themeColors}/>);
-
                                                         } else if (ind === container.children.length - 1) {
                                                             return (<span key={ind}><br/><br/></span>);
                                                         }
@@ -114,13 +119,13 @@ class EditorBoxSortable extends Component {
                                     { box.children.length > 1 ? <OverlayTrigger placement="top" overlay={
                                         <Tooltip id="deleteTooltip">{i18n.t('Reorder')}
                                         </Tooltip>}>
-                                        <i className="material-icons drag-handle btnOverBar">swap_vert</i>
+                                        <SwapButton className="material-icons drag-handle btnOverBar">swap_vert</SwapButton>
                                     </OverlayTrigger> : null }
 
                                     <Overlay rootClose
                                         show={this.state.show === idContainer}
                                         placement="top"
-                                        container={this/* .refs[idContainer]*/}
+                                        container={this}
                                         target={() => ReactDOM.findDOMNode(this.refs['btn-' + idContainer])}
                                         onHide={() => {this.setState({ show: this.state.show === idContainer ? false : this.state.show });}}>
                                         <Popover id="popov" title={i18n.t("delete_container")}>
@@ -147,43 +152,31 @@ class EditorBoxSortable extends Component {
                                     <OverlayTrigger placement="top" container={this} overlay={
                                         <Tooltip id="deleteTooltip">{i18n.t('delete')}
                                         </Tooltip>}>
-                                        <Button
+                                        <DeleteButton
                                             onClick={() => {this.setState({ show: idContainer });}}
                                             ref={'btn-' + idContainer}
-                                            className="material-icons delete-sortable btnOverBar">delete</Button>
+                                            className="material-icons delete-sortable btnOverBar">delete</DeleteButton>
                                     </OverlayTrigger>
 
                                 </div>
 
                             </div>
-                        </div>);
+                        </EditorBoxSortableContainer>);
                     })}
-                </div>
+                </SortableContainerBox>
 
-                <div className="dragContentHere" data-html2canvas-ignore
-                    // style={{ backgroundColor: this.props.background }}
+                <DnDZone data-html2canvas-ignore
                     onClick={e => {
                         this.h.onBoxSelected(-1);
                         e.stopPropagation();}}>{i18n.t("messages.drag_content")}
-                </div>
+                </DnDZone>
 
-            </div>
+            </Container>
         );
-    }
-
-    componentDidUpdate() {
-        this.props.boxesById[this.props.id].children.map(() => {
-            // this.configureResizable(this.refs[id]);
-        });
     }
 
     componentDidMount() {
         this.configureDropZone(ReactDOM.findDOMNode(this), "newContainer", ".rib");
-        // this.configureDropZone(".editorBoxSortableContainer", "existingContainer", ".rib");
-
-        this.props.boxesById[this.props.id].children.map(() => {
-            // this.configureResizable(this.refs[id]);
-        });
 
         let list = jQuery(this.refs.sortableContainer);
         list.sortable({
