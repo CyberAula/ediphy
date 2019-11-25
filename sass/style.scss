@@ -462,3 +462,9 @@ input[type="radio"]{
   width: calc(100% - 40px);
   background-color: #9a9a9a;
 }
+
+// NECESSARY FOR VISOR
+.selectedBox.wholebox .markeditor * {
+  pointer-events: all !important;
+}
+

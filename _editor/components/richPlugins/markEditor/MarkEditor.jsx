@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { findParentBySelector } from '../../../../common/utils';
-import './_markEditor.scss';
 import _handlers from "../../../handlers/_handlers";
+import { MarkEditorContainer } from "./Styles";
 /*
 * Component wrapper for editing marks by dragging them
 * @example <ClickNHold onClickNHold={e=>{...}} // callback
@@ -83,7 +83,10 @@ export default class MarkEditor extends Component {
         classList += this.state.ended ? 'ended ' : '';
         classList += this.state.editing ? 'editing' : '';
         return (
-            <div draggable="true"
+            <MarkEditorContainer
+                editing={this.state.editing}
+                holding={this.state.holding}
+                draggable="true"
                 className={classList}
                 style={this.props.style}
                 onMouseDown={this.start}
@@ -103,7 +106,7 @@ export default class MarkEditor extends Component {
                 onDoubleClick={(e) => e.stopPropagation()}
                 onDrag={(e)=>e.stopPropagation()} >
                 {this.props.children}
-            </div>
+            </MarkEditorContainer>
         );
     }
 
