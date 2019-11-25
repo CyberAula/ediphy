@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import { Col } from 'react-bootstrap';
 import interact from 'interactjs';
 import ReactResizeDetector from 'react-resize-detector';
 import i18n from 'i18next';

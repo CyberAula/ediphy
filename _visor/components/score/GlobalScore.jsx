@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import './_score.scss';
+import { GlobalScoreContainer } from "./Styles";
 export default class GlobalScore extends Component {
 
     render() {
@@ -9,9 +9,9 @@ export default class GlobalScore extends Component {
         let progress = Math.round(completionProgress * 10000) / 100 + '%';
         if (this.props.show) {
             return (
-                <div className={"scorePanel globalScore " + this.props.fadePlayerClass}
-                    onMouseEnter={() => this.props.setHover()}
-                    onMouseLeave={() => this.props.deleteHover()}>
+                <GlobalScoreContainer className={"scorePanel globalScore " + this.props.fadePlayerClass}
+                    onMouseEnter={this.props.setHover}
+                    onMouseLeave={this.props.deleteHover}>
                     <h5 id="userName"><i className="material-icons">person</i> <span>{userName}</span></h5>
                     <h6 id="score">
                         <span className="scoreField scoreField1"><i className="material-icons">insert_chart</i> {totalScore + "/" + totalWeight} </span>
@@ -22,7 +22,7 @@ export default class GlobalScore extends Component {
                     <div id="progressbar">
                         <div id="currentprogress" style={{ width: progress }} />
                     </div>
-                </div>
+                </GlobalScoreContainer>
             );
         }
         return null;
