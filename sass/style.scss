@@ -454,3 +454,11 @@ input[type="radio"]{
     box-sizing: border-box;
     position: relative;
 }
+
+// MIGHT BE USED BY VISOR
+.canvasClass, .containedCanvasClass , #canvas, #containedCanvas{
+  height: 100%;
+  overflow-y: auto;
+  width: calc(100% - 40px);
+  background-color: #9a9a9a;
+}

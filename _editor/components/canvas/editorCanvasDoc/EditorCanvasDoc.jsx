@@ -11,7 +11,8 @@ import { getTitles, isSortableBox } from '../../../../common/utils';
 
 import ThemeCSS from "../../../../common/themes/ThemeCSS";
 import { getThemeColors } from "../../../../common/themes/themeLoader";
-import { CanvasEditor } from "./Styles";
+import { CanvasEditor, ScrollContainer } from "./Styles";
+import { AirLayer, Canvas, InnerCanvas } from "../editorCanvas/Styles";
 
 class EditorCanvasDoc extends Component {
     render() {
@@ -31,10 +32,10 @@ class EditorCanvasDoc extends Component {
         let colors = toolbar && toolbar.colors ? toolbar.colors : getThemeColors(theme);
 
         return (
-            <Col id={(fromCV ? 'containedCanvas' : 'canvas')} md={12} xs={12} className="canvasDocClass safeZone"
+            <Canvas id={(fromCV ? 'containedCanvas' : 'canvas')} md={12} xs={12} className="canvasDocClass safeZone"
                 style={{ display: containedViewSelected !== 0 && !fromCV ? 'none' : 'initial' }}>
 
-                <div className={"scrollcontainer parentRestrict " + theme}
+                <ScrollContainer className={"scrollcontainer parentRestrict " + theme}
                     style={{ backgroundColor: show ? toolbar.background : 'transparent', display: show ? 'block' : 'none' }}
                     onMouseDown={e => {
                         if (e.target === e.currentTarget) {
@@ -50,12 +51,12 @@ class EditorCanvasDoc extends Component {
                         onViewTitleChanged={onViewTitleChanged}
                         onTitleChanged={onTitleChanged}
                     />
-                    <CanvasEditor className="outter canvaseditor" style={{ display: show ? 'block' : 'none' }}>
-                        <div id={fromCV ? 'airlayer_cv' : 'airlayer'}
+                    <CanvasEditor className="outter" style={{ display: show ? 'block' : 'none' }}>
+                        <AirLayer id={fromCV ? 'airlayer_cv' : 'airlayer'}
                             className={(fromCV ? 'airlayer_cv' : 'airlayer') + ' doc_air'}
                             style={{ visibility: (show ? 'visible' : 'hidden') }}>
 
-                            <div id={fromCV ? "contained_maincontent" : "maincontent"}
+                            <InnerCanvas id={fromCV ? "contained_maincontent" : "maincontent"}
                                 className={'innercanvas doc'}
                                 style={{ visibility: (show ? 'visible' : 'hidden'), paddingBottom: '10px' }}>
 
@@ -72,10 +73,10 @@ class EditorCanvasDoc extends Component {
                                         themeColors={colors}
                                     />;
                                 })}
-                            </div>
-                        </div>
+                            </InnerCanvas>
+                        </AirLayer>
                     </CanvasEditor>
-                </div>
+                </ScrollContainer>
                 <ThemeCSS
                     styleConfig={styleConfig}
                     aspectRatio = {aspectRatio}
@@ -94,7 +95,7 @@ class EditorCanvasDoc extends Component {
                     pointerEventsCallback={pluginToolbarsById[boxSelected] && pluginToolbarsById[boxSelected].config && pluginToolbarsById[boxSelected].config.name && Ediphy.Plugins.get(pluginToolbarsById[boxSelected].config.name) ? Ediphy.Plugins.get(pluginToolbarsById[boxSelected].config.name).pointerEventsCallback : null}
                     onMarkCreatorToggled={handleMarks.onMarkCreatorToggled}
                 />
-            </Col>
+            </Canvas>
         );
     }
 }

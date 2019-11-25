@@ -22,6 +22,7 @@ import { loadBackgroundStyle } from "../../../../common/themes/backgroundLoader"
 
 import { connect } from "react-redux";
 import _handlers from "../../../handlers/_handlers";
+import { AirLayer, Canvas, InnerCanvas } from "../editorCanvas/Styles";
 
 /**
  * EditorCanvasSli component
@@ -55,18 +56,18 @@ class EditorCanvasSli extends Component {
 
         let gridOn = grid && ((containedViewSelected !== 0) === fromCV);
         return (
-            <Col id={fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12}
+            <Canvas id={fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12}
                 className="canvasSliClass safeZone"
                 onMouseDown={this.deselectBoxes}
                 style={{ display: containedViewSelected !== 0 && !fromCV ? 'none' : 'initial',
                     fontSize: this.state.fontBase ? (this.state.fontBase + 'px') : '14px',
                 }}>
-                <div id={fromCV ? 'airlayer_cv' : 'airlayer'}
+                <AirLayer id={fromCV ? 'airlayer_cv' : 'airlayer'}
                     className={'slide_air parentRestrict'}
                     style={{ margin: 'auto', visibility: (showCanvas ? 'visible' : 'hidden'),
                         width: this.state.width, height: this.state.height, marginTop: this.state.marginTop, marginBottom: this.state.marginBottom,
                     }}>
-                    <div id={fromCV ? "contained_maincontent" : "maincontent"}
+                    <InnerCanvas id={fromCV ? "contained_maincontent" : "maincontent"}
                         ref="slideDropZone"
                         onMouseDown={this.hideTitle}
                         className={'innercanvas sli ' + theme}
@@ -100,8 +101,8 @@ class EditorCanvasSli extends Component {
                                 pageType={itemSelected.type || 0}
                             />;
                         })}
-                    </div>
-                </div>
+                    </InnerCanvas>
+                </AirLayer>
                 <ThemeCSS
                     aspectRatio = {aspectRatio}
                     styleConfig={styleConfig}
@@ -125,7 +126,7 @@ class EditorCanvasSli extends Component {
                             ? Ediphy.Plugins.get(pluginToolbarsById[boxSelected].config.name).pointerEventsCallback : null}
                     onMarkCreatorToggled={this.h.onMarkCreatorToggled}
                 />
-            </Col>
+            </Canvas>
         );
     }
 

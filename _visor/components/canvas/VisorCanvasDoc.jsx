@@ -4,12 +4,14 @@ import PropTypes from 'prop-types';
 import SubmitButton from '../score/SubmitButton';
 import Score from '../score/Score';
 import VisorBoxSortable from './VisorBoxSortable';
-import { Col, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import VisorHeader from './VisorHeader';
 import { isContainedView, isSortableBox, isView } from '../../../common/utils';
 import i18n from 'i18next';
 import { getThemeColors } from "../../../common/themes/themeLoader";
 import ThemeCSS from "../../../common/themes/ThemeCSS";
+import { Canvas } from "../../../_editor/components/canvas/editorCanvas/Styles";
+import { AirLayer, InnerCanvas } from "./Styles";
 
 export default class VisorCanvasDoc extends Component {
 
@@ -45,7 +47,7 @@ export default class VisorCanvasDoc extends Component {
         let colors = toolbar.colors ? toolbar.colors : getThemeColors(theme);
 
         return (
-            <Col id={(isCV ? "containedCanvas_" : "canvas_") + this.props.currentView} md={12} xs={12} className={(isCV ? "containedCanvasClass " : "canvasClass ") + animationType + (this.props.show ? "" : " hidden")}
+            <Canvas id={(isCV ? "containedCanvas_" : "canvas_") + this.props.currentView} md={12} xs={12} className={(isCV ? "containedCanvasClass " : "canvasClass ") + animationType + (this.props.show ? "" : " hidden")}
                 style={{ display: 'initial', padding: '0', width: '100%' }}>
                 <div className={"safeZone"} style={{ height: 'inherit' }}>
                     <div className={"scrollcontainer " + theme} style={{ background: toolbar.background }}>
@@ -67,16 +69,13 @@ export default class VisorCanvasDoc extends Component {
                             containedViews={this.props.containedViews}
                             showButton/>
                         <div className="outter canvasvisor">
-                            <div id={(isCV ? 'airlayer_cv_' : 'airlayer_') + this.props.currentView}
+                            <AirLayer id={(isCV ? 'airlayer_cv_' : 'airlayer_') + this.props.currentView}
                                 className={(isCV ? 'airlayer_cv' : 'airlayer') + ' doc_air'}
                                 style={{ background: itemSelected.background, visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
-
-                                <div id={isCV ? "contained_maincontent" : "maincontent"}
+                                <InnerCanvas id={isCV ? "contained_maincontent" : "maincontent"}
                                     className={'innercanvas doc'}
                                     style={{ background: itemSelected.background, visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
-
                                     <br/>
-
                                     {boxes.map(id => {
                                         let box = this.props.boxes[id];
                                         if (!isSortableBox(box.id)) {
@@ -98,8 +97,8 @@ export default class VisorCanvasDoc extends Component {
                                             themeColors = {colors}/>;
 
                                     })}
-                                </div>
-                            </div>
+                                </InnerCanvas>
+                            </AirLayer>
                         </div>
 
                         {this.props.fromPDF || !(exercises) || !(exercises.exercises) ? null : <div className={"pageFooter" + (!exercises || !exercises.exercises || Object.keys(exercises.exercises).length === 0 ? " hidden" : "")}>
@@ -117,7 +116,7 @@ export default class VisorCanvasDoc extends Component {
                         fromPDF={this.props.fromPDF}
                         toolbar = {{ ...toolbar, colors: colors }}
                     />) : null}
-            </Col>
+            </Canvas>
         );
     }
 }

@@ -16,6 +16,7 @@ import { loadBackgroundStyle } from "../../../common/themes/backgroundLoader";
 import ThemeCSS from '../../../common/themes/ThemeCSS';
 import { getThemeColors } from "../../../common/themes/themeLoader";
 import { getTransition } from "../../../common/themes/transitions/transitions";
+import { AirLayer, CVBackButton, InnerCanvas } from "./Styles";
 
 export default class VisorCanvasSli extends Component {
     constructor(props) {
@@ -78,7 +79,7 @@ export default class VisorCanvasSli extends Component {
                     overflow: 'hidden',
                     fontSize: this.state.fontBase ? (this.state.fontBase + 'px') : '14px' }}>
 
-                <div id={(isCV ? 'airlayer_cv_' : 'airlayer_') + this.props.currentView}
+                <AirLayer id={(isCV ? 'airlayer_cv_' : 'airlayer_') + this.props.currentView}
                     className={' slide_air airlayer'}
                     style={{ margin: '0 auto',
                         width: this.state.width,
@@ -97,16 +98,16 @@ export default class VisorCanvasSli extends Component {
                         style={{ height: '100%', width: '100%' }}
                     >
 
-                        <div id={isCV ? "contained_maincontent" : "maincontent"}
+                        <InnerCanvas id={isCV ? "contained_maincontent" : "maincontent"}
                             className={'innercanvas sli ' + theme + ' ' + this.props.currentView}
                             style={{ ...loadBackgroundStyle(this.props.showCanvas, toolbar, styleConfig, true, this.props.canvasRatio, itemSelected.background),
                                 visibility: isVisible ? 'visible' : 'hidden' }}>
                             {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
-                                <a href="#"
+                                <CVBackButton href="#"
                                     className="btnOverBar cvBackButton"
                                     style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }}
                                     onClick={this.onCloseContainedView}>
-                                    <i className="material-icons">close</i></a></OverlayTrigger>) : (<span />)}
+                                    <i className="material-icons">close</i></CVBackButton></OverlayTrigger>) : (<span />)}
                             <VisorHeader titles={titles}
                                 onShowTitle={()=>this.setState({ showTitle: true })}
                                 courseTitle={this.props.title}
@@ -141,9 +142,9 @@ export default class VisorCanvasSli extends Component {
                                 <Score exercises={viewExercises}/>
                             </div>}
 
-                        </div>
+                        </InnerCanvas>
                     </Animated>
-                </div>
+                </AirLayer>
 
                 {this.props.show ?
                     (<ThemeCSS
