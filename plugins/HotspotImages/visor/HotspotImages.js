@@ -15,13 +15,18 @@ export function HotspotImages() {
                 let text = marks[e].text;
                 let color = marks[e].color;
                 let size = marks[e].size;
+                let image = marks[e].image;
+                let height = image !== false ? String(image.size.height) + "%" : null;
+                let width = image !== false ? String(image.size.width) + "%" : null;
                 let isPopUp = marks[e].connectMode === "popup";
                 let isVisor = true;
                 return(
-                    <div key={e} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width: '24px', height: '26px' }}>
+                    <div key={e} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width, height }}>
                         <Mark color={color}
                             text={text}
                             size={size}
+                            image={image}
+                            isImage
                             idKey={e}
                             title={title}
                             isPopUp={isPopUp}

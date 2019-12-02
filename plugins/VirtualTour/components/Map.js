@@ -49,6 +49,7 @@ export default class Map extends React.Component {
                         window.mapList[this.props.id] = map;
                     }}
                     resetBoundsOnResize
+                    onZoomChange={()=>{console.log("a");}}
                     yesIWantToUseGoogleMapApiInternals>
                     {this.props.children}
                 </GoogleMapReact>

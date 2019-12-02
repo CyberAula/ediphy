@@ -189,14 +189,19 @@ export default class BasicAudioPluginEditor extends React.Component {
             let text = marks[id].text;
             let color = marks[id].color;
             let size = marks[id].size;
+            let image = marks[id].image;
+
+            let height = image !== false ? String(image.size.height / 10) + "em" : null;
+            let width = image !== false ? String(image.size.width / 10) + "em" : null;
+
             return(
-                <MarkEditor key={id} style={{ left: value, position: "absolute", top: "0.1em" }}
+                <MarkEditor key={id} style={{ left: value, position: "absolute", top: "0.1em", height, width }}
                     boxId={this.props.props.id} time={1.5} mark={id} marks={marks} dispatch={this.props.props.dispatch}
                     onRichMarkMoved={this.h.onRichMarkMoved} state={this.props.state}
                     base={this.props.base}>
                     <AudioMark style={{ background: color || "var(--themeColor1)" }}>
                         <Mark style={{ position: 'relative', top: "-1.7em", left: "-1em" }}
-                            color={color || this.state.color || "#17CFC8"} idKey={id} text={text} size={size} title={title} />
+                            color={color || this.state.color || "#17CFC8"} idKey={id} text={text} size={size} title={title} image={image}/>
                     </AudioMark>
                 </MarkEditor>);
         });

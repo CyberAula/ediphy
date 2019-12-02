@@ -129,6 +129,7 @@ export default class EnrichedPDFPlugin extends React.Component {
             let title = marks[id].title;
             let color = marks[id].color;
             let text = marks[id].text;
+            let image = marks[id].image;
             let position;
             if (value && value.split(',').length === 3) {
                 position = value.split(',');
@@ -148,6 +149,7 @@ export default class EnrichedPDFPlugin extends React.Component {
                             text={text}
                             idKey={id}
                             title={title}
+                            image={image}
                             isPopUp={isPopUp}
                             isVisor={isVisor}
                             markConnection={marks[id].connection}
