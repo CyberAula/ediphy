@@ -31,6 +31,7 @@ class RichMarksModal extends Component {
             newSelected: this.props.navItemsById[this.props.navItemSelected] ? this.props.navItemsById[this.props.navItemSelected].type : "",
             existingSelected: "",
             newType: PAGE_TYPES.SLIDE,
+            image: false,
             viewNames: this.returnAllViews(this.props),
             showAlert: false,
             showTemplates: false,
@@ -110,6 +111,7 @@ class RichMarksModal extends Component {
         let imageSize = (this.state.size / 100);
         let height = 0;
         let width = 0;
+        let imageModal = this.state.image;
         let oDimensions = this.state.oDimensions;
         if(this.state.image !== false) {
             height = oDimensions.biggerDimension === "Height" ? 100 * imageSize : (100 * imageSize / oDimensions.aspectRatio);
@@ -172,7 +174,7 @@ class RichMarksModal extends Component {
                                     {this.state.image === false ?
                                         <i className="material-icons" style={{ color: (this.state.color || "black"), fontSize: (this.state.size / 10) + "em", paddingLeft: "7%" }}>{this.state.text}</i> :
                                         <div style={{ height: "10em", width: "10em", marginLeft: "7%", backgroundColor: "antiquewhite" }}>
-                                            <img height={String(height) + "%"} width={String(width) + "%"} onLoad={this.onImgLoad} src={this.props.fileModalResult.value}/>
+                                            <img height={String(height) + "%"} width={String(width) + "%"} onLoad={this.onImgLoad} src={imageModal.url || this.props.fileModalResult.value}/>
                                         </div>}
 
                                 </div>
@@ -322,12 +324,9 @@ class RichMarksModal extends Component {
                         let connectMode = this.state.connectMode;
                         let color = this.state.color || marksType.defaultColor || '#222222';
                         let connection = selected.id;
-                        let text = this.state.image == false ? this.state.text : "";
+                        let text = this.state.image !== false ? this.state.text : "";
                         let size = this.state.size;
-                        let oDimensions = this.state.oDimensions;
-                        let height = 0;
                         let image = null;
-                        let width = 0;
                         if(this.state.image !== false) {
                             height = oDimensions.biggerDimension === "Height" ? 100 * imageSize : (100 * imageSize / oDimensions.aspectRatio);
                             width = oDimensions.biggerDimension === "Width" ? 100 * imageSize : (100 * imageSize * oDimensions.aspectRatio);
@@ -589,7 +588,7 @@ class RichMarksModal extends Component {
     loadImage() {
         this.toggleFileUpload('image', 'image/*');
         this.setState({ image: true });
-        this.setState({ oDimensions: false }); z;
+        this.setState({ oDimensions: false });
     }
 
     toggleFileUpload = (id, accept) => {
@@ -680,4 +679,12 @@ RichMarksModal.propTypes = {
      * Contains the id of the selected template
      */
     indexSelected: PropTypes.func,
+    /**
+     * Contains the result of the import image modal
+     */
+    fileModalResult: PropTypes.any,
+    /**
+     * Dispatch function
+     */
+    dispatch: PropTypes.func,
 };
