@@ -324,7 +324,7 @@ class RichMarksModal extends Component {
                         let connectMode = this.state.connectMode;
                         let color = this.state.color || marksType.defaultColor || '#222222';
                         let connection = selected.id;
-                        let text = this.state.image !== false ? this.state.text : "";
+                        let text = this.state.image === false ? this.state.text : "";
                         let size = this.state.size;
                         let image = null;
                         if(this.state.image !== false) {

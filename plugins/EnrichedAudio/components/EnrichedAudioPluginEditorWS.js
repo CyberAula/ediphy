@@ -191,11 +191,8 @@ export default class BasicAudioPluginEditor extends React.Component {
             let size = marks[id].size;
             let image = marks[id].image;
 
-            let height = image !== false ? String(image.size.height / 10) + "em" : null;
-            let width = image !== false ? String(image.size.width / 10) + "em" : null;
-
             return(
-                <MarkEditor key={id} style={{ left: value, position: "absolute", top: "0.1em", height, width }}
+                <MarkEditor key={id} style={{ left: value, position: "absolute", top: "0.1em" }}
                     boxId={this.props.props.id} time={1.5} mark={id} marks={marks} dispatch={this.props.props.dispatch}
                     onRichMarkMoved={this.h.onRichMarkMoved} state={this.props.state}
                     base={this.props.base}>
