@@ -40,8 +40,6 @@ class RichMarksModal extends Component {
         };
 
         this.h = _handlers(this);
-        this.onImgLoad = this.onImgLoad.bind(this);
-        this.loadImage = this.loadImage.bind(this);
     }
 
     /**
@@ -114,7 +112,6 @@ class RichMarksModal extends Component {
         let imageModal = this.state.image;
         let oDimensions = this.state.oDimensions;
         if(this.state.image !== false) {
-            height = oDimensions.biggerDimension === "Height" ? 100 * imageSize : (100 * imageSize / oDimensions.aspectRatio);
             width = oDimensions.biggerDimension === "Width" ? 100 * imageSize : (100 * imageSize * oDimensions.aspectRatio);
         }
 
@@ -174,7 +171,7 @@ class RichMarksModal extends Component {
                                     {this.state.image === false ?
                                         <i className="material-icons" style={{ color: (this.state.color || "black"), fontSize: (this.state.size / 10) + "em", paddingLeft: "7%" }}>{this.state.text}</i> :
                                         <div style={{ height: "10em", width: "10em", marginLeft: "7%", backgroundColor: "antiquewhite" }}>
-                                            <img height={String(height) + "%"} width={String(width) + "%"} onLoad={this.onImgLoad} src={imageModal.url || this.props.fileModalResult.value}/>
+                                            <img height="auto" width={String(width) + "%"} onLoad={this.onImgLoad} src={imageModal.url || this.props.fileModalResult.value}/>
                                         </div>}
 
                                 </div>
@@ -330,7 +327,7 @@ class RichMarksModal extends Component {
                         if(this.state.image !== false) {
                             height = oDimensions.biggerDimension === "Height" ? 100 * imageSize : (100 * imageSize / oDimensions.aspectRatio);
                             width = oDimensions.biggerDimension === "Width" ? 100 * imageSize : (100 * imageSize * oDimensions.aspectRatio);
-                            image = { url: (this.props.fileModalResult.value), size: { height, width } };
+                            image = { url: (this.state.image.url || this.props.fileModalResult.value), size: { height, width } };
                         }else{
                             image = false;
                         }
@@ -572,7 +569,7 @@ class RichMarksModal extends Component {
     }
 
     // Function to get image size to render
-    onImgLoad({ target: img }) {
+    onImgLoad = ({ target: img }) => {
         if(!this.state.oDimensions.height) {
             let aspectRatio = img.offsetWidth / img.offsetHeight;
             let biggerDimension;
@@ -583,13 +580,13 @@ class RichMarksModal extends Component {
             }
             this.setState({ oDimensions: { aspectRatio, biggerDimension } });
         }
-    }
+    };
 
-    loadImage() {
+    loadImage = () => {
         this.toggleFileUpload('image', 'image/*');
         this.setState({ image: true });
         this.setState({ oDimensions: false });
-    }
+    };
 
     toggleFileUpload = (id, accept) => {
         this.props.dispatch(updateUI({

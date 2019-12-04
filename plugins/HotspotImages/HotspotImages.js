@@ -142,7 +142,6 @@ export const HotspotImages = (base) => ({
             let text = marks[id].text;
             let size = marks[id].size;
             let image = marks[id].image;
-            let height = image !== false ? String(image.size.height) + "%" : null;
             let width = image !== false ? String(image.size.width) + "%" : null;
             let position;
             if (value && value.split(',').length === 2) {
@@ -151,7 +150,7 @@ export const HotspotImages = (base) => ({
                 position = [0, 0];
             }
             return (
-                <MarkEditor key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", height, width }} time={1.5} dispatch={ props.dispatch } onRichMarkMoved={_handlers({ props }).onRichMarkMoved} mark={id} base={base} marks={marks} state={state}>
+                <MarkEditor key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width, height: "auto" }} time={1.5} dispatch={ props.dispatch } onRichMarkMoved={_handlers({ props }).onRichMarkMoved} mark={id} base={base} marks={marks} state={state}>
                     <Mark style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} color={color} idKey={id} text={text} size={size} title={title} isImage image={image}/>
                 </MarkEditor>
             );

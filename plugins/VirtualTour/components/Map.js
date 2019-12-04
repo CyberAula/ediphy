@@ -79,10 +79,6 @@ Map.propTypes = {
    */
     searchBox: PropTypes.bool,
     /**
-   * Update callback
-   */
-    update: PropTypes.func.isRequired,
-    /**
      * Marks
      */
     children: PropTypes.any,
