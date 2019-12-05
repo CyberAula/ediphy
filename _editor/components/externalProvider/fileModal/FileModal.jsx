@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button, ListGroupItem, ListGroup } from 'react-bootstrap';
-import './_fileModal.scss';
-import '../_external.scss';
 import { isContainedView } from '../../../../common/utils';
 import FileHandlers from './FileHandlers/FileHandlers';
 import APIProviders from './APIProviders/APIProviders';
@@ -13,7 +11,7 @@ import { connect } from "react-redux";
 import i18n from 'i18next';
 import { updateUI } from "../../../../common/actions";
 import _handlers from "../../../handlers/_handlers";
-import { EDModal } from "../../../../sass/general/EDModal";
+import { FileModalContainer } from "./Styles";
 
 const initialState = {
     menu: 0,
@@ -48,7 +46,7 @@ class FileModal extends React.Component {
         let menus = APIProviders(this); // Retrieves all API providers
         let handler = FileHandlers(this); // Retrieves all file-handling actions
         return(
-            <EDModal className="pageModal fileModal"
+            <FileModalContainer className="pageModal fileModal"
                 backdrop bsSize="large"
                 show={!!this.props.showFileUpload}
                 onHide={this.close}>
@@ -82,6 +80,7 @@ class FileModal extends React.Component {
                                     </div>
                                     <div id="drawerContent">
                                         <PDFHandler
+                                            dispatch={this.props.dispatch}
                                             navItemSelected={this.props.navItemSelected}
                                             boxesById={this.props.boxesById}
                                             navItemsIds={this.props.navItemsIds}
@@ -130,7 +129,7 @@ class FileModal extends React.Component {
                         </div>
                     </div>
                 </Modal.Body>
-            </EDModal>);
+            </FileModalContainer>);
     }
 
     /**

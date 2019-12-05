@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import reactCSS from 'reactcss';
 import { ChromePicker } from 'react-color';
 import PropTypes from "prop-types";
-import './color_picker_input.scss';
+import { ColorPickerContainer } from "./Styles";
 
 export default class ColorPicker extends Component {
 
@@ -42,9 +42,9 @@ export default class ColorPicker extends Component {
 
         return (
             <div>
-                <div className={'colorPickerContainer'} style={ styles.swatch } onClick={ this.handleClick }>
+                <ColorPickerContainer className={'colorPickerContainer'} style={ styles.swatch } onClick={ this.handleClick }>
                     <div className={'colorPickerInput'} style={ styles.color } />
-                </div>
+                </ColorPickerContainer>
                 { this.state.displayColorPicker &&
                     <div className={'cpicker'} style={ styles.popover }>
                         <div style={ styles.cover } onClick={ this.handleClose }/>

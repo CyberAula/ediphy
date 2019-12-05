@@ -11,8 +11,8 @@ import { randomPositionGenerator } from "../../../clipboard/clipboard.utils";
 import { createBox } from '../../../../../common/commonTools';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../../common/constants';
 
-import './_MoodleXMLDataTable.scss';
 import _handlers from "../../../../handlers/_handlers";
+import { MoodleDialog } from "../Styles";
 require('react-datatable-bs/css/table-twbs.css');
 
 export default class MoodleHandler extends Component {
@@ -151,7 +151,7 @@ export default class MoodleHandler extends Component {
             initialOrder: 'descending',
             theme: 'striped',
         };
-        return (<div className="moodleDialog">
+        return (<MoodleDialog>
             <form action="javascript:void(0);" onSubmit={e=>e.preventDefault()}>
                 <div className="fileLoaded moodleTable" style={{ display: 'block' }}>
                     <h2>{i18n.t("Preview")}</h2>
@@ -208,7 +208,7 @@ export default class MoodleHandler extends Component {
 
             </form>
 
-        </div>
+        </MoodleDialog>
         );
     }
 

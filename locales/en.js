@@ -299,6 +299,7 @@ let en = {
             "external_url": "External content",
             "external_url_label": "URL",
             "hover_message": "Enlaza con ",
+            "import_image": "Import image",
             "link_to": "Link to",
             "mark_color": "Mark color",
             "mark_name": "Mark name",
@@ -311,9 +312,12 @@ let en = {
             "popup": "Show PopUp",
             "popup_label": "Mark text",
             "popup_placeholder": "Write the text you want to show when you click on mark",
+            "resize": "Size",
             "value": "Value",
             "wrong_value": "Wrong value",
             "save_changes": "Save changes",
+            "selector": "Choose icon",
+
         },
         "messages": {
             "add_new_mark": "Add new mark",

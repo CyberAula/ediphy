@@ -6,6 +6,8 @@ import './../../../../node_modules/rc-color-picker/assets/index.css';
 import { connect } from "react-redux";
 import Picker from 'rc-color-picker';
 import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Radio } from 'react-bootstrap';
+import IconPicker from "../../common/iconPicker/IconPicker";
+import { updateUI } from "../../../../common/actions";
 
 import Alert from './../../common/alert/Alert';
 import { isSection, isContainedView, nextAvailName, makeBoxes } from '../../../../common/utils';
@@ -13,10 +15,11 @@ import _handlers from "../../../handlers/_handlers";
 import { ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES } from '../../../../common/constants';
 
 import TemplatesModal from "../../carousel/templatesModal/TemplatesModal";
-import { ModalContainer, TypeSelector } from "./Styles";
+import { ModalContainer, TypeSelector, ConfigSize } from "./Styles";
+import { copyFile } from 'fs';
 
 /**
- * Modal component to edit marks' configuration
+ * Modal component to   edit marks' configuration
  */
 class RichMarksModal extends Component {
 
@@ -28,10 +31,12 @@ class RichMarksModal extends Component {
             newSelected: this.props.navItemsById[this.props.navItemSelected] ? this.props.navItemsById[this.props.navItemSelected].type : "",
             existingSelected: "",
             newType: PAGE_TYPES.SLIDE,
+            image: false,
             viewNames: this.returnAllViews(this.props),
             showAlert: false,
             showTemplates: false,
             boxes: [],
+            oDimensions: {},
         };
 
         this.h = _handlers(this);
@@ -49,7 +54,10 @@ class RichMarksModal extends Component {
             if (current) {
                 this.setState({
                     viewNames: allViews,
+                    text: current.text,
                     color: current.color,
+                    size: current.size,
+                    image: current.image,
                     connectMode: current.connectMode || "new",
                     displayMode: current.displayMode || "navigate",
                     newSelected: (current.connectMode === "new" ? current.connection : ""),
@@ -61,6 +69,9 @@ class RichMarksModal extends Component {
                 this.setState({
                     viewNames: allViews,
                     color: null,
+                    text: "room",
+                    size: 25,
+                    image: false,
                     connectMode: "new",
                     displayMode: "navigate",
                     newSelected: "",
@@ -68,7 +79,6 @@ class RichMarksModal extends Component {
                     existingSelected: "",
                 });
             }
-
         }
 
     }
@@ -96,6 +106,15 @@ class RichMarksModal extends Component {
         let pluginType = (pluginToolbar && pluginToolbar.config) ? pluginToolbar.config.displayName : 'Plugin';
         let config = plugin ? plugin.getConfig() : null;
         let newId = "";
+        let imageSize = (this.state.size / 100);
+        let height = 0;
+        let width = 0;
+        let imageModal = this.state.image;
+        let oDimensions = this.state.oDimensions;
+        if(this.state.image !== false) {
+            width = oDimensions.biggerDimension === "Width" ? 100 * imageSize : (100 * imageSize * oDimensions.aspectRatio);
+        }
+
         return (
             <ModalContainer backdrop bsSize="large" show={this.props.richMarksVisible}>
                 <Modal.Header>
@@ -103,7 +122,7 @@ class RichMarksModal extends Component {
                 </Modal.Header>
 
                 <Modal.Body>
-                    <Row>
+                    <Row >
                         <FormGroup>
                             <Col xs={4} md={2}>
                                 <ControlLabel>{i18n.t("marks.mark_name")}</ControlLabel>
@@ -121,7 +140,6 @@ class RichMarksModal extends Component {
                                 <ControlLabel>{i18n.t("marks.mark_color")}</ControlLabel>
                             </Col>
                             <Col xs={8} md={6}>
-
                                 <Picker.Panel className="colorPanel"
                                     placement="bottomLeft"
                                     animation="slide-up"
@@ -129,9 +147,53 @@ class RichMarksModal extends Component {
                                     color={this.state.color || marksType.defaultColor}
                                     onChange={e=>{this.setState({ color: e.color });}}
                                     mode="RGB" />
-                                <br/>
                             </Col>
                         </FormGroup>
+                    </Row>
+                    <Row>
+                        <FormGroup>
+                            <Col xs={4} md={2}>
+                                <ControlLabel>Importar Imagen</ControlLabel>
+                            </Col>
+                            <Col xs={4} md={2}>
+                                <button className="avatarButtons btn btn-primary" onClick={this.loadImage}>{i18n.t("marks.import_image")}</button>
+                            </Col>
+                        </FormGroup>
+                    </Row>
+                    <Row>
+                        <FormGroup>
+                            <Col xs={4} md={2}>
+                                <ControlLabel>{i18n.t("marks.selector")}</ControlLabel>
+                            </Col>
+                            <Col xs={12} md={8}>
+                                <div style={{ display: "flex", justifyContent: "start", alignItems: "center" }}>
+                                    <IconPicker text={this.state.text} onChange={e=>{this.setState({ text: e.text, image: false });}}/>
+                                    {this.state.image === false ?
+                                        <i className="material-icons" style={{ color: (this.state.color || "black"), fontSize: (this.state.size / 10) + "em", paddingLeft: "7%" }}>{this.state.text}</i> :
+                                        <div style={{ height: "10em", width: "10em", marginLeft: "7%", backgroundColor: "antiquewhite" }}>
+                                            <img height="auto" width={String(width) + "%"} onLoad={this.onImgLoad} src={imageModal.url || this.props.fileModalResult.value}/>
+                                        </div>}
+
+                                </div>
+                            </Col>
+                            <br/>
+                        </FormGroup>
+                    </Row>
+                    <Row>
+                        <FormGroup>
+                            <Col xs={4} md={2}>
+                                <ControlLabel>{i18n.t("marks.resize")}</ControlLabel>
+                            </Col>
+                            <Col xs={8} md={6}>
+                                <ConfigSize>
+                                    <div className="slidecontainer">
+                                        <input style={{ backgroundColor: "transparent", borderRadius: "4px" }}type="range" min="10" max="100" value={this.state.size} onChange={()=>{this.setState({ size: event.target.value });}} className="slider"/>
+                                    </div>
+                                </ConfigSize>
+
+                            </Col>
+                        </FormGroup>
+
                     </Row>
                     <Row>
                         <Col xs={4} md={2} />
@@ -259,6 +321,17 @@ class RichMarksModal extends Component {
                         let connectMode = this.state.connectMode;
                         let color = this.state.color || marksType.defaultColor || '#222222';
                         let connection = selected.id;
+                        let text = this.state.image === false ? this.state.text : "";
+                        let size = this.state.size;
+                        let image = null;
+                        if(this.state.image !== false) {
+                            height = oDimensions.biggerDimension === "Height" ? 100 * imageSize : (100 * imageSize / oDimensions.aspectRatio);
+                            width = oDimensions.biggerDimension === "Width" ? 100 * imageSize : (100 * imageSize * oDimensions.aspectRatio);
+                            image = { url: (this.state.image.url || this.props.fileModalResult.value), size: { height, width } };
+                        }else{
+                            image = false;
+                        }
+
                         // CV name
                         let name = connectMode === "existing" ? this.props.viewToolbarsById[connection].viewName : nextAvailName(i18n.t('contained_view'), this.props.viewToolbarsById, 'viewName');
                         // Mark name
@@ -289,9 +362,12 @@ class RichMarksModal extends Component {
                                     title: title,
                                     connection: newId,
                                     color: color,
+                                    image: image,
                                     connectMode: connectMode,
                                     displayMode: this.state.displayMode,
                                     value: value,
+                                    text: text,
+                                    size: size,
                                 },
                                 view: {
                                     info: "new",
@@ -318,9 +394,12 @@ class RichMarksModal extends Component {
                                     title: title,
                                     connection: connection,
                                     color: color,
+                                    image: image,
                                     connectMode: connectMode,
                                     displayMode: this.state.displayMode,
                                     value: value,
+                                    text: text,
+                                    size: size,
                                 },
                                 view: {
                                     info: "new",
@@ -341,9 +420,12 @@ class RichMarksModal extends Component {
                                     title: title,
                                     connection: ReactDOM.findDOMNode(this.refs.externalSelected).value,
                                     color: color,
+                                    image: image,
                                     connectMode: connectMode,
                                     displayMode: this.state.displayMode,
                                     value: value,
+                                    text: text,
+                                    size: size,
                                 },
                             };
                             break;
@@ -355,9 +437,12 @@ class RichMarksModal extends Component {
                                     title: title,
                                     connection: ReactDOM.findDOMNode(this.refs.popupSelected).value,
                                     color: color,
+                                    image: image,
                                     connectMode: connectMode,
                                     displayMode: this.state.displayMode,
                                     value: value,
+                                    text: text,
+                                    size: size,
                                 },
                             };
                             break;
@@ -482,6 +567,35 @@ class RichMarksModal extends Component {
     componentWillUnmount() {
         window.removeEventListener('keyup', this.toggleModal);
     }
+
+    // Function to get image size to render
+    onImgLoad = ({ target: img }) => {
+        if(!this.state.oDimensions.height) {
+            let aspectRatio = img.offsetWidth / img.offsetHeight;
+            let biggerDimension;
+            if(img.offsetHeight > img.offsetWidth) {
+                biggerDimension = "Height";
+            }else{
+                biggerDimension = "Width";
+            }
+            this.setState({ oDimensions: { aspectRatio, biggerDimension } });
+        }
+    };
+
+    loadImage = () => {
+        this.toggleFileUpload('image', 'image/*');
+        this.setState({ image: true });
+        this.setState({ oDimensions: false });
+    };
+
+    toggleFileUpload = (id, accept) => {
+        this.props.dispatch(updateUI({
+            showFileUpload: accept,
+            fileModalResult: { id: id, value: undefined },
+            fileUploadTa: 0,
+        }));
+    };
+
 }
 
 function mapStateToProps(state) {
@@ -562,4 +676,12 @@ RichMarksModal.propTypes = {
      * Contains the id of the selected template
      */
     indexSelected: PropTypes.func,
+    /**
+     * Contains the result of the import image modal
+     */
+    fileModalResult: PropTypes.any,
+    /**
+     * Dispatch function
+     */
+    dispatch: PropTypes.func,
 };

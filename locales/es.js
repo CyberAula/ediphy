@@ -299,6 +299,7 @@ let es = {
             "external_url": "Contenido externo",
             "external_url_label": "URL",
             "hover_message": "Enlaza con ",
+            "import_image": "Importar imagen",
             "link_to": "Enlazar con",
             "mark_color": "Color de la marca",
             "mark_name": "Nombre marca",
@@ -311,9 +312,12 @@ let es = {
             "popup": "Mostrar PopUp",
             "popup_label": "Texto de la marca",
             "popup_placeholder": "Escribe el texto que quieres que aparezca al hacer click en la marca",
+            "resize": "Tamaño",
             "value": "Valor",
             "wrong_value": "Valor incorrecto",
             "save_changes": "Guardar",
+            "selector": "Elija icono",
+
         },
         "messages": {
             "add_new_mark": "Añadir nueva marca",

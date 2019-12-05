@@ -389,3 +389,82 @@ input[type="radio"]{
     pointer-events: all !important;
 }
 
+// React-joyride
+.__floater {
+  z-index: 9999 !important;
+  border-radius: 0 !important;
+  &>div {
+    border-radius: 0 !important;
+  }
+  &>div>div {
+    border-radius: 0px !important;
+  }
+  .step_text{
+    text-align: left;
+    color: #999;
+  }
+  button {
+    border-radius: 0px !important;
+  }
+}
+
+
+// EditorBox clone
+#clone {
+  text-align: center;
+}
+
+// Do not rotate elements while rotating boxes
+.norotate {
+  -webkit-transform: rotate(0deg) !important; /* Ch <36, Saf 5.1+, iOS < 9.2, An =<4.4.4 */
+      -ms-transform: rotate(0deg) !important;  /* IE 9 */
+          transform: rotate(0deg) !important; /* IE 10, Fx 16+, Op 12.1+ */
+}
+
+
+// MIGHT BE USED BY VISOR
+/*Ediphy Box*/
+.boxStyle{
+    width: 100%;
+    height: 100%;
+    line-height: normal;
+}
+
+.boxStyle {
+  position: relative;
+  word-wrap: break-word;
+  overflow: hidden;
+  pre, pre * {
+    word-break: break-all !important;
+    white-space: pre-wrap;
+  }
+}
+
+@supports (-ms-ime-align:auto) {
+ .boxStyle {
+    word-break: break-all;
+  }
+}
+
+// MIGHT BE USED BY VISOR
+.editorBoxSortableContainer{
+    min-height: 70px;
+    text-align: center;
+    line-height: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+// MIGHT BE USED BY VISOR
+.canvasClass, .containedCanvasClass , #canvas, #containedCanvas{
+  height: 100%;
+  overflow-y: auto;
+  width: calc(100% - 40px);
+  background-color: #9a9a9a;
+}
+
+// NECESSARY FOR VISOR
+.selectedBox.wholebox .markeditor * {
+  pointer-events: all !important;
+}
+

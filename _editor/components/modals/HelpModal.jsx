@@ -7,12 +7,13 @@ import { updateUI } from "../../../common/actions";
 
 import { connect } from "react-redux";
 import handleModals from "../../handlers/handleModals";
+import { HelpModalContainer } from "./Styles";
 
 class HelpModal extends React.Component {
 
     render() {
         return(
-            <Modal className="pageModal welcomeModal helpModal"
+            <HelpModalContainer className="pageModal welcomeModal helpModal"
                 show={this.props.showHelpButton}
                 cancelButton
                 acceptButtonText={i18n.t("joyride.start")}
@@ -35,7 +36,7 @@ class HelpModal extends React.Component {
                         </div></a>
                     </div>
                 </Modal.Body>
-            </Modal>
+            </HelpModalContainer>
         );
     }
 

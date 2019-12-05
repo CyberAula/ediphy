@@ -1,6 +1,5 @@
 @import "./../../../../sass/general/_variables.scss";
 @import './../../../../sass/general/mixins/mixins';
-@import "../../canvas/editorHeader/editorHeader";
 
 /* Índice */
 .carList {
@@ -19,9 +18,7 @@
     border: none !important;
     outline: none !important;
     &:hover, &:active, &:focus {
-        -webkit-box-shadow: none !important;
         box-shadow: none !important;
-        -moz-box-shadow: none !important;
         outline: none;
     }
 }

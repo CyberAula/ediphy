@@ -4,7 +4,6 @@ import EditorCanvasSli from '../editorCanvasSli/EditorCanvasSli';
 import EditorCanvasDoc from '../editorCanvasDoc/EditorCanvasDoc';
 import { isSlide } from '../../../../common/utils';
 import { connect } from "react-redux";
-import './_canvas.scss';
 
 /**
  * Container component to render documents or slides

@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ImageCatalog } from "./Styles";
 export default class ImageComponent extends React.Component {
 
     render() {
         let { isSelected, title, thumbnail, onElementSelected, url } = this.props;
         let avatar = thumbnail || url;
-        return url ? <img onError={(e)=>{
+        return url ? <ImageCatalog selected={isSelected} onError={(e)=>{
             e.target.style.display = 'none';
         }} src={avatar}
         className={'catalogImage ' + (isSelected ? 'catalogImageSelected' : '')}

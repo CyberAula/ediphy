@@ -63,6 +63,7 @@ class EditorApp extends Component {
         }
         const defaultMarkValue = pluginSelected ? pluginSelected.getConfig()?.defaultMarkValue : 0;
         const validateMarkValueInput = pluginSelected ? pluginSelected.validateValueInput : null;
+        const fileModalResult = reactUI.fileModalResult;
 
         const canvasProps = {
             handleBoxes: this.handleBoxes,
@@ -117,6 +118,8 @@ class EditorApp extends Component {
                     <Toolbar top={(60 + ribbonHeight) + 'px'}/>
                     <PluginConfigModal id={reactUI.pluginConfigModal}/>
                     <RichMarksModal
+                        cur
+                        fileModalResult={fileModalResult}
                         defaultValueMark={defaultMarkValue}
                         validateValueInput={validateMarkValueInput}
                     />

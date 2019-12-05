@@ -41,9 +41,6 @@ export default class Map extends React.Component {
                     }}
                     onChildMouseEnter={() => {let bool = findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled'); this.setState({ draggable: bool, disableDoubleClickZoom: true, controls: bool });}}
                     onChildMouseLeave={() => {let bool = findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled'); this.setState({ draggable: bool, disableDoubleClickZoom: !bool, controls: bool });}}
-                    onChange={e => {
-                        this.props.update(e.center.lat, e.center.lng, e.zoom, false);
-                    }}
                     onGoogleApiLoaded={({ map }) => {
                         map.setOptions({ draggable: this ? findParentBySelector(ReactDOM.findDOMNode(this), '.wholebox') : true, mapTypeControl: false, zoomControl: false });
                         window.mapList[this.props.id] = map;
@@ -81,10 +78,6 @@ Map.propTypes = {
    * Whether or not it has a search box
    */
     searchBox: PropTypes.bool,
-    /**
-   * Update callback
-   */
-    update: PropTypes.func.isRequired,
     /**
      * Marks
      */
