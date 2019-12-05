@@ -14,7 +14,8 @@ import { isSection, isContainedView, getDescendantLinkedBoxes, getDescendantBoxe
 import { connect } from 'react-redux';
 import TemplatesModal from "../templatesModal/TemplatesModal";
 import _handlers from "../../../handlers/_handlers";
-import { CarouselButton, PopoverButton, BottomLine, BottomGroups } from './Styles';
+import { CarouselButton, BottomLine, BottomGroups } from './Styles';
+import { PopoverButton } from '../Styles';
 
 /**
  * Ediphy CarouselButtons Component

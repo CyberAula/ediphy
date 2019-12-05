@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import { Tooltip, OverlayTrigger, Button, Overlay } from 'react-bootstrap';
+import { Tooltip, OverlayTrigger, Overlay } from 'react-bootstrap';
 import i18n from 'i18next';
 import { connect } from "react-redux";
 
@@ -9,7 +9,7 @@ import Ediphy from '../../../../core/editor/main';
 import { isSortableBox, isSortableContainer } from '../../../../common/utils';
 import { blurCKEditor, findBox } from '../../../../common/commonTools';
 import _handlers from "../../../handlers/_handlers";
-import { IconsContainer, PopoverURL, TitleButton } from "./Styles";
+import { IconsContainer, TitleButton } from "./Styles";
 import { PopoverButton } from '../../carousel/Styles';
 
 /**
@@ -64,8 +64,8 @@ class EditorShortcuts extends Component {
         }];
         return (
             <IconsContainer id={this.props.isContained ? "contained_editorBoxIcons" : "editorBoxIcons"}
-                onClick={(e)=>{e.stopPropagation();}}
-                onMouseDown={(e)=>{e.stopPropagation();}}
+                onClick={(e) => { e.stopPropagation(); }}
+                onMouseDown={(e) => { e.stopPropagation(); }}
                 ref="container"
                 style={{
                     display: (box && box.id && isSortableBox(box.id)) || !box || !box.id ? 'none' : 'block',
@@ -100,7 +100,7 @@ class EditorShortcuts extends Component {
                                     </Tooltip>
                                 }>
                                 <TitleButton id="open_conf"
-                                    ref={ button => {this.overlayTarget = button;}}
+                                    ref={button => { this.overlayTarget = button; }}
                                     onClick={this.showOverlay}>
                                     <i className="material-icons">search</i>
                                 </TitleButton>
@@ -131,7 +131,7 @@ class EditorShortcuts extends Component {
                                 overlay={
                                     <Tooltip id="richMark">{i18n.t('messages.add_new_mark')}</Tooltip>
                                 }>
-                                <TitleButton id="markCreatorButton" onMouseDown={(e)=>{
+                                <TitleButton id="markCreatorButton" onMouseDown={(e) => {
                                     e.preventDefault();
                                     this.h.onMarkCreatorToggled(box.id);
                                 }}>
@@ -239,21 +239,23 @@ class EditorShortcuts extends Component {
                     }
                     {
                         (toolbar && toolbar.state && toolbar.state.nBoxes) ? (
-                            nBoxes.map((nBox, i)=>{ return (
-                                <OverlayTrigger key={i} placement="top"
-                                    overlay={
-                                        <Tooltip id="editartexto">
-                                            {i18n.t('messages.' + nBox.i18nKey)}
-                                        </Tooltip>
-                                    }>
-                                    <TitleButton id="pebutton"
-                                        onClick={(e) => {
-                                            nBox.callback();
-                                            e.stopPropagation();
-                                        }}>
-                                        <i className="material-icons">{nBox.icon}</i>
-                                    </TitleButton>
-                                </OverlayTrigger>);})
+                            nBoxes.map((nBox, i) => {
+                                return (
+                                    <OverlayTrigger key={i} placement="top"
+                                        overlay={
+                                            <Tooltip id="editartexto">
+                                                {i18n.t('messages.' + nBox.i18nKey)}
+                                            </Tooltip>
+                                        }>
+                                        <TitleButton id="pebutton"
+                                            onClick={(e) => {
+                                                nBox.callback();
+                                                e.stopPropagation();
+                                            }}>
+                                            <i className="material-icons">{nBox.icon}</i>
+                                        </TitleButton>
+                                    </OverlayTrigger>);
+                            })
                         ) : null
                     }
                     <OverlayTrigger placement="top"

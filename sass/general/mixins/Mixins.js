@@ -2,10 +2,10 @@ import styled from 'styled-components';
 
 export function animation(prop = "all", duration = "0.3s") {
   return `
-  transition: ${prop} ${duracion} ease-in;
-  -webkit-transition: ${prop} ${duracion} ease-in;
-  -moz-transition: ${prop} ${duracion} ease-in;
-  -o-transition: ${prop} ${duracion} ease-in;
+  transition: ${prop} ${duration} ease-in;
+  -webkit-transition: ${prop} ${duration} ease-in;
+  -moz-transition: ${prop} ${duration} ease-in;
+  -o-transition: ${prop} ${duration} ease-in;
   `
 }
 

@@ -16,7 +16,6 @@ import { ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, 
 
 import TemplatesModal from "../../carousel/templatesModal/TemplatesModal";
 import { ModalContainer, TypeSelector, ConfigSize } from "./Styles";
-import { copyFile } from 'fs';
 
 /**
  * Modal component to   edit marks' configuration

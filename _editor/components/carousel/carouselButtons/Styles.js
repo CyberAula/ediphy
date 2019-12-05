@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { MEDDIUM_GREY } from '../../../../sass/general/constants';
+import { MEDIUM_GREY } from '../../../../sass/general/constants';
 import { Button } from 'react-bootstrap';
 
 export const BottomGroups = styled.div`
@@ -38,7 +38,7 @@ export const CarouselButton = styled(Button)`
   padding-top: 2px;
   padding-bottom: 2px;
   font-size: 19px;
-  color: ${MEDDIUM_GREY};
+  color: ${MEDIUM_GREY};
   min-width: 10%;
   border-radius: 0;
   background-color: transparent !important;

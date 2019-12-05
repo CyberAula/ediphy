@@ -6,7 +6,7 @@ import { changeGlobalConfig, selectBox } from '../../../../common/actions';
 import Ediphy from '../../../../core/editor/main';
 import { isSection } from '../../../../common/utils';
 import ReactDOM from "react-dom";
-import { Button, Popover, Overlay, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Popover, Overlay, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { ActionCreators } from 'redux-undo';
 
 import { connect } from 'react-redux';
@@ -80,9 +80,9 @@ class NavActionButtons extends Component {
                                 name={item.name}
                                 onClick={item.onClick}
                                 title={item.tooltip}
-                                ref={ item.icon === 'public' ? button => {this.overlayTarget = button;} : null}>
-                                <MatIcon children={item.icon} className={'material-icons'}/>
-                                <Description children={item.description}/>
+                                ref={item.icon === 'public' ? button => { this.overlayTarget = button; } : null}>
+                                <MatIcon children={item.icon} className={'material-icons'} />
+                                <Description children={item.description} />
                             </NavButton>
                         </OverlayTrigger>
                     );

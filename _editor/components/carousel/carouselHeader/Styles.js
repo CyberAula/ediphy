@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import { LIGHT_GREY } from '../../../../sass/general/constants';
-import { animacion } from './../../../../sass/general/mixins/mixins';
+import { animation } from '../../../../sass/general/mixins/Mixins';
 
 export const CarouselListTitle = styled.div`
     cursor: pointer;
     color: ${LIGHT_GREY};
     * {
-        ${animacion(all, "0.2s")};
+        ${animation("all", "0.2s")};
     }
     &:hover {
         color: #fff !important;

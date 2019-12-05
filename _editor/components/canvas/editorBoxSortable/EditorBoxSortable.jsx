@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { Button, OverlayTrigger, Popover, Tooltip, Overlay } from 'react-bootstrap';
+import { OverlayTrigger, Popover, Tooltip, Overlay } from 'react-bootstrap';
 import interact from 'interactjs';
 import Alert from './../../common/alert/Alert';
 import EditorBox from '../editorBox/EditorBox';
@@ -97,7 +97,7 @@ class EditorBoxSortable extends Component {
                                                                 key={'box-' + idBox}
                                                                 page={this.props.page}
                                                                 pageType={this.props.pageType}
-                                                                themeColors={this.props.themeColors}/>);
+                                                                themeColors={this.props.themeColors} />);
                                                         } else if (ind === container.children.length - 1) {
                                                             return (<span key={ind}><br /><br /></span>);
                                                         }
@@ -120,7 +120,7 @@ class EditorBoxSortable extends Component {
                                         <Tooltip id="deleteTooltip">{i18n.t('Reorder')}
                                         </Tooltip>}>
                                         <SwapButton className="material-icons drag-handle btnOverBar">swap_vert</SwapButton>
-                                    </OverlayTrigger> : null }
+                                    </OverlayTrigger> : null}
 
                                     <Overlay rootClose
                                         show={this.state.show === idContainer}
@@ -153,7 +153,7 @@ class EditorBoxSortable extends Component {
                                         <Tooltip id="deleteTooltip">{i18n.t('delete')}
                                         </Tooltip>}>
                                         <DeleteButton
-                                            onClick={() => {this.setState({ show: idContainer });}}
+                                            onClick={() => { this.setState({ show: idContainer }); }}
                                             ref={'btn-' + idContainer}
                                             className="material-icons delete-sortable btnOverBar">delete</DeleteButton>
                                     </OverlayTrigger>
@@ -168,7 +168,8 @@ class EditorBoxSortable extends Component {
                 <DnDZone data-html2canvas-ignore
                     onClick={e => {
                         this.h.onBoxSelected(-1);
-                        e.stopPropagation();}}>{i18n.t("messages.drag_content")}
+                        e.stopPropagation();
+                    }}>{i18n.t("messages.drag_content")}
                 </DnDZone>
 
             </Container>
