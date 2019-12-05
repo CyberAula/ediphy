@@ -11,12 +11,10 @@ export const MapPlugin = styled.div`
 
 export const DroppableRichZone = styled.div.attrs({ className: 'dropableRichZone' })`
   width: 100%;
-  height: 100%;
+  height:100%;
   minHeight: 50;
   minWidth: 50;
-   div {
-    position:absolute !important;
-  }
+  
   a.mapMarker .material-icons{
   font-size: 1.8em;
   }
@@ -24,10 +22,8 @@ export const DroppableRichZone = styled.div.attrs({ className: 'dropableRichZone
     text-decoration: none;
     position: absolute;
     pointer-events: all !important;
-    top: -1.9em;
-    left: -0.95em;
-    width: 1.9em;
-    height: 1.9em;
+    width: 100%;
+    height: 100%;
     text-decoration: none;
     i{
       width: 100%;

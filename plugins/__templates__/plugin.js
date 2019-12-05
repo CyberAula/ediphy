@@ -56,6 +56,7 @@ export function ${options.name}(base) {
                 let text = marks[id].text;
                 let color = marks[id].color;
                 let size = marks[id].size;
+                let image= marks[id].image;
 
                 let position;
                 if (value && value.split(',').length === 2) {
@@ -65,7 +66,7 @@ export function ${options.name}(base) {
                 }
                 return (
                     <MarkEditor key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} time={1.5} onRichMarkMoved={props.onRichMarkMoved} mark={id} base={base} marks={marks} state={state}>
-                        <Mark style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} color={color} idKey={id} text={text} size={size} title={title} />
+                        <Mark style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} color={color} idKey={id} text={text} size={size} title={title} image={image} />
                     </MarkEditor>
                 );
             });

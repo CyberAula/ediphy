@@ -137,6 +137,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
             let text = marks[id].text;
             let color = marks[id].color;
             let size = marks[id].size;
+            let image = marks[id].image;
             let isPopUp = marks[id].connectMode === "popup";
             let noTrigger = false;
             let isVisor = true;
@@ -146,6 +147,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                         color={color || "#17CFC8"}
                         text={text}
                         size={size}
+                        image={image}
                         idKey={id}
                         title={title}
                         isVisor={isVisor}

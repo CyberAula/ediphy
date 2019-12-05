@@ -140,6 +140,8 @@ export function VirtualTour(base) {
                 let text = marks[idKey].text;
                 let color = marks[idKey].color;
                 let size = marks[idKey].size;
+                let image = marks[idKey].image;
+
                 let position;
                 if (value && value.split(',').length === 2) {
                     position = value.split(',');
@@ -147,8 +149,8 @@ export function VirtualTour(base) {
                     position = [0, 0];
                 }
                 return (
-                    <MarkEditor key={idKey} time={1.5} boxId={id} mark={idKey} base={base} onRichMarkMoved={props.onRichMarkMoved} state={state} lat={position[0]} lng={position[1]}>
-                        <Mark idBox={props.id} idKey={idKey} title={title} color={color} text={text} size={size}/>
+                    <MarkEditor key={idKey} time={1.5} boxId={id} mark={idKey} base={base} onRichMarkMoved={props.onRichMarkMoved} state={state} lat={position[0]} lng={position[1]} >
+                        <Mark idBox={props.id} idKey={idKey} title={title} color={color} text={text} size={size} image={image}/>
                     </MarkEditor>);
 
             });
@@ -213,7 +215,6 @@ export function VirtualTour(base) {
         pointerEventsCallback: function() {
             return;
         },
-
     };
 }
 /* eslint-enable react/prop-types */

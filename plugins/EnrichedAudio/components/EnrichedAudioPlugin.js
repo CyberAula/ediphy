@@ -136,6 +136,7 @@ export default class BasicAudioPlugin extends React.Component {
             let title = marks[id].title;
             let text = marks[id].text;
             let size = marks[id].size;
+            let image = marks[id].image;
             let markColor = marks[id].color;
             let themeColor = this.props.state.progressColor.custom ? this.props.state.progressColor.color : this.props.props.themeColors.themeColor1;
             let isPopUp = marks[id].connectMode === "popup";
@@ -147,6 +148,7 @@ export default class BasicAudioPlugin extends React.Component {
                         color={markColor || themeColor || "#17CFC8"}
                         text={text}
                         size={size}
+                        image={image}
                         idKey={id}
                         title={title}
                         isVisor={isVisor}
