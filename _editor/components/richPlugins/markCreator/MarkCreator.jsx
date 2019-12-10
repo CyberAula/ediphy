@@ -94,6 +94,7 @@ class MarkCreator extends React.Component {
                     let value = parseRichMarkInput(x, y, width, height, toolbarState, boxSelected);
                     component.setState({ value: value });
                     component.h.onRichMarksModalToggled(value, boxSelected);
+                    console.log('markcreator: ', value);
                     component.exitFunction();
                 };
 

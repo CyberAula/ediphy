@@ -21,6 +21,10 @@ export default (self) => ({
 
     onMarkCreatorToggled: (id) => self.props.dispatch(updateUI({ markCreatorVisible: id })),
 
+    onAreaCreatorVisible: (box) => self.props.dispatch(updateUI({ areaCreatorVisible: true, canvas: box })),
+
+    onAreaCreatorHidden: () => self.props.dispatch(updateUI({ areaCreatorVisible: false })),
+
     onRichMarkAdded: (mark, view, viewToolbar) => self.props.dispatch(addRichMark(mark, view, viewToolbar)),
 
     onRichMarkMoved: (mark, value) => {

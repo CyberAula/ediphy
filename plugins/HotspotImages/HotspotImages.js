@@ -142,7 +142,10 @@ export const HotspotImages = (base) => ({
             let text = marks[id].text;
             let size = marks[id].size;
             let image = marks[id].image;
-            let width = image !== false ? String(image.size.width) + "%" : null;
+            let svg = marks[id].svg;
+            let kind = marks[id].kind;
+            let width = image !== false ? String(image.size.width) + "%" : svg ? '100%' : null;
+            let height = svg ? '100%' : 'auto';
             let position;
             if (value && value.split(',').length === 2) {
                 position = value.split(',');
@@ -150,8 +153,8 @@ export const HotspotImages = (base) => ({
                 position = [0, 0];
             }
             return (
-                <MarkEditor key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width, height: "auto" }} time={1.5} dispatch={ props.dispatch } onRichMarkMoved={_handlers({ props }).onRichMarkMoved} mark={id} base={base} marks={marks} state={state}>
-                    <Mark style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} color={color} idKey={id} text={text} size={size} title={title} isImage image={image}/>
+                <MarkEditor key={id} className="MyMarkEditor" style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width, height }} time={1.5} dispatch={ props.dispatch } onRichMarkMoved={_handlers({ props }).onRichMarkMoved} mark={id} base={base} marks={marks} state={state}>
+                    <Mark style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} color={color} kind={kind} idKey={id} text={text} size={size} title={title} isImage image={image} svg={svg}/>
                 </MarkEditor>
             );
         });
@@ -168,6 +171,22 @@ export const HotspotImages = (base) => ({
     validateValueInput: function(value) {
         let regex = /(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$)/g;
         let match = regex.exec(value);
+
+        // https://stackoverflow.com/questions/54961620/test-if-svg-path-d-property-string-is-valid
+        function isValidPath(s) {
+            const reEverythingAllowed = /[MmZzLlHhVvCcSsQqTtAa0-9-,.\s]/g;
+
+            const bContainsIllegalCharacter = !!s.replace(reEverythingAllowed, '').length;
+            const bContainsAdjacentLetters = (/[a-zA-Z][a-zA-Z]/).test(s);
+            const bInvalidStart = (/^[0-9-,.]/).test(s);
+            const bInvalidEnd = (/.*[-,.]$/).test(s.trim());
+
+            return !(bContainsIllegalCharacter || bContainsAdjacentLetters || bInvalidStart || bInvalidEnd);
+        }
+
+        if(isValidPath(value)) {
+            return { isWrong: false, value: value };
+        }
         if(match && match.length === 3) {
             let x = Math.round(parseFloat(match[1]) * 100) / 100;
             let y = Math.round(parseFloat(match[2]) * 100) / 100;

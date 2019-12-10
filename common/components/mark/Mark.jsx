@@ -19,6 +19,7 @@ export default class Mark extends Component {
         let size = (this.props.size / 10) + 'em' || '1em';
         let img = this.props.image.url;
         let color = this.props.color || "black";
+        let kind = this.props.kind || 'icon';
         let width;
         let height;
         if(this.props.image !== false) {
@@ -36,14 +37,26 @@ export default class Mark extends Component {
                 trigger={triggerType} rootClose>
 
                 <a id={'mark-' + this.props.idKey} className="mapMarker" style={{ pointerEvents: 'all', height: "100%", width: "100%" }} href="#" onClick={(this.props.isVisor && !this.props.noTrigger) ? ()=>{this.props.onMarkClicked(this.props.boxID, this.props.markValue);} : null}>
-                    {this.returnMark(text, size, color, img, height, width)}
+                    {this.returnMark(kind, text, size, color, img, height, width)}
                 </a>
             </OverlayTrigger>
         );
     }
 
-    returnMark(text, size, color, image, height, width) {
-        return this.props.image === false ? <i key="i" style={{ color: color, fontSize: size }} className="material-icons">{text}</i> : <img height={height} width={width} onLoad={this.onImgLoad} src={image}/>;
+    returnMark(kind, text, size, color, image, height, width) {
+        switch (kind) {
+        case 'image':
+            return <img height={height} width={width} onLoad={this.onImgLoad} src={image}/>;
+        case 'svg':
+            return (<svg viewBox={`0 0 ${this.props.svg.canvasSize.width} ${this.props.svg.canvasSize.height}`}
+                style={{ position: 'absolute' }}
+                height={'100%'} width={'100%'}
+                preserveAspectRatio="none">
+                <path d={this.props.svg.svgPath} fill={color}/>
+            </svg>);
+        case 'icon':
+            return <i key="i" style={{ color: color, fontSize: size }} className="material-icons">{text}</i>;
+        }
     }
 
 }

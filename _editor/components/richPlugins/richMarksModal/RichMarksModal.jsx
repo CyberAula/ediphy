@@ -32,6 +32,7 @@ class RichMarksModal extends Component {
             existingSelected: "",
             newType: PAGE_TYPES.SLIDE,
             image: false,
+            svg: false,
             viewNames: this.returnAllViews(this.props),
             showAlert: false,
             showTemplates: false,
@@ -58,6 +59,7 @@ class RichMarksModal extends Component {
                     color: current.color,
                     size: current.size,
                     image: current.image,
+                    svg: current.svg,
                     connectMode: current.connectMode || "new",
                     displayMode: current.displayMode || "navigate",
                     newSelected: (current.connectMode === "new" ? current.connection : ""),
@@ -72,6 +74,7 @@ class RichMarksModal extends Component {
                     text: "room",
                     size: 25,
                     image: false,
+                    svg: nextProps.markCursorValue?.hasOwnProperty('svg') ? nextProps.markCursorValue : false,
                     connectMode: "new",
                     displayMode: "navigate",
                     newSelected: "",
@@ -115,6 +118,9 @@ class RichMarksModal extends Component {
             width = oDimensions.biggerDimension === "Width" ? 100 * imageSize : (100 * imageSize * oDimensions.aspectRatio);
         }
 
+        console.log(this.props);
+        console.log(this.state);
+
         return (
             <ModalContainer backdrop bsSize="large" show={this.props.richMarksVisible}>
                 <Modal.Header>
@@ -157,6 +163,19 @@ class RichMarksModal extends Component {
                             </Col>
                             <Col xs={4} md={2}>
                                 <button className="avatarButtons btn btn-primary" onClick={this.loadImage}>{i18n.t("marks.import_image")}</button>
+                            </Col>
+                        </FormGroup>
+                    </Row>
+                    <Row>
+                        <FormGroup>
+                            <Col xs={4} md={2}>
+                                <ControlLabel>Define an area</ControlLabel>
+                            </Col>
+                            <Col xs={4} md={2}>
+                                <button className="avatarButtons btn btn-primary" onClick={() => {
+                                    this.h.onAreaCreatorVisible('box-' + this.props.boxSelected);
+                                    this.h.onRichMarksModalToggled();
+                                }}>Custom Area</button>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -302,7 +321,7 @@ class RichMarksModal extends Component {
                                     key={this.props.markCursorValue}
                                     ref="value"
                                     type={this.state.actualMarkType}
-                                    defaultValue={this.props.markCursorValue ? this.props.markCursorValue : (current ? current.value : (defaultMarkValue ? defaultMarkValue : 0))}/>
+                                    defaultValue={this.props.markCursorValue ? this.state.svg ? this.props.markCursorValue.svgPath : this.props.markCursorValue : (current ? current.value : (defaultMarkValue ? defaultMarkValue : 0))}/>
                             </Col>
                         </FormGroup>
                     </Row>
@@ -324,6 +343,7 @@ class RichMarksModal extends Component {
                         let text = this.state.image === false ? this.state.text : "";
                         let size = this.state.size;
                         let image = null;
+                        let kind = this.state.image ? 'image' : this.state.svg ? 'svg' : 'icon';
                         if(this.state.image !== false) {
                             height = oDimensions.biggerDimension === "Height" ? 100 * imageSize : (100 * imageSize / oDimensions.aspectRatio);
                             width = oDimensions.biggerDimension === "Width" ? 100 * imageSize : (100 * imageSize * oDimensions.aspectRatio);
@@ -331,7 +351,7 @@ class RichMarksModal extends Component {
                         }else{
                             image = false;
                         }
-
+                        let isSvg = this.props.markCursorValue.hasOwnProperty('svg');
                         // CV name
                         let name = connectMode === "existing" ? this.props.viewToolbarsById[connection].viewName : nextAvailName(i18n.t('contained_view'), this.props.viewToolbarsById, 'viewName');
                         // Mark name
@@ -343,6 +363,7 @@ class RichMarksModal extends Component {
                         // First of all we need to check if the plugin creator has provided a function to check if the input value is allowed
                         if (plugin && plugin.validateValueInput) {
                             let val = plugin.validateValueInput(value);
+                            console.log(val);
                             // If the value is not allowed, we show an alert with the predefined message and we abort the Save operation
                             if (val && val.isWrong) {
                                 this.setState({ showAlert: true, alertMsg: (val.message ? val.message : i18n.t("mark_input")) });
@@ -366,8 +387,10 @@ class RichMarksModal extends Component {
                                     connectMode: connectMode,
                                     displayMode: this.state.displayMode,
                                     value: value,
+                                    kind: kind,
                                     text: text,
                                     size: size,
+                                    svg: this.state.svg,
                                 },
                                 view: {
                                     info: "new",
@@ -395,6 +418,7 @@ class RichMarksModal extends Component {
                                     connection: connection,
                                     color: color,
                                     image: image,
+                                    svg: this.state.svg,
                                     connectMode: connectMode,
                                     displayMode: this.state.displayMode,
                                     value: value,
@@ -421,6 +445,7 @@ class RichMarksModal extends Component {
                                     connection: ReactDOM.findDOMNode(this.refs.externalSelected).value,
                                     color: color,
                                     image: image,
+                                    svg: this.state.svg,
                                     connectMode: connectMode,
                                     displayMode: this.state.displayMode,
                                     value: value,
@@ -438,6 +463,7 @@ class RichMarksModal extends Component {
                                     connection: ReactDOM.findDOMNode(this.refs.popupSelected).value,
                                     color: color,
                                     image: image,
+                                    svg: this.state.svg,
                                     connectMode: connectMode,
                                     displayMode: this.state.displayMode,
                                     value: value,

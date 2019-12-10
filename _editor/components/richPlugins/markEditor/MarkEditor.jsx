@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { findParentBySelector } from '../../../../common/utils';
 import _handlers from "../../../handlers/_handlers";
 import { MarkEditorContainer } from "./Styles";
+import AreaCreator from "../areaCreator/AreaCreator";
 /*
 * Component wrapper for editing marks by dragging them
 * @example <ClickNHold onClickNHold={e=>{...}} // callback
@@ -78,6 +79,7 @@ export default class MarkEditor extends Component {
      * @returns {code}
      */
     render() {
+        console.log(this.props);
         let classList = 'markeditor ';
         classList += this.state.holding ? 'holding ' : '';
         classList += this.state.ended ? 'ended ' : '';
@@ -92,9 +94,7 @@ export default class MarkEditor extends Component {
                 onMouseDown={this.start}
                 onTouchStart={this.start}
                 onMouseUp={this.end}
-                onMouseEnter={()=>{
-                    this.props.base.pointerEventsCallback('mouseenter', this.props.state);
-                }}
+                onMouseEnter={()=>{ this.props.base.pointerEventsCallback('mouseenter', this.props.state);}}
                 onMouseLeave={(e)=>{
                     let bool = findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled');
                     this.props.base.pointerEventsCallback('mouseleave_' + (bool && !this.state.editing ? 'true' : 'false'), this.props.state);
@@ -104,7 +104,7 @@ export default class MarkEditor extends Component {
                 onTouchEnd={this.end}
                 onDragStart={(e)=>{e.stopPropagation();}}
                 onDoubleClick={(e) => e.stopPropagation()}
-                onDrag={(e)=>e.stopPropagation()} >
+                onDrag={(e)=>e.stopPropagation()}>
                 {this.props.children}
             </MarkEditorContainer>
         );
