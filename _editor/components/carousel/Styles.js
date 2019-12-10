@@ -26,5 +26,39 @@ ${props => props.popoverURLChildren && css`
     flex-shrink: 1;
 `}
 
+`;
+
+export const CarouselContainer = styled.div`
+    box-sizing: border-box;
+    background-color: #444;
+    width: 100%;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid black;
+
+    &.collapsed{
+    border: none;
+
+    &.isfolder{
+        border-bottom: 1px solid black;
+    }
+    }
+
+    &.selected {
+    background-color: #222;
+    }
+
+    .body {
+    padding: 0px 10px;
+    cursor: move;
+    }
+
+
+    &.mute {
+    .body {
+        opacity: .3;
+    }
+    }
 `
     ;

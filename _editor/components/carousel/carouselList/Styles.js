@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BACKGROUND_GREY } from "../../../../sass/general/constants";
+import { BACKGROUND_GREY, MEDIUM_GREY } from "../../../../sass/general/constants";
 
 export const CarList = styled.div`
     overflow-y: auto;

@@ -28,6 +28,7 @@ class CarouselHeader extends Component {
                 textAlign: this.props.carouselShow ? 'left' : 'center',
                 flexFlow: this.props.carouselShow ? 'row' : 'column',
                 display: 'flex',
+                alignItems: 'center',
             }}
             carouselShow={this.props.carouselShow}>
                 <button className="btnToggleCarousel" onClick={() => this.onToggleWidth()}>

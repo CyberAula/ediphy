@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { isSlide } from "../../../common/utils";
 import EditorIndexTitle from "./editorIndexTitle/EditorIndexTitle";
 import _handlers from "../../handlers/_handlers";
+import { CarouselContainer } from './Styles';
 
 class ContainedViewsList extends Component {
     h = _handlers(this);
@@ -15,18 +16,20 @@ class ContainedViewsList extends Component {
         const { containedViewsById, showContainedViews, showSortableItems, indexSelected, containedViewSelected, viewToolbarsById } = this.props;
 
         let containedViewsByIdIncluded = Object.keys(containedViewsById).length > 0;
-        return (<div className="containedViewsList" style={{ height: (showContainedViews) ? ((showSortableItems) ? "calc(50% - 126px)" : "calc(100% - 126px)") : "0px",
-            display: 'block', overflowY: 'auto', overflowX: 'hidden' }}>
+        return (<div className="containedViewsList" style={{
+            height: (showContainedViews) ? ((showSortableItems) ? "calc(50% - 126px)" : "calc(100% - 126px)") : "0px",
+            display: 'block', overflowY: 'auto', overflowX: 'hidden',
+        }}>
             <div className="empty-info" style={{ display: (containedViewsByIdIncluded) ? "none" : "block" }}>{i18n.t("empty.cv_empty")}</div>
 
             {
-                Object.keys(containedViewsById).map((id)=>{
+                Object.keys(containedViewsById).map((id) => {
                     let classIndexSelected = id === indexSelected ? ' classIndexSelected ' : ' ';
                     let isContainedViewSelected = id === containedViewSelected ? ' selected ' : ' ';
                     return (
-                        <div className={"carousselContainer " + isContainedViewSelected } key={id}>
+                        <CarouselContainer className={isContainedViewSelected} key={id}>
                             <div key={id}
-                                className={'file navItemBlock ' + classIndexSelected }
+                                className={'file navItemBlock ' + classIndexSelected}
                                 onDoubleClick={e => {
                                     this.h.onContainedViewSelected(id);
                                     e.stopPropagation();
@@ -38,10 +41,10 @@ class ContainedViewsList extends Component {
                                     title={viewToolbarsById[id].viewName}
                                     index={1}
                                     hidden={false}
-                                    selected = {containedViewSelected}
+                                    selected={containedViewSelected}
                                     onNameChanged={this.h.onContainedViewNameChanged} />
                             </div>
-                        </div>
+                        </CarouselContainer>
                     );
                 })
             }
