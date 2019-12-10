@@ -66,7 +66,7 @@ class CarouselItemRenderer extends Component {
                     onDoubleClick={this.onDoubleClick}>
                     {type === 'folder' && <Folder {...this.props} />}
                     {type === 'file' && <File {...this.props} />}
-                </CarouselContainer>,
+                </CarouselContainer>
             </div>
         )));
     }
