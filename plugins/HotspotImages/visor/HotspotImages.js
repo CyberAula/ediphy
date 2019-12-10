@@ -12,20 +12,15 @@ export function HotspotImages() {
             let markElements = Object.keys(marks).map((e) =>{
                 let position = marks[e].value.split(',');
                 let title = marks[e].title;
-                let text = marks[e].text;
-                let color = marks[e].color;
-                let size = marks[e].size;
-                let image = marks[e].image;
-                let height = image !== false ? String(image.size.height) + "%" : null;
-                let width = image !== false ? String(image.size.width) + "%" : null;
+                let markType = marks[e].markType;
+                let width = markType === "image" ? String(marks[e].payload.size.width) + "%" : null;
                 let isPopUp = marks[e].connectMode === "popup";
                 let isVisor = true;
                 return(
-                    <div key={e} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width, height }}>
-                        <Mark color={color}
-                            text={text}
-                            size={size}
-                            image={image}
+                    <div key={e} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width, height: "auto" }}>
+                        <Mark
+                            markType={markType}
+                            payload={payload}
                             isImage
                             idKey={e}
                             title={title}

@@ -15,17 +15,7 @@ export default class Mark extends Component {
         let triggerType = ['hover', 'focus'];
         if (this.props.isPopUp && !this.props.noTrigger) { triggerType = "click"; }
         if (this.props.noTrigger) { triggerType = "focus"; }
-        let text = this.props.text ? this.props.text : "room";
-        let size = (this.props.size / 10) + 'em' || '1em';
-        let img = this.props.image.url;
-        let color = this.props.color || "black";
-        let width;
-        let height;
-        if(this.props.image !== false) {
-            let isHotspotImage = this.props.isImage === true;
-            height = isHotspotImage ? "100%" : String(this.props.image.size.height) + "em";
-            width = isHotspotImage ? "100%" : String(this.props.image.size.width) + "em";
-        }
+        let markType = this.props.markType || "icon";
 
         return (
             <OverlayTrigger key={this.props.idKey}
@@ -36,14 +26,30 @@ export default class Mark extends Component {
                 trigger={triggerType} rootClose>
 
                 <a id={'mark-' + this.props.idKey} className="mapMarker" style={{ pointerEvents: 'all', height: "100%", width: "100%" }} href="#" onClick={(this.props.isVisor && !this.props.noTrigger) ? ()=>{this.props.onMarkClicked(this.props.boxID, this.props.markValue);} : null}>
-                    {this.returnMark(text, size, color, img, height, width)}
+                    {this.returnMark(markType)}
                 </a>
             </OverlayTrigger>
         );
     }
 
-    returnMark(text, size, color, image, height, width) {
-        return this.props.image === false ? <i key="i" style={{ color: color, fontSize: size }} className="material-icons">{text}</i> : <img height={height} width={width} onLoad={this.onImgLoad} src={image}/>;
+    returnMark(markType) {
+        switch(markType) {
+        case "icon":
+            let color = this.props.payload.color || "black";
+            let size = (this.props.payload.size / 10) + 'em' || '1em';
+            let text = this.props.payload.selectedIcon ? this.props.payload.selectedIcon : "room";
+            return <i key="i" style={{ color: color, fontSize: size }} className="material-icons">{text}</i>;
+        case "image":
+            let isHotspotImage = this.props.isImage === true;
+            let height = isHotspotImage ? "100%" : String(this.props.payload.imageDimensions.height) + "em";
+            let width = isHotspotImage ? "100%" : String(this.props.payload.imageDimensions.width) + "em";
+            let img = this.props.payload.url;
+            return <img alt={"iconImage"} height={height} width={width} onLoad={this.onImgLoad} src={img}/>;
+        case "area":
+            return <h4>To-do</h4>;
+        default:
+            return <h4>Error</h4>;
+        }
     }
 
 }
@@ -54,25 +60,17 @@ Mark.propTypes = {
      */
     boxID: PropTypes.any,
     /**
-     * Mark color
-     */
-    color: PropTypes.any,
-    /**
-     * Text of the mark to determine type of material-icon
-     */
-    text: PropTypes.string,
-    /**
-     * Size of the mark
-     */
-    size: PropTypes.any,
-    /**
      * Mark comes from HotspotImageComponent
      */
     isImage: PropTypes.any,
     /**
-     * Object with the url and size of the image
+     * Mark information which varies with markType
      */
-    image: PropTypes.any,
+    payload: PropTypes.any,
+    /**
+     * Type of the mark: image, icon or area
+     */
+    markType: PropTypes.string,
     /**
      * Id of the mark
      */
