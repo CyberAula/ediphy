@@ -7,6 +7,7 @@ import { isSlide } from "../../../common/utils";
 import EditorIndexTitle from "./editorIndexTitle/EditorIndexTitle";
 import _handlers from "../../handlers/_handlers";
 import { CarouselContainer } from './Styles';
+import { ContainedViewsListContainer } from './carouselList/Styles';
 
 class ContainedViewsList extends Component {
     h = _handlers(this);
@@ -16,7 +17,7 @@ class ContainedViewsList extends Component {
         const { containedViewsById, showContainedViews, showSortableItems, indexSelected, containedViewSelected, viewToolbarsById } = this.props;
 
         let containedViewsByIdIncluded = Object.keys(containedViewsById).length > 0;
-        return (<div className="containedViewsList" style={{
+        return (<ContainedViewsListContainer className="containedViewsList" style={{
             height: (showContainedViews) ? ((showSortableItems) ? "calc(50% - 126px)" : "calc(100% - 126px)") : "0px",
             display: 'block', overflowY: 'auto', overflowX: 'hidden',
         }}>
@@ -49,7 +50,7 @@ class ContainedViewsList extends Component {
                 })
             }
 
-        </div>);
+        </ContainedViewsListContainer>);
 
     }
 }

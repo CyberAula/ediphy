@@ -42,6 +42,17 @@ export const EditorIndex = styled(FormControl)`
 `;
 
 export const ActualSectionTitle = styled.div`
+    cursor: text;
+    text-overflow: ellipsis;
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    left: 0;
+    width: 90%;
+    color:rgb(204,204,204);
+    -webkit-transition-timing-function: linear; /* Safari and Chrome */
+    transition-timing-function: linear;
+    line-height: 1.2em;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

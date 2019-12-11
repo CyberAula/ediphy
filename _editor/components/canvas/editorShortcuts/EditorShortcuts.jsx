@@ -11,6 +11,7 @@ import { blurCKEditor, findBox } from '../../../../common/commonTools';
 import _handlers from "../../../handlers/_handlers";
 import { IconsContainer, TitleButton } from "./Styles";
 import { PopoverButton } from '../../carousel/Styles';
+import { Popover } from "react-bootstrap";
 
 /**
  * EditorShortcuts component

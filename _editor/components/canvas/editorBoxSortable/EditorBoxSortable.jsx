@@ -13,6 +13,7 @@ import i18n from 'i18next';
 import { instanceExists, releaseClick, findBox, createBox } from '../../../../common/commonTools';
 import { connect } from "react-redux";
 import _handlers from "../../../handlers/_handlers";
+import { PopoverButton } from '../../carousel/Styles';
 import {
     Container, DeleteButton,
     DnDZone,

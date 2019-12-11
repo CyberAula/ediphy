@@ -1,7 +1,7 @@
 @import "./../../../../sass/general/_variables.scss";
 @import './../../../../sass/general/mixins/mixins';
 
-
+//DONT DELETE
 
 /*Section*/
 .expandir {
@@ -80,31 +80,6 @@
     cursor: pointer;
 }
 
-/*Wrapper for the whole component including tab*/
-.wrapperCarousel {
-    background-color: $darkest;
-    margin: 0;
-    //padding: 8px 0px 4px 0px;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    .material-icons {
-        font-size: 1em;
-        vertical-align: middle;
-        margin: 0;
-    }
-    .editorCarousel {
-        .editIndexTitleIcon {
-            font-size: 1em;
-            float: right;
-            padding: 4px;
-        }
-    }
-    .toolbarHide + .courseTitleCarousel {
-        display: none;
-        visibility: hidden;
-    }
-}
 
 /*Icon for files*/
 .fileIcon {
@@ -224,34 +199,4 @@
 
 #popov.top > .arrow::after {
     border-top-color: $darkest;
-}
-
-
-.containedViewsList {
-    -webkit-transition: height .25s  ease-in-out;
-    -moz-transition: height .25s  ease-in-out;
-    -ms-transition: height .25s  ease-in-out;
-    -o-transition: height .25s  ease-in-out;
-    transition: height .25s  ease-in-out;
-    background-color: #444;
-    .empty-info{
-      margin: 40px;
-      text-align: center;
-      color: $grismedio;
-      background-color: transparent;
-    }
-}
-
-.actualSectionTitle {
-    cursor: text;
-    text-overflow: ellipsis;
-    position: relative;
-    white-space: nowrap;
-    overflow: hidden;
-    left: 0;
-    width: 90%;
-    color:rgb(204,204,204);
-    -webkit-transition-timing-function: linear; /* Safari and Chrome */
-    transition-timing-function: linear;
-    line-height: 1.2em;
 }

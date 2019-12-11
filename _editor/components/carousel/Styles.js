@@ -62,3 +62,51 @@ export const CarouselContainer = styled.div`
     }
 `
     ;
+
+export const FolderContainer = styled.div`
+    color: white;
+    box-sizing: border-box;
+    font-size: 0.9em;
+    border: none;
+    padding-left: 4px;
+    padding-right: 4px;
+
+
+
+    .material-icons{
+    color: white;
+    font-size: 1.2em;
+    padding: 4px;
+    transition: all 0.25s 0s;
+    transform: rotate(0deg);
+    }
+
+    &.collapsed {
+    i{
+        transition: all 0.25s 0s;
+        transform: rotate(-90deg);
+    }
+    }
+`;
+export const FileContainer = styled.div`
+    color: white;
+    overflow: hidden;
+    font-size: 0.9em;
+    max-height: 40px;
+    transition: max-height 0.3s ease-in-out;
+
+    &.collapsed {
+    max-height: 0;
+    padding: 0;
+    border: none;
+    }
+`
+    ;
+
+export const ToggleCollapseHandle = styled.button`
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+`
+;
