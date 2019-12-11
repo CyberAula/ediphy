@@ -11,7 +11,7 @@ class IconPicker extends React.Component {
     render() {
         return (
 
-            <div className="table-responsive " style={{ height: "200px", width: "40%" }}>
+            <div className="table-responsive " style={{ height: "200px", width: "100%" }}>
                 <table className="table">
                     <tbody>
                         {this.renderTable()}
@@ -21,18 +21,19 @@ class IconPicker extends React.Component {
 
         );
     }
-    handleClick(text) {
-        this.props.onChange({ text });
+    handleClick(selectedIcon) {
+        this.props.onChange({ selectedIcon });
     }
     renderTable() {
         let temp = [];
-        for(let i = 0; i < ICONLIST.length; i += 4) {
+        for(let i = 0; i < ICONLIST.length; i += 5) {
             temp.push(
                 <tr key={i}>
                     <td> <IconButton handleClick={this.handleClick} text={ICONLIST[i]}/></td>
                     <td>{(i + 1) <= ICONLIST.length ? <IconButton handleClick={this.handleClick} text={ICONLIST[i + 1]}/> : null} </td>
                     <td>{(i + 2) <= ICONLIST.length ? <IconButton handleClick={this.handleClick} text={ICONLIST[i + 2]}/> : null} </td>
                     <td>{(i + 3) <= ICONLIST.length ? <IconButton handleClick={this.handleClick} text={ICONLIST[i + 3]}/> : null} </td>
+                    <td>{(i + 4) <= ICONLIST.length ? <IconButton handleClick={this.handleClick} text={ICONLIST[i + 4]}/> : null} </td>
                 </tr>);
         }
         return temp;

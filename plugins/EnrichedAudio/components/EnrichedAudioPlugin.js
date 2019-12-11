@@ -134,21 +134,19 @@ export default class BasicAudioPlugin extends React.Component {
             let duration = this.state.duration;
             let value = (secondsValue * 100 / duration) + "%";
             let title = marks[id].title;
-            let text = marks[id].text;
-            let size = marks[id].size;
-            let image = marks[id].image;
-            let markColor = marks[id].color;
+            let payload = marks[id].payload;
+            let markColor = marks[id].payload.color;
+            let markType = marks[id].markType;
             let themeColor = this.props.state.progressColor.custom ? this.props.state.progressColor.color : this.props.props.themeColors.themeColor1;
             let isPopUp = marks[id].connectMode === "popup";
             let noTrigger = false;
             let isVisor = true;
+
             return(
                 <AudioMark key={id} style={{ background: markColor || themeColor || "#17CFC8", left: value, position: "absolute" }} >
                     <Mark style={{ position: 'relative', top: "-1.7em", left: "-1em" }}
-                        color={markColor || themeColor || "#17CFC8"}
-                        text={text}
-                        size={size}
-                        image={image}
+                        payload={payload}
+                        markType={markType}
                         idKey={id}
                         title={title}
                         isVisor={isVisor}

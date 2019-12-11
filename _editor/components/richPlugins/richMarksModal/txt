@@ -1,0 +1,12 @@
+                    <FormGroup>
+                                        <ControlLabel>{i18n.t("marks.mark_color")}</ControlLabel>
+                                        <Picker.Panel className="colorPanel"
+                                                      placement="bottomLeft"
+                                                      animation="slide-up"
+                                                      enableAlpha={false}
+                                                      color={this.state.color || marksType.defaultColor}
+                                                      onChange={e=>{this.setState({ color: e.color });}}
+                                                      mode="RGB"
+                                        />
+                                    </FormGroup>
+
