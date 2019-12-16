@@ -116,3 +116,4 @@ background-color: #43e5f7;
 input[type="range"]::-ms-fill-upper {  
 background-color: #f0ede6;
 }`;
+

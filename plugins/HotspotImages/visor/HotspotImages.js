@@ -13,14 +13,17 @@ export function HotspotImages() {
                 let position = marks[e].value.split(',');
                 let title = marks[e].title;
                 let markType = marks[e].markType;
-                let width = markType === "image" ? String(marks[e].payload.size.width) + "%" : null;
+                let width = markType === "image" ? String(marks[e].content.size.width) + "%" : null;
                 let isPopUp = marks[e].connectMode === "popup";
                 let isVisor = true;
+                let content = marks[e].content;
+                let color = marks[e].color;
+                let size = marks[e].size;
                 return(
                     <div key={e} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width, height: "auto" }}>
                         <Mark
                             markType={markType}
-                            payload={payload}
+                            content={content}
                             isImage
                             idKey={e}
                             title={title}
@@ -29,6 +32,8 @@ export function HotspotImages() {
                             markConnection={marks[e].connection}
                             markValue={marks[e].value}
                             boxID={boxId}
+                            size={size}
+                            color={color}
                             onMarkClicked={props.onMarkClicked}/></div>
                 );
             });

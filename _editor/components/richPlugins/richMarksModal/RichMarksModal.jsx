@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import './../../../../node_modules/rc-color-picker/assets/index.css';
 import { connect } from "react-redux";
 import Picker from 'rc-color-picker';
-import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Radio, Grid } from 'react-bootstrap';
+import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Grid, Radio, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 import IconPicker from "../../common/iconPicker/IconPicker";
 import { updateUI } from "../../../../common/actions";
 
@@ -18,7 +18,6 @@ import TemplatesModal from "../../carousel/templatesModal/TemplatesModal";
 import { ModalContainer, TypeSelector, ConfigSize } from "./Styles";
 import { copyFile } from 'fs';
 import ColorPicker from "../../common/colorPicker/ColorPicker";
-import ToggleButtonGroup from "react-bootstrap/lib/ToggleButtonGroup";
 
 /**
  * Modal component to   edit marks' configuration
@@ -39,7 +38,6 @@ class RichMarksModal extends Component {
             showTemplates: false,
             boxes: [],
             oDimensions: {},
-            markType: "icon",
         };
 
         this.h = _handlers(this);
@@ -67,6 +65,7 @@ class RichMarksModal extends Component {
                     newType: nextProps.navItemsById[nextProps.navItemSelected] ? nextProps.navItemsById[nextProps.navItemSelected].type : "",
                     existingSelected: (current.connectMode === "existing" && this.remapInObject(nextProps.navItemsById, nextProps.containedViewsById)[current.connection] ?
                         this.remapInObject(nextProps.navItemsById, nextProps.containedViewsById)[current.connection].id : ""),
+                    markType: current.markType,
                 });
             } else {
                 this.setState({
@@ -80,6 +79,7 @@ class RichMarksModal extends Component {
                     newSelected: "",
                     newType: nextProps.navItemsById[nextProps.navItemSelected] ? nextProps.navItemsById[nextProps.navItemSelected].type : "",
                     existingSelected: "",
+                    markType: "icon",
                 });
             }
         }
@@ -112,11 +112,15 @@ class RichMarksModal extends Component {
         let imageSize = (this.state.size / 100);
         let width = 0;
         let imageModal = this.state.image;
-        let oDimensions = this.state.oDimensions;
-        if(this.state.markType === "image") {
-            width = oDimensions.biggerDimension === "Width" ? 100 * imageSize : (100 * imageSize * oDimensions.aspectRatio);
+        let originalDimensions = this.state.oDimensions;
+        if(this.props.boxesById[this.props.boxSelected] && document.getElementById("box-" + this.props.boxesById[this.props.boxSelected].id)) {
+            let y = document.getElementById("box-" + this.props.boxesById[this.props.boxSelected].id).getBoundingClientRect().height;
+            let x = document.getElementById("box-" + this.props.boxesById[this.props.boxSelected].id).getBoundingClientRect().width;
+            console.log("aspectratio: " + x / y);
         }
-
+        if(this.state.markType === "image") {
+            width = originalDimensions.biggerDimension === "Width" ? 100 * imageSize : (100 * imageSize * originalDimensions.aspectRatio);
+        }
         return (
             <ModalContainer backdrop bsSize="large" show={this.props.richMarksVisible}>
                 <Modal.Header>
@@ -153,28 +157,25 @@ class RichMarksModal extends Component {
                                 <h4>Apariencia</h4>
 
                                 <FormGroup>
-                                    <ToggleButtonGroup name={"markType"} defaultValue={"icon"}>
-                                        <Radio value="icon"
+                                    <ToggleButtonGroup type="radio" defaultValue={this.state.markType} onChange={(val) => {console.log(val); this.setState({ markType: val });}} name="markTypeSelector">
+                                        <ToggleButton
+                                            type="radio"
+                                            value="icon"
                                             name="mark_type"
-                                            checked={this.state.markType === "icon"}
-                                            onChange={() => {
-                                                this.setState({ markType: "icon" });
-                                            }}>Icono
-                                        </Radio>
-                                        <Radio value="image"
+                                            onClick={() => { this.setState({ markType: "icon" });}}
+                                        >Icono</ToggleButton>
+                                        <ToggleButton
+                                            type="radio"
+                                            value="image"
                                             name="mark_type"
-                                            checked={this.state.markType === "image"}
-                                            onChange={() => {
-                                                this.setState({ markType: "image" });
-                                            }}>Imagen
-                                        </Radio>
-                                        <Radio value="area"
+                                            onClick={() => { this.setState({ markType: "image" });}}
+                                        >Imagen</ToggleButton>
+                                        <ToggleButton
+                                            type="radio"
+                                            value="area"
                                             name="mark_type"
-                                            checked={this.state.markType === "area"}
-                                            onChange={() => {
-                                                this.setState({ markType: "area" });
-                                            }}>Area
-                                        </Radio>
+                                            onClick={() => { this.setState({ markType: "area" });}}
+                                        >Area</ToggleButton>
                                     </ToggleButtonGroup>
                                 </FormGroup>
 
@@ -241,7 +242,7 @@ class RichMarksModal extends Component {
                                     <FormGroup>
                                         <h4>{i18n.t("marks.link_to")}</h4>
                                         <div>
-                                            <ToggleButtonGroup name={"connexion"} defaultValue={"new"}>
+                                            <div className="btn-group" data-toggle="buttons" >
                                                 <Radio value="new"
                                                     name="connect_mode"
                                                     checked={this.state.connectMode === "new"}
@@ -267,7 +268,7 @@ class RichMarksModal extends Component {
                                                     onChange={() => {
                                                         this.setState({ connectMode: "popup" });
                                                     }}>{i18n.t("marks.popup")}</Radio>
-                                            </ToggleButtonGroup>
+                                            </div>
                                         </div>
                                         <div style={{ display: this.state.newSelected === "" ? "none" : "initial" }}>
                                             {i18n.t("marks.hover_message")} <strong>{newSelected}</strong>
@@ -337,22 +338,24 @@ class RichMarksModal extends Component {
                         let newMark = current && current.id ? current.id : ID_PREFIX_RICH_MARK + Date.now();
                         let connectMode = this.state.connectMode;
                         let connection = selected.id;
-                        let payload = ({});
+                        let content = ({});
+                        let color;
+                        let size;
                         switch(this.state.markType) {
                         case "icon":
-                            payload.selectedIcon = this.state.selectedIcon || "";
-                            payload.color = this.state.color || marksType.defaultColor || '#222222';
-                            payload.size = this.state.size;
+                            content.selectedIcon = this.state.selectedIcon || "";
+                            color = this.state.color || marksType.defaultColor || '#222222';
+                            size = this.state.size;
                             break;
                         case "area":
-                            payload.color = this.state.color || marksType.defaultColor || '#222222';
+                            color = this.state.color || marksType.defaultColor || '#222222';
                             break;
                         case "image":
-                            payload.size = this.state.size;
-                            payload.imageDimensions = ({});
-                            payload.imageDimensions.height = oDimensions.biggerDimension === "Height" ? 100 * imageSize : (100 * imageSize / oDimensions.aspectRatio);
-                            payload.imageDimensions.width = oDimensions.biggerDimension === "Width" ? 100 * imageSize : (100 * imageSize * oDimensions.aspectRatio);
-                            payload.url = this.state.image || this.props.fileModalResult.value;
+                            size = this.state.size;
+                            content.imageDimensions = ({});
+                            content.imageDimensions.height = originalDimensions.biggerDimension === "Height" ? 100 * imageSize : (100 * imageSize / originalDimensions.aspectRatio);
+                            content.imageDimensions.width = originalDimensions.biggerDimension === "Width" ? 100 * imageSize : (100 * imageSize * originalDimensions.aspectRatio);
+                            content.url = this.state.image || this.props.fileModalResult.value;
                             break;
                         default:
                             break;
@@ -391,7 +394,9 @@ class RichMarksModal extends Component {
                                     displayMode: this.state.displayMode,
                                     value: value,
                                     markType: this.state.markType,
-                                    payload: payload,
+                                    content: content,
+                                    color: color,
+                                    size: size,
                                 },
                                 view: {
                                     info: "new",
@@ -421,7 +426,9 @@ class RichMarksModal extends Component {
                                     displayMode: this.state.displayMode,
                                     value: value,
                                     markType: this.state.markType,
-                                    payload: payload,
+                                    content: content,
+                                    color: color,
+                                    size: size,
                                 },
                                 view: {
                                     info: "new",
@@ -445,7 +452,9 @@ class RichMarksModal extends Component {
                                     displayMode: this.state.displayMode,
                                     value: value,
                                     markType: this.state.markType,
-                                    payload: payload,
+                                    content: content,
+                                    color: color,
+                                    size: size,
                                 },
                             };
                             break;
@@ -460,6 +469,9 @@ class RichMarksModal extends Component {
                                     displayMode: this.state.displayMode,
                                     value: value,
                                     markType: this.state.markType,
+                                    content: content,
+                                    color: color,
+                                    size: size,
                                 },
                             };
                             break;

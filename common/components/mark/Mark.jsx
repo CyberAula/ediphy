@@ -35,15 +35,15 @@ export default class Mark extends Component {
     returnMark(markType) {
         switch(markType) {
         case "icon":
-            let color = this.props.payload.color || "black";
-            let size = (this.props.payload.size / 10) + 'em' || '1em';
-            let text = this.props.payload.selectedIcon ? this.props.payload.selectedIcon : "room";
+            let color = this.props.color || "black";
+            let size = (this.props.size / 10) + 'em' || '1em';
+            let text = this.props.content.selectedIcon ? this.props.content.selectedIcon : "room";
             return <i key="i" style={{ color: color, fontSize: size }} className="material-icons">{text}</i>;
         case "image":
             let isHotspotImage = this.props.isImage === true;
-            let height = isHotspotImage ? "100%" : String(this.props.payload.imageDimensions.height) + "em";
-            let width = isHotspotImage ? "100%" : String(this.props.payload.imageDimensions.width) + "em";
-            let img = this.props.payload.url;
+            let height = isHotspotImage ? "100%" : String(this.props.content.imageDimensions.height) + "em";
+            let width = isHotspotImage ? "100%" : String(this.props.content.imageDimensions.width) + "em";
+            let img = this.props.content.url;
             return <img alt={"iconImage"} height={height} width={width} onLoad={this.onImgLoad} src={img}/>;
         case "area":
             return <h4>To-do</h4>;
@@ -66,7 +66,7 @@ Mark.propTypes = {
     /**
      * Mark information which varies with markType
      */
-    payload: PropTypes.any,
+    content: PropTypes.any,
     /**
      * Type of the mark: image, icon or area
      */

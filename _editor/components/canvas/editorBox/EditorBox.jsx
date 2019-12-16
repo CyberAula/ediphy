@@ -254,7 +254,7 @@ class EditorBox extends Component {
 
     /**
      * Checks if aspect ratio should be kept when resizing the box
-     * @returns {boolean} true if aspect ratio shoud be kept, false otherwise
+     * @returns {boolean} true if aspect ratio should be kept, false otherwise
      */
     checkAspectRatioValue() {
         let toolbar = this.props.pluginToolbarsById[this.props.id];
