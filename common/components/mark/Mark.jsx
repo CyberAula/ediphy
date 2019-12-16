@@ -12,7 +12,7 @@ export default class Mark extends Component {
     render() {
         let PopoverMark = (<Popover id="popover-trigger-click-root-close" >{this.props.markConnection}</Popover>);
         let ToolTipDefault = (<Tooltip positionLeft="-12" id={this.props.idKey}>{this.props.title}</Tooltip>);
-        let triggerType = ['hover', 'focus'];
+        let triggerType = this.props.svg ? [] : ['hover', 'focus'];
         if (this.props.isPopUp && !this.props.noTrigger) { triggerType = "click"; }
         if (this.props.noTrigger) { triggerType = "focus"; }
         let text = this.props.text ? this.props.text : "room";
@@ -35,8 +35,7 @@ export default class Mark extends Component {
                 container={document.getElementById('app')}
                 overlay={this.props.isPopUp ? PopoverMark : ToolTipDefault }
                 trigger={triggerType} rootClose>
-
-                <a id={'mark-' + this.props.idKey} className="mapMarker" style={{ pointerEvents: 'all', height: "100%", width: "100%" }} href="#" onClick={(this.props.isVisor && !this.props.noTrigger) ? ()=>{this.props.onMarkClicked(this.props.boxID, this.props.markValue);} : null}>
+                <a id={'mark-' + this.props.idKey} className="mapMarker" style={{ pointerEvents: 'all', height: "100%", width: "100%", cursor: this.props.svg ? 'default' : 'pointer' }} href="#">
                     {this.returnMark(kind, text, size, color, img, height, width)}
                 </a>
             </OverlayTrigger>
@@ -46,16 +45,25 @@ export default class Mark extends Component {
     returnMark(kind, text, size, color, image, height, width) {
         switch (kind) {
         case 'image':
-            return <img height={height} width={width} onLoad={this.onImgLoad} src={image}/>;
+            return <img
+                onClick={(this.props.isVisor && !this.props.noTrigger) ? ()=>{this.props.onMarkClicked(this.props.boxID, this.props.markValue);} : null}
+                height={height} width={width} onLoad={this.onImgLoad} src={image}/>;
         case 'svg':
             return (<svg viewBox={`0 0 ${this.props.svg.canvasSize.width} ${this.props.svg.canvasSize.height}`}
-                style={{ position: 'absolute' }}
+                style={{ position: 'absolute', pointerEvents: 'none' }}
+                onClick={e => console.log('clicked in svg')}
                 height={'100%'} width={'100%'}
                 preserveAspectRatio="none">
-                <path d={this.props.svg.svgPath} fill={color}/>
+                <path d={this.props.svg.svgPath} fill={color}
+                    style={{ pointerEvents: 'all' }}
+                    onClick={(this.props.isVisor && !this.props.noTrigger) ?
+                        ()=>{console.log('clicked in path'); this.props.onMarkClicked(this.props.boxID, this.props.markValue);}
+                        : null}
+                />
             </svg>);
         case 'icon':
-            return <i key="i" style={{ color: color, fontSize: size }} className="material-icons">{text}</i>;
+            return <i onClick={(this.props.isVisor && !this.props.noTrigger) ? ()=>{this.props.onMarkClicked(this.props.boxID, this.props.markValue);} : null}
+                key="i" style={{ color: color, fontSize: size }} className="material-icons">{text}</i>;
         }
     }
 

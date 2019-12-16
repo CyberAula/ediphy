@@ -16,7 +16,6 @@ import { ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, 
 
 import TemplatesModal from "../../carousel/templatesModal/TemplatesModal";
 import { ModalContainer, TypeSelector, ConfigSize } from "./Styles";
-import { copyFile } from 'fs';
 
 /**
  * Modal component to   edit marks' configuration
@@ -51,7 +50,11 @@ class RichMarksModal extends Component {
     UNSAFE_componentWillReceiveProps(nextProps) {
         let current = nextProps.currentRichMark;
         let allViews = this.returnAllViews(nextProps);
-        if (!this.props.richMarksVisible) {
+        console.log(nextProps);
+        if(nextProps.tempMarkState) {
+            console.log(nextProps.tempMarkState);
+            this.setState({ ...nextProps.tempMarkState, svg: nextProps.markCursorValue }, () => console.log(this.state));
+        } else if (!this.props.richMarksVisible) {
             if (current) {
                 this.setState({
                     viewNames: allViews,
@@ -83,7 +86,6 @@ class RichMarksModal extends Component {
                 });
             }
         }
-
     }
 
     /**
@@ -97,7 +99,7 @@ class RichMarksModal extends Component {
         let marksType = pluginToolbar?.pluginId
                         && Ediphy.Plugins.get(pluginToolbar.pluginId)?.getConfig()?.marksType
             ? Ediphy.Plugins.get(pluginToolbar.pluginId).getConfig().marksType : {};
-        let current = this.props.currentRichMark;
+        let current = this.props.tempMarkState ?? this.props.currentRichMark;
         let selected = this.state.existingSelected && (this.props.containedViewsById[this.state.existingSelected] || this.props.navItemsById[this.state.existingSelected]) ? (isContainedView(this.state.existingSelected) ? { label: this.props.containedViewsById[this.state.existingSelected].name, id: this.state.existingSelected } :
             { label: this.props.navItemsById[this.state.existingSelected].name, id: this.state.existingSelected }) : this.returnAllViews(this.props)[0] || [];
         let newSelected = "";
@@ -118,15 +120,13 @@ class RichMarksModal extends Component {
             width = oDimensions.biggerDimension === "Width" ? 100 * imageSize : (100 * imageSize * oDimensions.aspectRatio);
         }
 
-        console.log(this.props);
-        console.log(this.state);
+        console.log(this.props.markCursorValue ? this.state.svg ? this.props.markCursorValue.svgPath : this.props.markCursorValue : (current ? current.value : (defaultMarkValue ? defaultMarkValue : 0)));
 
         return (
             <ModalContainer backdrop bsSize="large" show={this.props.richMarksVisible}>
                 <Modal.Header>
                     <Modal.Title><i style={{ fontSize: '18px' }} className="material-icons">room</i> {(current ? i18n.t("marks.edit_mark_to") : i18n.t("marks.add_mark_to")) + pluginType }</Modal.Title>
                 </Modal.Header>
-
                 <Modal.Body>
                     <Row >
                         <FormGroup>
@@ -135,6 +135,7 @@ class RichMarksModal extends Component {
                             </Col>
                             <Col xs={8} md={6}>
                                 <FormControl ref="title"
+                                    onChange={e => this.setState({ title: e.target.value })}
                                     type="text"
                                     defaultValue={current ? current.title : ''}/><br/>
                             </Col>
@@ -173,7 +174,8 @@ class RichMarksModal extends Component {
                             </Col>
                             <Col xs={4} md={2}>
                                 <button className="avatarButtons btn btn-primary" onClick={() => {
-                                    this.h.onAreaCreatorVisible('box-' + this.props.boxSelected);
+                                    console.log('prev to opening', this.state);
+                                    this.h.onAreaCreatorVisible('box-' + this.props.boxSelected, this.state);
                                     this.h.onRichMarksModalToggled();
                                 }}>Custom Area</button>
                             </Col>
@@ -625,7 +627,7 @@ class RichMarksModal extends Component {
 }
 
 function mapStateToProps(state) {
-    const { markCursorValue, currentRichMark, richMarksVisible } = state.reactUI;
+    const { markCursorValue, currentRichMark, richMarksVisible, tempMarkState } = state.reactUI;
     const { boxesById, boxSelected, pluginToolbarsById, navItemSelected, viewToolbarsById, containedViewSelected,
         containedViewsById, marksById, navItemsIds, navItemsById } = state.undoGroup.present;
 
@@ -642,6 +644,7 @@ function mapStateToProps(state) {
         navItemsById,
         navItemsIds,
         currentRichMark,
+        tempMarkState,
         reactUI: state.reactUI,
         richMarksVisible,
     };

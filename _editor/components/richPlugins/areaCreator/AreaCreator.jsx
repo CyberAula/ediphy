@@ -38,7 +38,6 @@ export default function AreaCreator(props) {
                 return `${trace} L${newPoint.x} ${newPoint.y} Z`;
             }
             return `${trace} L${newPoint.x} ${newPoint.y}`;
-
         };
         return points.reduce(pathMaker, '');
     };
@@ -104,7 +103,7 @@ export default function AreaCreator(props) {
                 <path d={tracePath([...points, hoverPoint])}
                     strokeDasharray={nextToVertex ? '5,0' : '5,5'} fill="white" fillOpacity="0.4"
                     strokeWidth={nextToVertex ? '4' : '2'} stroke='white'/>
-                <path d={tracePath(points)}/>
+                <path d={tracePath(points)} fill={props.color || 'black'}/>
                 {drawVertex(points)}
             </svg>
         </div>

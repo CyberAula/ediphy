@@ -51,7 +51,6 @@ export default class Image extends React.Component {
                 onError={(e) => {
                     e.target.onError = null;
                     this.setState({ error: true });
-
                 }}
             />
             <div className="dropableRichZone" style={{ height: "100%", width: "100%", position: 'absolute', top: 0, left: 0 }} >

@@ -118,9 +118,13 @@ class EditorApp extends Component {
                     />
                     <Toolbar top={(60 + ribbonHeight) + 'px'}/>
                     <PluginConfigModal id={reactUI.pluginConfigModal}/>
-                    <AreaCreator undo active={reactUI.areaCreatorVisible} canvas ={reactUI.canvas} onEnd={(res) => {this.handleMarks.onRichMarksModalToggled(res); this.handleMarks.onAreaCreatorHidden();}}/>
+                    <AreaCreator undo active={reactUI.areaCreatorVisible}
+                        color={reactUI.tempMarkState?.color ?? 'black'} canvas ={reactUI.canvas}
+                        onEnd={(res) => {
+                            this.handleMarks.onRichMarksModalToggled(res, -1, true);
+                            this.handleMarks.onAreaCreatorHidden();}}
+                    />
                     <RichMarksModal
-                        cur
                         fileModalResult={fileModalResult}
                         defaultValueMark={defaultMarkValue}
                         validateValueInput={validateMarkValueInput}
