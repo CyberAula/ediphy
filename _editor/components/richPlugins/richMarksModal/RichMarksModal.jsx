@@ -55,10 +55,10 @@ class RichMarksModal extends Component {
             if (current) {
                 this.setState({
                     viewNames: allViews,
-                    selectedIcon: current.payload.selectedIcon,
-                    color: current.payload.color || null,
-                    size: current.payload.size,
-                    image: current.payload.url,
+                    selectedIcon: current.content.selectedIcon,
+                    color: current.color || null,
+                    size: current.size,
+                    image: current.content.url,
                     connectMode: current.connectMode || "new",
                     displayMode: current.displayMode || "navigate",
                     newSelected: (current.connectMode === "new" ? current.connection : ""),
@@ -113,14 +113,26 @@ class RichMarksModal extends Component {
         let width = 0;
         let imageModal = this.state.image;
         let originalDimensions = this.state.oDimensions;
+        let previewSize = {};
+        let h, w = 0;
         if(this.props.boxesById[this.props.boxSelected] && document.getElementById("box-" + this.props.boxesById[this.props.boxSelected].id)) {
             let y = document.getElementById("box-" + this.props.boxesById[this.props.boxSelected].id).getBoundingClientRect().height;
             let x = document.getElementById("box-" + this.props.boxesById[this.props.boxSelected].id).getBoundingClientRect().width;
-            console.log("aspectratio: " + x / y);
+            let selectedPluginAspectRatio = x / y;
+            previewSize.height = x > y ? String(15 / selectedPluginAspectRatio) + "em" : "15em";
+            previewSize.width = x > y ? "15em" : String(15 * selectedPluginAspectRatio) + "em";
+            previewSize.aspectRatio = selectedPluginAspectRatio;
+            h = previewSize.height.replace('em', '');
+            w = previewSize.width.replace('em', '');
         }
-        if(this.state.markType === "image") {
-            width = originalDimensions.biggerDimension === "Width" ? 100 * imageSize : (100 * imageSize * originalDimensions.aspectRatio);
-        }
+
+        console.log("heightbigger: " + (previewSize.height > previewSize.width));
+        console.log(previewSize.height > previewSize.width);
+        console.log(h > w);
+        console.log("Height :" + previewSize.height);
+        console.log("Width :" + previewSize.width);
+        console.log("-----------------------");
+
         return (
             <ModalContainer backdrop bsSize="large" show={this.props.richMarksVisible}>
                 <Modal.Header>
@@ -230,7 +242,8 @@ class RichMarksModal extends Component {
                                         case "icon":
                                             return <i className="material-icons" style={{ color: (this.state.color || "black"), fontSize: (this.state.size / 10) + "em", paddingLeft: "7%" }}>{this.state.selectedIcon}</i>;
                                         case "image":
-                                            return (<div style={{ height: "10em", width: "10em", marginLeft: "7%", backgroundColor: "antiquewhite" }}>
+                                            width = previewSize.height < previewSize.width ? 100 * imageSize : (100 * imageSize / previewSize.aspectRatio * originalDimensions.aspectRatio);
+                                            return (<div style={{ height: previewSize.height, width: previewSize.width, marginLeft: "7%", backgroundColor: "antiquewhite" }}>
                                                 <img height="auto" width={String(width) + "%"} onLoad={this.onImgLoad} src={imageModal || this.props.fileModalResult.value}/>
                                             </div>);
                                         case "area":
@@ -353,8 +366,7 @@ class RichMarksModal extends Component {
                         case "image":
                             size = this.state.size;
                             content.imageDimensions = ({});
-                            content.imageDimensions.height = originalDimensions.biggerDimension === "Height" ? 100 * imageSize : (100 * imageSize / originalDimensions.aspectRatio);
-                            content.imageDimensions.width = originalDimensions.biggerDimension === "Width" ? 100 * imageSize : (100 * imageSize * originalDimensions.aspectRatio);
+                            content.imageDimensions.width = previewSize.height < previewSize.width ? 100 * imageSize : (100 * imageSize / previewSize.aspectRatio * originalDimensions.aspectRatio);
                             content.url = this.state.image || this.props.fileModalResult.value;
                             break;
                         default:

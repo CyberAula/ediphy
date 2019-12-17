@@ -41,10 +41,9 @@ export default class Mark extends Component {
             return <i key="i" style={{ color: color, fontSize: size }} className="material-icons">{text}</i>;
         case "image":
             let isHotspotImage = this.props.isImage === true;
-            let height = isHotspotImage ? "100%" : String(this.props.content.imageDimensions.height) + "em";
             let width = isHotspotImage ? "100%" : String(this.props.content.imageDimensions.width) + "em";
             let img = this.props.content.url;
-            return <img alt={"iconImage"} height={height} width={width} onLoad={this.onImgLoad} src={img}/>;
+            return <img alt={"iconImage"} height="auto" width={width} onLoad={this.onImgLoad} src={img}/>;
         case "area":
             return <h4>To-do</h4>;
         default:
