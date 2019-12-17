@@ -7,6 +7,7 @@ import './carouselList/_carouselList.scss';
 import EditorIndexTitle from "./editorIndexTitle/EditorIndexTitle";
 import { isSlide } from "../../../common/utils";
 import iconPDF from "../../../dist/images/file-pdf.svg";
+import { CarouselContainer, FolderContainer, FileContainer, ToggleCollapseHandle } from './Styles';
 
 const Folder = ({ collapsed, index, path, onToggleCollapse, id, navItemsById, onNavItemNameChanged, viewToolbarsById, indexSelected }) => {
     const handleClick = () => {
@@ -15,21 +16,21 @@ const Folder = ({ collapsed, index, path, onToggleCollapse, id, navItemsById, on
     const classCollapsed = collapsed ? 'collapsed' : '';
     const classIndexSelected = id === indexSelected ? ' classIndexSelected ' : ' ';
     return (
-        <div className={ 'folder navItemBlock ' + classCollapsed + classIndexSelected }
+        <FolderContainer className={'folder navItemBlock ' + classCollapsed + classIndexSelected}
             style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: path.length * 20 }}
         >
-            <button className={'toggleCollapseHandle' } onClick={handleClick}>
+            <ToggleCollapseHandle className={'toggleCollapseHandle'} onClick={handleClick}>
                 <i className={collapsed ? "material-icons collapsed" : "material-icons "}>
                     keyboard_arrow_down
                 </i>
-            </button>
+            </ToggleCollapseHandle>
             <EditorIndexTitle id={id}
                 index={navItemsById[navItemsById[id].parent].children.indexOf(id) + 1 + '.'}
                 title={viewToolbarsById[id].viewName}
                 hidden={navItemsById[id].hidden}
-                selected={ indexSelected }
+                selected={indexSelected}
                 onNameChanged={onNavItemNameChanged} />
-        </div>
+        </FolderContainer>
     );
 };
 
@@ -37,18 +38,18 @@ const File = ({ collapsed, id, path, navItemsById, onNavItemNameChanged, viewToo
     const classCollapsed = collapsed ? 'collapsed' : '';
     const classIndexSelected = id === indexSelected ? ' classIndexSelected ' : ' ';
     const classContainedViewSelected = id === containedViewSelected ? ' selected ' : ' notSelected ';
-    return (<div className={ 'file navItemBlock ' + classCollapsed + classIndexSelected + classContainedViewSelected }
-        style={{ marginLeft: path.length * 20 } } >
+    return (<FileContainer className={'file navItemBlock ' + classCollapsed + classIndexSelected + classContainedViewSelected}
+        style={{ marginLeft: path.length * 20 }} >
         {(navItemsById[id].customSize === 0) ?
             <i className="material-icons fileIcon">{isSlide(navItemsById[id].type) ? "slideshow" : "insert_drive_file"}</i>
-            : <img className="svgIcon" src={iconPDF} alt={'PDF'}/>}
+            : <img className="svgIcon" src={iconPDF} alt={'PDF'} />}
         <EditorIndexTitle id={id}
             index={navItemsById[navItemsById[id].parent].children.indexOf(id) + 1 + '.'}
             title={viewToolbarsById[id].viewName}
             hidden={navItemsById[id].hidden}
-            selected={ indexSelected }
-            onNameChanged={onNavItemNameChanged}/>
-    </div>);
+            selected={indexSelected}
+            onNameChanged={onNavItemNameChanged} />
+    </FileContainer>);
 };
 
 class CarouselItemRenderer extends Component {
@@ -59,12 +60,14 @@ class CarouselItemRenderer extends Component {
         const selected = type === 'file' && id === navItemSelected ? 'selected ' : ' ';
 
         return connectDragSource(connectDragPreview(connectDropTarget(
-            <div className={"carousselContainer " + collapsed + selected + 'is' + type}
-                onMouseDown={this.onMouseDown}
-                onDoubleClick={this.onDoubleClick}>
-                {type === 'folder' && <Folder {...this.props} />}
-                {type === 'file' && <File {...this.props} />}
-            </div>,
+            <div>
+                <CarouselContainer className={collapsed + selected + 'is' + type}
+                    onMouseDown={this.onMouseDown}
+                    onDoubleClick={this.onDoubleClick}>
+                    {type === 'folder' && <Folder {...this.props} />}
+                    {type === 'file' && <File {...this.props} />}
+                </CarouselContainer>
+            </div>
         )));
     }
 

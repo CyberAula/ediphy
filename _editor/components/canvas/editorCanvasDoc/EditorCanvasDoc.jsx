@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col } from 'react-bootstrap';
 import { connect } from "react-redux";
 
 import Ediphy from '../../../../core/editor/main';
@@ -60,7 +59,7 @@ class EditorCanvasDoc extends Component {
                                 className={'innercanvas doc'}
                                 style={{ visibility: (show ? 'visible' : 'hidden'), paddingBottom: '10px' }}>
 
-                                <br/>
+                                <br />
                                 {itemBoxes.map(id => {
                                     if (!isSortableBox(id)) {
                                         return null;
@@ -79,7 +78,7 @@ class EditorCanvasDoc extends Component {
                 </ScrollContainer>
                 <ThemeCSS
                     styleConfig={styleConfig}
-                    aspectRatio = {aspectRatio}
+                    aspectRatio={aspectRatio}
                     theme={theme}
                     toolbar={{ ...toolbar, colors: colors }}
                 />

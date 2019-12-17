@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import { Col } from 'react-bootstrap';
 import interact from 'interactjs';
 import ReactResizeDetector from 'react-resize-detector';
 import i18n from 'i18next';
@@ -59,28 +58,30 @@ class EditorCanvasSli extends Component {
             <Canvas id={fromCV ? 'containedCanvas' : 'canvas'} md={12} xs={12}
                 className="canvasSliClass safeZone"
                 onMouseDown={this.deselectBoxes}
-                style={{ display: containedViewSelected !== 0 && !fromCV ? 'none' : 'initial',
+                style={{
+                    display: containedViewSelected !== 0 && !fromCV ? 'none' : 'initial',
                     fontSize: this.state.fontBase ? (this.state.fontBase + 'px') : '14px',
                 }}>
                 <AirLayer id={fromCV ? 'airlayer_cv' : 'airlayer'}
                     className={'slide_air parentRestrict'}
-                    style={{ margin: 'auto', visibility: (showCanvas ? 'visible' : 'hidden'),
+                    style={{
+                        margin: 'auto', visibility: (showCanvas ? 'visible' : 'hidden'),
                         width: this.state.width, height: this.state.height, marginTop: this.state.marginTop, marginBottom: this.state.marginBottom,
                     }}>
                     <InnerCanvas id={fromCV ? "contained_maincontent" : "maincontent"}
                         ref="slideDropZone"
                         onMouseDown={this.hideTitle}
                         className={'innercanvas sli ' + theme}
-                        style={ itemSelected.id !== 0 ? loadBackgroundStyle(showCanvas, toolbar, styleConfig, false, aspectRatio, itemSelected.background) : {} }
+                        style={itemSelected.id !== 0 ? loadBackgroundStyle(showCanvas, toolbar, styleConfig, false, aspectRatio, itemSelected.background) : {}}
                     >
                         {this.state.alert}
-                        {gridOn ? <div style={{ zIndex: '-1' }} onClick={this.deselectBoxes}><SnapGrid key={fromCV}/></div> : null}
+                        {gridOn ? <div style={{ zIndex: '-1' }} onClick={this.deselectBoxes}><SnapGrid key={fromCV} /></div> : null}
                         <EditorHeader
                             titles={titles}
                             courseTitle={title}
                         />
 
-                        <br/>
+                        <br />
 
                         <div style={{
                             width: "100%",
@@ -104,10 +105,10 @@ class EditorCanvasSli extends Component {
                     </InnerCanvas>
                 </AirLayer>
                 <ThemeCSS
-                    aspectRatio = {aspectRatio}
+                    aspectRatio={aspectRatio}
                     styleConfig={styleConfig}
-                    theme={ theme }
-                    toolbar = {{ ...toolbar, colors: toolbar && toolbar.colors ? toolbar.colors : {} }}
+                    theme={theme}
+                    toolbar={{ ...toolbar, colors: toolbar && toolbar.colors ? toolbar.colors : {} }}
                 />
                 <ReactResizeDetector handleWidth handleHeight onResize={this.onResize} />
                 <EditorShortcuts
@@ -120,9 +121,9 @@ class EditorCanvasSli extends Component {
                     openFileModal={this.h.openFileModal}
                     pointerEventsCallback={
                         pluginToolbarsById[boxSelected]
-                        && pluginToolbarsById[boxSelected].config
-                        && pluginToolbarsById[boxSelected].config.name
-                        && Ediphy.Plugins.get(pluginToolbarsById[boxSelected].config.name)
+                            && pluginToolbarsById[boxSelected].config
+                            && pluginToolbarsById[boxSelected].config.name
+                            && Ediphy.Plugins.get(pluginToolbarsById[boxSelected].config.name)
                             ? Ediphy.Plugins.get(pluginToolbarsById[boxSelected].config.name).pointerEventsCallback : null}
                     onMarkCreatorToggled={this.h.onMarkCreatorToggled}
                 />
@@ -243,8 +244,8 @@ class EditorCanvasSli extends Component {
                         hasHeader
                         backdrop={false}
                         title={<span><i className="material-icons alert-warning" >
-                                        warning</i>{i18n.t("messages.alert")}</span>}
-                        closeButton onClose={() => {this.setState({ alert: null });}}>
+                            warning</i>{i18n.t("messages.alert")}</span>}
+                        closeButton onClose={() => { this.setState({ alert: null }); }}>
                         <span> {i18n.t('messages.instance_limit')} </span>
                     </Alert>);
                     this.setState({ alert: alert });

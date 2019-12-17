@@ -1,4 +1,35 @@
-import styled from 'styled-components';
+import styled from "styled-components";
+import { LIGHT_GREY } from '../../../../sass/general/constants';
+import { animation } from '../../../../sass/general/mixins/Mixins';
+
+export const CarouselListTitle = styled.div`
+    cursor: pointer;
+    color: ${LIGHT_GREY};
+    * {
+        ${animation("all", "0.2s")};
+    }
+    &:hover {
+        color: #fff !important;
+    }
+    .material-icons {
+        padding: 10px;
+        &:hover{@include scale(1.2);}
+    }
+    .btnToggleCarousel, .btnFullCarousel {
+        cursor: pointer;
+        color: white;
+        background-color: transparent;
+        border: none;
+        &:hover {
+            @include scale(1.2);
+        }
+    }
+    .btnFullCarousel {
+        right: 0;
+    }
+
+`
+    ;
 
 export const CarouselTitleContainer = styled.div`
   height: 100%;
