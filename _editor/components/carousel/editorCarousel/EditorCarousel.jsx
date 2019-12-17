@@ -7,13 +7,12 @@ import FileTree from "../FileTree";
 
 import { connect } from "react-redux";
 import ErrorBoundary from "../../../containers/ErrorBoundary";
+import { WrapperCarousel } from '../carouselList/Styles';
 
 /**
  * Index wrapper container
  */
-class EditorCarousel extends Component
-
-{
+class EditorCarousel extends Component {
     /**
      * Renders React Component
      * @returns {code}
@@ -21,17 +20,17 @@ class EditorCarousel extends Component
     render() {
         const { carouselFull, carouselShow } = this.props;
         return (
-            <div id="colLeft" className="wrapperCarousel"
+            <WrapperCarousel id="colLeft" className="wrapperCarousel"
                 style={{
                     maxWidth: carouselShow ? (carouselFull ? '100%' : '212px') : '80px',
                     overflowX: carouselFull ? 'hidden' : '',
                 }}>
                 <ErrorBoundary context={'carousel'}>
-                    <CarouselHeader/>
-                    <FileTree/>
-                    <CarouselButtons/>
+                    <CarouselHeader />
+                    <FileTree />
+                    <CarouselButtons />
                 </ErrorBoundary>
-            </div>
+            </WrapperCarousel>
         );
     }
 }

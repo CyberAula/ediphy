@@ -13,14 +13,13 @@ export function HotspotImages() {
             let markElements = Object.keys(marks).map((e) =>{
                 let position = svg ? [0, 0] : marks[e].value.split(',');
                 let title = marks[e].title;
-                let text = marks[e].text;
-                let color = marks[e].color;
-                let size = marks[e].size;
-                let image = marks[e].image;
+
                 let svg = marks[e].svg;
                 let kind = marks[e].kind;
-                let height = image !== false ? String(image.size.height) + "%" : svg ? '100%' : null;
-                let width = image !== false ? String(image.size.width) + "%" : svg ? '100%' : null;
+
+                let type = marks[e].type;
+                let width = type === "image" ? String(marks[e].payload.size.width) + "%" : null;
+
                 let isPopUp = marks[e].connectMode === "popup";
                 let isVisor = true;
                 if(svg) {
@@ -30,6 +29,8 @@ export function HotspotImages() {
                 return(
                     <div key={e} style={{ position: 'absolute', top: svg ? 0 : position[0] + "%", left: svg ? 0 : position[1] + "%", width, height }}>
                         <Mark color={color}
+                            type={type}
+                            payload={payload}
                             text={text}
                             size={size}
                             image={image}

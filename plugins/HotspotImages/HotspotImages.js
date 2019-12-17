@@ -5,6 +5,7 @@ import Mark from '../../common/components/mark/Mark';
 import img_placeholder from './../../dist/images/placeholder.svg';
 import Image from "./Image";
 import _handlers from "../../_editor/handlers/_handlers";
+import { isValidSvgPath } from "../../common/utils";
 /* eslint-disable react/prop-types */
 
 export const HotspotImages = (base) => ({
@@ -137,29 +138,22 @@ export const HotspotImages = (base) => ({
         let marks = props.marks || {};
         let svgMarks = [];
         let markElements = Object.keys(marks).map((id) =>{
-            let value = marks[id].value;
-            let title = marks[id].title;
-            let color = marks[id].color;
-            let text = marks[id].text;
-            let size = marks[id].size;
-            let image = marks[id].image;
-            let svg = marks[id].svg;
-            let kind = marks[id].kind;
-            let width = image !== false ? String(image.size.width) + "%" : svg ? '100%' : null;
-            let height = svg ? '100%' : 'auto';
+            console.log(marks);
+            let { value, title, type, payload } = marks[id];
             let position;
+            let width = type === "image" ? String(marks[id].payload.imageDimensions.width) + "%" : null;
             if (value && value.split(',').length === 2) {
                 position = value.split(',');
             } else{
                 position = [0, 0];
             }
-            if(svg) {
+            if(type === 'area') {
                 svgMarks.push(marks[id]);
                 return null;
             }
             return (
-                <MarkEditor key={id} className="MyMarkEditor" style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width, height }} time={1.5} dispatch={ props.dispatch } onRichMarkMoved={_handlers({ props }).onRichMarkMoved} mark={id} base={base} marks={marks} state={state}>
-                    <Mark style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} color={color} kind={kind} idKey={id} text={text} size={size} title={title} isImage image={image} svg={svg}/>
+                <MarkEditor key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width, height: "auto" }} time={1.5} dispatch={ props.dispatch } onRichMarkMoved={_handlers({ props }).onRichMarkMoved} mark={id} base={base} marks={marks} state={state}>
+                    <Mark style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} idKey={id} title={title} isImage type={type} payload={payload}/>
                 </MarkEditor>
             );
         });
@@ -189,19 +183,7 @@ export const HotspotImages = (base) => ({
         let regex = /(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$)/g;
         let match = regex.exec(value);
 
-        // https://stackoverflow.com/questions/54961620/test-if-svg-path-d-property-string-is-valid
-        function isValidPath(s) {
-            const reEverythingAllowed = /[MmZzLlHhVvCcSsQqTtAa0-9-,.\s]/g;
-
-            const bContainsIllegalCharacter = !!s.replace(reEverythingAllowed, '').length;
-            const bContainsAdjacentLetters = (/[a-zA-Z][a-zA-Z]/).test(s);
-            const bInvalidStart = (/^[0-9-,.]/).test(s);
-            const bInvalidEnd = (/.*[-,.]$/).test(s.trim());
-
-            return !(bContainsIllegalCharacter || bContainsAdjacentLetters || bInvalidStart || bInvalidEnd);
-        }
-
-        if(isValidPath(value)) {
+        if(isValidSvgPath(value)) {
             return { isWrong: false, value: value };
         }
         if(match && match.length === 3) {

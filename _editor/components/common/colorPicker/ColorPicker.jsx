@@ -84,9 +84,8 @@ export default class ColorPicker extends Component {
     getRGBAComponents = (colorString) => {
         const rgbKeys = ['r', 'g', 'b', 'a'];
         let rgbObj = {};
-
-        let colorIsHex = colorString.indexOf('#') !== -1;
-        let colorIsRgba = colorString.indexOf('rgba') !== -1;
+        let colorIsHex = colorString?.indexOf('#') !== -1;
+        let colorIsRgba = colorString?.indexOf('rgba') !== -1;
         let color = colorIsRgba ? colorString : colorIsHex ? this.hexToRgba(colorString) : this.hexToRgba('#ffffff');
         color = color.replace(/^rgba?\(|\s+|\)$/g, '').split(',');
 

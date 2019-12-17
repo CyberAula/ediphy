@@ -25,9 +25,9 @@ export default class MarksList extends Component {
                             return null;
                         }
                         let name = mark.connection;
-                        let color = mark.color || '#337ab7';
-                        let hasImage = mark.image !== false;
-                        let text = hasImage ? "image" : mark.text || "room";
+                        let color = mark.payload.color || '#337ab7';
+                        let hasImage = mark.type === "image";
+                        let text = hasImage ? "image" : mark.selectedIcon || "room";
                         let widthScroll = Math.max(mark.title.length / 11 * 100, 100);
                         try {
                             switch (mark.connectMode) {

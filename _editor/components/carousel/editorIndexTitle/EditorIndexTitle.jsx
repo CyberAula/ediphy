@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import i18n from 'i18next';
-import { FormControl } from 'react-bootstrap';
 
 import Ediphy from '../../../../core/editor/main';
 import { isPage, isSection } from '../../../../common/utils';
 
-import './_editorIndexTitle.scss';
+import { EditorIndex, ActualSectionTitle } from './Styles';
 
 /**
  * Component for editing index elements in situ
@@ -42,18 +41,18 @@ export default class EditorIndexTitle extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if(this.props.courseTitle && this.props.title !== prevProps.title) {
+        if (this.props.courseTitle && this.props.title !== prevProps.title) {
             // If doc title changed from GlobalConfig
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ currentValue: this.props.title });
         }
 
-        if(!this.state.editing && prevProps.selected !== prevProps.id && this.props.selected === this.props.id) {
+        if (!this.state.editing && prevProps.selected !== prevProps.id && this.props.selected === this.props.id) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ secondClick: false });
         }
 
-        if(this.state.editing && prevProps.selected === prevProps.id && this.props.selected !== this.props.id) {
+        if (this.state.editing && prevProps.selected === prevProps.id && this.props.selected !== this.props.id) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({ secondClick: false });
         }
@@ -69,10 +68,12 @@ export default class EditorIndexTitle extends Component {
         return (
             <span id={this.props.id}>
                 {!this.state.editing ?
-                    (<div className="actualSectionTitle" id={'title_' + this.props.id}
-                        style={{ textDecoration: this.props.hidden ? "line-through" : "initial",
-                            cursor: this.props.selected === this.props.id || this.props.courseTitle ? 'text' : 'pointer' }}
-                        onClick={ () => {
+                    (<ActualSectionTitle id={'title_' + this.props.id}
+                        style={{
+                            textDecoration: this.props.hidden ? "line-through" : "initial",
+                            cursor: this.props.selected === this.props.id || this.props.courseTitle ? 'text' : 'pointer',
+                        }}
+                        onClick={() => {
                             if (this.state.secondClick && !this.state.editing && (this.props.selected === this.props.id) || this.props.courseTitle) {
                                 this.setState({ editing: true });
                             } else {
@@ -90,15 +91,15 @@ export default class EditorIndexTitle extends Component {
                             e.stopPropagation();
                         }}>
                         {Ediphy.Config.show_numbers_before_navitems ? this.props.index : ""} {(this.props.title && this.props.title !== "") ? this.props.title : ((this.props.courseTitle) ? i18n.t('Title_document') : i18n.t('Page'))}
-                    </div>) :
-                    (<FormControl
+                    </ActualSectionTitle>) :
+                    (<EditorIndex
                         type="text"
                         ref="titleIndex"
                         placeholder={(this.props.courseTitle) ? i18n.t('Title_document') : i18n.t('Page')}
-                        className={this.props.courseTitle ? "editTitle" : "editSectionTitle"}
+                        coursetitle={this.props.courseTitle}
                         value={this.state.currentValue}
                         autoFocus
-                        onKeyDown={e=> {
+                        onKeyDown={e => {
                             if (e.keyCode === 13) { // Enter Key
                                 this.setState({ editing: !this.state.editing });
                                 if (this.props.courseTitle) {
@@ -112,19 +113,19 @@ export default class EditorIndexTitle extends Component {
                             }
                         }}
                         onFocus={e => {
-                        /* Select all the content when enter edition mode*/
+                            /* Select all the content when enter edition mode*/
                             e.target.setSelectionRange(0, e.target.value.length);
 
                         }}
                         onChange={e => {
-                        /* Save it on component state, not Redux*/
+                            /* Save it on component state, not Redux*/
                             this.setState({ currentValue: e.target.value });
                         }}
 
                         onBlur={e => {
-                        /* Change to non-edition mode*/
+                            /* Change to non-edition mode*/
                             this.setState({ editing: false });
-                            if(this.props.courseTitle) {
+                            if (this.props.courseTitle) {
                                 this.props.onNameChanged('title', this.state.currentValue);
                             } else {
                                 this.props.onNameChanged(this.props.id, (this.state.currentValue.length > 0) ? { viewName: this.state.currentValue } : this.getDefaultValue());
@@ -148,7 +149,7 @@ export default class EditorIndexTitle extends Component {
     getDefaultValue() {
         if (isPage(this.props.id)) {
             return i18n.t("page");
-        } else if(isSection(this.props.id)) {
+        } else if (isSection(this.props.id)) {
             return i18n.t("section");
         }
         return "Blank";

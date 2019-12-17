@@ -1,89 +1,9 @@
 
-.carousselContainer {
-  box-sizing: border-box;
-  background-color: #444;
-  width: 100%;
-  color: white;
-  display: flex;
-  flex-direction: row;
-  border-bottom: 1px solid black;
-
-  &.collapsed{
-    border: none;
-
-    &.isfolder{
-      border-bottom: 1px solid black;
-    }
-  }
-
-  &.selected {
-    background-color: #222;
-  }
-
-  .body {
-    padding: 0px 10px;
-    cursor: move;
-  }
-
-
-  &.mute {
-    .body {
-      opacity: .3;
-    }
-  }
-}
 
 button{
   background: none;
 }
 
-.folder {
-  color: white;
-  box-sizing: border-box;
-  font-size: 0.9em;
-  border: none;
-  padding-left: 4px;
-  padding-right: 4px;
-
-
-
-  .material-icons{
-    color: white;
-    font-size: 1.2em;
-    padding: 4px;
-    transition: all 0.25s 0s;
-    transform: rotate(0deg);
-  }
-
-  &.collapsed {
-    i{
-      transition: all 0.25s 0s;
-      transform: rotate(-90deg);
-    }
-  }
-}
-
-
-.file {
-  color: white;
-  overflow: hidden;
-  font-size: 0.9em;
-  max-height: 40px;
-  transition: max-height 0.3s ease-in-out;
-
-  &.collapsed {
-    max-height: 0;
-    padding: 0;
-    border: none;
-  }
-}
-
-.toggleCollapseHandle {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
 
 .icon {
   width: 36px;

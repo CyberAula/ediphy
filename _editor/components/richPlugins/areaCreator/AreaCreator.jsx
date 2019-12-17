@@ -7,20 +7,21 @@ export default function AreaCreator(props) {
     const [points, setPoints] = useState([]);
     const [nextToVertex, setNextToVertex] = useState(false);
     useEffect(() => {
-        try {
-            const canvas = document.getElementById(props.canvas);
-            const height = canvas.clientHeight;
-            const width = canvas.clientWidth;
-            const top = canvas.getBoundingClientRect().y;
-            const left = canvas.getBoundingClientRect().x;
-            if(height !== canvasSize.height || width !== canvasSize.width) {
-                setCanvasSize({ width, height });
-                setCanvasPosition({ top, left });
+        if (props.active) {
+            try {
+                const canvas = document.getElementById(props.canvas);
+                const height = canvas.clientHeight;
+                const width = canvas.clientWidth;
+                const top = canvas.getBoundingClientRect().y;
+                const left = canvas.getBoundingClientRect().x;
+                if(height !== canvasSize.height || width !== canvasSize.width) {
+                    setCanvasSize({ width, height });
+                    setCanvasPosition({ top, left });
+                }
+            } catch (e) {
+                console.log(e);
             }
-        } catch (e) {
-            console.log(e);
         }
-
     }, [canvasSize, props]);
 
     const addPoint = e => {

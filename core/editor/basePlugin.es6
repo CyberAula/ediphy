@@ -344,9 +344,9 @@ export default function() {
                 return descendant.getDefaultMarkValue(_state, value);
             }
             if (descendant.getConfig() && descendant.getConfig().marksType) {
-                let markType = descendant.getConfig().marksType;
-                if (markType && markType.length > 0 && markType[0] && markType[0].default) {
-                    return markType[0].default;
+                let type = descendant.getConfig().marksType;
+                if (type && type.length > 0 && type[0] && type[0].default) {
+                    return type[0].default;
                 }
             }
             return undefined;

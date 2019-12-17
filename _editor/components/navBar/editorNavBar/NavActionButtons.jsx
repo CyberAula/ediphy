@@ -6,12 +6,13 @@ import { changeGlobalConfig, selectBox } from '../../../../common/actions';
 import Ediphy from '../../../../core/editor/main';
 import { isSection } from '../../../../common/utils';
 import ReactDOM from "react-dom";
-import { Button, Popover, Overlay, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Popover, Overlay, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { ActionCreators } from 'redux-undo';
 
 import { connect } from 'react-redux';
 import { updateUI } from "../../../../common/actions";
 import { UI } from "../../../../common/UI.es6";
+import { PopoverButton } from '../../carousel/Styles';
 import { Description, NavButton, NavButtons } from "./Styles";
 import { MatIcon } from "../../../../sass/general/constants";
 
@@ -33,8 +34,8 @@ class NavActionButtons extends Component {
     render() {
         const buttons = this.getButtons();
         const allowPublish = (this.props.globalConfig.thumbnail !== "")
-                            && this.props.globalConfig.title
-                            && (this.props.globalConfig.thumbnail !== img_place_holder);
+            && this.props.globalConfig.title
+            && (this.props.globalConfig.thumbnail !== img_place_holder);
         return (
             <NavButtons>
                 <Overlay rootClose
@@ -45,26 +46,26 @@ class NavActionButtons extends Component {
                     onHide={this.hideOverlay}>
                     <Popover id="popov" title={i18n.t('messages.publish_alert_title')}>
                         <i style={{ color: 'yellow', fontSize: '16px', padding: '5px' }} className="material-icons">
-                            { !allowPublish ? "warning" : "add_a_photo"}
+                            {!allowPublish ? "warning" : "add_a_photo"}
                         </i>
-                        { (allowPublish) ?
+                        {(allowPublish) ?
                             i18n.t('messages.publish_alert_text') :
                             i18n.t('messages.publish_not_allowed')}
-                        <br/>
-                        <br/>
-                        <Button className="popoverButton"
+                        <br />
+                        <br />
+                        <PopoverButton
                             name="popoverCancelButton"
                             onClick={this.hideOverlay}
                             style={{ float: 'right' }}>
                             {i18n.t("Cancel")}
-                        </Button>
-                        <Button className="popoverButton"
+                        </PopoverButton>
+                        <PopoverButton
                             name="popoverAcceptButton"
                             disabled={!allowPublish}
                             style={{ float: 'right' }}
                             onClick={this.publish}>
                             {i18n.t("Accept")}
-                        </Button>
+                        </PopoverButton>
                         <div style={{ clear: "both" }} />
                     </Popover>
                 </Overlay>
@@ -79,9 +80,9 @@ class NavActionButtons extends Component {
                                 name={item.name}
                                 onClick={item.onClick}
                                 title={item.tooltip}
-                                ref={ item.icon === 'public' ? button => {this.overlayTarget = button;} : null}>
-                                <MatIcon children={item.icon} className={'material-icons'}/>
-                                <Description children={item.description}/>
+                                ref={item.icon === 'public' ? button => { this.overlayTarget = button; } : null}>
+                                <MatIcon children={item.icon} className={'material-icons'} />
+                                <Description children={item.description} />
                             </NavButton>
                         </OverlayTrigger>
                     );
@@ -150,7 +151,7 @@ class NavActionButtons extends Component {
                 display: true,
                 disabled: this.props.undoDisabled,
                 icon: 'undo',
-                onClick: ()=> {this.props.dispatch(ActionCreators.undo());},
+                onClick: () => { this.props.dispatch(ActionCreators.undo()); },
             },
             {
                 name: 'redo',
@@ -159,7 +160,7 @@ class NavActionButtons extends Component {
                 display: true,
                 disabled: this.props.redoDisabled,
                 icon: 'redo',
-                onClick: ()=>{this.props.dispatch(ActionCreators.redo());},
+                onClick: () => { this.props.dispatch(ActionCreators.redo()); },
             },
             {
                 name: 'save',

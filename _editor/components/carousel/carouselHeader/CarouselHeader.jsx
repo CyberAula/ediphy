@@ -4,10 +4,9 @@ import { connect } from "react-redux";
 
 import EditorIndexTitle from '../editorIndexTitle/EditorIndexTitle';
 import i18n from 'i18next';
-import './_carouselHeader.scss';
 import handleCanvas from "../../../handlers/handleCanvas";
 import { updateUI } from "../../../../common/actions";
-import { CarouselTitleContainer } from "./Styles";
+import { CarouselTitleContainer, CarouselListTitle } from "./Styles";
 
 /**
  * Carousel's header, containing the course's title and the expand/collapse buttons
@@ -25,18 +24,19 @@ class CarouselHeader extends Component {
         let widthScroll = Math.max(courseTitle.length / 11 * 100, 100);
         // let widthScroll = this.props.courseTitle.length / 10 * 100;
         return (
-            <div style={{
+            <CarouselListTitle style={{
                 textAlign: this.props.carouselShow ? 'left' : 'center',
                 flexFlow: this.props.carouselShow ? 'row' : 'column',
                 display: 'flex',
+                alignItems: 'center',
             }}
-            className={'carouselListTitle ' + (this.props.carouselShow ? 'toolbarSpread' : 'toolbarHide')}>
+            carouselShow={this.props.carouselShow}>
                 <button className="btnToggleCarousel" onClick={() => this.onToggleWidth()}>
                     <i style={{ fontSize: this.props.carouselShow ? '16px' : '28px' }} className="material-icons">format_list_numbered</i>
                 </button>
-                {!this.props.carouselShow ? <br/> : null}
+                {!this.props.carouselShow ? <br /> : null}
 
-                <CarouselTitleContainer show={this.props.carouselShow }>
+                <CarouselTitleContainer show={this.props.carouselShow}>
                     <EditorIndexTitle
                         id="coursetit"
                         scrollW={widthScroll}
@@ -47,12 +47,12 @@ class CarouselHeader extends Component {
                 </CarouselTitleContainer>
 
                 <div className="clear" />
-            </div>
+            </CarouselListTitle>
         );
     }
 
     onToggleWidth = () => {
-        if(this.props.carouselShow) {
+        if (this.props.carouselShow) {
             this.props.dispatch(updateUI({
                 carouselShow: false,
                 carouselFull: false,

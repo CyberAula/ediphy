@@ -130,7 +130,6 @@ class EditorBox extends Component {
 
         let showOverlay = "none";
         let verticalAlign = "top";
-        console.log(this.props);
         wholeBoxStyle.verticalAlign = verticalAlign;
         return (
             <EditorBoxContainer selectedBox={this.props.id === this.props.boxSelected} className={classes} id={'box-' + this.props.id} name={toolbar.pluginId}

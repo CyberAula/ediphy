@@ -157,7 +157,7 @@ export function findDescendantNavItems(state, element) {
 export function findNavItemContainingBox(state, element) {
     let containerNav;
     Object.keys(state).forEach(child => {
-        if(state[child].boxes.indexOf(element) !== -1) {
+        if (state[child].boxes.indexOf(element) !== -1) {
             containerNav = state[child];
         }
     });
@@ -176,11 +176,11 @@ export function calculateNewIdOrder(oldArray, newChildren, newParent, itemMoved,
     if (indexInNewChildren !== newChildren.length - 1) {
         splitIndex = oldArrayFiltered.indexOf(newChildren[indexInNewChildren + 1]);
 
-    // We have to look for the next item that has a lower or equal level
-    // If none is found, it means we were dragging to last position, so default value for splitIndex is not changed
+        // We have to look for the next item that has a lower or equal level
+        // If none is found, it means we were dragging to last position, so default value for splitIndex is not changed
     } else {
-        for(let i = oldArrayFiltered.indexOf(newParent) + 1; i < oldArrayFiltered.length; i++) {
-            if(navItems[oldArrayFiltered[i]].level <= navItems[newParent].level) {
+        for (let i = oldArrayFiltered.indexOf(newParent) + 1; i < oldArrayFiltered.length; i++) {
+            if (navItems[oldArrayFiltered[i]].level <= navItems[newParent].level) {
                 splitIndex = i;
                 break;
             }
@@ -478,7 +478,7 @@ export function getDescendantViews(view, views) {
     for (let i = 0; i < view.children.length; i++) {
         let vw = view.children[i];
         selected.push(vw);
-        selected = selected.concat(getDescendantViews(views[vw]), views);
+        selected = selected.concat(getDescendantViews(views[vw], views));
     }
 
     return selected;
@@ -503,10 +503,10 @@ export function getTitles(itemSelected, viewToolbars, navItems, fromCV) {
 
 export function vendorTransform(obj, val) {
     obj.WebkitTransform =
-    obj.MozTransform =
-      obj.msTransform =
+        obj.MozTransform =
+        obj.msTransform =
         obj.OTransform =
-          obj.transform = val;
+        obj.transform = val;
 }
 
 export function makeBoxes(boxes, newId, props) {
@@ -539,7 +539,7 @@ export function makeBoxes(boxes, newId, props) {
 
 export function getIndex(parent, container, props) {
     let newInd;
-    if(isSortableContainer(container)) {
+    if (isSortableContainer(container)) {
         let children = props.boxesById[parent].sortableContainers[container].children;
         newInd = children.indexOf(props.boxSelected) + 1;
         newInd = newInd === 0 ? 1 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
@@ -565,16 +565,16 @@ export function isComplex(pluginName) {
 
 export function get_browser() {
     let ua = navigator.userAgent, tem, M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
-    if((/trident/i).test(M[1])) {
+    if ((/trident/i).test(M[1])) {
         tem = (/\brv[ :]+(\d+)/g).exec(ua) || [];
         return { name: 'IE', version: (tem[1] || '') };
     }
-    if(M[1] === 'Chrome') {
+    if (M[1] === 'Chrome') {
         tem = ua.match(/\bOPR|Edge\/(\d+)/);
-        if(tem !== null) {return { name: 'Opera', version: tem[1] };}
+        if (tem !== null) { return { name: 'Opera', version: tem[1] }; }
     }
     M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
-    if((tem = ua.match(/version\/(\d+)/i)) !== null) {M.splice(1, 1, tem[1]);}
+    if ((tem = ua.match(/version\/(\d+)/i)) !== null) { M.splice(1, 1, tem[1]); }
     return {
         name: M[0],
         version: M[1],
@@ -618,4 +618,14 @@ export function checkHyperlink(hyperlink) {
         return hyperlink;
     }
     return false;
+}
+
+// https://stackoverflow.com/questions/54961620/test-if-svg-path-d-property-string-is-valid
+export function isValidSvgPath(s) {
+    const reEverythingAllowed = /[MmZzLlHhVvCcSsQqTtAa0-9-,.\s]/g;
+    const bContainsIllegalCharacter = !!s.replace(reEverythingAllowed, '').length;
+    const bContainsAdjacentLetters = (/[a-zA-Z][a-zA-Z]/).test(s);
+    const bInvalidStart = (/^[0-9-,.]/).test(s);
+    const bInvalidEnd = (/.*[-,.]$/).test(s.trim());
+    return !(bContainsIllegalCharacter || bContainsAdjacentLetters || bInvalidStart || bInvalidEnd);
 }

@@ -10,6 +10,7 @@ import handleNavItems from "../../handlers/handleNavItems";
 import handleContainedViews from "../../handlers/handleContainedViews";
 import handleCanvas from "../../handlers/handleCanvas";
 import { connect } from "react-redux";
+import { CarList } from './carouselList/Styles';
 
 class FileTree extends Component {
 
@@ -110,24 +111,26 @@ class FileTree extends Component {
         }
     };
 
-    renderItem = (props) => { return <CarouselItemRenderer {...props}
-        onToggleCollapse={this.handleToggleCollapse}
-        onIndexSelected = {handleCanvas(this).onIndexSelected}
-        onNavItemSelected={handleNavItems(this).onNavItemSelected}
-        onNavItemNameChanged={handleNavItems(this).onNavItemNameChanged}
-        navItemsById={this.props.navItemsById}
-        viewToolbarsById={this.props.viewToolbarsById}
-        containedViewSelected={this.props.containedViewSelected}
-        navItemSelected={this.props.navItemSelected}
-        indexSelected={this.props.indexSelected}
-    />; };
+    renderItem = (props) => {
+        return <CarouselItemRenderer {...props}
+            onToggleCollapse={this.handleToggleCollapse}
+            onIndexSelected={handleCanvas(this).onIndexSelected}
+            onNavItemSelected={handleNavItems(this).onNavItemSelected}
+            onNavItemNameChanged={handleNavItems(this).onNavItemNameChanged}
+            navItemsById={this.props.navItemsById}
+            viewToolbarsById={this.props.viewToolbarsById}
+            containedViewSelected={this.props.containedViewSelected}
+            navItemSelected={this.props.navItemSelected}
+            indexSelected={this.props.indexSelected}
+        />;
+    };
 
     getContentHeight() {
-        if(!this.state.showSortableItems && !this.state.showContainedViews) {
-            return("50px");
-        } else if(this.state.showSortableItems && !this.state.showContainedViews) {
+        if (!this.state.showSortableItems && !this.state.showContainedViews) {
+            return ("50px");
+        } else if (this.state.showSortableItems && !this.state.showContainedViews) {
             return "calc(100% - 124px)";
-        } else if(this.state.showSortableItems && this.state.showContainedViews) {
+        } else if (this.state.showSortableItems && this.state.showContainedViews) {
             return "calc(50%)";
         }
         return "calc(100% - 124px)";
@@ -137,16 +140,16 @@ class FileTree extends Component {
         if (!this.props.carouselShow) { return (<div style={{ height: "100%" }}><br /></div>); }
         return (
             <div className={"carousselListContainer"} style={{ height: '100%' }}>
-                <div id="sortablesCollapse" style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px", cursor: 'pointer' }} onClick={()=> {
+                <div id="sortablesCollapse" style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px", cursor: 'pointer' }} onClick={() => {
                     this.setState({ showSortableItems: !this.state.showSortableItems });
                 }}>
                     {(this.state.showSortableItems) ?
-                        <i className="material-icons" style={{ color: "gray", fontSize: "22px" }}>{"arrow_drop_down" }</i> :
-                        <i className="material-icons" style={{ color: "gray", fontSize: "15px", marginLeft: "2px", marginRight: "2px" }}>{"play_arrow" }</i>
+                        <i className="material-icons" style={{ color: "gray", fontSize: "22px" }}>{"arrow_drop_down"}</i> :
+                        <i className="material-icons" style={{ color: "gray", fontSize: "15px", marginLeft: "2px", marginRight: "2px" }}>{"play_arrow"}</i>
                     }
                     <span style={{ color: "white", fontSize: "11px" }}>{i18n.t("INDEX")}</span>
                 </div>
-                <div className={"DnD-Window carList"}
+                <CarList
                     style={{ height: (this.state.showSortableItems) ? this.getContentHeight() : '0px', display: 'inherit ' }}>
                     <section style={{ display: 'flex', flex: 1, overflowX: 'hidden' }}>
                         <div className="row" style={{ display: 'flex', flex: 1 }}>
@@ -160,19 +163,19 @@ class FileTree extends Component {
                             </div>
                         </div>
                     </section>
-                </div>
-                <div id="scontainedViewsByIdCollapse" style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px", cursor: 'pointer' }} onClick={()=> {
+                </CarList>
+                <div id="scontainedViewsByIdCollapse" style={{ height: "20px", backgroundColor: "black", marginBottom: "2px", paddingLeft: "10px", cursor: 'pointer' }} onClick={() => {
                     this.setState({ showContainedViews: !this.state.showContainedViews });
                 }}>
                     {(this.state.showContainedViews) ?
-                        <i className="material-icons" style={{ color: "gray", fontSize: "22px" }}>{"arrow_drop_down" }</i> :
-                        <i className="material-icons" style={{ color: "gray", fontSize: "15px", marginLeft: "2px", marginRight: "2px" }}>{"play_arrow" }</i>
+                        <i className="material-icons" style={{ color: "gray", fontSize: "22px" }}>{"arrow_drop_down"}</i> :
+                        <i className="material-icons" style={{ color: "gray", fontSize: "15px", marginLeft: "2px", marginRight: "2px" }}>{"play_arrow"}</i>
                     }
                     <span style={{ color: "white", fontSize: "11px" }}>{i18n.t("CONTAINED_VIEWS")}</span>
                 </div>
                 <ContainedViewsList
-                    showContainedViews = {this.state.showContainedViews}
-                    showSortableItems = {this.state.showSortableItems}
+                    showContainedViews={this.state.showContainedViews}
+                    showSortableItems={this.state.showSortableItems}
                     containedViewsById={this.props.containedViewsById}
                     containedViewSelected={this.props.containedViewSelected}
                     indexSelected={this.props.indexSelected}

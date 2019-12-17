@@ -53,6 +53,8 @@ export default (self) => ({
         self.props.dispatch(editRichMark(mark, view, viewToolbar));
     },
 
+    onTempMartStateDeleted: () => self.props.dispatch(updateUI({ tempMarkState: null })),
+
     onRichMarksModalToggled: (value, boxId = -1, fromAreaCreator = false) => {
         const reactUI = self.props.reactUI;
         self.props.dispatch(updateUI({ richMarksVisible: !reactUI.richMarksVisible }));

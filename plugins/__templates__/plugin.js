@@ -53,11 +53,8 @@ export function ${options.name}(base) {
             let markElements = Object.keys(marks).map((id) =>{
                 let value = marks[id].value;
                 let title = marks[id].title;
-                let text = marks[id].text;
-                let color = marks[id].color;
-                let size = marks[id].size;
-                let image= marks[id].image;
-
+                let type = marks[id].type;
+                let payload = marks[id].payload;
                 let position;
                 if (value && value.split(',').length === 2) {
                     position = value.split(',');
@@ -66,7 +63,7 @@ export function ${options.name}(base) {
                 }
                 return (
                     <MarkEditor key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} time={1.5} onRichMarkMoved={props.onRichMarkMoved} mark={id} base={base} marks={marks} state={state}>
-                        <Mark style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} color={color} idKey={id} text={text} size={size} title={title} image={image} />
+                        <Mark style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }}  idKey={id} title={title} payload={payload} type={type}/>
                     </MarkEditor>
                 );
             });

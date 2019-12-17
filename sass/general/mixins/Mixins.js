@@ -1,5 +1,14 @@
 import styled from 'styled-components';
 
+export function animation(prop = "all", duration = "0.3s") {
+  return `
+  transition: ${prop} ${duration} ease-in;
+  -webkit-transition: ${prop} ${duration} ease-in;
+  -moz-transition: ${prop} ${duration} ease-in;
+  -o-transition: ${prop} ${duration} ease-in;
+  `
+}
+
 export const CustomRange = styled.div`
   input[type=range] {
     -webkit-appearance: none;
