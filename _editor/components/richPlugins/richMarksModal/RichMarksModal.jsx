@@ -114,7 +114,6 @@ class RichMarksModal extends Component {
         let imageModal = this.state.image;
         let originalDimensions = this.state.oDimensions;
         let previewSize = {};
-        let h, w = 0;
         if(this.props.boxesById[this.props.boxSelected] && document.getElementById("box-" + this.props.boxesById[this.props.boxSelected].id)) {
             let y = document.getElementById("box-" + this.props.boxesById[this.props.boxSelected].id).getBoundingClientRect().height;
             let x = document.getElementById("box-" + this.props.boxesById[this.props.boxSelected].id).getBoundingClientRect().width;
@@ -122,16 +121,7 @@ class RichMarksModal extends Component {
             previewSize.height = x > y ? String(15 / selectedPluginAspectRatio) + "em" : "15em";
             previewSize.width = x > y ? "15em" : String(15 * selectedPluginAspectRatio) + "em";
             previewSize.aspectRatio = selectedPluginAspectRatio;
-            h = previewSize.height.replace('em', '');
-            w = previewSize.width.replace('em', '');
         }
-
-        console.log("heightbigger: " + (previewSize.height > previewSize.width));
-        console.log(previewSize.height > previewSize.width);
-        console.log(h > w);
-        console.log("Height :" + previewSize.height);
-        console.log("Width :" + previewSize.width);
-        console.log("-----------------------");
 
         return (
             <ModalContainer backdrop bsSize="large" show={this.props.richMarksVisible}>
@@ -143,7 +133,7 @@ class RichMarksModal extends Component {
                     <Grid>
                         <Row>
                             <Col xs={12} md={6} lg={6} >
-                                <h4>Configuracion</h4>
+                                <h4> {i18n.t("configuration")}</h4>
                                 <FormGroup>
                                     <ControlLabel>{i18n.t("marks.mark_name")}</ControlLabel>
                                     <FormControl ref="title"
@@ -166,28 +156,28 @@ class RichMarksModal extends Component {
                                         defaultValue={this.props.markCursorValue ? this.props.markCursorValue : (current ? current.value : (defaultMarkValue ? defaultMarkValue : 0))}
                                     />
                                 </FormGroup>
-                                <h4>Apariencia</h4>
+                                <h4>{i18n.t("appearance")}</h4>
 
                                 <FormGroup>
-                                    <ToggleButtonGroup type="radio" defaultValue={this.state.markType} onChange={(val) => {console.log(val); this.setState({ markType: val });}} name="markTypeSelector">
+                                    <ToggleButtonGroup type="radio" defaultValue={this.state.markType} onChange={(val) => { this.setState({ markType: val });}} name="markTypeSelector">
                                         <ToggleButton
                                             type="radio"
                                             value="icon"
                                             name="mark_type"
                                             onClick={() => { this.setState({ markType: "icon" });}}
-                                        >Icono</ToggleButton>
+                                        >{i18n.t("icon")}</ToggleButton>
                                         <ToggleButton
                                             type="radio"
                                             value="image"
                                             name="mark_type"
                                             onClick={() => { this.setState({ markType: "image" });}}
-                                        >Imagen</ToggleButton>
+                                        >{i18n.t("image")}</ToggleButton>
                                         <ToggleButton
                                             type="radio"
                                             value="area"
                                             name="mark_type"
                                             onClick={() => { this.setState({ markType: "area" });}}
-                                        >Area</ToggleButton>
+                                        >{i18n.t("area")}</ToggleButton>
                                     </ToggleButtonGroup>
                                 </FormGroup>
 
@@ -207,7 +197,7 @@ class RichMarksModal extends Component {
                                     }
                                     {this.state.markType === "image" ? // Importar imagen
                                         <FormGroup>
-                                            <ControlLabel>Importar Imagen</ControlLabel>
+                                            <ControlLabel>{i18n.t("marks.import_image")}</ControlLabel>
                                             <br/>
                                             <button style={{ width: "100%" }} className="avatarButtons btn btn-primary" onClick={this.loadImage}>{i18n.t("marks.import_image")}</button>
                                         </FormGroup>
@@ -236,15 +226,15 @@ class RichMarksModal extends Component {
                             <Col xs={12} md={6} lg={6}>
                                 <Row>
                                     <FormGroup>
-                                        <h4>Previsualización</h4>
+                                        <h4>{i18n.t("marks.preview")}</h4>
                                         <br/>
                                         { (()=>{switch(this.state.markType) {
                                         case "icon":
                                             return <i className="material-icons" style={{ color: (this.state.color || "black"), fontSize: (this.state.size / 10) + "em", paddingLeft: "7%" }}>{this.state.selectedIcon}</i>;
                                         case "image":
-                                            width = previewSize.height < previewSize.width ? 100 * imageSize : (100 * imageSize / previewSize.aspectRatio * originalDimensions.aspectRatio);
+                                            width = (Number(previewSize.height.replace('em', '')) > Number(previewSize.width.replace('em', '')) || (originalDimensions.aspectRatio > previewSize.aspectRatio)) ? 100 * imageSize : (100 * imageSize / previewSize.aspectRatio * originalDimensions.aspectRatio);
                                             return (<div style={{ height: previewSize.height, width: previewSize.width, marginLeft: "7%", backgroundColor: "antiquewhite" }}>
-                                                <img height="auto" width={String(width) + "%"} onLoad={this.onImgLoad} src={imageModal || this.props.fileModalResult.value}/>
+                                                <img height="auto" width={String(width) + "%"} onLoad={this.onImgLoad} src={imageModal || this.props.fileModalResult.value }/>
                                             </div>);
                                         case "area":
                                             return <h4>Todo area</h4>;
@@ -345,7 +335,7 @@ class RichMarksModal extends Component {
                         this.h.onRichMarksModalToggled();
                         this.restoreDefaultTemplate();
                     }}>Cancel</Button>
-                    <Button bsStyle="primary" onClick={() => {
+                    <Button bsStyle="primary" disabled={this.state.markType === "image" && !this.state.image && !this.props.fileModalResult.value} onClick={() => {
                         let title = ReactDOM.findDOMNode(this.refs.title).value;
                         newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
                         let newMark = current && current.id ? current.id : ID_PREFIX_RICH_MARK + Date.now();
@@ -366,7 +356,7 @@ class RichMarksModal extends Component {
                         case "image":
                             size = this.state.size;
                             content.imageDimensions = ({});
-                            content.imageDimensions.width = previewSize.height < previewSize.width ? 100 * imageSize : (100 * imageSize / previewSize.aspectRatio * originalDimensions.aspectRatio);
+                            content.imageDimensions.width = (Number(previewSize.height.replace('em', '')) > Number(previewSize.width.replace('em', '')) || (originalDimensions.aspectRatio > previewSize.aspectRatio)) ? 100 * imageSize : (100 * imageSize / previewSize.aspectRatio * originalDimensions.aspectRatio);
                             content.url = this.state.image || this.props.fileModalResult.value;
                             break;
                         default:
@@ -378,7 +368,6 @@ class RichMarksModal extends Component {
                         // Mark name
                         title = title || nextAvailName(i18n.t("marks.new_mark"), this.props.marksById, 'title');
                         let markState;
-
                         let value = ReactDOM.findDOMNode(this.refs.value).value;
                         // let value = this.props.markCursorValue;
                         // First of all we need to check if the plugin creator has provided a function to check if the input value is allowed

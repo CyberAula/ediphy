@@ -63,6 +63,14 @@ Mark.propTypes = {
      */
     isImage: PropTypes.any,
     /**
+     * Color of the mark
+     */
+    color: PropTypes.string,
+    /**
+     * Value of rich mark modal slider for resizing
+     */
+    size: PropTypes.any,
+    /**
      * Mark information which varies with markType
      */
     content: PropTypes.any,

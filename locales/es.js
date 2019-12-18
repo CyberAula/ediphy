@@ -7,6 +7,8 @@ let es = {
         "Alignment": "Alineación",
         "Advanced": "Avanzado",
         "AspectRatio": "Relación de aspecto",
+        "appearance": "Apariencia",
+        "area": "Area",
         "Auto": "Automática",
         "background": {
             "background": "Fondo",
@@ -144,7 +146,7 @@ let es = {
             "avatar": "Miniatura",
             "avatar_delete_img": "Borrar imagen",
             "avatar_screenshot": "Capturar pantalla",
-            "avatar_import": "Import image",
+            "avatar_import": "Importar imagen",
             "context": "Contexto",
             "context_list": {
                 "school": "Ed.Primaria, Secundaria y Bach.",
@@ -240,6 +242,8 @@ let es = {
         "Height_pixels": "Alto (px)",
         "hide": "Ocultar",
         "horizontal": "Subtítulo horizontal",
+        "icon": "Icono",
+        "image": "Imagen",
         "Images": "Imágenes",
         "importData": "Importar fichero datos...",
         "importFile": {
@@ -312,6 +316,7 @@ let es = {
             "popup": "Mostrar PopUp",
             "popup_label": "Texto de la marca",
             "popup_placeholder": "Escribe el texto que quieres que aparezca al hacer click en la marca",
+            "preview": "Previsualización",
             "resize": "Tamaño",
             "value": "Valor",
             "wrong_value": "Valor incorrecto",

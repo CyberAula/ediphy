@@ -7,6 +7,8 @@ let en = {
         "Alignment": "Alignment",
         "Advanced": "Advanced",
         "AspectRatio": "Aspect ratio",
+        "appearance": "Appearance",
+        "area": "Area",
         "Auto": "Automatic",
         "background": {
             "background": "Background",
@@ -240,6 +242,8 @@ let en = {
         "Height_pixels": "Height (px)",
         "hide": "Hide",
         "horizontal": "Horizontal subtitle",
+        "icon": "Icon",
+        "image": "Image",
         "Images": "Images",
         "importData": "Import data file...",
         "importFile": {
@@ -312,6 +316,7 @@ let en = {
             "popup": "Show PopUp",
             "popup_label": "Mark text",
             "popup_placeholder": "Write the text you want to show when you click on mark",
+            "preview": "Preview",
             "resize": "Size",
             "value": "Value",
             "wrong_value": "Wrong value",
