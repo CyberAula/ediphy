@@ -53,7 +53,9 @@ export default class EnrichedPDFPluginEditor extends React.Component {
         let markElements = Object.keys(marks).map((id) =>{
             let value = marks[id].value;
             let title = marks[id].title;
-            let payload = marks[id].payload;
+            let content = marks[id].content;
+            let color = marks[id].color;
+            let size = marks[id].size;
             let position;
             let type = marks[id].type;
             if (value && value.split(',').length === 3) {
@@ -79,8 +81,10 @@ export default class EnrichedPDFPluginEditor extends React.Component {
                         base={this.props.base}>
                         <Mark
                             style={{ position: 'relative', top: "-24px", left: "-10px" }}
-                            payload={payload}
-                            type={type}
+                            content={content}
+                            color={color}
+                            size={size}
+                            markType={markType}
                             idKey={id}
                             title={title} />
                     </MarkEditor> : null);

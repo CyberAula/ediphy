@@ -25,9 +25,9 @@ export default class MarksList extends Component {
                             return null;
                         }
                         let name = mark.connection;
-                        let color = mark.payload.color || '#337ab7';
-                        let hasImage = mark.type === "image";
-                        let text = hasImage ? "image" : mark.selectedIcon || "room";
+                        let color = mark.color || '#337ab7';
+                        let hasImage = mark.markType === "image";
+                        let text = hasImage ? "image" : mark.content.selectedIcon || "room";
                         let widthScroll = Math.max(mark.title.length / 11 * 100, 100);
                         try {
                             switch (mark.connectMode) {
@@ -55,7 +55,7 @@ export default class MarksList extends Component {
                                         </Tooltip>)}>
                                         <i style={{ color: color }} className="material-icons marklist main">{text}</i>
                                     </OverlayTrigger>) :
-                                    (<i style={{ color: color }} className="material-icons marklist">room</i>)}
+                                    (<i style={{ color: color }} className="material-icons marklist">{text}</i>)}
                                 <div className="markNameInToolbarContainer"
                                     onMouseOver={() =>{
                                         let markEl = document.getElementById('mark_' + id);

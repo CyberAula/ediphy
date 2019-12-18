@@ -34,7 +34,7 @@ export const TitleButton = styled.button`
   text-align: center;
   &:hover {
     color: ${DETAIL_GREEN_TRANSPARENT};
-    background-color: var(--themeColor1, ${PRIMARY_BLUE}) !important;
+    background-color: ${PRIMARY_BLUE} !important;
     .material-icons{
       color: white;
     }

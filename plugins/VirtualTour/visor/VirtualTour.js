@@ -32,15 +32,18 @@ export function VirtualTour() {
             let markElements = Object.keys(marks).map((e) =>{
                 let position = marks[e].value.split(',');
                 let title = marks[e].title;
-                let payload = marks[e].payload;
-                let type = marks[e].type;
-
+                let content = marks[e].content;
+                let color = marks[e].color;
+                let size = marks[e].size;
+                let markType = marks[e].markType;
                 let isPopUp = marks[e].connectMode === "popup";
                 let isVisor = true;
                 return(
-                    <Mark key={e} lat={position[0]} lng={position[1]} color={color}
-                        payload={payload}
-                        type={type}
+                    <Mark key={e} lat={position[0]} lng={position[1]}
+                        content={content}
+                        color={color}
+                        size={size}
+                        markType={markType}
                         idKey={e}
                         title={title}
                         isPopUp={isPopUp}

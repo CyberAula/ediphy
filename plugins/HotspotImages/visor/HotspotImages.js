@@ -13,29 +13,19 @@ export function HotspotImages() {
             let markElements = Object.keys(marks).map((e) =>{
                 let position = svg ? [0, 0] : marks[e].value.split(',');
                 let title = marks[e].title;
-
-                let svg = marks[e].svg;
-                let kind = marks[e].kind;
-
-                let type = marks[e].type;
-                let width = type === "image" ? String(marks[e].payload.size.width) + "%" : null;
-
+                let markType = marks[e].markType;
+                let width = markType === "image" ? String(marks[e].content.size.width) + "%" : null;
                 let isPopUp = marks[e].connectMode === "popup";
                 let isVisor = true;
-                if(svg) {
-                    svgMarks.push(marks[e]);
-                    return null;
-                }
+                let content = marks[e].content;
+                let color = marks[e].color;
+                let size = marks[e].size;
+                let svg = marks[e].svg;
                 return(
-                    <div key={e} style={{ position: 'absolute', top: svg ? 0 : position[0] + "%", left: svg ? 0 : position[1] + "%", width, height }}>
-                        <Mark color={color}
-                            type={type}
-                            payload={payload}
-                            text={text}
-                            size={size}
-                            image={image}
-                            svg={svg}
-                            kind={kind}
+                    <div key={e} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width, height: "auto" }}>
+                        <Mark
+                            markType={markType}
+                            content={content}
                             isImage
                             idKey={e}
                             title={title}
@@ -44,6 +34,8 @@ export function HotspotImages() {
                             markConnection={marks[e].connection}
                             markValue={marks[e].value}
                             boxID={boxId}
+                            size={size}
+                            color={color}
                             onMarkClicked={props.onMarkClicked}/></div>
                 );
             });

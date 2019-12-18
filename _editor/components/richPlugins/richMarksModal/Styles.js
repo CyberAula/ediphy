@@ -1,6 +1,8 @@
 import styled from 'styled-components';
-import { PRIMARY_BLUE } from "../../../../sass/general/constants";
+import { PRIMARY_BLUE, PRIMARY_BLUE_DARK } from "../../../../sass/general/constants";
 import { EDModal } from "../../../../sass/general/EDModal";
+import { FormGroup, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
+import { EDRadio } from "../../../../sass/general/EDInputs";
 
 export const ModalContainer = styled(EDModal).attrs({ className: 'richMarksModal pageModal' })`
   .modal-body{
@@ -116,3 +118,44 @@ background-color: #43e5f7;
 input[type="range"]::-ms-fill-upper {  
 background-color: #f0ede6;
 }`;
+
+export const MarkTypeTab = styled(ToggleButtonGroup)`
+  width: 100%;
+  display: flex;
+`;
+
+export const TypeTab = styled(ToggleButton)`
+  flex: 1;
+  border-radius: 0px;
+  background-color: white;
+  border-color: ${PRIMARY_BLUE};
+  box-shadow: none;
+  
+  &.active, &.focus, &.active.focus{
+    box-shadow: none;
+    background-color: ${PRIMARY_BLUE};
+    border-color: ${PRIMARY_BLUE};
+    color: white;
+  }
+  &:hover, &:focus{
+    box-shadow: none;
+    background-color: ${PRIMARY_BLUE_DARK};
+    border-color: ${PRIMARY_BLUE_DARK};
+    color: white; 
+  }
+`;
+
+export const SizeSlider = styled(FormGroup)`
+  box-shadow: none;
+  input {
+  box-shadow: none;
+  &:focus{
+    box-shadow: none;
+    border-color: transparent;
+  }
+  }
+`;
+
+export const LinkToContainer = styled.div`
+  ${EDRadio}
+`;
