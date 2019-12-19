@@ -34,6 +34,7 @@ import HTML5Backend from "react-dnd-html5-backend";
 import { DragDropContext } from "react-dnd";
 import { NavBar } from "../components/navBar/editorNavBar/Styles";
 import { RibbonRow } from "../components/navBar/pluginRibbon/Styles";
+import AreaCreator from "../components/richPlugins/areaCreator/AreaCreator";
 
 const cookies = new Cookies();
 
@@ -117,8 +118,13 @@ class EditorApp extends Component {
                     />
                     <Toolbar top={(60 + ribbonHeight) + 'px'}/>
                     <PluginConfigModal id={reactUI.pluginConfigModal}/>
+                    <AreaCreator undo active={reactUI.areaCreatorVisible}
+                        color={reactUI.tempMarkState?.color ?? 'black'} canvas ={reactUI.canvas}
+                        onEnd={(res) => {
+                            this.handleMarks.onRichMarksModalToggled(res, -1, true);
+                            this.handleMarks.onAreaCreatorHidden();}}
+                    />
                     <RichMarksModal
-                        cur
                         fileModalResult={fileModalResult}
                         defaultValueMark={defaultMarkValue}
                         validateValueInput={validateMarkValueInput}

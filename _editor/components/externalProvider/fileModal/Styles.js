@@ -27,7 +27,6 @@ export const FileModalContainer = styled(EDModal)`
   }
   .modal-dialog {
   margin-top: 30px;
-  //transform: translateY(100px);
   .codePreview {
     overflow: auto;
     max-height: 300px;

@@ -5,6 +5,7 @@ import Mark from '../../common/components/mark/Mark';
 import img_placeholder from './../../dist/images/placeholder.svg';
 import Image from "./Image";
 import _handlers from "../../_editor/handlers/_handlers";
+import { isValidSvgPath } from "../../common/utils";
 /* eslint-disable react/prop-types */
 
 export const HotspotImages = (base) => ({
@@ -135,6 +136,7 @@ export const HotspotImages = (base) => ({
     },
     getRenderTemplate: function(state, props) {
         let marks = props.marks || {};
+        let svgMarks = [];
         let markElements = Object.keys(marks).map((id) =>{
             let value = marks[id].value;
             let title = marks[id].title;
@@ -149,13 +151,29 @@ export const HotspotImages = (base) => ({
             } else{
                 position = [0, 0];
             }
+            if(markType === 'area') {
+                svgMarks.push(marks[id]);
+                return null;
+            }
             return (
                 <MarkEditor key={id} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width, height: "auto" }} time={1.5} dispatch={ props.dispatch } onRichMarkMoved={_handlers({ props }).onRichMarkMoved} mark={id} base={base} marks={marks} state={state}>
                     <Mark style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} idKey={id} title={title} isImage markType={markType} content={content} color={color} size={size}/>
                 </MarkEditor>
             );
         });
+        let svgElements = svgMarks.map(mark => (
+            <svg viewBox={`0 0 ${mark.content.svg.canvasSize.width} ${mark.content.svg.canvasSize.height}`}
+                style={{ position: 'absolute', pointerEvents: 'none' }}
+                height={'100%'} width={'100%'}
+                preserveAspectRatio="none">
+                <path d={mark.content.svg.svgPath} fill={mark.color || '#000'}/>
+            </svg>
+        ));
 
+        let svgContainer = (<div id={Date.now().toString()} className={'svgContainer'} style={{ width: '100%', height: '100%', position: 'absolute' }}>
+            {svgElements}
+        </div>);
+        markElements.push(svgContainer);
         return (
             <Image markElements={markElements} state={state} props={props}/>
         );
@@ -168,6 +186,10 @@ export const HotspotImages = (base) => ({
     validateValueInput: function(value) {
         let regex = /(^-*\d+(?:\.\d*)?),(-*\d+(?:\.\d*)?$)/g;
         let match = regex.exec(value);
+
+        if(isValidSvgPath(value)) {
+            return { isWrong: false, value: value };
+        }
         if(match && match.length === 3) {
             let x = Math.round(parseFloat(match[1]) * 100) / 100;
             let y = Math.round(parseFloat(match[2]) * 100) / 100;

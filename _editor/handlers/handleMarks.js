@@ -21,6 +21,10 @@ export default (self) => ({
 
     onMarkCreatorToggled: (id) => self.props.dispatch(updateUI({ markCreatorVisible: id })),
 
+    onAreaCreatorVisible: (box, tempMarkState = 'black') => self.props.dispatch(updateUI({ areaCreatorVisible: true, canvas: box, tempMarkState: tempMarkState })),
+
+    onAreaCreatorHidden: () => self.props.dispatch(updateUI({ areaCreatorVisible: false })),
+
     onRichMarkAdded: (mark, view, viewToolbar) => self.props.dispatch(addRichMark(mark, view, viewToolbar)),
 
     onRichMarkMoved: (mark, value) => {
@@ -49,7 +53,9 @@ export default (self) => ({
         self.props.dispatch(editRichMark(mark, view, viewToolbar));
     },
 
-    onRichMarksModalToggled: (value, boxId = -1) => {
+    onTempMartStateDeleted: () => self.props.dispatch(updateUI({ tempMarkState: null })),
+
+    onRichMarksModalToggled: (value, boxId = -1, fromAreaCreator = false) => {
         const reactUI = self.props.reactUI;
         self.props.dispatch(updateUI({ richMarksVisible: !reactUI.richMarksVisible }));
         if(value) {
@@ -59,6 +65,10 @@ export default (self) => ({
             self.props.dispatch(updateUI({
                 currentRichMark: null,
                 markCursorValue: null,
+            }));
+        }
+        if(fromAreaCreator) {
+            self.props.dispatch(updateUI({
             }));
         }
         if(boxId !== -1) {

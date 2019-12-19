@@ -1,7 +1,7 @@
-@import '../../../sass/general/variables.scss';
+import styled from 'styled-components';
+import { PRIMARY_BLUE } from "../../../sass/general/constants";
 
-
-.globalScore {
+export const GlobalScoreContainer = styled.div`
   background-color: white;
   width: 250px;
   cursor: default;
@@ -50,7 +50,7 @@
   }
   i {
     vertical-align: bottom;
-    color: $blueprimary;
+    color: ${PRIMARY_BLUE};
     font-size: 18px;
     margin-right:2px;
   }
@@ -67,7 +67,7 @@
   }
 
   #currentprogress {
-    background-color: $blueprimary;
+    background-color: ${PRIMARY_BLUE};
     width: 100%;
     position: absolute;
     top: 0;
@@ -80,9 +80,9 @@
     font-size: 10px;
     color: #777;
   }
-}
+`;
 
-.navScore {
+export const NavScoreContainer = styled.div`
   font-size: 12px;
   #progressbar {
     display: block;
@@ -95,7 +95,7 @@
   }
 
   #currentprogress {
-    background-color: $blueprimary;
+    background-color: ${PRIMARY_BLUE};
     width: 100%;
     position: absolute;
     top: 0;
@@ -110,14 +110,11 @@
   }
   i {
     vertical-align: bottom;
-    color: $blueprimary;
+    color: ${PRIMARY_BLUE};
     font-size: 16px;
     margin-right:2px;
-
   }
   #userName{
-
-     //font-size: 18px;
      span {
        word-wrap: normal;
        height: 12px;
@@ -127,7 +124,6 @@
        overflow: hidden;
      }
      margin: 10px;
-
   }
   .colScore {
     padding-left: 10px;
@@ -135,5 +131,4 @@
   .rowScore {
     margin:0;
   }
-
-}
+`;

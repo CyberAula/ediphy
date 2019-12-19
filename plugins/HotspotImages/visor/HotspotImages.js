@@ -9,8 +9,9 @@ export function HotspotImages() {
         getRenderTemplate: function(state, props) {
             let marks = props.marks || {};
             let boxId = props.id;
+            let svgMarks = [];
             let markElements = Object.keys(marks).map((e) =>{
-                let position = marks[e].value.split(',');
+                let position = svg ? [0, 0] : marks[e].value.split(',');
                 let title = marks[e].title;
                 let markType = marks[e].markType;
                 let width = markType === "image" ? String(marks[e].content.size.width) + "%" : null;
@@ -19,6 +20,7 @@ export function HotspotImages() {
                 let content = marks[e].content;
                 let color = marks[e].color;
                 let size = marks[e].size;
+                let svg = marks[e].content.svg;
                 return(
                     <div key={e} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width, height: "auto" }}>
                         <Mark
@@ -37,6 +39,23 @@ export function HotspotImages() {
                             onMarkClicked={props.onMarkClicked}/></div>
                 );
             });
+
+            let svgElements = svgMarks.map(mark => (
+                <svg viewBox={`0 0 ${mark.content.svg.canvasSize.width} ${mark.content.svg.canvasSize.height}`}
+                    style={{ position: 'absolute', pointerEvents: 'none' }}
+                    height={'100%'} width={'100%'}
+                    preserveAspectRatio="none">
+                    <path d={mark.content.svg.svgPath} fill={mark.color || '#000'} style={{ pointerEvents: 'all', cursor: 'pointer' }}
+                        onClick={()=>props.onMarkClicked(props.id, mark.value)}
+                    />
+                </svg>
+            ));
+
+            let svgContainer = (<div id={Date.now().toString()} className={'svgContainer'} style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
+                {svgElements}
+            </div>);
+            markElements.push(svgContainer);
+
             return <Image markElements={markElements} props={props} state={state}/>;
         },
 

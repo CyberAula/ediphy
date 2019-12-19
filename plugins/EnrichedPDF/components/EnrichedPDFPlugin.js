@@ -146,11 +146,12 @@ export default class EnrichedPDFPlugin extends React.Component {
                 bool ?
                     <div key={id} style={{ position: 'absolute', top: y, left: x, width: '24px', height: '26px' }}>
                         <Mark
+                            markType={markType}
                             content={content}
                             color={color}
                             size={size}
                             idKey={id}
-                            markType={markType}
+                            type={type}
                             title={title}
                             isPopUp={isPopUp}
                             isVisor={isVisor}
