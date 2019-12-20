@@ -243,6 +243,9 @@ let en = {
         "hide": "Hide",
         "horizontal": "Horizontal subtitle",
         "icon": "Icon",
+        "icon_picker": {
+            "searchbox_preview": "Choose your icon",
+        },
         "image": "Image",
         "Images": "Images",
         "importData": "Import data file...",
@@ -307,6 +310,7 @@ let en = {
             "link_to": "Link to",
             "mark_color": "Mark color",
             "mark_name": "Mark name",
+            "mark_name_preview": "Insert mark name",
             "marks_list": "Marks list",
             "new_content": "New content",
             "new_content_label": "Link destination",

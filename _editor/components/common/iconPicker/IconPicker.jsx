@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import IconButton from "./IconButton";
 import { ICONLIST } from "./icons";
 import PropTypes from 'prop-types';
+import i18n from 'i18next';
 
 const IconPicker = (props) => {
 
@@ -12,32 +13,19 @@ const IconPicker = (props) => {
     };
 
     const renderTable = ()=> {
-        let temp = [];
         const REDUCEDICONLIST = [];
-        ICONLIST.forEach((icon)=>{if(icon.includes(text)) {REDUCEDICONLIST.push(icon);}});
-        for(let i = 0; i < ICONLIST.length; i += 5) {
-            temp.push(
-                <tr key={i}>
-                    <td> <IconButton handleClick={handleClick} text={REDUCEDICONLIST[i]}/></td>
-                    <td>{(i + 1) <= REDUCEDICONLIST.length ? <IconButton handleClick={handleClick} text={REDUCEDICONLIST[i + 1]}/> : null} </td>
-                    <td>{(i + 2) <= REDUCEDICONLIST.length ? <IconButton handleClick={handleClick} text={REDUCEDICONLIST[i + 2]}/> : null} </td>
-                    <td>{(i + 3) <= REDUCEDICONLIST.length ? <IconButton handleClick={handleClick} text={REDUCEDICONLIST[i + 3]}/> : null} </td>
-                    <td>{(i + 4) <= REDUCEDICONLIST.length ? <IconButton handleClick={handleClick} text={REDUCEDICONLIST[i + 4]}/> : null} </td>
-                </tr>);
-        }
-        return temp;
+        ICONLIST.forEach((icon)=>{if(icon.includes(text.toLowerCase())) {REDUCEDICONLIST.push(icon);}});
+        const searchText = text.toLowerCase();
+        const reduced = ICONLIST.filter(icon => icon.includes(searchText)).map(red => <IconButton handleClick={handleClick} text={red}/>);
+        return reduced;
     };
 
     return (
         <React.Fragment>
-            <input type="text" placeholder={"Select Icon"} value={text} onChange={e=>setText(e.target.value)}/>
+            <input type="text" placeholder={i18n.t("icon_picker.searchbox_preview")} value={text} onChange={e=>setText(e.target.value)} style={{ borderRadius: 0, padding: "6px", border: "1px", borderStyle: "solid", borderBlockColor: "#ccc" }}/>
             <br/>
-            <div className="table-responsive " style={{ height: "200px", width: "100%" }}>
-                <table className="table">
-                    <tbody>
-                        {renderTable()}
-                    </tbody>
-                </table>
+            <div style={{ height: "200px", width: "100%", display: 'flex', flexDirection: "row", flexWrap: "wrap", overflowY: "scroll", paddingTop: "1em", alignContent: "flex-start" }}>
+                {renderTable()}
             </div>
         </React.Fragment>
     );

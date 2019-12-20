@@ -67,10 +67,10 @@ class RichMarksModal extends Component {
                     viewNames: allViews,
                     text: current.text,
                     svg: current.svg,
-                    selectedIcon: current.selectedIcon,
+                    selectedIcon: current.content.selectedIcon,
                     color: current.color || null,
                     size: current.size,
-                    image: current.url,
+                    image: current.content.url,
                     connectMode: current.connectMode || "new",
                     displayMode: current.displayMode || "navigate",
                     newSelected: (current.connectMode === "new" ? current.connection : ""),
@@ -146,9 +146,9 @@ class RichMarksModal extends Component {
                             <Col xs={12} md={6} lg={6} >
                                 <h4> {i18n.t("configuration")}</h4>
                                 <FormGroup>
-                                    <ControlLabel>Name</ControlLabel>
+                                    <ControlLabel>{i18n.t("marks.mark_name")}</ControlLabel>
                                     <FormControl ref="title"
-                                        placeholder={'Enter mark name...'}
+                                        placeholder={i18n.t("marks.mark_name_preview")}
                                         type="text"
                                         defaultValue={current ? current.title : ''}/><br/>
                                     {/* Input need to have certain label like richValue*/}
@@ -249,7 +249,7 @@ class RichMarksModal extends Component {
                                     {this.state.markType === "icon" || this.state.markType === "image" ?
                                         <SizeSlider>
                                             <ControlLabel>Size</ControlLabel>
-                                            <FormControl type={'range'} min={10} max={100} step={1} onChange={()=>{this.setState({ size: event.target.value });}}/>
+                                            <FormControl type={'range'} min={10} max={100} step={1} value={this.state.size} onChange={()=>{this.setState({ size: event.target.value });}}/>
                                         </SizeSlider>
                                         : null
                                     }
