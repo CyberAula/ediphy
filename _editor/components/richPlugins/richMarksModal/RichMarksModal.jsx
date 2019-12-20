@@ -239,7 +239,7 @@ class RichMarksModal extends Component {
                                     {this.state.markType === "icon" ? // Selector de iconos
                                         <FormGroup>
                                             <ControlLabel>{i18n.t("marks.selector")}</ControlLabel>
-                                            <div style={{ display: "flex", justifyContent: "start", alignItems: "center" }}>
+                                            <div style={{ display: "flex", justifyContent: "start", alignItems: "center", flexDirection: "column" }}>
                                                 <IconPicker text={this.state.selectedIcon} onChange={e=>{this.setState({ selectedIcon: e.selectedIcon });}}/>
                                             </div>
                                             <br/>

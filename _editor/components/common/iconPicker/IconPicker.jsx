@@ -3,12 +3,12 @@ import IconButton from "./IconButton";
 import { ICONLIST } from "./icons";
 import PropTypes from 'prop-types';
 
-function IconPicker() {
+const IconPicker = (props) => {
 
     const [text, setText] = useState("");
 
     const handleClick = (selectedIcon) => {
-        this.props.onChange({ selectedIcon });
+        return props.onChange({ selectedIcon });
     };
 
     const renderTable = ()=> {
@@ -30,7 +30,8 @@ function IconPicker() {
 
     return (
         <React.Fragment>
-            <input type="text" value={text} onChange={e=>setText(e.target.value)}/>
+            <input type="text" placeholder={"Select Icon"} value={text} onChange={e=>setText(e.target.value)}/>
+            <br/>
             <div className="table-responsive " style={{ height: "200px", width: "100%" }}>
                 <table className="table">
                     <tbody>
@@ -40,7 +41,7 @@ function IconPicker() {
             </div>
         </React.Fragment>
     );
-}
+};
 
 export default IconPicker;
 
