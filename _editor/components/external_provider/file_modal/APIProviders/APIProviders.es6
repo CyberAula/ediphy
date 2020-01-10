@@ -23,7 +23,7 @@ import SoundCloudIcon from './logos/soundcloud_logo_0.png';
 import DropboxIcon from './logos/Dropboxlogo.png';
 // import AudioBlocksIcon from './logos/storyblocks-ab-alt.svg';
 import PolyIcon from './logos/PolyLogo.png';
-import OpenClipArtIcon from './logos/openclipart.svg';
+// import OpenClipArtIcon from './logos/openclipart.svg';
 import GiphyIcon from './logos/giphy.png';
 import LogoIcon from './logos/avatar-gallery.png';
 
@@ -164,14 +164,14 @@ export default function menus(self) {
         //     show: (allowedMIME === "*" || allowedMIME.match('audio')),
         //     component: AudioBlocksComponent
         // },
-        {
+        /* {
             name: 'OpenClipArt',
             icon: OpenClipArtIcon,
             show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
             component: OpenClipArtComponent,
             props: { ...commonProps },
         },
-        /* {
+        {
           name: 'Thingiverse',
           icon: ThingiverseIcon,
           show: (allowedMIME === "*" || allowedMIME.match('application')),
