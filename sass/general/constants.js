@@ -11,6 +11,7 @@ export const DETAIL_GREEN_TRANSPARENT = 'rgba(57, 181, 74, 0.1)';
 // Blue
 export const PRIMARY_BLUE = '#17CFC8';
 export const PRIMARY_BLUE_TRANSPARENT = 'rgba(23, 207, 200, 0.1)';
+export const PRIMARY_BLUE_SEMI_TRANSPARENT = 'rgba(23, 207, 200, 0.5)';
 export const MEDIUM_BLUE = '#14B6B0';
 export const PRIMARY_BLUE_DARK = '#0E817D';
 

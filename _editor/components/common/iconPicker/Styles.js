@@ -1,4 +1,4 @@
-import { PRIMARY_BLUE, PRIMARY_BLUE_DARK } from "../../../../sass/general/constants";
+import { PRIMARY_BLUE, PRIMARY_BLUE_DARK, PRIMARY_BLUE_SEMI_TRANSPARENT } from "../../../../sass/general/constants";
 import styled from 'styled-components';
 
 export const StyledTable = styled.div`
@@ -20,5 +20,14 @@ export const StyledTable = styled.div`
          align-content: flex-start;
          scrollbar-color: ${PRIMARY_BLUE} #f0efed;
          scrollbar-width: thin;
+    }
+    .markIcon {
+        height: 42px;
+        cursor: pointer;
+    }
+    
+    .selectedIcon {
+        background-color: ${PRIMARY_BLUE_SEMI_TRANSPARENT};
+        border-radius: 50%;
     }
     `;

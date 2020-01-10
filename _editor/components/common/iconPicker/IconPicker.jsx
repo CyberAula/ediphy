@@ -16,7 +16,7 @@ const IconPicker = (props) => {
     const renderTable = ()=> {
         const searchText = text.toLowerCase();
         return ICONLIST.filter(icon => icon.includes(searchText)).map((icon, index) => {
-            return <IconButton handleClick={handleClick} text={icon} key={index}/>;
+            return <IconButton handleClick={handleClick} selected={icon === props.text} text={icon} key={index}/>;
         });
     };
 
