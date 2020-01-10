@@ -4,8 +4,7 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import './../../../../node_modules/rc-color-picker/assets/index.css';
 import { connect } from "react-redux";
-import Picker from 'rc-color-picker';
-import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Grid, Radio, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
+import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Grid, Radio } from 'react-bootstrap';
 import IconPicker from "../../common/iconPicker/IconPicker";
 import { updateUI } from "../../../../common/actions";
 import ToggleSwitch from '@trendmicro/react-toggle-switch';
@@ -16,10 +15,10 @@ import _handlers from "../../../handlers/_handlers";
 import { ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES } from '../../../../common/constants';
 
 import TemplatesModal from "../../carousel/templatesModal/TemplatesModal";
-import { ModalContainer, TypeSelector, ConfigSize, MarkTypeTab, TypeTab, SizeSlider, LinkToContainer } from "./Styles";
+import { ModalContainer, TypeSelector, MarkTypeTab, TypeTab, SizeSlider, LinkToContainer } from "./Styles";
 
-import { copyFile } from 'fs';
 import ColorPicker from "../../common/colorPicker/ColorPicker";
+import { MarkPreview } from "./MarkPreview";
 
 /**
  * Modal component to   edit marks' configuration
@@ -40,9 +39,10 @@ class RichMarksModal extends Component {
             showAlert: false,
             showTemplates: false,
             boxes: [],
-            oDimensions: {},
+            originalDimensions: {},
             markType: "icon",
             secret: false,
+            color: '#000000',
         };
 
         this.h = _handlers(this);
@@ -56,19 +56,15 @@ class RichMarksModal extends Component {
     UNSAFE_componentWillReceiveProps(nextProps) {
         let current = nextProps.currentRichMark;
         let allViews = this.returnAllViews(nextProps);
-        if(nextProps.tempMarkState) {
-            console.log('Temporal mark: ', nextProps.tempMarkState);
-            this.setState({ ...nextProps.tempMarkState, svg: nextProps.markCursorValue });
-            this.h.onTempMartStateDeleted();
-        } else if (!this.props.richMarksVisible) {
+        if (!this.props.richMarksVisible) {
             if (current) {
                 console.log('Current mark', current);
                 this.setState({
                     viewNames: allViews,
                     text: current.text,
-                    svg: current.svg,
+                    svg: nextProps.markCursorValue || current.svg,
                     selectedIcon: current.selectedIcon,
-                    color: current.color || null,
+                    color: current.color || '#000000',
                     size: current.size,
                     image: current.url,
                     connectMode: current.connectMode || "new",
@@ -83,7 +79,7 @@ class RichMarksModal extends Component {
                 console.log('else', nextProps);
                 this.setState({
                     viewNames: allViews,
-                    color: null,
+                    color: '#000000',
                     selectedIcon: "room",
                     size: 25,
                     image: false,
@@ -117,26 +113,14 @@ class RichMarksModal extends Component {
             newSelected = this.props.viewToolbarsById[this.state.newSelected].viewName;
         }
         let plugin = (pluginToolbar && pluginToolbar.pluginId && Ediphy.Plugins.get(pluginToolbar.pluginId)) ? Ediphy.Plugins.get(pluginToolbar.pluginId) : undefined;
-        let defaultMarkValue = plugin ? Ediphy.Plugins.get(pluginToolbar.pluginId).getDefaultMarkValue(pluginToolbar.state, this.props.boxSelected) : '';
         let pluginType = (pluginToolbar && pluginToolbar.config) ? pluginToolbar.config.displayName : 'Plugin';
         let config = plugin ? plugin.getConfig() : null;
         let newId = "";
         let imageSize = (this.state.size / 100);
         let width = 0;
-        let imageModal = this.state.image;
-        let originalDimensions = this.state.oDimensions;
-        let previewSize = {};
-        let h, w = 0;
-        if(this.props.boxesById[this.props.boxSelected] && document.getElementById("box-" + this.props.boxesById[this.props.boxSelected].id)) {
-            let y = document.getElementById("box-" + this.props.boxesById[this.props.boxSelected].id).getBoundingClientRect().height;
-            let x = document.getElementById("box-" + this.props.boxesById[this.props.boxSelected].id).getBoundingClientRect().width;
-            let selectedPluginAspectRatio = x / y;
-            previewSize.height = x > y ? String(15 / selectedPluginAspectRatio) + "em" : "15em";
-            previewSize.width = x > y ? "15em" : String(15 * selectedPluginAspectRatio) + "em";
-            previewSize.aspectRatio = selectedPluginAspectRatio;
-            h = previewSize.height.replace('em', '');
-            w = previewSize.width.replace('em', '');
-        }
+
+        console.log('props', this.props);
+        console.log('state', this.state);
 
         return (
             <ModalContainer backdrop bsSize="large" show={this.props.richMarksVisible}>
@@ -186,7 +170,7 @@ class RichMarksModal extends Component {
                                         key={this.props.markCursorValue}
                                         ref="value"
                                         type={this.state.actualtype}
-                                        defaultValue={this.props.markCursorValue ? this.state.svg ? this.props.markCursorValue.svgPath : this.props.markCursorValue : (current ? current.value : (defaultMarkValue ? defaultMarkValue : 0))}
+                                        defaultValue={this.getMarkValue()}
                                     />
                                     {this.state.markType === 'area' ?
                                         [<br/>,
@@ -248,35 +232,7 @@ class RichMarksModal extends Component {
                             </Col>
                             <Col xs={12} md={6} lg={6}>
                                 <Row>
-                                    <FormGroup>
-                                        <h4>Previsualización</h4>
-                                        <br/>
-                                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '150px' }}>
-                                            { (()=>{switch(this.state.markType) {
-                                            case "icon":
-                                                return <i className="material-icons" style={{ color: (this.state.color || "black"), fontSize: (this.state.size / 10) + "em", paddingLeft: "7%" }}>{this.state.selectedIcon}</i>;
-                                            case "image":
-                                                width = previewSize.height < previewSize.width ? 100 * imageSize : (100 * imageSize / previewSize.aspectRatio * originalDimensions.aspectRatio);
-                                                return (<div style={{ height: previewSize.height, width: previewSize.width, marginLeft: "7%", border: "1px dashed grey" }}>
-                                                    <img height="auto" width={String(width) + "%"} onLoad={this.onImgLoad} src={imageModal || this.props.fileModalResult.value}/>
-                                                </div>);
-                                            case "area":
-                                                return this.state.svg ? (
-                                                    <div style={{ width: '100%' }}>
-                                                        <svg viewBox={`0 0 ${this.state.svg.canvasSize.width} ${this.state.svg.canvasSize.height}`}
-                                                            style={{ pointerEvents: 'none' }}
-                                                            height={'100%'} width={'100%'}
-                                                            preserveAspectRatio="none">
-                                                            <path d={this.state.svg.svgPath} fill={this.state.color || '#000'}/>
-                                                        </svg>
-                                                    </div>
-                                                ) : null;
-                                            default:
-                                                return <h4>{this.state.markType}</h4>;
-                                            }})()}
-                                        </div>
-
-                                    </FormGroup>
+                                    <MarkPreview state={this.state} props={this.props}/>
                                     <FormGroup>
                                         <h4>{i18n.t("marks.link_to")}</h4>
                                         <div>
@@ -308,7 +264,7 @@ class RichMarksModal extends Component {
                                                     }}>{i18n.t("marks.popup")}</Radio>
                                             </LinkToContainer>
                                         </div>
-                                        <div style={{ display: this.state.newSelected === "" ? "none" : "initial" }}>
+                                        <div style={{ display: this.state.connectMode === "new" ? "none" : "initial" }}>
                                             {i18n.t("marks.hover_message")} <strong>{newSelected}</strong>
                                         </div>
                                     </FormGroup>
@@ -316,16 +272,11 @@ class RichMarksModal extends Component {
                                 <Row>
                                     <FormGroup>
                                         <FormGroup style={{ display: this.state.connectMode === "new" ? "block" : "none" }}>
-                                            <h4 style={{
-                                                display: this.state.newSelected === "" ? "initial" : "none",
-                                            }}>{i18n.t("marks.new_content_label")}</h4>
+                                            <h4>{i18n.t("marks.new_content_label")}</h4>
                                             <TypeSelector>
                                                 <FormControl componentClass="select"
                                                     defaultValue={this.state.newType}
-                                                    style={{
-                                                        display: this.state.newSelected === "" ? "initial" : "none",
-                                                        width: "80%",
-                                                    }}
+                                                    style={{ width: "80%" }}
                                                     onChange={e => {
                                                         this.setState({ newType: e.nativeEvent.target.value });
                                                     }}>
@@ -376,82 +327,203 @@ class RichMarksModal extends Component {
                         let newMark = current && current.id ? current.id : ID_PREFIX_RICH_MARK + Date.now();
                         let connectMode = this.state.connectMode;
                         let connection = selected.id;
-                        let image = null;
+                        let markState;
                         let value = ReactDOM.findDOMNode(this.refs.value).value;
-                        // let value = this.props.markCursorValue;
                         if(this.state.markType === 'area' && !isValidSvgPath(value)) {
                             this.setState({
                                 showAlert: true,
                                 alertMsg: 'No has introducido un área correcta',
                             });
                             return;
+                        }
+                        let content = ({});
+                        let color = this.state.color;
+                        let size = this.state.size;
+                        switch(this.state.markType) {
+                        case "icon":
+                            content.selectedIcon = this.state.selectedIcon || "";
+                            break;
+                        case "area":
+                            break;
+                        case "image":
+                            content.imageDimensions = ({});
+                            content.imageDimensions.width = previewSize.height < previewSize.width ? 100 * imageSize : (100 * imageSize / previewSize.aspectRatio * originalDimensions.aspectRatio);
+                            content.url = this.state.image || this.props.fileModalResult.value;
+                            break;
+                        default:
+                            break;
+                        }
+
+                        // CV name
+                        let name = connectMode === "existing" ? this.props.viewToolbarsById[connection].viewName : nextAvailName(i18n.t('contained_view'), this.props.viewToolbarsById, 'viewName');
+                        // Mark name
+                        title = title || nextAvailName(i18n.t("marks.new_mark"), this.props.marksById, 'title');
+
+                        // First of all we need to check if the plugin creator has provided a function to check if the input value is allowed
+                        if (plugin && plugin.validateValueInput) {
+                            let val = plugin.validateValueInput(value);
+                            // If the value is not allowed, we show an alert with the predefined message and we abort the Save operation
+                            if (val && val.isWrong) {
+                                this.setState({ showAlert: true, alertMsg: (val.message ? val.message : i18n.t("mark_input")) });
+                                return;
+                                // If the value is allowed we check if it has been modified (like rounded decimals) and we assign it to value
+                            } else if (val && val.value) {
+                                value = val.value;
+                            }
+                        }
+                        let sortable_id = ID_PREFIX_SORTABLE_BOX + Date.now();
+                        switch (connectMode) {
+                        case "new":
+                            markState = {
+                                mark: {
+                                    id: newMark,
+                                    origin: this.props.boxSelected,
+                                    title: title,
+                                    connection: newId,
+                                    connectMode: connectMode,
+                                    displayMode: this.state.displayMode,
+                                    value: value,
+                                    markType: this.state.markType,
+                                    content: content,
+                                    color: color,
+                                    size: size,
+                                },
+                                view: {
+                                    info: "new",
+                                    type: this.state.newType,
+                                    id: newId,
+                                    parent: { [newMark]: this.props.boxSelected },
+                                    // name: name,
+                                    boxes: this.state.newType === "document" ? [sortable_id] : [],
+                                    extraFiles: {},
+                                },
+                                viewToolbar: {
+                                    id: newId,
+                                    doc_type: this.state.newType,
+                                    viewName: name,
+                                    hideTitles: this.state.boxes.length > 0,
+                                },
+                            };
+                            break;
+                        case "existing":
+                            markState = {
+                                mark: {
+                                    id: newMark,
+                                    origin: this.props.boxSelected,
+                                    title: title,
+                                    connection: connection,
+                                    connectMode: connectMode,
+                                    displayMode: this.state.displayMode,
+                                    value: value,
+                                    markType: this.state.markType,
+                                    content: content,
+                                    color: color,
+                                    size: size,
+                                },
+                                view: {
+                                    info: "new",
+                                    type: this.state.newType,
+                                    id: newId,
+                                    parent: this.props.boxSelected,
+                                    name: name,
+                                    boxes: [],
+                                    extraFiles: {},
+                                },
+                            };
+                            break;
+                        case "external":
+                            markState = {
+                                mark: {
+                                    id: newMark,
+                                    origin: this.props.boxSelected,
+                                    title: title,
+                                    connection: ReactDOM.findDOMNode(this.refs.externalSelected).value,
+                                    connectMode: connectMode,
+                                    displayMode: this.state.displayMode,
+                                    value: value,
+                                    markType: this.state.markType,
+                                    content: content,
+                                    color: color,
+                                    size: size,
+                                },
+                            };
+                            break;
+                        case "popup":
+                            markState = {
+                                mark: {
+                                    id: newMark,
+                                    origin: this.props.boxSelected,
+                                    title: title,
+                                    connection: ReactDOM.findDOMNode(this.refs.popupSelected).value,
+                                    connectMode: connectMode,
+                                    displayMode: this.state.displayMode,
+                                    value: value,
+                                    markType: this.state.markType,
+                                    content: content,
+                                    color: color,
+                                    size: size,
+                                },
+                            };
+                            break;
+                        }
+                        if(this.state.markType === 'image') {
+                            height = originalDimensions.biggerDimension === "Height" ? 100 * imageSize : (100 * imageSize / originalDimensions.aspectRatio);
+                            width = originalDimensions.biggerDimension === "Width" ? 100 * imageSize : (100 * imageSize * originalDimensions.aspectRatio);
+                        }
+                        else{
                             let content = ({});
-                            let color;
-                            let size;
                             switch(this.state.markType) {
                             case "icon":
                                 content.selectedIcon = this.state.selectedIcon || "";
-                                color = this.state.color || marksType.defaultColor || '#222222';
-                                size = this.state.size;
+                                content.color = this.state.color || marksType.defaultColor || '#222222';
+                                content.size = this.state.size;
                                 break;
                             case "area":
-                                color = this.state.color || marksType.defaultColor || '#222222';
+                                content.color = this.state.color || marksType.defaultColor || '#222222';
+                                content.svg = this.state.svg;
+                                content.secret = this.state.secretArea;
                                 break;
                             case "image":
-                                size = this.state.size;
+                                content.size = this.state.size;
                                 content.imageDimensions = ({});
-                                content.imageDimensions.width = previewSize.height < previewSize.width ? 100 * imageSize : (100 * imageSize / previewSize.aspectRatio * originalDimensions.aspectRatio);
+                                content.imageDimensions.height = originalDimensions.biggerDimension === "Height" ? 100 * imageSize : (100 * imageSize / originalDimensions.aspectRatio);
+                                content.imageDimensions.width = originalDimensions.biggerDimension === "Width" ? 100 * imageSize : (100 * imageSize * originalDimensions.aspectRatio);
                                 content.url = this.state.image || this.props.fileModalResult.value;
                                 break;
                             default:
                                 break;
                             }
-
                             // CV name
                             let name = connectMode === "existing" ? this.props.viewToolbarsById[connection].viewName : nextAvailName(i18n.t('contained_view'), this.props.viewToolbarsById, 'viewName');
                             // Mark name
                             title = title || nextAvailName(i18n.t("marks.new_mark"), this.props.marksById, 'title');
                             let markState;
-
-                            let value = ReactDOM.findDOMNode(this.refs.value).value;
-                            // let value = this.props.markCursorValue;
                             // First of all we need to check if the plugin creator has provided a function to check if the input value is allowed
-                            if (plugin && plugin.validateValueInput) {
-                                let val = plugin.validateValueInput(value);
-                                // If the value is not allowed, we show an alert with the predefined message and we abort the Save operation
-                                if (val && val.isWrong) {
-                                    this.setState({ showAlert: true, alertMsg: (val.message ? val.message : i18n.t("mark_input")) });
-                                    return;
-                                    // If the value is allowed we check if it has been modified (like rounded decimals) and we assign it to value
-                                } else if (val && val.value) {
-                                    value = val.value;
-                                }
-                            }
                             let sortable_id = ID_PREFIX_SORTABLE_BOX + Date.now();
+                            const MARK = {
+                                id: newMark,
+                                origin: this.props.boxSelected,
+                                title: title,
+                                connectMode: connectMode,
+                                displayMode: this.state.displayMode,
+                                value: value,
+                                markType: this.state.markType,
+                                content: content,
+                                color: this.state.color,
+                            };
+                            const VIEW = {
+                                info: "new",
+                                type: this.state.newType,
+                                id: newId,
+                                extraFiles: {},
+                            };
                             switch (connectMode) {
                             case "new":
                                 markState = {
-                                    mark: {
-                                        id: newMark,
-                                        origin: this.props.boxSelected,
-                                        title: title,
-                                        connection: newId,
-                                        connectMode: connectMode,
-                                        displayMode: this.state.displayMode,
-                                        value: value,
-                                        markType: this.state.markType,
-                                        content: content,
-                                        color: color,
-                                        size: size,
-                                    },
-                                    view: {
-                                        info: "new",
-                                        type: this.state.newType,
-                                        id: newId,
+                                    mark: { ...MARK, connection: newId },
+                                    view: { ...VIEW,
                                         parent: { [newMark]: this.props.boxSelected },
-                                        // name: name,
                                         boxes: this.state.newType === "document" ? [sortable_id] : [],
-                                        extraFiles: {},
                                     },
                                     viewToolbar: {
                                         id: newId,
@@ -463,208 +535,34 @@ class RichMarksModal extends Component {
                                 break;
                             case "existing":
                                 markState = {
-                                    mark: {
-                                        id: newMark,
-                                        origin: this.props.boxSelected,
-                                        title: title,
-                                        connection: connection,
-                                        connectMode: connectMode,
-                                        displayMode: this.state.displayMode,
-                                        value: value,
-                                        markType: this.state.markType,
-                                        content: content,
-                                        color: color,
-                                        size: size,
-                                    },
-                                    view: {
-                                        info: "new",
-                                        type: this.state.newType,
-                                        id: newId,
+                                    mark: { ...MARK, connection: connection },
+                                    view: { ...VIEW,
                                         parent: this.props.boxSelected,
                                         name: name,
                                         boxes: [],
-                                        extraFiles: {},
                                     },
                                 };
                                 break;
                             case "external":
                                 markState = {
-                                    mark: {
-                                        id: newMark,
-                                        origin: this.props.boxSelected,
-                                        title: title,
-                                        connection: ReactDOM.findDOMNode(this.refs.externalSelected).value,
-                                        connectMode: connectMode,
-                                        displayMode: this.state.displayMode,
-                                        value: value,
-                                        markType: this.state.markType,
-                                        content: content,
-                                        color: color,
-                                        size: size,
-                                    },
+                                    mark: { ...MARK, connection: ReactDOM.findDOMNode(this.refs.externalSelected).value },
                                 };
                                 break;
                             case "popup":
                                 markState = {
-                                    mark: {
-                                        id: newMark,
-                                        origin: this.props.boxSelected,
-                                        title: title,
-                                        connection: ReactDOM.findDOMNode(this.refs.popupSelected).value,
-                                        connectMode: connectMode,
-                                        displayMode: this.state.displayMode,
-                                        value: value,
-                                        markType: this.state.markType,
-                                        content: content,
-                                        color: color,
-                                        size: size,
-                                    },
+                                    mark: { ...MARK, connection: ReactDOM.findDOMNode(this.refs.popupSelected).value },
                                 };
                                 break;
                             }
-                            {if(this.state.image !== false) {
-                                height = oDimensions.biggerDimension === "Height" ? 100 * imageSize : (100 * imageSize / oDimensions.aspectRatio);
-                                width = oDimensions.biggerDimension === "Width" ? 100 * imageSize : (100 * imageSize * oDimensions.aspectRatio);
-                                image = { url: (this.state.image.url || this.props.fileModalResult.value), size: { height, width } };
-                            }else{
-                                image = false;
-                                let payload = ({});
-                                switch(this.state.markType) {
-                                case "icon":
-                                    payload.selectedIcon = this.state.selectedIcon || "";
-                                    payload.color = this.state.color || marksType.defaultColor || '#222222';
-                                    payload.size = this.state.size;
-                                    break;
-                                case "area":
-                                    payload.color = this.state.color || marksType.defaultColor || '#222222';
-                                    break;
-                                case "image":
-                                    payload.size = this.state.size;
-                                    payload.imageDimensions = ({});
-                                    payload.imageDimensions.height = oDimensions.biggerDimension === "Height" ? 100 * imageSize : (100 * imageSize / oDimensions.aspectRatio);
-                                    payload.imageDimensions.width = oDimensions.biggerDimension === "Width" ? 100 * imageSize : (100 * imageSize * oDimensions.aspectRatio);
-                                    payload.url = this.state.image || this.props.fileModalResult.value;
-                                    break;
-                                default:
-                                    break;
-                                }
-                                let isSvg = this.props.markCursorValue.hasOwnProperty('svg');
-                                // CV name
-                                let name = connectMode === "existing" ? this.props.viewToolbarsById[connection].viewName : nextAvailName(i18n.t('contained_view'), this.props.viewToolbarsById, 'viewName');
-                                // Mark name
-                                title = title || nextAvailName(i18n.t("marks.new_mark"), this.props.marksById, 'title');
-                                let markState;
-
-                                // First of all we need to check if the plugin creator has provided a function to check if the input value is allowed
-                                if (plugin && plugin.validateValueInput) {
-                                    let val = plugin.validateValueInput(value);
-                                    // If the value is not allowed, we show an alert with the predefined message and we abort the Save operation
-                                    if (val && val.isWrong) {
-                                        this.setState({ showAlert: true, alertMsg: (val.message ? val.message : i18n.t("mark_input")) });
-                                        return;
-                                    // If the value is allowed we check if it has been modified (like rounded decimals) and we assign it to value
-                                    } else if (val && val.value) {
-                                        value = val.value;
-                                    }
-                                }
-                                let sortable_id = ID_PREFIX_SORTABLE_BOX + Date.now();
-                                switch (connectMode) {
-                                case "new":
-                                    markState = {
-                                        mark: {
-                                            id: newMark,
-                                            origin: this.props.boxSelected,
-                                            title: title,
-                                            connection: newId,
-                                            connectMode: connectMode,
-                                            displayMode: this.state.displayMode,
-                                            value: value,
-                                            markType: this.state.markType,
-                                            payload: payload,
-                                            svg: this.state.svg,
-                                            color: this.state.color,
-                                            secret: this.state.secret,
-                                        },
-                                        view: {
-                                            info: "new",
-                                            type: this.state.newType,
-                                            id: newId,
-                                            parent: { [newMark]: this.props.boxSelected },
-                                            // name: name,
-                                            boxes: this.state.newType === "document" ? [sortable_id] : [],
-                                            extraFiles: {},
-                                        },
-                                        viewToolbar: {
-                                            id: newId,
-                                            doc_type: this.state.newType,
-                                            viewName: name,
-                                            hideTitles: this.state.boxes.length > 0,
-                                        },
-                                    };
-                                    break;
-                                case "existing":
-                                    markState = {
-                                        mark: {
-                                            id: newMark,
-                                            origin: this.props.boxSelected,
-                                            title: title,
-                                            connection: connection,
-                                            connectMode: connectMode,
-                                            displayMode: this.state.displayMode,
-                                            value: value,
-                                            markType: this.state.markType,
-                                            payload: payload,
-                                        },
-                                        view: {
-                                            info: "new",
-                                            type: this.state.newType,
-                                            id: newId,
-                                            parent: this.props.boxSelected,
-                                            name: name,
-                                            boxes: [],
-                                            extraFiles: {},
-                                        },
-                                    };
-                                    break;
-                                case "external":
-                                    markState = {
-                                        mark: {
-                                            id: newMark,
-                                            origin: this.props.boxSelected,
-                                            title: title,
-                                            connection: ReactDOM.findDOMNode(this.refs.externalSelected).value,
-                                            connectMode: connectMode,
-                                            displayMode: this.state.displayMode,
-                                            value: value,
-                                            markType: this.state.markType,
-                                            payload: payload,
-                                        },
-                                    };
-                                    break;
-                                case "popup":
-                                    markState = {
-                                        mark: {
-                                            id: newMark,
-                                            origin: this.props.boxSelected,
-                                            title: title,
-                                            connection: ReactDOM.findDOMNode(this.refs.popupSelected).value,
-                                            connectMode: connectMode,
-                                            displayMode: this.state.displayMode,
-                                            value: value,
-                                            markType: this.state.markType,
-                                        },
-                                    };
-                                    break;
-                                }
-                                if(this.props.marksById[newMark] === undefined) {
-                                    this.h.onRichMarkAdded(markState.mark, markState.view, markState.viewToolbar);
-                                } else{
-                                    this.h.onRichMarkUpdated(markState.mark, markState.view, markState.viewToolbar);
-                                }
-                                this.generateTemplateBoxes(this.state.boxes, newId);
-                                this.restoreDefaultTemplate();
-                                this.h.onRichMarksModalToggled();
-                            }}}}}>{i18n.t("marks.save_changes")}</Button>
+                            if(this.props.marksById[newMark] === undefined) {
+                                this.h.onRichMarkAdded(markState.mark, markState.view, markState.viewToolbar);
+                            } else{
+                                this.h.onRichMarkUpdated(markState.mark, markState.view, markState.viewToolbar);
+                            }
+                            this.generateTemplateBoxes(this.state.boxes, newId);
+                            this.restoreDefaultTemplate();
+                            this.h.onRichMarksModalToggled();
+                        }}}>{i18n.t("marks.save_changes")}</Button>
                 </Modal.Footer>
                 <Alert className="pageModal"
                     show={this.state.showAlert}
@@ -779,7 +677,7 @@ class RichMarksModal extends Component {
 
     // Function to get image size to render
     onImgLoad = ({ target: img }) => {
-        if(!this.state.oDimensions.height) {
+        if(!this.state.originalDimensions.height) {
             let aspectRatio = img.offsetWidth / img.offsetHeight;
             let biggerDimension;
             if(img.offsetHeight > img.offsetWidth) {
@@ -787,19 +685,20 @@ class RichMarksModal extends Component {
             }else{
                 biggerDimension = "Width";
             }
-            this.setState({ oDimensions: { aspectRatio, biggerDimension } });
+            this.setState({ originalDimensions: { aspectRatio, biggerDimension } });
         }
     };
 
     loadImage = () => {
         this.toggleFileUpload('image', 'image/*');
         this.setState({ image: false });
-        this.setState({ oDimensions: false });
+        this.setState({ originalDimensions: false });
     };
 
     openAreaCreator = () => {
         this.h.onAreaCreatorVisible('box-' + this.props.boxSelected, this.state);
         this.h.onRichMarksModalToggled();
+        this.h.onRichMarkEditPressed(this.state);
     };
 
     toggleFileUpload = (id, accept) => {
@@ -809,6 +708,63 @@ class RichMarksModal extends Component {
             fileUploadTa: 0,
         }));
     };
+
+    getMarkValue = () => {
+        switch (this.state.markType) {
+        case 'area':
+            return this.props.markCursorValue?.svgPath ?? this.props.currentRichMark?.content?.svgPath ?? 'Draw a shape';
+        default:
+            return this.props.markCursorValue ?? this.props.currentRichMark?.value ?? 0;
+        }
+    };
+    getMarkPreview = () => {
+        switch (this.state.markType) {
+        case 'area':
+            let path = this.props.markCursorValue?.svgPath ?? this.props.currentRichMark?.content?.svgPath ?? false;
+            return path ? (
+                <div style={{ width: '100%' }}>
+                    <svg
+                        viewBox={`0 0 ${this.state.svg?.canvasSize?.width ?? 0} ${this.state.svg?.canvasSize?.height ?? 0}`}
+                        style={{ pointerEvents: 'none' }}
+                        height={'100%'} width={'100%'}
+                        preserveAspectRatio="none">
+                        <path d={path} fill={this.state.color || '#000000'}/>
+                    </svg>
+                </div>
+            ) : 'Draw a shape';
+        case 'image':
+            let originalDimensions = this.state.originalDimensions;
+            let previewSize = {};
+            let imageSize = (this.state.size / 100);
+            if (this.props.boxesById[this.props.boxSelected] && document.getElementById("box-" + this.props.boxesById[this.props.boxSelected].id)) {
+                let y = document.getElementById("box-" + this.props.boxesById[this.props.boxSelected].id).getBoundingClientRect().height;
+                let x = document.getElementById("box-" + this.props.boxesById[this.props.boxSelected].id).getBoundingClientRect().width;
+                let selectedPluginAspectRatio = x / y;
+                previewSize.height = x > y ? String(15 / selectedPluginAspectRatio) + "em" : "15em";
+                previewSize.width = x > y ? "15em" : String(15 * selectedPluginAspectRatio) + "em";
+                previewSize.aspectRatio = selectedPluginAspectRatio;
+            }
+            let width = previewSize.height < previewSize.width ? 100 * imageSize : (100 * imageSize / previewSize.aspectRatio * originalDimensions.aspectRatio);
+            let source = this.state.image ? this.state.image : this.props.fileModalResult?.value || "https://live.staticflickr.com/65535/49246500741_6ef20b5fcd.jpg";
+            return (<div style={{
+                height: previewSize.height,
+                width: previewSize.width,
+                marginLeft: "7%",
+                border: "1px dashed grey",
+            }}>
+                <img height="auto" width={String(width) + "%"} onLoad={this.onImgLoad} src={source}/>
+            </div>);
+        case 'icon':
+            let icon = this.state.selectedIcon ?? 'room';
+            return <i className="material-icons" style={{
+                color: (this.state.color || "black"),
+                fontSize: (this.state.size / 10) + "em",
+                paddingLeft: "7%",
+            }}>{icon}</i>;
+        default:
+            return null;
+        }
+    }
 
 }
 

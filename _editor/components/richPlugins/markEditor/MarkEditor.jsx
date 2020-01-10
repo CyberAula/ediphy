@@ -79,7 +79,6 @@ export default class MarkEditor extends Component {
      * @returns {code}
      */
     render() {
-        console.log(this.props);
         let classList = 'markeditor ';
         classList += this.state.holding ? 'holding ' : '';
         classList += this.state.ended ? 'ended ' : '';

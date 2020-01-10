@@ -138,12 +138,8 @@ export const HotspotImages = (base) => ({
         let marks = props.marks || {};
         let svgMarks = [];
         let markElements = Object.keys(marks).map((id) =>{
-            let value = marks[id].value;
-            let title = marks[id].title;
-            let markType = marks[id].markType;
-            let content = marks[id].content;
-            let color = marks[id].color;
-            let size = marks[id].size;
+            console.log(marks);
+            let { value, title, markType, content, color, size } = marks[id];
             let position;
             let width = markType === "image" ? String(content.imageDimensions.width) + "%" : null;
             if (value && value.split(',').length === 2) {
@@ -151,7 +147,7 @@ export const HotspotImages = (base) => ({
             } else{
                 position = [0, 0];
             }
-            if(type === 'area') {
+            if(markType === 'area') {
                 svgMarks.push(marks[id]);
                 return null;
             }
@@ -161,12 +157,13 @@ export const HotspotImages = (base) => ({
                 </MarkEditor>
             );
         });
+        console.log(svgMarks);
         let svgElements = svgMarks.map(mark => (
-            <svg viewBox={`0 0 ${mark.svg.canvasSize.width} ${mark.svg.canvasSize.height}`}
+            <svg viewBox={`0 0 ${mark.content.svg.canvasSize.width} ${mark.content.svg.canvasSize.height}`}
                 style={{ position: 'absolute', pointerEvents: 'none' }}
                 height={'100%'} width={'100%'}
                 preserveAspectRatio="none">
-                <path d={mark.svg.svgPath} fill={mark.color || '#000'}/>
+                <path d={mark.content.svg.svgPath} fill={mark.color || '#000'}/>
             </svg>
         ));
 
