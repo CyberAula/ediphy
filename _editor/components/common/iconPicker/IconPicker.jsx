@@ -3,6 +3,7 @@ import IconButton from "./IconButton";
 import { ICONLIST } from "./icons";
 import PropTypes from 'prop-types';
 import i18n from 'i18next';
+import { StyledTable } from './Styles';
 
 const IconPicker = (props) => {
 
@@ -13,21 +14,22 @@ const IconPicker = (props) => {
     };
 
     const renderTable = ()=> {
-        const REDUCEDICONLIST = [];
-        ICONLIST.forEach((icon)=>{if(icon.includes(text.toLowerCase())) {REDUCEDICONLIST.push(icon);}});
         const searchText = text.toLowerCase();
-        const reduced = ICONLIST.filter(icon => icon.includes(searchText)).map(red => <IconButton handleClick={handleClick} text={red}/>);
-        return reduced;
+        return ICONLIST.filter(icon => icon.includes(searchText)).map((icon, index) => {
+            return <IconButton handleClick={handleClick} text={icon} key={index}/>;
+        });
     };
 
     return (
-        <React.Fragment>
-            <input type="text" placeholder={i18n.t("icon_picker.searchbox_preview")} value={text} onChange={e=>setText(e.target.value)} style={{ borderRadius: 0, padding: "6px", border: "1px", borderStyle: "solid", borderBlockColor: "#ccc" }}/>
+        <StyledTable>
+            <div style={{ paddingBottom: "0.8em", width: "100%" }}>
+                <input type="text" placeholder={i18n.t("icon_picker.searchbox_preview")} value={text} onChange={e=>setText(e.target.value)} className="input"/>
+            </div>
             <br/>
-            <div style={{ height: "200px", width: "100%", display: 'flex', flexDirection: "row", flexWrap: "wrap", overflowY: "scroll", paddingTop: "1em", alignContent: "flex-start" }}>
+            <div className="table">
                 {renderTable()}
             </div>
-        </React.Fragment>
+        </StyledTable>
     );
 };
 
@@ -38,5 +40,4 @@ IconPicker.propTypes = {
      * Function to handle changes
      */
     onChange: PropTypes.func.isRequired,
-
 };

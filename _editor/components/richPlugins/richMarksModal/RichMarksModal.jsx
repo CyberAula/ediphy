@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import './../../../../node_modules/rc-color-picker/assets/index.css';
 import { connect } from "react-redux";
 import Picker from 'rc-color-picker';
-import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Grid, Radio, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
+import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Grid, Radio } from 'react-bootstrap';
 import IconPicker from "../../common/iconPicker/IconPicker";
 import { updateUI } from "../../../../common/actions";
 import ToggleSwitch from '@trendmicro/react-toggle-switch';
@@ -204,7 +204,6 @@ class RichMarksModal extends Component {
                                             <button style={{ width: "100%" }} className="avatarButtons btn btn-primary" onClick={this.openAreaCreator}>Draw new shape</button>]
                                         : null
                                     }
-
                                 </FormGroup>
                                 <FormGroup>
                                     {(this.state.markType === "icon" || this.state.markType === "area") ? // Selector de color
