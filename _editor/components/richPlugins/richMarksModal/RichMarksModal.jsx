@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
 import i18n from 'i18next';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
@@ -6,21 +6,17 @@ import './../../../../node_modules/rc-color-picker/assets/index.css';
 import { connect } from "react-redux";
 import Picker from 'rc-color-picker';
 import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Grid, Radio } from 'react-bootstrap';
-import IconPicker from "../../common/iconPicker/IconPicker";
 import { updateUI } from "../../../../common/actions";
 import ToggleSwitch from '@trendmicro/react-toggle-switch';
-
+import { Code } from 'react-content-loader';
 import Alert from './../../common/alert/Alert';
 import { isSection, isContainedView, nextAvailName, makeBoxes, isValidSvgPath } from '../../../../common/utils';
 import _handlers from "../../../handlers/_handlers";
 import { ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES } from '../../../../common/constants';
-
 import TemplatesModal from "../../carousel/templatesModal/TemplatesModal";
 import { ModalContainer, TypeSelector, ConfigSize, MarkTypeTab, TypeTab, SizeSlider, LinkToContainer } from "./Styles";
-
 import { copyFile } from 'fs';
 import ColorPicker from "../../common/colorPicker/ColorPicker";
-
 /**
  * Modal component to   edit marks' configuration
  */
@@ -134,6 +130,8 @@ class RichMarksModal extends Component {
             previewSize.width = x > y ? "15em" : String(15 * selectedPluginAspectRatio) + "em";
             previewSize.aspectRatio = selectedPluginAspectRatio;
         }
+        // noinspection JSCheckFunctionSignatures
+        const IconPicker = React.lazy(() => import('../../common/iconPicker/IconPicker'));
 
         return (
             <ModalContainer backdrop bsSize="large" show={this.props.richMarksVisible}>
@@ -166,7 +164,7 @@ class RichMarksModal extends Component {
                                         type={this.state.actualMarkType}
                                         defaultValue={this.props.markCursorValue ? this.props.markCursorValue : (current ? current.value : (defaultMarkValue ? defaultMarkValue : 0))}
                                     />
-                                    <ControlLabel>Type</ControlLabel>
+                                    <ControlLabel>{i18n.t("type")}</ControlLabel>
                                     <MarkTypeTab type="radio" value={this.state.markType} name="markTypeSelector">
                                         <TypeTab
                                             type="radio"
@@ -238,16 +236,16 @@ class RichMarksModal extends Component {
                                     {this.state.markType === "icon" ? // Selector de iconos
                                         <FormGroup>
                                             <ControlLabel>{i18n.t("marks.selector")}</ControlLabel>
-                                            <div style={{ display: "flex", justifyContent: "start", alignItems: "center", flexDirection: "column" }}>
+                                            <Suspense fallback={<Code/>}>
                                                 <IconPicker text={this.state.selectedIcon} onChange={e=>{this.setState({ selectedIcon: e.selectedIcon });}}/>
-                                            </div>
+                                            </Suspense>
                                             <br/>
                                         </FormGroup>
                                         : null
                                     }
                                     {this.state.markType === "icon" || this.state.markType === "image" ?
                                         <SizeSlider>
-                                            <ControlLabel>Size</ControlLabel>
+                                            <ControlLabel>{i18n.t("size")}</ControlLabel>
                                             <FormControl type={'range'} min={10} max={100} step={1} value={this.state.size} onChange={()=>{this.setState({ size: event.target.value });}}/>
                                         </SizeSlider>
                                         : null

@@ -1,4 +1,4 @@
-import { PRIMARY_BLUE, PRIMARY_BLUE_DARK, PRIMARY_BLUE_SEMI_TRANSPARENT } from "../../../../sass/general/constants";
+import { PRIMARY_BLUE, PRIMARY_BLUE_SEMI_TRANSPARENT } from "../../../../sass/general/constants";
 import styled from 'styled-components';
 
 export const StyledTable = styled.div`
@@ -16,6 +16,7 @@ export const StyledTable = styled.div`
          display: flex;
          flex-direction: row;
          flex-wrap: wrap;
+         position: relative;
          overflow-y: scroll;
          align-content: flex-start;
          scrollbar-color: ${PRIMARY_BLUE} #f0efed;

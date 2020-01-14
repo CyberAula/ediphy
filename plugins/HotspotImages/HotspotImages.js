@@ -146,6 +146,7 @@ export const HotspotImages = (base) => ({
             let size = marks[id].size;
             let position;
             let width = markType === "image" ? String(content.imageDimensions.width) + "%" : null;
+            width = markType === "icon" ? size + "%" : width;
             if (value && value.split(',').length === 2) {
                 position = value.split(',');
             } else{
