@@ -3,7 +3,7 @@ import IconButton from "./IconButton";
 import { ICONLIST } from "./icons";
 import PropTypes from 'prop-types';
 import i18n from 'i18next';
-import { StyledTable } from './Styles';
+import { StyledDiv, StyledTable } from './Styles';
 import { PRIMARY_BLUE } from "../../../../sass/general/constants";
 
 const IconPicker = (props) => {

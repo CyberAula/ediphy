@@ -20,7 +20,21 @@ export const StyledTable = styled.div`
          overflow-y: scroll;
          align-content: flex-start;
          scrollbar-color: ${PRIMARY_BLUE} #f0efed;
-         scrollbar-width: thin;
+         scrollbar-width: thin;   
+        &::-webkit-scrollbar {
+            width: 8px;
+        }         
+        &::-webkit-scrollbar-track {
+            background-color: #f0efed; 
+            border-radius: 10px;
+            border-color: #f0efed;
+        }         
+        &::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            background-color: ${PRIMARY_BLUE}; 
+        }
+
+        
     }
     .markIcon {
         height: 42px;
@@ -31,4 +45,6 @@ export const StyledTable = styled.div`
         background-color: ${PRIMARY_BLUE_SEMI_TRANSPARENT};
         border-radius: 50%;
     }
+
     `;
+
