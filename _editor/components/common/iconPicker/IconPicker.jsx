@@ -3,13 +3,11 @@ import IconButton from "./IconButton";
 import { ICONLIST } from "./icons";
 import PropTypes from 'prop-types';
 import i18n from 'i18next';
-import { StyledDiv, StyledTable } from './Styles';
-import { PRIMARY_BLUE } from "../../../../sass/general/constants";
+import { StyledTable } from './Styles';
 
 const IconPicker = (props) => {
 
     const [text, setText] = useState("");
-    const [more, setMore] = useState(false);
 
     const handleClick = (selectedIcon) => {
         return props.onChange({ selectedIcon });
@@ -29,7 +27,7 @@ const IconPicker = (props) => {
         });
 
     };
-
+    console.log("rerender");
     return (
         <StyledTable style={{ display: "flex", justifyContent: "start", alignItems: "center", flexDirection: "column" }}>
             <div style={{ paddingBottom: "0.8em", width: "100%" }}>
@@ -38,8 +36,6 @@ const IconPicker = (props) => {
             <br/>
             <div className="table">
                 {renderTable()}
-                <br/>
-                { more === false && text === "" ? <div style={{ backgroundColor: PRIMARY_BLUE, width: "90%", textAlign: "center", borderRadius: 10, margin: "auto" }} onClick={()=>setMore(true)}>Show More</div> : null}
             </div>
         </StyledTable>
     );

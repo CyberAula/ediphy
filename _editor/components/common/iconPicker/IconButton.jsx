@@ -13,6 +13,9 @@ class IconButton extends Component {
     onClick() {
         this.props.handleClick(this.props.text);
     }
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        return this.props !== nextProps;
+    }
 }
 
 export default IconButton;
