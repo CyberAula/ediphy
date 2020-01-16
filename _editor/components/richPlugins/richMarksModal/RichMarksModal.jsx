@@ -17,6 +17,7 @@ import TemplatesModal from "../../carousel/templatesModal/TemplatesModal";
 import { ModalContainer, TypeSelector, ConfigSize, MarkTypeTab, TypeTab, SizeSlider, LinkToContainer } from "./Styles";
 import { copyFile } from 'fs';
 import ColorPicker from "../../common/colorPicker/ColorPicker";
+import IconPicker from "../../common/iconPicker/IconPicker";
 /**
  * Modal component to   edit marks' configuration
  */
@@ -39,6 +40,7 @@ class RichMarksModal extends Component {
             oDimensions: {},
             markType: "icon",
             secret: false,
+            changed: false,
         };
 
         this.h = _handlers(this);
@@ -74,6 +76,7 @@ class RichMarksModal extends Component {
                     existingSelected: (current.connectMode === "existing" && this.remapInObject(nextProps.navItemsById, nextProps.containedViewsById)[current.connection] ?
                         this.remapInObject(nextProps.navItemsById, nextProps.containedViewsById)[current.connection].id : ""),
                     markType: current.markType,
+                    changed: false,
                 });
             } else {
                 console.log('else', nextProps);
@@ -90,6 +93,7 @@ class RichMarksModal extends Component {
                     newType: nextProps.navItemsById[nextProps.navItemSelected] ? nextProps.navItemsById[nextProps.navItemSelected].type : "",
                     existingSelected: "",
                     markType: nextProps.markType || "icon",
+                    changed: false,
                 });
             }
         }
@@ -130,8 +134,12 @@ class RichMarksModal extends Component {
             previewSize.width = x > y ? "15em" : String(15 * selectedPluginAspectRatio) + "em";
             previewSize.aspectRatio = selectedPluginAspectRatio;
         }
-        // noinspection JSCheckFunctionSignatures
-        const IconPicker = React.lazy(() => import('../../common/iconPicker/IconPicker'));
+
+        const LazyIconPicker = React.lazy(() => {
+            return new Promise(resolve => {
+                setTimeout(() => resolve(import("../../common/iconPicker/IconPicker")), 5);
+            });
+        });
 
         return (
             <ModalContainer backdrop bsSize="large" show={this.props.richMarksVisible}>
@@ -176,13 +184,13 @@ class RichMarksModal extends Component {
                                             type="radio"
                                             value="image"
                                             name="mark_type"
-                                            onClick={() => this.setState({ markType: "image" })}
+                                            onClick={() => this.setState({ markType: "image", changed: false })}
                                         >{i18n.t("image")}</TypeTab>
                                         <TypeTab
                                             type="radio"
                                             value="area"
                                             name="mark_type"
-                                            onClick={() => this.setState({ markType: "area" })}
+                                            onClick={() => this.setState({ markType: "area", changed: false })}
                                         >{i18n.t("area")}</TypeTab>
                                     </MarkTypeTab>
                                 </FormGroup>
@@ -211,7 +219,7 @@ class RichMarksModal extends Component {
                                                 <ColorPicker
                                                     color={this.state.color || marksType.defaultColor}
                                                     value={this.state.color || marksType.defaultColor}
-                                                    onChange={e=>{this.setState({ color: e.color });}}
+                                                    onChange={e=>{this.setState({ color: e.color, changed: true });}}
                                                 />
                                                 {
                                                     this.state.markType === "area" ?
@@ -233,20 +241,20 @@ class RichMarksModal extends Component {
                                         </FormGroup>
                                         : null
                                     }
-                                    {this.state.markType === "icon" ? // Selector de iconos
-                                        <FormGroup>
-                                            <ControlLabel>{i18n.t("marks.selector")}</ControlLabel>
-                                            <Suspense fallback={<Code/>}>
-                                                <IconPicker text={this.state.selectedIcon} onChange={e=>{this.setState({ selectedIcon: e.selectedIcon });}}/>
+                                    <FormGroup hidden={this.state.markType !== "icon"}>
+                                        <ControlLabel>{i18n.t("marks.selector")}</ControlLabel>
+                                        {this.state.changed === false ?
+                                            <Suspense fallback={ <div><Code/>{console.log("fallback")}</div>}>
+                                                <LazyIconPicker text={this.state.selectedIcon} onChange={e=>{this.setState({ selectedIcon: e.selectedIcon });}}/>
                                             </Suspense>
-                                            <br/>
-                                        </FormGroup>
-                                        : null
-                                    }
+                                            : <IconPicker text={this.state.selectedIcon} onChange={e=>{this.setState({ selectedIcon: e.selectedIcon });}}/>
+                                        }
+                                    </FormGroup>
+
                                     {this.state.markType === "icon" || this.state.markType === "image" ?
                                         <SizeSlider>
                                             <ControlLabel>{i18n.t("size")}</ControlLabel>
-                                            <FormControl type={'range'} min={10} max={100} step={1} value={this.state.size} onChange={()=>{this.setState({ size: event.target.value });}}/>
+                                            <FormControl type={'range'} min={10} max={100} step={1} value={this.state.size} onChange={()=>{this.setState({ size: event.target.value, changed: true });}} />
                                         </SizeSlider>
                                         : null
                                     }
