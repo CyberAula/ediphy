@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import IconButton from "./IconButton";
 import { ICONLIST } from "./icons";
 import PropTypes from 'prop-types';
@@ -13,8 +13,8 @@ const IconPicker = (props) => {
         return props.onChange({ selectedIcon });
     };
 
-    const renderTable = ()=> {
-        if(text === "") {
+    const renderTable = () => {
+        if (text === "") {
             return ICONLIST.map((icon, index) => {
                 return <IconButton handleClick={handleClick} selected={icon === props.text} text={icon}
                     key={index}/>;
@@ -29,9 +29,11 @@ const IconPicker = (props) => {
     };
     console.log("rerender");
     return (
-        <StyledTable style={{ display: "flex", justifyContent: "start", alignItems: "center", flexDirection: "column" }}>
+        <StyledTable
+            style={{ display: "flex", justifyContent: "start", alignItems: "center", flexDirection: "column" }}>
             <div style={{ paddingBottom: "0.8em", width: "100%" }}>
-                <input type="text" placeholder={i18n.t("icon_picker.searchbox_preview")} value={text} onChange={e=>setText(e.target.value)} className="input"/>
+                <input type="text" placeholder={i18n.t("icon_picker.searchbox_preview")} value={text}
+                    onChange={e => setText(e.target.value)} className="input"/>
             </div>
             <br/>
             <div className="table">
@@ -39,9 +41,14 @@ const IconPicker = (props) => {
             </div>
         </StyledTable>
     );
+
 };
 
-export default IconPicker;
+function areEqual(prevProps, nextProps) {
+    return prevProps.text === nextProps.text;
+}
+
+export default React.memo(IconPicker, areEqual);
 
 IconPicker.propTypes = {
     /**

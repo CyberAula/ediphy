@@ -134,8 +134,13 @@ class RichMarksModal extends Component {
             previewSize.width = x > y ? "15em" : String(15 * selectedPluginAspectRatio) + "em";
             previewSize.aspectRatio = selectedPluginAspectRatio;
         }
-        // noinspection JSCheckFunctionSignatures
-        const LazyIconPicker = React.lazy(() => import('../../common/iconPicker/IconPicker'));
+
+        const LazyIconPicker = React.lazy(() => {
+            return new Promise(resolve => {
+                setTimeout(() => resolve(import("../../common/iconPicker/IconPicker")), 5);
+            });
+        });
+
         return (
             <ModalContainer backdrop bsSize="large" show={this.props.richMarksVisible}>
                 <Modal.Header>
@@ -179,13 +184,13 @@ class RichMarksModal extends Component {
                                             type="radio"
                                             value="image"
                                             name="mark_type"
-                                            onClick={() => this.setState({ markType: "image" })}
+                                            onClick={() => this.setState({ markType: "image", changed: false })}
                                         >{i18n.t("image")}</TypeTab>
                                         <TypeTab
                                             type="radio"
                                             value="area"
                                             name="mark_type"
-                                            onClick={() => this.setState({ markType: "area" })}
+                                            onClick={() => this.setState({ markType: "area", changed: false })}
                                         >{i18n.t("area")}</TypeTab>
                                     </MarkTypeTab>
                                 </FormGroup>
@@ -236,22 +241,15 @@ class RichMarksModal extends Component {
                                         </FormGroup>
                                         : null
                                     }
-                                    {this.state.markType === "icon" ? // Selector de iconos
-                                        <FormGroup>
-                                            <ControlLabel>{i18n.t("marks.selector")}</ControlLabel>
-                                            {(()=>{if (this.state.changed === false) {
-                                                console.log("Lazy");
-                                                return(<Suspense fallback={<Code/>}>
-                                                    <LazyIconPicker text={this.state.selectedIcon} onChange={e=>{this.setState({ selectedIcon: e.selectedIcon });}}/>
-                                                </Suspense>);
-                                            }
-                                            console.log("nolazy");
-                                            return <IconPicker text={this.state.selectedIcon} onChange={e=>{this.setState({ selectedIcon: e.selectedIcon });}}/>;
-
-                                            })()}
-                                        </FormGroup>
-                                        : null
-                                    }
+                                    <FormGroup hidden={this.state.markType !== "icon"}>
+                                        <ControlLabel>{i18n.t("marks.selector")}</ControlLabel>
+                                        {this.state.changed === false ?
+                                            <Suspense fallback={ <div><Code/>{console.log("fallback")}</div>}>
+                                                <LazyIconPicker text={this.state.selectedIcon} onChange={e=>{this.setState({ selectedIcon: e.selectedIcon, changed: true });}}/>
+                                            </Suspense>
+                                            : <IconPicker text={this.state.selectedIcon} onChange={e=>{this.setState({ selectedIcon: e.selectedIcon, changed: true });}}/>
+                                        }
+                                    </FormGroup>
                                     {this.state.markType === "icon" || this.state.markType === "image" ?
                                         <SizeSlider>
                                             <ControlLabel>{i18n.t("size")}</ControlLabel>
