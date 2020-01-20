@@ -188,7 +188,6 @@ export default class MarkEditor extends Component {
             const width = square.right - square.left;
             const height = square.bottom - square.top;
             const value = parseRichMarkInput(x, y, width, height, toolbarState, boxId);
-
             document.body.style.cursor = 'default';
             boxStyle.classList.remove('norotate');
             document.documentElement.removeEventListener('mouseup', clickOutside, true);
