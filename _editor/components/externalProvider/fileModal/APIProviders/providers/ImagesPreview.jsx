@@ -3,13 +3,15 @@ import SearchComponent from "../common/SearchComponent";
 import i18n from "i18next";
 import ImageComponent from "../common/ImageComponent";
 import React from "react";
+import StackGrid from "react-stack-grid";
+import { ExternalResultsModal } from "../../Styles";
 
 export const ImagesPreview = (self) => {
-    return(
+    return (
         <div className="contentComponent">
             <Form horizontal action="javascript:void(0);">
-                <h5>{self.props.icon ? <img className="fileMenuIcon" src={self.props.icon } alt=""/> : self.props.name}
-                    <SearchComponent query={self.state.value} onChange={(e)=>{self.setState({ query: e.target.value });}} onSearch={self.onSearch} /></h5>
+                <h5>{self.props.icon ? <img className="fileMenuIcon" src={self.props.icon} alt="" /> : self.props.name}
+                    <SearchComponent query={self.state.value} onChange={(e) => { self.setState({ query: e.target.value }); }} onSearch={self.onSearch} /></h5>
                 <hr />
 
                 <FormGroup>
@@ -23,16 +25,18 @@ export const ImagesPreview = (self) => {
                 </FormGroup>
 
             </Form>
-            <Form className={"ExternalResults"}>
+            <ExternalResultsModal>
                 {self.state.results.length > 0 ?
                     (
                         <FormGroup>
-                            <ControlLabel>{ self.state.results.length + " " + i18n.t("FileModal.APIProviders.results")}</ControlLabel>
+                            <ControlLabel>{self.state.results.length + " " + i18n.t("FileModal.APIProviders.results")}</ControlLabel>
                             <br />
-                            {self.state.results.map((item) => {
-                                return (<ImageComponent item={item} title={item.title} url={item.url} thumbnail={item.thumbnail} onElementSelected={self.props.onElementSelected} isSelected={item.url === self.props.elementSelected} />
-                                );
-                            })}
+                            <StackGrid columnWidth={"33.3%"} gutterHeight={10} monitorImagesLoaded>
+                                {self.state.results.map((item) => {
+                                    return (<ImageComponent item={item} title={item.title} url={item.url} thumbnail={item.thumbnail} onElementSelected={self.props.onElementSelected} isSelected={item.url === self.props.elementSelected} />
+                                    );
+                                })}
+                            </StackGrid>
                         </FormGroup>
                     ) :
                     (
@@ -41,7 +45,7 @@ export const ImagesPreview = (self) => {
                         </FormGroup>
                     )
                 }
-            </Form>
+            </ExternalResultsModal>
         </div>
     );
 };

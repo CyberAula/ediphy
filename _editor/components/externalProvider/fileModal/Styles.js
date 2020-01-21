@@ -654,6 +654,10 @@ export const MoodleDialog = styled.div.attrs({ className: 'moodleDialog' })`
   }
 `;
 
+export const ExternalResultsModal = styled.div.attrs({ className: 'externalResults' })`
+  padding: 0 20px;
+`;
+
 export const ExternalResults = styled.div.attrs({ className: 'externalResults' })`
         min-height: 44vh;
         overflow-y: auto;
