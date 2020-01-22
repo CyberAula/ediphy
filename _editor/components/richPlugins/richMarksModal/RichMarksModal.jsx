@@ -414,6 +414,7 @@ class RichMarksModal extends Component {
                             size = this.state.size;
                             content.imageDimensions = ({});
                             content.imageDimensions.width = previewSize.height < previewSize.width ? 100 * imageSize : (100 * imageSize / previewSize.aspectRatio * originalDimensions.aspectRatio);
+                            content.imageDimensions.height = content.imageDimensions.width / previewSize.aspectRatio;
                             content.url = this.state.image || this.props.fileModalResult.value;
                             break;
                         default:
