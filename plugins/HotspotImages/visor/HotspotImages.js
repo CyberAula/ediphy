@@ -14,15 +14,26 @@ export function HotspotImages() {
                 let position = svg ? [0, 0] : marks[e].value.split(',');
                 let title = marks[e].title;
                 let markType = marks[e].markType;
-                let width = markType === "image" ? String(marks[e].content.size.width) + "%" : null;
+                let width = markType === "image" ? String(marks[e].content.imageDimensions.width) + "%" : null;
                 let isPopUp = marks[e].connectMode === "popup";
                 let isVisor = true;
                 let content = marks[e].content;
                 let color = marks[e].color;
                 let size = marks[e].size;
                 let svg = marks[e].content.svg;
+                let adjust = [0, 0];
+                switch(markType) {
+                case "image":
+                    adjust = [content.imageDimensions.height / 2, content.imageDimensions.width / 2];
+                    break;
+                case "icon":
+                    adjust = [size / 20, size / 20];
+                    break;
+                default:
+                }
+
                 return(
-                    <div key={e} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width, height: "auto" }}>
+                    <div key={e} style={{ position: 'absolute', top: position[0] - adjust[0] + "%", left: position[1] - adjust[1] + "%", width, height: "auto" }}>
                         <Mark
                             markType={markType}
                             content={content}

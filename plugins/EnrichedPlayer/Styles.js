@@ -6,7 +6,6 @@ export const BLUE_PRIMARY = '#17cfc8';
 export const PlayerPlugin = styled(CustomRange)`
   width: 100%;
   height: 100%;
-  pointer-events: none;
   overflow: hidden;
   cursor: default;
   iframe{
