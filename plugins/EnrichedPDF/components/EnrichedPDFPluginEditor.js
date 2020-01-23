@@ -51,8 +51,20 @@ export default class EnrichedPDFPluginEditor extends React.Component {
     render() {
         let marks = this.props.props.marks || {};
         let markElements = Object.keys(marks).map((id) =>{
-            let { value, title, content, color, size } = marks[id];
-            let position = (value && value.split(',').length === 3) ? value.split(',') : [0, 0, 0];
+            let value = marks[id].value;
+            let title = marks[id].title;
+            let content = marks[id].content;
+            let color = marks[id].color;
+            let size = marks[id].size;
+            let position;
+            // eslint-disable-next-line no-unused-vars
+            let type = marks[id].type;
+            if (value && value.split(',').length === 3) {
+                position = value.split(',');
+            } else {
+                position = [0, 0, 0];
+            }
+
             let x = "" + position[0] + "%";
             let y = "" + position[1] + "%";
 

@@ -145,12 +145,12 @@ class RichMarksModal extends Component {
                                             name="mark_type"
                                             onClick={() => this.setState({ markType: "image", changed: false })}
                                         >{i18n.t("image")}</TypeTab>
-                                        <TypeTab
+                                        {this.areasAllowed(config) ? <TypeTab
                                             type="radio"
                                             value="area"
                                             name="mark_type"
                                             onClick={() => this.setState({ markType: "area", changed: false })}
-                                        >{i18n.t("area")}</TypeTab>
+                                        >{i18n.t("area")}</TypeTab> : null}
                                     </MarkTypeTab>
                                 </FormGroup>
                                 <FormGroup>
@@ -597,6 +597,8 @@ class RichMarksModal extends Component {
         this.h.onRichMarksModalToggled();
         this.h.onRichMarkEditPressed(this.state);
     };
+
+    areasAllowed = pluginConfig => pluginConfig?.name === "HotspotImages";
 
     toggleFileUpload = (id, accept) => {
         this.props.dispatch(updateUI({
