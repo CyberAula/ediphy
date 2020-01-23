@@ -20,7 +20,7 @@ export function HotspotImages() {
                 let content = marks[e].content;
                 let color = marks[e].color;
                 let size = marks[e].size;
-                let svg = marks[e].svg;
+                let svg = marks[e].content.svg;
                 return(
                     <div key={e} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width, height: "auto" }}>
                         <Mark
@@ -41,11 +41,11 @@ export function HotspotImages() {
             });
 
             let svgElements = svgMarks.map(mark => (
-                <svg viewBox={`0 0 ${mark.svg.canvasSize.width} ${mark.svg.canvasSize.height}`}
+                <svg viewBox={`0 0 ${mark.content.svg.canvasSize.width} ${mark.content.svg.canvasSize.height}`}
                     style={{ position: 'absolute', pointerEvents: 'none' }}
                     height={'100%'} width={'100%'}
                     preserveAspectRatio="none">
-                    <path d={mark.svg.svgPath} fill={mark.color || '#000'} style={{ pointerEvents: 'all', cursor: 'pointer' }}
+                    <path d={mark.content.svg.svgPath} fill={mark.color || '#000'} style={{ pointerEvents: 'all', cursor: 'pointer' }}
                         onClick={()=>props.onMarkClicked(props.id, mark.value)}
                     />
                 </svg>

@@ -8,10 +8,13 @@ class IconButton extends Component {
     }
 
     render() {
-        return (<div onClick={this.onClick}> <i className="material-icons">{this.props.text}</i></div>);
+        return (<div className={this.props.selected ? "markIcon selectedIcon" : "markIcon"} onClick={this.onClick} style={{ padding: "0.6em" }}> <i className="material-icons">{this.props.text}</i></div>);
     }
     onClick() {
         this.props.handleClick(this.props.text);
+    }
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        return this.props !== nextProps;
     }
 }
 

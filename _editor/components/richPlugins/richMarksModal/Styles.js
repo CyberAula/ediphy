@@ -77,6 +77,7 @@ export const TypeSelector = styled.div.attrs({ className: 'typeSelector' })`
     &:hover {
       transform: rotate(90deg);
     }
+    
   }
 `;
 export const ConfigSize = styled.div`
@@ -136,7 +137,13 @@ export const TypeTab = styled(ToggleButton)`
     background-color: ${PRIMARY_BLUE};
     border-color: ${PRIMARY_BLUE};
     color: white;
+    &:hover, &:focus{
+      background-color: ${PRIMARY_BLUE_DARK};
+      color: white;
+      border-color: ${PRIMARY_BLUE_DARK};
+    }
   }
+  
   &:hover, &:focus{
     box-shadow: none;
     background-color: ${PRIMARY_BLUE_DARK};

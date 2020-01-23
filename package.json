@@ -226,6 +226,7 @@
     "react-bootstrap-typeahead": "^2.0.0-rc.4",
     "react-codemod": "^4.0.1",
     "react-color": "^2.17.0",
+    "react-content-loader": "^4.3.4",
     "react-datatable-bs": "^1.0.12",
     "react-dnd": "^7.3.1",
     "react-dnd-dropzone": "^1.1.4",

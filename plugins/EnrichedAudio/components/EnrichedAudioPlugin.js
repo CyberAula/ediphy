@@ -135,7 +135,7 @@ export default class BasicAudioPlugin extends React.Component {
             let value = (secondsValue * 100 / duration) + "%";
             let title = marks[id].title;
             let content = marks[id].content;
-            let color = marks[id].color;
+            let colorImage = marks[id].color;
             let size = marks[id].size;
             let markColor = marks[id].color;
             let markType = marks[id].markType;
@@ -148,7 +148,7 @@ export default class BasicAudioPlugin extends React.Component {
                 <AudioMark key={id} style={{ background: markColor || themeColor || "#17CFC8", left: value, position: "absolute" }} >
                     <Mark style={{ position: 'relative', top: "-1.7em", left: "-1em" }}
                         content={content}
-                        color={color}
+                        color={colorImage}
                         size={size}
                         markType={markType}
                         idKey={id}

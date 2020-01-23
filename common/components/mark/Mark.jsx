@@ -30,9 +30,8 @@ export default class Mark extends Component {
             </OverlayTrigger>
         );
     }
-
-    returnMark(type) {
-        switch(type) {
+    returnMark(markType) {
+        switch(markType) {
         case "icon":
             let color = this.props.color || "black";
             let size = (this.props.content.size / 10) + 'em' || '1em';
@@ -60,7 +59,15 @@ Mark.propTypes = {
      */
     isImage: PropTypes.any,
     /**
-     * Mark information which varies withmarkType
+     * Color of the mark
+     */
+    color: PropTypes.string,
+    /**
+     * Value of rich mark modal slider for resizing
+     */
+    size: PropTypes.any,
+    /**
+     * Mark information which varies with type
      */
     content: PropTypes.any,
     /**

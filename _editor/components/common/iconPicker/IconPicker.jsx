@@ -1,51 +1,57 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import IconButton from "./IconButton";
 import { ICONLIST } from "./icons";
 import PropTypes from 'prop-types';
+import i18n from 'i18next';
+import { StyledTable } from './Styles';
 
-class IconPicker extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleClick = this.handleClick.bind(this);
-    }
-    render() {
-        return (
+const IconPicker = (props) => {
 
-            <div className="table-responsive " style={{ height: "200px", width: "100%" }}>
-                <table className="table">
-                    <tbody>
-                        {this.renderTable()}
-                    </tbody>
-                </table>
-            </div>
+    const [text, setText] = useState("");
 
-        );
-    }
-    handleClick(selectedIcon) {
-        this.props.onChange({ selectedIcon });
-    }
-    renderTable() {
-        let temp = [];
-        for(let i = 0; i < ICONLIST.length; i += 5) {
-            temp.push(
-                <tr key={i}>
-                    <td> <IconButton handleClick={this.handleClick} text={ICONLIST[i]}/></td>
-                    <td>{(i + 1) <= ICONLIST.length ? <IconButton handleClick={this.handleClick} text={ICONLIST[i + 1]}/> : null} </td>
-                    <td>{(i + 2) <= ICONLIST.length ? <IconButton handleClick={this.handleClick} text={ICONLIST[i + 2]}/> : null} </td>
-                    <td>{(i + 3) <= ICONLIST.length ? <IconButton handleClick={this.handleClick} text={ICONLIST[i + 3]}/> : null} </td>
-                    <td>{(i + 4) <= ICONLIST.length ? <IconButton handleClick={this.handleClick} text={ICONLIST[i + 4]}/> : null} </td>
-                </tr>);
+    const handleClick = (selectedIcon) => {
+        return props.onChange({ selectedIcon });
+    };
+
+    const renderTable = () => {
+        if (text === "") {
+            return ICONLIST.map((icon, index) => {
+                return <IconButton handleClick={handleClick} selected={icon === props.text} text={icon}
+                    key={index}/>;
+            });
         }
-        return temp;
-    }
+        const searchText = text.toLowerCase();
+        return ICONLIST.filter(icon => icon.includes(searchText)).map((icon, index) => {
+            return <IconButton handleClick={handleClick} selected={icon === props.text} text={icon}
+                key={index}/>;
+        });
+
+    };
+    return (
+        <StyledTable
+            style={{ display: "flex", justifyContent: "start", alignItems: "center", flexDirection: "column" }}>
+            <div style={{ paddingBottom: "0.8em", width: "100%" }}>
+                <input type="text" placeholder={i18n.t("icon_picker.searchbox_preview")} value={text}
+                    onChange={e => setText(e.target.value)} className="input"/>
+            </div>
+            <br/>
+            <div className="table">
+                {renderTable()}
+            </div>
+        </StyledTable>
+    );
+
+};
+
+function areEqual(prevProps, nextProps) {
+    return prevProps.text === nextProps.text;
 }
 
-export default IconPicker;
+export default React.memo(IconPicker, areEqual);
 
 IconPicker.propTypes = {
     /**
      * Function to handle changes
      */
     onChange: PropTypes.func.isRequired,
-
 };
