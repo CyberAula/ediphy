@@ -24,7 +24,7 @@ function getPreviewContent(props) {
                     style={{ pointerEvents: 'none' }}
                     height={'100%'} width={'100%'}
                     preserveAspectRatio="none">
-                    <path d={path} fill={props.state.color || '#000000'}/>
+                    <path d={path} strokeDasharray="5,5" stroke={props.state.secretArea ? 'black' : 'transparent' } fill={props.state.color || '#000000'}/>
                 </svg>
             </div>
         ) : 'Draw a shape';

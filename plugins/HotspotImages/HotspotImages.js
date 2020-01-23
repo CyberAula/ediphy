@@ -138,7 +138,6 @@ export const HotspotImages = (base) => ({
         let marks = props.marks || {};
         let svgMarks = [];
         let markElements = Object.keys(marks).map((id) =>{
-            console.log(marks);
             let { value, title, markType, content, color, size } = marks[id];
             let position;
             let width = markType === "image" ? String(content.imageDimensions.width) + "%" : null;
@@ -158,7 +157,6 @@ export const HotspotImages = (base) => ({
                 </MarkEditor>
             );
         });
-        console.log(svgMarks);
         let svgElements = svgMarks.map(mark => (
             <svg viewBox={`0 0 ${mark.content.svg.canvasSize.width} ${mark.content.svg.canvasSize.height}`}
                 style={{ position: 'absolute', pointerEvents: 'none' }}
