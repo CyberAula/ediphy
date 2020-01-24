@@ -177,7 +177,7 @@ class RichMarksModal extends Component {
                                                 <ColorPicker
                                                     color={this.state.color || marksType.defaultColor}
                                                     value={this.state.color || marksType.defaultColor}
-                                                    onChange={e=>{this.setState({ color: e.color, changed: true });}}
+                                                    onChange={e=>{this.setState({ color: e.color, changed: true, secretArea: false });}}
                                                 />
                                                 {
                                                     this.state.markType === "area" ?
