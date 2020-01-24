@@ -134,10 +134,9 @@ export default class EnrichedPlayerPlugin extends React.Component {
             let duration = this.state.duration;
             let value = (secondsValue * 100 / duration) + "%";
             let title = marks[id].title;
-            let text = marks[id].text;
+            let content = marks[id].content;
+            let markType = marks[id].type;
             let color = marks[id].color;
-            let size = marks[id].size;
-            let image = marks[id].image;
             let isPopUp = marks[id].connectMode === "popup";
             let noTrigger = false;
             let isVisor = true;
@@ -145,11 +144,11 @@ export default class EnrichedPlayerPlugin extends React.Component {
                 <VideoMark key={id} style={{ background: color || "#17CFC8", left: value, position: "absolute" }} >
                     <Mark style={{ position: 'relative', top: "-1.7em", left: "-0.75em" }}
                         color={color || "#17CFC8"}
-                        text={text}
+                        content={content}
                         size={size}
-                        image={image}
                         idKey={id}
                         title={title}
+                        markType={markType}
                         isVisor={isVisor}
                         isPopUp={isPopUp}
                         markConnection={marks[id].connection}

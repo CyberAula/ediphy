@@ -82,12 +82,10 @@ export default class EnrichedPlayerPluginEditor extends React.Component {
             let color = marks[id].color;
             let size = marks[id].size;
             let markType = marks[id].markType;
-            let text = marks[id].text;
-
             return(
                 <MarkEditor key={id} style={{ left: value, position: "absolute", top: "0.3em" }} dispatch={this.props.props.dispatch} boxId={this.props.props.id} time={1.5} mark={id} marks={marks} onRichMarkMoved={this.h.onRichMarkMoved} state={this.props.state} base={this.props.base}>
                     <VideoMark style={{ background: color || "#17CFC8" }}>
-                        <Mark style={{ position: 'relative', top: "-1.7em", left: "-0.75em" }} color={color || "#17CFC8"} idKey={id} text={text} size={size} title={title} content={content} markType={markType} />
+                        <Mark style={{ position: 'relative', top: "-1.7em", left: "-0.75em" }} color={color || "#17CFC8"} idKey={id} size={size} title={title} content={content} markType={markType} />
                     </VideoMark>
                 </MarkEditor>);
         });
