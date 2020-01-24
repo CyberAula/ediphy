@@ -7,6 +7,7 @@ export const PlayerPlugin = styled(CustomRange)`
   width: 100%;
   height: 100%;
   overflow: hidden;
+  pointer-events: none;
   cursor: default;
   iframe{
     margin-bottom: -0.25em;
