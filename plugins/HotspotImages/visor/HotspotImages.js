@@ -52,7 +52,6 @@ export function HotspotImages() {
                 {svgElements}
             </div>);
             markElements.push(svgContainer);
-
             return <Image markElements={markElements} props={props} state={state}/>;
         },
 

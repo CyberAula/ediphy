@@ -612,7 +612,7 @@ class RichMarksModal extends Component {
     getMarkValue = () => {
         switch (this.state.markType) {
         case 'area':
-            return this.props.markCursorValue?.svgPath ?? this.props.currentRichMark?.content?.svgPath ?? 'Draw a shape';
+            return this.props.markCursorValue?.svgPath ?? this.props.currentRichMark?.content?.svg?.svgPath ?? 'Draw a shape';
         default:
             return this.props.markCursorValue ?? this.props.currentRichMark?.value ?? 0;
         }
