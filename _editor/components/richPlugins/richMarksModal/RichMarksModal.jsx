@@ -335,6 +335,7 @@ class RichMarksModal extends Component {
                         case "area":
                             color = this.state.color || marksType.defaultColor || '#222222';
                             content.svg = this.state.svg;
+                            content.secretArea = this.state.secretArea;
                             break;
                         case "image":
                             size = this.state.size;
