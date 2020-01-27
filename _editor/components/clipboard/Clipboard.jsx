@@ -87,7 +87,7 @@ class Clipboard extends Component {
             try {
                 document.execCommand('copy');
                 return true;
-            } catch(e) {
+            } catch (e) {
                 return false;
             }
 
@@ -167,11 +167,12 @@ class Clipboard extends Component {
         }
         let config = plug.getConfig();
         let limitToOneInstance = config.limitToOneInstance;
-        let alertMsg = (msg) => { return (<Alert className="pageModal" key="alert" show hasHeader backdrop={false}
-            title={ <span><i className="material-icons alert-warning" >warning</i>{ i18n.t("messages.alert") }</span> }
-            closeButton onClose={()=>{this.setState({ alert: null });}}>
-            <span> {msg} </span>
-        </Alert>);
+        let alertMsg = (msg) => {
+            return (<Alert className="pageModal" key="alert" show hasHeader backdrop={false}
+                title={<span><i className="material-icons alert-warning" >warning</i>{i18n.t("messages.alert")}</span>}
+                closeButton onClose={() => { this.setState({ alert: null }); }}>
+                <span> {msg} </span>
+            </Alert>);
 
         };
         // Forbid plugins inside plugins inside plugins (only 1 level allowed)
@@ -198,9 +199,11 @@ class Clipboard extends Component {
         }
         for (let mark in marksById) {
             let newId = marksById[mark].id + Date.now() + "_1";
-            let newMark = { ...marksById[mark],
+            let newMark = {
+                ...marksById[mark],
                 origin: transformedBox.newIds[marksById[mark].origin] || ids.id,
-                id: newId };
+                id: newId,
+            };
             if ((isContainedView(newMark.connection) && this.props.containedViewsById[newMark.connection]) || (isView(newMark.connection) && this.props.navItemsById[newMark.connection]) || newMark.connectMode === 'external' || newMark.connectMode === 'popup') {
                 newMarks[newId] = newMark;
             }
@@ -247,7 +250,7 @@ class Clipboard extends Component {
                 let col = 0;
                 let container = isTargetSlide ? 0 : containerId;
                 let newInd;
-                if (boxesById?.[boxSelected] && isBox(boxSelected)) {
+                if (boxesById ?.[boxSelected] && isBox(boxSelected)) {
                     parent = boxesById[boxSelected].parent;
                     container = boxesById[boxSelected].container;
                     row = boxesById[boxSelected].row;
@@ -257,7 +260,7 @@ class Clipboard extends Component {
 
                 let ids = { id, parent, container, row, col, page: page ? page.id : 0 };
                 // Copied data is an EditorBox
-                if (data?.box && data?.toolbar) {
+                if (data ?.box && data ?.toolbar) {
                     // Focus is outside a text box
                     if (!this.containsCKEDitorText(activeElement)) {
                         // Paste plugin
@@ -274,7 +277,7 @@ class Clipboard extends Component {
                         // event.preventDefault();
                     }
 
-                // Copied data is not an EditorBox
+                    // Copied data is not an EditorBox
                 } else if (!this.containsCKEDitorText(activeElement)) {
                     event.preventDefault();
                     let initialParams = {
@@ -295,7 +298,7 @@ class Clipboard extends Component {
                     let noImage = true;
                     try {
                         let uploadFunctionAction = (process.env.NODE_ENV === 'production' && process.env.DOC !== 'doc') ? uploadVishResourceAsync : uploadEdiphyResourceAsync;
-                        let uploadFunction = (...params) => {return this.props.dispatch(uploadFunctionAction(...params));};
+                        let uploadFunction = (...params) => { return this.props.dispatch(uploadFunctionAction(...params)); };
                         noImage = retrieveImageFromClipboardAsBase64(event, uploadFunction, (url) => {
                             if (url) {
                                 initialParams.url = url; // URLObj.createObjectURL(imageBlob);
@@ -359,7 +362,7 @@ class Clipboard extends Component {
                                 createBox(initialParams, "EnrichedPlayer", isTargetSlide, this.h.onBoxAdded, boxesById);
                                 return;
                             }
-                        } catch(err) {
+                        } catch (err) {
                             // eslint-disable-next-line no-console
                             console.log(err);
                         }
@@ -406,7 +409,7 @@ class Clipboard extends Component {
             col: ids.col || 0,
             level: isBox(ids.parent) ? 1 : 0,
             sortableContainers: newContainerBoxes,
-            containedViews: box.containedViews.filter(cv=> this.props.containedViewsById[cv]),
+            containedViews: box.containedViews.filter(cv => this.props.containedViewsById[cv]),
         });
         return { newBox, newIds };
 
@@ -468,7 +471,7 @@ class Clipboard extends Component {
      * Renders React Component
      */
     render() {
-        let childrenWithProps = React.Children.map(this.props.children, (child) =>{
+        let childrenWithProps = React.Children.map(this.props.children, (child) => {
             if (React.isValidElement(child) && child.props.name === "duplicate") {
                 return React.cloneElement(child, { onClick: this.duplicateBox });
             }

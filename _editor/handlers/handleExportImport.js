@@ -37,7 +37,8 @@ export default (self) => ({
         Ediphy.Visor.exportScorm({
             ...currentState.undoGroup.present,
             filesUploaded: currentState.filesUploaded,
-            status: currentState.status }, is2004, callback, selfContained);
+            status: currentState.status,
+        }, is2004, callback, selfContained);
     },
 
     importEdi: (state) => self.props.dispatch(serialize(importEdi(state))),

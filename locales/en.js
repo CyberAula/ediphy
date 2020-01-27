@@ -384,6 +384,7 @@ let en = {
             "instance_limit": "This plugin only allows one instance per page",
             "depth_limit": "You cannot insert this kind of content here",
             "height_auto_warning": "The boxes inside can only have a relative height if you fix the container height",
+            "loading": "Loading...",
             "mark_input": "Something is wrong with your input",
             "no_internet": "You need Internet connection",
             "OK": "Accept",
