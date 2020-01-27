@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
-export default function AreaCreator(props) {
+const AreaCreator = (props) => {
     const [canvasPosition, setCanvasPosition] = useState({ top: 0, left: 0 });
     const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
     const [hoverPoint, setHoverPoint] = useState({ x: 0, y: 0 });
@@ -19,7 +20,6 @@ export default function AreaCreator(props) {
                     setCanvasPosition({ top, left });
                 }
             } catch (e) {
-                console.log(e);
             }
         }
     }, [canvasSize, props]);
@@ -31,7 +31,9 @@ export default function AreaCreator(props) {
         }
     };
 
-    const tracePath = points => {
+    // eslint-disable-next-line no-shadow
+    const tracePath = pathPts => {
+        // eslint-disable-next-line no-shadow
         const pathMaker = (trace, newPoint, index, points) => {
             if (index === 0) {
                 return `M${newPoint.x} ${newPoint.y}`;
@@ -40,17 +42,18 @@ export default function AreaCreator(props) {
             }
             return `${trace} L${newPoint.x} ${newPoint.y}`;
         };
-        return points.reduce(pathMaker, '');
+        return pathPts.reduce(pathMaker, '');
     };
 
+    // eslint-disable-next-line no-shadow
     const drawVertex = points => {
         return points.map((point, i) => <circle key={i} cx={point.x} cy={point.y} r="2" fill="white" />);
     };
 
     const getPosition = (e) => {
-        const hoverPoint = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
-        setHoverPoint(hoverPoint);
-        setNextToVertex(isNextToVertex(hoverPoint));
+        const hPoint = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
+        setHoverPoint(hPoint);
+        setNextToVertex(isNextToVertex(hPoint));
     };
 
     const finishDrawing = () => {
@@ -73,7 +76,7 @@ export default function AreaCreator(props) {
     };
 
     const isNextToVertex = (point, tolerance = 2) => {
-        return points.find(p => Math.sqrt((p.x - point.x) ^ 2 + (p.y - point.y) ^ 2) < tolerance);
+        return points.find(p => Math.sqrt(Math.pow((p.x - point.x), 2) + Math.pow((p.y - point.y), 2)) < tolerance);
     };
 
     const handleKeyDown = e => {
@@ -110,4 +113,29 @@ export default function AreaCreator(props) {
         </div>
 
     ) : <div />;
-}
+};
+
+export default AreaCreator;
+
+AreaCreator.propTypes = {
+    /**
+     * Canvas size
+     */
+    canvas: PropTypes.object,
+    /**
+     * Callback triggered when area is created
+     */
+    onEnd: PropTypes.func,
+    /**
+      * Undo function enabled
+      */
+    undo: PropTypes.bool,
+    /**
+      * Area creator enabled
+      */
+    active: PropTypes.bool,
+    /**
+   * Area color
+   */
+    color: PropTypes.any,
+};

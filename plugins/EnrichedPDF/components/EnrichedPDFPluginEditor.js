@@ -57,6 +57,7 @@ export default class EnrichedPDFPluginEditor extends React.Component {
             let color = marks[id].color;
             let size = marks[id].size;
             let position;
+            // eslint-disable-next-line no-unused-vars
             let type = marks[id].type;
             if (value && value.split(',').length === 3) {
                 position = value.split(',');
