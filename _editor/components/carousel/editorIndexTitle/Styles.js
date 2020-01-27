@@ -47,6 +47,7 @@ export const ActualSectionTitle = styled.div`
     position: relative;
     white-space: nowrap;
     overflow: hidden;
+    margin: 10px !important;
     left: 0;
     width: 90%;
     color:rgb(204,204,204);

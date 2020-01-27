@@ -18,7 +18,7 @@ class ContainedViewsList extends Component {
 
         let containedViewsByIdIncluded = Object.keys(containedViewsById).length > 0;
         return (<ContainedViewsListContainer className="containedViewsList" style={{
-            height: (showContainedViews) ? ((showSortableItems) ? "calc(50% - 126px)" : "calc(100% - 126px)") : "0px",
+            height: (showContainedViews) ? ((showSortableItems) ? "calc(50% - 120px)" : "calc(100% - 120px)") : "0px",
             display: 'block', overflowY: 'auto', overflowX: 'hidden',
         }}>
             <div className="empty-info" style={{ display: (containedViewsByIdIncluded) ? "none" : "block" }}>{i18n.t("empty.cv_empty")}</div>

@@ -26,7 +26,7 @@ class EditorCarousel extends Component {
                     overflowX: carouselFull ? 'hidden' : '',
                 }}>
                 <ErrorBoundary context={'carousel'}>
-                    <CarouselHeader />
+                    <CarouselHeader/>
                     <FileTree />
                     <CarouselButtons />
                 </ErrorBoundary>

@@ -148,6 +148,7 @@ export const PluginsMenus = styled.div.attrs({ className: 'pluginsMenu' })`
 `;
 
 export const PluginIcon = styled(MatIcon)`
+    font-size: 1.1em !important;
     display: none !important;
     @media screen and (max-width: 1147px){
         display: block !important;

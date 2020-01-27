@@ -7,6 +7,7 @@ export const CarouselListTitle = styled.div`
     align-items: center;
     cursor: pointer;
     color: ${LIGHT_GREY};
+    padding: 2px;
     * {
         ${animation("all", "0.2s")};
     }
