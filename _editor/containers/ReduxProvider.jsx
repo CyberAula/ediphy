@@ -6,6 +6,7 @@ import EditorApp from './EditorApp';
 import { createStore, compose, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import Ediphy from '../../core/editor/main';
+
 export default class ReduxProvider extends Component {
     constructor(props) {
         super(props);
@@ -34,7 +35,6 @@ export default class ReduxProvider extends Component {
                 store.replaceReducer(nextRootReducer);
             });
         }
-
         return store;
     }
 }

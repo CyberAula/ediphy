@@ -60,344 +60,6 @@
 
 body {
   display: none; }
-.test0 {
-  font-family: var(--themePrimaryFont, "Ubuntu");
-  background-image: var(--themeBackgroundImage, none);
-  background-color: var(--themeBackgroundColor, transparent); }
-.test1 {
-  font-family: var(--themePrimaryFont, "Ubuntu");
-  background-image: var(--themeBackgroundImage, none);
-  background-color: var(--themeBackgroundColor, transparent); }
-.test2 {
-  font-family: var(--themePrimaryFont, "Ubuntu");
-  background-image: var(--themeBackgroundImage, none);
-  background-color: var(--themeBackgroundColor, transparent); }
-.test3 {
-  font-family: var(--themePrimaryFont, "Ubuntu");
-  background-image: var(--themeBackgroundImage, none);
-  background-color: var(--themeBackgroundColor, transparent); }
-.test4 {
-  font-family: var(--themePrimaryFont, "Ubuntu");
-  background-image: var(--themeBackgroundImage, none);
-  background-color: var(--themeBackgroundColor, transparent); }
-.test5 {
-  font-family: var(--themePrimaryFont, "Ubuntu");
-  background-image: var(--themeBackgroundImage, none);
-  background-color: var(--themeBackgroundColor, transparent); }
-.test6 {
-  font-family: var(--themePrimaryFont, "Ubuntu");
-  background-image: var(--themeBackgroundImage, none);
-  background-color: var(--themeBackgroundColor, transparent); }
-.test7 {
-  font-family: var(--themePrimaryFont, "Ubuntu");
-  background-image: var(--themeBackgroundImage, none);
-  background-color: var(--themeBackgroundColor, transparent); }
-.default {
-  font-family: var(--themePrimaryFont, "Ubuntu"); }
-  .default .title {
-    display: block;
-    background-color: transparent; }
-    .default .title .cab {
-      font-size: 2em;
-      padding: 1em; }
-      .default .title .cab .cabtabla_numero {
-        padding: 0.2em 0.3em;
-        line-height: 1em;
-        color: var(--themeColor1);
-        font-family: var(--themePrimaryFont, "Ubuntu"); }
-      .default .title .cab .editCourseTitle {
-        font-size: 1em;
-        height: auto;
-        border-radius: 0;
-        border-color: var(--themeColor1); }
-      .default .title .cab .editNavTitle {
-        font-size: 0.8em;
-        height: auto;
-        border-radius: 0;
-        border-color: var(--themeColor1); }
-      .default .title .cab .editNavSubTitle {
-        font-size: 0.6em;
-        height: auto;
-        border-radius: 0;
-        color: var(--themeColor1); }
-      .default .title .cab h1 {
-        margin: 0.1em;
-        font-size: 1em; }
-      .default .title .cab h2 {
-        margin: 0.4em;
-        font-size: 0.8em;
-        color: var(--themeColor1); }
-      .default .title .cab h3 {
-        margin: 0.4em;
-        font-size: 0.7em; }
-      .default .title .cab h4 {
-        margin: 0.4em;
-        font-size: 0.6em; }
-      .default .title .cab .breadcrumb a {
-        margin: 0.4em; }
-      .default .title .cab .infoIcon {
-        cursor: help;
-        font-size: 0.9em;
-        color: #555;
-        vertical-align: top;
-        position: absolute;
-        top: 0.7em;
-        right: 0.7em; }
-.default {
-  font-family: var(--themePrimaryFont, "Ubuntu"); }
-  .default .title {
-    display: block;
-    background-color: transparent; }
-    .default .title .cab {
-      font-size: 2em;
-      padding: 1em; }
-      .default .title .cab .cabtabla_numero {
-        padding: 0.2em 0.3em;
-        line-height: 1em;
-        color: var(--themeColor1);
-        font-family: var(--themePrimaryFont, "Ubuntu"); }
-      .default .title .cab .editCourseTitle {
-        font-size: 1em;
-        height: auto;
-        border-radius: 0;
-        border-color: var(--themeColor1); }
-      .default .title .cab .editNavTitle {
-        font-size: 0.8em;
-        height: auto;
-        border-radius: 0;
-        border-color: var(--themeColor1); }
-      .default .title .cab .editNavSubTitle {
-        font-size: 0.6em;
-        height: auto;
-        border-radius: 0;
-        color: var(--themeColor1); }
-      .default .title .cab h1 {
-        margin: 0.1em;
-        font-size: 1em; }
-      .default .title .cab h2 {
-        margin: 0.4em;
-        font-size: 0.8em;
-        color: var(--themeColor1); }
-      .default .title .cab h3 {
-        margin: 0.4em;
-        font-size: 0.7em; }
-      .default .title .cab h4 {
-        margin: 0.4em;
-        font-size: 0.6em; }
-      .default .title .cab .breadcrumb a {
-        margin: 0.4em; }
-      .default .title .cab .infoIcon {
-        cursor: help;
-        font-size: 0.9em;
-        color: #555;
-        vertical-align: top;
-        position: absolute;
-        top: 0.7em;
-        right: 0.7em; }
-.default {
-  font-family: var(--themePrimaryFont, "Ubuntu"); }
-  .default .title {
-    display: block;
-    background-color: transparent; }
-    .default .title .cab {
-      font-size: 2em;
-      padding: 1em; }
-      .default .title .cab .cabtabla_numero {
-        padding: 0.2em 0.3em;
-        line-height: 1em;
-        color: var(--themeColor1);
-        font-family: var(--themePrimaryFont, "Ubuntu"); }
-      .default .title .cab .editCourseTitle {
-        font-size: 1em;
-        height: auto;
-        border-radius: 0;
-        border-color: var(--themeColor1); }
-      .default .title .cab .editNavTitle {
-        font-size: 0.8em;
-        height: auto;
-        border-radius: 0;
-        border-color: var(--themeColor1); }
-      .default .title .cab .editNavSubTitle {
-        font-size: 0.6em;
-        height: auto;
-        border-radius: 0;
-        color: var(--themeColor1); }
-      .default .title .cab h1 {
-        margin: 0.1em;
-        font-size: 1em; }
-      .default .title .cab h2 {
-        margin: 0.4em;
-        font-size: 0.8em;
-        color: var(--themeColor1); }
-      .default .title .cab h3 {
-        margin: 0.4em;
-        font-size: 0.7em; }
-      .default .title .cab h4 {
-        margin: 0.4em;
-        font-size: 0.6em; }
-      .default .title .cab .breadcrumb a {
-        margin: 0.4em; }
-      .default .title .cab .infoIcon {
-        cursor: help;
-        font-size: 0.9em;
-        color: #555;
-        vertical-align: top;
-        position: absolute;
-        top: 0.7em;
-        right: 0.7em; }
-.default {
-  font-family: var(--themePrimaryFont, "Ubuntu"); }
-  .default .title {
-    display: block;
-    background-color: transparent; }
-    .default .title .cab {
-      font-size: 2em;
-      padding: 1em; }
-      .default .title .cab .cabtabla_numero {
-        padding: 0.2em 0.3em;
-        line-height: 1em;
-        color: var(--themeColor1);
-        font-family: var(--themePrimaryFont, "Ubuntu"); }
-      .default .title .cab .editCourseTitle {
-        font-size: 1em;
-        height: auto;
-        border-radius: 0;
-        border-color: var(--themeColor1); }
-      .default .title .cab .editNavTitle {
-        font-size: 0.8em;
-        height: auto;
-        border-radius: 0;
-        border-color: var(--themeColor1); }
-      .default .title .cab .editNavSubTitle {
-        font-size: 0.6em;
-        height: auto;
-        border-radius: 0;
-        color: var(--themeColor1); }
-      .default .title .cab h1 {
-        margin: 0.1em;
-        font-size: 1em; }
-      .default .title .cab h2 {
-        margin: 0.4em;
-        font-size: 0.8em;
-        color: var(--themeColor1); }
-      .default .title .cab h3 {
-        margin: 0.4em;
-        font-size: 0.7em; }
-      .default .title .cab h4 {
-        margin: 0.4em;
-        font-size: 0.6em; }
-      .default .title .cab .breadcrumb a {
-        margin: 0.4em; }
-      .default .title .cab .infoIcon {
-        cursor: help;
-        font-size: 0.9em;
-        color: #555;
-        vertical-align: top;
-        position: absolute;
-        top: 0.7em;
-        right: 0.7em; }
-.default {
-  font-family: var(--themePrimaryFont, "Ubuntu"); }
-  .default .title {
-    display: block;
-    background-color: transparent; }
-    .default .title .cab {
-      font-size: 2em;
-      padding: 1em; }
-      .default .title .cab .cabtabla_numero {
-        padding: 0.2em 0.3em;
-        line-height: 1em;
-        color: var(--themeColor1);
-        font-family: var(--themePrimaryFont, "Ubuntu"); }
-      .default .title .cab .editCourseTitle {
-        font-size: 1em;
-        height: auto;
-        border-radius: 0;
-        border-color: var(--themeColor1); }
-      .default .title .cab .editNavTitle {
-        font-size: 0.8em;
-        height: auto;
-        border-radius: 0;
-        border-color: var(--themeColor1); }
-      .default .title .cab .editNavSubTitle {
-        font-size: 0.6em;
-        height: auto;
-        border-radius: 0;
-        color: var(--themeColor1); }
-      .default .title .cab h1 {
-        margin: 0.1em;
-        font-size: 1em; }
-      .default .title .cab h2 {
-        margin: 0.4em;
-        font-size: 0.8em;
-        color: var(--themeColor1); }
-      .default .title .cab h3 {
-        margin: 0.4em;
-        font-size: 0.7em; }
-      .default .title .cab h4 {
-        margin: 0.4em;
-        font-size: 0.6em; }
-      .default .title .cab .breadcrumb a {
-        margin: 0.4em; }
-      .default .title .cab .infoIcon {
-        cursor: help;
-        font-size: 0.9em;
-        color: #555;
-        vertical-align: top;
-        position: absolute;
-        top: 0.7em;
-        right: 0.7em; }
-.default {
-  font-family: var(--themePrimaryFont, "Ubuntu"); }
-  .default .title {
-    display: block;
-    background-color: transparent; }
-    .default .title .cab {
-      font-size: 2em;
-      padding: 1em; }
-      .default .title .cab .cabtabla_numero {
-        padding: 0.2em 0.3em;
-        line-height: 1em;
-        color: var(--themeColor1);
-        font-family: var(--themePrimaryFont, "Ubuntu"); }
-      .default .title .cab .editCourseTitle {
-        font-size: 1em;
-        height: auto;
-        border-radius: 0;
-        border-color: var(--themeColor1); }
-      .default .title .cab .editNavTitle {
-        font-size: 0.8em;
-        height: auto;
-        border-radius: 0;
-        border-color: var(--themeColor1); }
-      .default .title .cab .editNavSubTitle {
-        font-size: 0.6em;
-        height: auto;
-        border-radius: 0;
-        color: var(--themeColor1); }
-      .default .title .cab h1 {
-        margin: 0.1em;
-        font-size: 1em; }
-      .default .title .cab h2 {
-        margin: 0.4em;
-        font-size: 0.8em;
-        color: var(--themeColor1); }
-      .default .title .cab h3 {
-        margin: 0.4em;
-        font-size: 0.7em; }
-      .default .title .cab h4 {
-        margin: 0.4em;
-        font-size: 0.6em; }
-      .default .title .cab .breadcrumb a {
-        margin: 0.4em; }
-      .default .title .cab .infoIcon {
-        cursor: help;
-        font-size: 0.9em;
-        color: #555;
-        vertical-align: top;
-        position: absolute;
-        top: 0.7em;
-        right: 0.7em; }
 .vish2 {
   font-family: var(--themePrimaryFont, "Ubuntu"); }
   .vish2 .title {
@@ -1575,6 +1237,116 @@ body {
       .ging .title .cab .breadcrumb a {
         margin: 0.4em; }
       .ging .title .cab .infoIcon {
+        cursor: help;
+        font-size: 0.9em;
+        color: #555;
+        vertical-align: top;
+        position: absolute;
+        top: 0.7em;
+        right: 0.7em; }
+.polygon {
+  font-family: var(--themePrimaryFont, "Ubuntu"); }
+  .polygon .title {
+    display: block;
+    background-color: transparent; }
+    .polygon .title .cab {
+      font-size: 2em;
+      padding: 1em; }
+      .polygon .title .cab .cabtabla_numero {
+        padding: 0.2em 0.3em;
+        line-height: 1em;
+        color: var(--themeColor1);
+        font-family: var(--themePrimaryFont, "Ubuntu"); }
+      .polygon .title .cab .editCourseTitle {
+        font-size: 1em;
+        height: auto;
+        border-radius: 0;
+        border-color: var(--themeColor1); }
+      .polygon .title .cab .editNavTitle {
+        font-size: 0.8em;
+        height: auto;
+        border-radius: 0;
+        border-color: var(--themeColor1); }
+      .polygon .title .cab .editNavSubTitle {
+        font-size: 0.6em;
+        height: auto;
+        border-radius: 0;
+        color: var(--themeColor1); }
+      .polygon .title .cab h1 {
+        margin: 0.1em;
+        font-size: 1em;
+        color: #43BECE; }
+      .polygon .title .cab h2 {
+        margin: 0.4em;
+        font-size: 0.8em;
+        color: var(--themeColor1); }
+      .polygon .title .cab h3 {
+        margin: 0.4em;
+        font-size: 0.7em;
+        color: #43BECE; }
+      .polygon .title .cab h4 {
+        margin: 0.4em;
+        font-size: 0.6em;
+        color: var(--themeColor1); }
+      .polygon .title .cab .breadcrumb a {
+        margin: 0.4 em;
+        font-family: var(--themePrimaryFont, "Ubuntu");
+        color: #43BECE; }
+      .polygon .title .cab .infoIcon {
+        cursor: help;
+        font-size: 0.9em;
+        color: #555;
+        vertical-align: top;
+        position: absolute;
+        top: 0.7em;
+        right: 0.7em; }
+.basic {
+  font-family: var(--themePrimaryFont, "Ubuntu"); }
+  .basic .title {
+    display: block;
+    background-color: transparent; }
+    .basic .title .cab {
+      font-size: 2em;
+      padding: 1em; }
+      .basic .title .cab .cabtabla_numero {
+        padding: 0.2em 0.3em;
+        line-height: 1em;
+        color: var(--themeColor1);
+        font-family: var(--themePrimaryFont, "Ubuntu"); }
+      .basic .title .cab .editCourseTitle {
+        font-size: 1em;
+        height: auto;
+        border-radius: 0;
+        border-color: var(--themeColor1); }
+      .basic .title .cab .editNavTitle {
+        font-size: 0.8em;
+        height: auto;
+        border-radius: 0;
+        border-color: var(--themeColor1); }
+      .basic .title .cab .editNavSubTitle {
+        font-size: 0.6em;
+        height: auto;
+        border-radius: 0;
+        color: var(--themeColor1); }
+      .basic .title .cab h1 {
+        margin: 0.1em;
+        font-size: 1em; }
+      .basic .title .cab h2 {
+        margin: 0.4em;
+        font-size: 0.8em;
+        color: var(--themeColor1); }
+      .basic .title .cab h3 {
+        margin: 0.4em;
+        font-size: 0.7em;
+        color: var(--themeColor1); }
+      .basic .title .cab h4 {
+        margin: 0.4em;
+        font-size: 0.6em;
+        color: var(--themeColor1); }
+      .basic .title .cab .breadcrumb a {
+        margin: 0.4em;
+        color: var(--themeColor1); }
+      .basic .title .cab .infoIcon {
         cursor: help;
         font-size: 0.9em;
         color: #555;

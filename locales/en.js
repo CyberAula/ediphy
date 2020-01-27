@@ -326,7 +326,9 @@ let en = {
             "wrong_value": "Wrong value",
             "save_changes": "Save changes",
             "selector": "Choose icon",
-
+            "wrong_area": "You have introduced an incorrect area",
+            "secret_area": "Secret area",
+            "new_shape": "Draw new shape",
         },
         "messages": {
             "add_new_mark": "Add new mark",

@@ -1,9 +1,10 @@
 import React from "react";
+import i18n from 'i18next';
 import FormGroup from "react-bootstrap/lib/FormGroup";
 export function MarkPreview(props) {
     return (
         <FormGroup>
-            <h4>Previsualización</h4>
+            <h4>{i18n.t("marks.preview")}</h4>
             <br/>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '150px' }}>
                 {getPreviewContent(props)}
