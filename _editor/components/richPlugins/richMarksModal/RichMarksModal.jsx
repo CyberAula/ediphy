@@ -57,9 +57,10 @@ class RichMarksModal extends Component {
         let current = nextProps.currentRichMark;
         let allViews = this.returnAllViews(nextProps);
         this.setState({
+            id: current?.id ?? ID_PREFIX_RICH_MARK + Date.now(),
             viewNames: allViews,
             text: current?.text ?? '',
-            svg: current?.svg ?? nextProps.markCursorValue?.hasOwnProperty('svg') ? nextProps.markCursorValue : undefined,
+            svg: Object.keys(current?.content?.svg || {}).length > 0 ? current.content.svg : nextProps.markCursorValue?.hasOwnProperty('svg') ? nextProps.markCursorValue : undefined,
             selectedIcon: current?.content?.selectedIcon ?? 'room',
             color: current?.color ?? '#000000',
             size: current?.size ?? 25,
@@ -301,7 +302,6 @@ class RichMarksModal extends Component {
                         </Row>
                     </Grid>
                 </Modal.Body>
-
                 <Modal.Footer>
                     {/* <span>También puedes arrastrar el icono <i className="material-icons">room</i> dentro del plugin del vídeo para añadir una nueva marca</span>*/}
                     <Button onClick={() => {
@@ -523,7 +523,6 @@ class RichMarksModal extends Component {
         });
         return viewNames;
     };
-
             /**
              * Method used to remap navItems and containedViews together
              * @param objects
@@ -532,7 +531,6 @@ class RichMarksModal extends Component {
             remapInObject = (...objects) => {
                 return Object.assign({}, ...objects);
             };
-
             toggleModal = (e) => {
                 let key = e.keyCode ? e.keyCode : e.which;
                 if (key === 27 && this.props.richMarksVisible) {
@@ -547,7 +545,6 @@ class RichMarksModal extends Component {
                     showTemplates: !prevState.showTemplates,
                 }));
             };
-
             templateClick = (boxes) => {
                 this.setState({
                     boxes: boxes,
@@ -658,6 +655,10 @@ RichMarksModal.propTypes = {
      * Object containing all contained views (identified by its ID)
      */
     containedViewsById: PropTypes.object.isRequired,
+    /**
+     * Type of mark
+     */
+    markType: PropTypes.any,
     /**
      * Object containing all views (by id)
      */

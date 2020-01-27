@@ -99,6 +99,10 @@ Mark.propTypes = {
      */
     noTrigger: PropTypes.bool,
     /**
+     * SVG Area
+     */
+    svg: PropTypes.object,
+    /**
      * Mark title
      */
     title: PropTypes.string,

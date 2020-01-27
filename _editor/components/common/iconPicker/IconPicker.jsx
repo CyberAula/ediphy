@@ -54,4 +54,8 @@ IconPicker.propTypes = {
      * Function to handle changes
      */
     onChange: PropTypes.func.isRequired,
+    /**
+     * Text entered on the search field
+     */
+    text: PropTypes.any,
 };

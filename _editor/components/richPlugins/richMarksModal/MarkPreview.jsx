@@ -14,13 +14,14 @@ export function MarkPreview(props) {
 
 function getPreviewContent(props) {
     let previewContent = null;
+    let canvasSize = props.state.svg?.canvasSize ?? props.props.currentRichMark?.content?.svg?.canvasSize ?? { width: 100, height: 100 };
     switch (props.state.markType) {
     case 'area':
-        let path = props.props.markCursorValue?.svgPath ?? props.props.currentRichMark?.content?.svgPath ?? false;
+        let path = props.props.markCursorValue?.svgPath ?? props.props.currentRichMark?.content?.svg?.svgPath ?? false;
         previewContent = path ? (
             <div style={{ width: '100%' }}>
                 <svg
-                    viewBox={`0 0 ${props.state.svg?.canvasSize?.width ?? 0} ${props.state.svg?.canvasSize?.height ?? 0}`}
+                    viewBox={`0 0 ${canvasSize.width ?? 0} ${canvasSize.height ?? 0}`}
                     style={{ pointerEvents: 'none' }}
                     height={'100%'} width={'100%'}
                     preserveAspectRatio="none">
