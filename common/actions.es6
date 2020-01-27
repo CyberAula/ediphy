@@ -544,6 +544,7 @@ export function uploadVishResourceAsync(query, keywords = "", callback) {
     return dispatch => {
         if (query && query.name && query.name.length > 0) {
             let filename = query.name;
+            dispatch(updateUI(UI.asyncLabel, true));
             dispatch(setBusy(true, FILE_UPLOADING));
 
             let form = new FormData();
@@ -581,11 +582,13 @@ export function uploadVishResourceAsync(query, keywords = "", callback) {
                 if (callback) {
                     callback(result.src);
                 }
+                dispatch(updateUI(UI.asyncLabel, false));
                 dispatch(setBusy(false, id));
             })
                 .catch(e => {
                     // eslint-disable-next-line no-console
                     console.error(e);
+                    dispatch(updateUI(UI.asyncLabel, false));
                     dispatch(setBusy(false, FILE_UPLOAD_ERROR));
                     if (callback) {
                         callback();
