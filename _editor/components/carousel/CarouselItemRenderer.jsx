@@ -20,7 +20,7 @@ const Folder = ({ collapsed, index, path, onToggleCollapse, id, navItemsById, on
             style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: path.length * 20 }}
         >
             <ToggleCollapseHandle className={'toggleCollapseHandle'} onClick={handleClick}>
-                <i className={collapsed ? "material-icons collapsed" : "material-icons "}>
+                <i className={collapsed ? "material-icons collapsed" : "material-icons "} style={{ height: '12px', width: '36px' }}>
                     keyboard_arrow_down
                 </i>
             </ToggleCollapseHandle>
@@ -41,7 +41,7 @@ const File = ({ collapsed, id, path, navItemsById, onNavItemNameChanged, viewToo
     return (<FileContainer className={'file navItemBlock ' + classCollapsed + classIndexSelected + classContainedViewSelected}
         style={{ marginLeft: path.length * 20 }} >
         {(navItemsById[id].customSize === 0) ?
-            <i className="material-icons fileIcon">{isSlide(navItemsById[id].type) ? "slideshow" : "insert_drive_file"}</i>
+            <i className="material-icons fileIcon" style={{ height: '12px', width: '36px' }}>{isSlide(navItemsById[id].type) ? "slideshow" : "insert_drive_file"}</i>
             : <img className="svgIcon" src={iconPDF} alt={'PDF'} />}
         <EditorIndexTitle id={id}
             index={navItemsById[navItemsById[id].parent].children.indexOf(id) + 1 + '.'}

@@ -73,7 +73,7 @@ class ActionsRibbon extends Component {
                 disabled={act.disabled}
                 name={act.key}
                 onClick={(e)=>{act.onClick(e); document.activeElement.blur();}}>
-                <MatIcon>{act.icon}</MatIcon>
+                <MatIcon style={{ width: '16px', height: '16px' }}>{act.icon}</MatIcon>
                 <span className="hideonresize">{ i18n.t(act.i18nkey) }</span>
             </ActionBtn>;
         };

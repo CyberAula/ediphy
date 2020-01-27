@@ -18,6 +18,8 @@ export const CarouselListTitle = styled.div`
         &:hover{@include scale(1.2);}
     }
     .btnToggleCarousel, .btnFullCarousel {
+        height: 36px;
+        width: 36px;
         cursor: pointer;
         color: white;
         background-color: transparent;
