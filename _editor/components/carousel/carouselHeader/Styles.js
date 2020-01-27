@@ -3,6 +3,8 @@ import { LIGHT_GREY } from '../../../../sass/general/constants';
 import { animation } from '../../../../sass/general/mixins/Mixins';
 
 export const CarouselListTitle = styled.div`
+    display: flex;
+    align-items: center;
     cursor: pointer;
     color: ${LIGHT_GREY};
     * {
@@ -24,12 +26,7 @@ export const CarouselListTitle = styled.div`
             @include scale(1.2);
         }
     }
-    .btnFullCarousel {
-        right: 0;
-    }
-
-`
-    ;
+`;
 
 export const CarouselTitleContainer = styled.div`
   height: 100%;

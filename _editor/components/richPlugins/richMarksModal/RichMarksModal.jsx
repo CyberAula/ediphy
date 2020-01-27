@@ -166,7 +166,7 @@ class RichMarksModal extends Component {
                                     />
                                     {this.state.markType === 'area' ?
                                         [<br/>,
-                                            <button style={{ width: "100%" }} className="avatarButtons btn btn-primary" onClick={this.openAreaCreator}>Draw new shape</button>]
+                                            <button style={{ width: "100%" }} className="avatarButtons btn btn-primary" onClick={this.openAreaCreator}>{i18n.t("marks.new_shape")}</button>]
                                         : null
                                     }
                                 </FormGroup>
@@ -185,7 +185,7 @@ class RichMarksModal extends Component {
                                                         ([<br/>,
                                                             <div>
                                                                 <ToggleSwitch onChange={()=>{this.setState({ secretArea: !this.state.secretArea, color: this.state.secretArea ? '#000000' : 'rgba(255,255,255,0)' });}} checked={this.state.secretArea}/>
-                                                        Área secreta
+                                                                {i18n.t("marks.secret_area")}
                                                             </div>])
                                                         : null
                                                 }
@@ -319,7 +319,7 @@ class RichMarksModal extends Component {
                         if(this.state.markType === 'area' && !isValidSvgPath(value)) {
                             this.setState({
                                 showAlert: true,
-                                alertMsg: 'No has introducido un área correcta',
+                                alertMsg: i18n.t("marks.wrong_area"),
                             });
                             return;
                         }
