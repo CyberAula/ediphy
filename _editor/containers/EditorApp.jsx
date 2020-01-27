@@ -7,6 +7,7 @@ import { Grid, Col, Row } from 'react-bootstrap';
 import ActionsRibbon from '../components/navBar/actionsRibbon/ActionsRibbon';
 import AlertModal from "../components/modals/AlertModal";
 import AutoSave from '../components/autosave/AutoSave';
+import AsyncLabel from '../components/asyncLabel/AsyncLabel';
 import ContainedCanvas from '../components/richPlugins/containedCanvas/ContainedCanvas';
 import DnDListener from "../components/common/dndListener/DnDListener";
 import Ediphy from '../../core/editor/main';
@@ -26,9 +27,11 @@ import Toolbar from '../components/toolbar/toolbar/Toolbar';
 import Visor from '../../_visor/containers/Visor';
 
 import { isSection } from '../../common/utils';
-import { handleBoxes, handleContainedViews, handleSortableContainers, handleMarks,
+import {
+    handleBoxes, handleContainedViews, handleSortableContainers, handleMarks,
     handleModals, handleToolbars, handleExercises, handleCanvas,
-    handleExportImport } from "../handlers";
+    handleExportImport,
+} from "../handlers";
 import ErrorBoundary from "./ErrorBoundary";
 import HTML5Backend from "react-dnd-html5-backend";
 import { DragDropContext } from "react-dnd";
@@ -60,9 +63,9 @@ class EditorApp extends Component {
         let pluginSelected = false;
         try {
             pluginSelected = Ediphy.Plugins.get(pluginToolbarsById[boxSelected].config.name);
-        } catch(e) {
+        } catch (e) {
         }
-        const defaultMarkValue = pluginSelected ? pluginSelected.getConfig()?.defaultMarkValue : 0;
+        const defaultMarkValue = pluginSelected ? pluginSelected.getConfig() ?.defaultMarkValue : 0;
         const validateMarkValueInput = pluginSelected ? pluginSelected.validateValueInput : null;
         const fileModalResult = reactUI.fileModalResult;
 
@@ -82,31 +85,34 @@ class EditorApp extends Component {
                 <Grid id="app" fluid style={{ height: '100%', overflow: 'hidden' }} ref={'app'}>
                     <NavBar>
                         <ErrorBoundary context={'navBar'}>
-                            <EdiphyTour/>
-                            <HelpModal/>
-                            <InitModal showTour={this.handleModals.showTour}/>
-                            <ServerFeedback/>
-                            <AlertModal/>
-                            <EditorNavBar globalConfig={{ ...globalConfig, status, everPublished }} handleExportImport={this.handleExportImport}/>
-                            {Ediphy.Config.autosave_time > 1000 && <AutoSave save={this.handleExportImport.save}/>})
+                            <EdiphyTour />
+                            <HelpModal />
+                            <InitModal showTour={this.handleModals.showTour} />
+                            <ServerFeedback />
+                            <AlertModal />
+                            <EditorNavBar globalConfig={{ ...globalConfig, status, everPublished }} handleExportImport={this.handleExportImport} />
+                            {Ediphy.Config.autosave_time > 1000 && <AutoSave save={this.handleExportImport.save} />})
+                            <AsyncLabel />
                         </ErrorBoundary>
                     </NavBar>
                     <Row style={{ height: 'calc(100% - 60px)' }} id="mainRow">
-                        <EditorCarousel/>
+                        <EditorCarousel />
                         <Col id="colRight" xs={12}
-                            style={{ height: (reactUI.carouselFull ? 0 : '100%'),
-                                width: (reactUI.carouselShow ? 'calc(100% - 212px)' : 'calc(100% - 80px)') }}>
+                            style={{
+                                height: (reactUI.carouselFull ? 0 : '100%'),
+                                width: (reactUI.carouselShow ? 'calc(100% - 212px)' : 'calc(100% - 80px)'),
+                            }}>
                             <Row id="actionsRibbon" style={{ marginTop: '0px' }}>
-                                <ActionsRibbon ribbonHeight={ ribbonHeight + 'px'}/>
+                                <ActionsRibbon ribbonHeight={ribbonHeight + 'px'} />
                             </Row>
 
                             <RibbonRow style={{ top: '-1px', left: (reactUI.carouselShow ? '15px' : '147px') }}>
-                                <PluginRibbon disabled={disabled} ribbonHeight={ ribbonHeight + 'px'}/>
+                                <PluginRibbon disabled={disabled} ribbonHeight={ribbonHeight + 'px'} />
                             </RibbonRow>
 
                             <Row id="canvasRow" style={{ height: 'calc(100% - ' + ribbonHeight + 'px)' }}>
-                                <EditorCanvas {...canvasProps}/>
-                                <ContainedCanvas {...canvasProps}/>
+                                <EditorCanvas {...canvasProps} />
+                                <ContainedCanvas {...canvasProps} />
                             </Row>
                         </Col>
                     </Row>
@@ -114,15 +120,17 @@ class EditorApp extends Component {
                         state={{
                             ...currentState.undoGroup.present,
                             filesUploaded: currentState.filesUploaded,
-                            status: currentState.status }}
+                            status: currentState.status,
+                        }}
                     />
-                    <Toolbar top={(60 + ribbonHeight) + 'px'}/>
-                    <PluginConfigModal id={reactUI.pluginConfigModal}/>
+                    <Toolbar top={(60 + ribbonHeight) + 'px'} />
+                    <PluginConfigModal id={reactUI.pluginConfigModal} />
                     <AreaCreator undo active={reactUI.areaCreatorVisible}
-                        color={reactUI.tempMarkState?.color ?? 'black'} canvas ={reactUI.canvas}
+                        color={reactUI.tempMarkState ?.color ?? 'black'} canvas={reactUI.canvas}
                         onEnd={(res) => {
                             this.handleMarks.onRichMarksModalToggled(res, -1, true);
-                            this.handleMarks.onAreaCreatorHidden();}}
+                            this.handleMarks.onAreaCreatorHidden();
+                        }}
                     />
                     <RichMarksModal
                         fileModalResult={fileModalResult}
@@ -133,8 +141,8 @@ class EditorApp extends Component {
                         disabled={disabled}
                         handleExportImport={this.handleExportImport}
                     />
-                    <KeyListener/>
-                    <DnDListener/>
+                    <KeyListener />
+                    <DnDListener />
                 </Grid>
             </ErrorBoundary>
         );
@@ -151,10 +159,11 @@ class EditorApp extends Component {
         if (inProduction && !isDoc && ediphy_editor_json && ediphy_editor_json !== 'undefined') {
             this.handleExportImport.importState(ediphy_editor_json);
         }
+
         if (inProduction && isDoc) {
             window.oncontextmenu = () => false;
         }
-        if(cookies.get("ediphy_visitor") === undefined) {
+        if (cookies.get("ediphy_visitor") === undefined) {
             cookies.set("ediphy_visitor", true);
         }
     }

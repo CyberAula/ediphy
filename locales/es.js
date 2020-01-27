@@ -386,6 +386,7 @@ let es = {
             "instance_limit": "Este plugin sólo permite una instancia por página",
             "depth_limit": "No puedes situar aquí este tipo de contenido",
             "height_auto_warning": "Sólo si fijas una altura podrán tener alturas relativas las cajas en su interior",
+            "loading": "Cargando...",
             "mark_input": "Hay un error en el valor introducido",
             "no_internet": "Necesitas conexión a Internet",
             "OK": "Aceptar",

@@ -1,5 +1,6 @@
 export const UI = {
     alert: 'alert',
+    asyncLabel: 'asyncLabel',
     pluginTab: 'pluginTab',
     hideTab: 'hideTab',
     visorVisible: 'visorVisible',

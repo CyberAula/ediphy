@@ -42,6 +42,7 @@ export const MESSAGE_TYPES = {
 
 export const defaultUI = {
     alert: null,
+    asyncLabel: false,
     pluginTab: '',
     hideTab: 'show',
     visorVisible: false,
