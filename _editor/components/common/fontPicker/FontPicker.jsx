@@ -155,7 +155,7 @@ export default class FontPicker extends Component {
                 (
                     <li key={'33'}>
                         <button
-                            style={ { borderTop: '1px solid #c3c3c3', borderBottom: '1px dashed #c3c3c3', fontFamily: this.props.options.themeFont }}
+                            style={ { width: '100%', borderTop: '1px solid #c3c3c3', borderBottom: '1px dashed #c3c3c3', fontFamily: this.props.options.themeFont }}
                             type="button"
                             className={`font-${themeFontId}${this.pickerSuffix} ${themeFont.family === this.state.activeFont ? ' active-font' : ''}`}
                             onClick={() => {
@@ -210,7 +210,7 @@ export default class FontPicker extends Component {
                     className={`dropdown-button ${this.state.expanded ? 'expanded' : ''}`}
                     onClick={this.toggleExpanded}
                     onKeyPress={this.toggleExpanded}
-                    style={{ backgroundColor: 'white' }}
+                    style={{ backgroundColor: 'white', width: '100%' }}
                 >
                     <p className={`dropdown-font-name ${activeFontId ? 'font-' + activeFontId + this.pickerSuffix : ''}`}>{this.state.activeFont}</p>
                     <div className={`dropdown-icon ${this.state.loadingStatus}`} />
