@@ -244,7 +244,7 @@ class RichMarksModal extends Component {
                                     <FormGroup hidden={this.state.markType !== "icon"}>
                                         <ControlLabel>{i18n.t("marks.selector")}</ControlLabel>
                                         {this.state.changed === false ?
-                                            <Suspense fallback={ <div><Code/>{console.log("fallback")}</div>}>
+                                            <Suspense fallback={ <div><Code/></div>}>
                                                 <LazyIconPicker text={this.state.selectedIcon} onChange={e=>{this.setState({ selectedIcon: e.selectedIcon, changed: true });}}/>
                                             </Suspense>
                                             : <IconPicker text={this.state.selectedIcon} onChange={e=>{this.setState({ selectedIcon: e.selectedIcon, changed: true });}}/>

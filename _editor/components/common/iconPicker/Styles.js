@@ -11,7 +11,7 @@ export const StyledTable = styled.div`
         width: 100%;
     }
     .table{
-         height: 200px;
+         height: 160px;
          width: 100%;
          display: flex;
          flex-direction: row;
@@ -33,18 +33,14 @@ export const StyledTable = styled.div`
             border-radius: 10px;
             background-color: ${PRIMARY_BLUE}; 
         }
-
-        
     }
     .markIcon {
         height: 42px;
         cursor: pointer;
     }
-    
     .selectedIcon {
         background-color: ${PRIMARY_BLUE_SEMI_TRANSPARENT};
         border-radius: 50%;
     }
-
     `;
 

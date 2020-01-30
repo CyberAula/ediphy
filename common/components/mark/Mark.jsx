@@ -15,7 +15,6 @@ export default class Mark extends Component {
         let triggerType = this.props.svg ? [] : ['hover', 'focus'];
         if (this.props.isPopUp && !this.props.noTrigger) { triggerType = "click"; }
         if (this.props.noTrigger) { triggerType = "focus"; }
-        let kind = this.props.kind || 'icon';
         let markType = this.props.markType || "icon";
 
         return (
@@ -25,10 +24,6 @@ export default class Mark extends Component {
                 container={document.getElementById('app')}
                 overlay={this.props.isPopUp ? PopoverMark : ToolTipDefault }
                 trigger={triggerType} rootClose>
-                {/* <<<<<<< HEAD*/}
-                {/*                <a id={'mark-' + this.props.idKey} className="mapMarker" style={{ pointerEvents: 'all', height: "100%", width: "100%", cursor: this.props.svg ? 'default' : 'pointer' }} href="#">*/}
-                {/*                    {this.returnMark(kind, text, size, color, img, height, width)}*/}
-                {/* =======*/}
 
                 <div id={'mark-' + this.props.idKey} className="mapMarker" style={{ pointerEvents: 'all', height: "100%", width: "100%" }} href="#" onClick={(this.props.isVisor && !this.props.noTrigger) ? ()=>{this.props.onMarkClicked(this.props.boxID, this.props.markValue);} : null}>
                     {this.returnMark(markType)}
@@ -36,35 +31,11 @@ export default class Mark extends Component {
             </OverlayTrigger>
         );
     }
-
-    // returnMark(kind, text, size, color, image, height, width) {
-    //     switch (kind) {
-    //     case 'image':
-    //         return <img
-    //             onClick={(this.props.isVisor && !this.props.noTrigger) ? ()=>{this.props.onMarkClicked(this.props.boxID, this.props.markValue);} : null}
-    //             height={height} width={width} onLoad={this.onImgLoad} src={image}/>;
-    //     case 'svg':
-    //         return (<svg viewBox={`0 0 ${this.props.svg.canvasSize.width} ${this.props.svg.canvasSize.height}`}
-    //             style={{ position: 'absolute', pointerEvents: 'none' }}
-    //             onClick={e => console.log('clicked in svg')}
-    //             height={'100%'} width={'100%'}
-    //             preserveAspectRatio="none">
-    //             <path d={this.props.svg.svgPath} fill={color}
-    //                 style={{ pointerEvents: 'all' }}
-    //                 onClick={(this.props.isVisor && !this.props.noTrigger) ?
-    //                     ()=>{console.log('clicked in path'); this.props.onMarkClicked(this.props.boxID, this.props.markValue);}
-    //                     : null}
-    //             />
-    //         </svg>);
-    //     case 'icon':
-    //         return <i onClick={(this.props.isVisor && !this.props.noTrigger) ? ()=>{this.props.onMarkClicked(this.props.boxID, this.props.markValue);} : null}
-    //             key="i" style={{ color: color, fontSize: size }} className="material-icons">{text}</i>;
-
     returnMark(markType) {
         switch(markType) {
         case "icon":
             let color = this.props.color || "black";
-            let size = (this.props.size / 10) + 'em' || '1em';
+            let size = (this.props.content.size / 10) + 'em' || '1em';
             let text = this.props.content.selectedIcon ? this.props.content.selectedIcon : "room";
             return <i key="i" style={{ color: color, fontSize: size }} className="material-icons">{text}</i>;
         case "image":
@@ -72,8 +43,6 @@ export default class Mark extends Component {
             let width = isHotspotImage ? "100%" : String(this.props.content.imageDimensions.width) + "em";
             let img = this.props.content.url;
             return <img alt={"iconImage"} height="auto" width={width} onLoad={this.onImgLoad} src={img}/>;
-        case "area":
-
         default:
             return <h4>Error</h4>;
         }
@@ -103,7 +72,7 @@ Mark.propTypes = {
      */
     content: PropTypes.any,
     /**
-     * Type of the mark: image, icon or area
+     *markType of the mark: image, icon or area
      */
     markType: PropTypes.string,
     /**
@@ -111,7 +80,7 @@ Mark.propTypes = {
      */
     idKey: PropTypes.any,
     /**
-     * Check if mark type is a PopUp
+     * Check if markmarkType is a PopUp
      */
     isPopUp: PropTypes.bool,
     /**
@@ -130,6 +99,10 @@ Mark.propTypes = {
      * Check if noTrigger mark
      */
     noTrigger: PropTypes.bool,
+    /**
+     * SVG Area
+     */
+    svg: PropTypes.object,
     /**
      * Mark title
      */

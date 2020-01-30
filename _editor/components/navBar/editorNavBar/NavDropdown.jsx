@@ -9,7 +9,7 @@ import { importStateAsync, updateUI } from "../../../../common/actions";
 
 import { connect } from "react-redux";
 import { UI } from "../../../../common/UI.es6";
-import { DropdownButton, EDDropDown } from "./Styles";
+import { Description, DropdownButton, EDDropDown, NavButton } from "./Styles";
 import { MatIcon } from "../../../../sass/general/constants";
 /**
  * Dropdown menu in the editor's navbar
@@ -34,8 +34,10 @@ class NavDropdown extends Component
         return (
             <EDDropDown id="dropdown-menu">
                 <Dropdown.Toggle noCaret className="navButton">
-                    <MatIcon>more_vert</MatIcon>
-                    <span className="hideonresize" style={{ fontSize: '12px' }}>Menu</span>
+                    <NavButton>
+                        <MatIcon children={'more_vert'} className={'material-icons'} />
+                        <Description className={'hideonresize'}>Menu</Description>
+                    </NavButton>
                 </Dropdown.Toggle>
                 <Dropdown.Menu id="topMenu" style={{ left: 'auto', right: 0 }} className="pageMenu super-colors topMenu">
                     { this.dropdownButtons.map((button, i) => (

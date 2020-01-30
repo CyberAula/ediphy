@@ -138,12 +138,7 @@ export const HotspotImages = (base) => ({
         let marks = props.marks || {};
         let svgMarks = [];
         let markElements = Object.keys(marks).map((id) =>{
-            let value = marks[id].value;
-            let title = marks[id].title;
-            let markType = marks[id].markType;
-            let content = marks[id].content;
-            let color = marks[id].color;
-            let size = marks[id].size;
+            let { value, title, markType, content, color, size } = marks[id];
             let position;
             let width = markType === "image" ? String(content.imageDimensions.width) + "%" : "auto";
             if (value && value.split(',').length === 2) {

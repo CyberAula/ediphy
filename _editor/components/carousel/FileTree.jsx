@@ -144,8 +144,8 @@ class FileTree extends Component {
                     this.setState({ showSortableItems: !this.state.showSortableItems });
                 }}>
                     {(this.state.showSortableItems) ?
-                        <i className="material-icons" style={{ color: "gray", fontSize: "22px" }}>{"arrow_drop_down"}</i> :
-                        <i className="material-icons" style={{ color: "gray", fontSize: "15px", marginLeft: "2px", marginRight: "2px" }}>{"play_arrow"}</i>
+                        <i className="material-icons" style={{ color: "gray", fontSize: "22px", height: '22px', width: '22px' }}>{"arrow_drop_down"}</i> :
+                        <i className="material-icons" style={{ color: "gray", fontSize: "15px", marginLeft: "2px", marginRight: "2px", height: '15px', width: '15px' }}>{"play_arrow"}</i>
                     }
                     <span style={{ color: "white", fontSize: "11px" }}>{i18n.t("INDEX")}</span>
                 </div>

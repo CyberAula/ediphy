@@ -17,10 +17,10 @@ const Folder = ({ collapsed, index, path, onToggleCollapse, id, navItemsById, on
     const classIndexSelected = id === indexSelected ? ' classIndexSelected ' : ' ';
     return (
         <FolderContainer className={'folder navItemBlock ' + classCollapsed + classIndexSelected}
-            style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: path.length * 20 }}
+            style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: (path.length) * 10 }}
         >
             <ToggleCollapseHandle className={'toggleCollapseHandle'} onClick={handleClick}>
-                <i className={collapsed ? "material-icons collapsed" : "material-icons "}>
+                <i className={collapsed ? "material-icons collapsed" : "material-icons "} style={{ height: '12px', width: '36px' }}>
                     keyboard_arrow_down
                 </i>
             </ToggleCollapseHandle>
@@ -39,9 +39,9 @@ const File = ({ collapsed, id, path, navItemsById, onNavItemNameChanged, viewToo
     const classIndexSelected = id === indexSelected ? ' classIndexSelected ' : ' ';
     const classContainedViewSelected = id === containedViewSelected ? ' selected ' : ' notSelected ';
     return (<FileContainer className={'file navItemBlock ' + classCollapsed + classIndexSelected + classContainedViewSelected}
-        style={{ marginLeft: path.length * 20 }} >
+        style={{ marginLeft: path.length * 10 }} >
         {(navItemsById[id].customSize === 0) ?
-            <i className="material-icons fileIcon">{isSlide(navItemsById[id].type) ? "slideshow" : "insert_drive_file"}</i>
+            <i className="material-icons fileIcon" style={{ height: '12px', width: '36px' }}>{isSlide(navItemsById[id].type) ? "slideshow" : "insert_drive_file"}</i>
             : <img className="svgIcon" src={iconPDF} alt={'PDF'} />}
         <EditorIndexTitle id={id}
             index={navItemsById[navItemsById[id].parent].children.indexOf(id) + 1 + '.'}

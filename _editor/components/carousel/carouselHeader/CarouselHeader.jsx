@@ -27,12 +27,10 @@ class CarouselHeader extends Component {
             <CarouselListTitle style={{
                 textAlign: this.props.carouselShow ? 'left' : 'center',
                 flexFlow: this.props.carouselShow ? 'row' : 'column',
-                display: 'flex',
-                alignItems: 'center',
             }}
             carouselShow={this.props.carouselShow}>
-                <button className="btnToggleCarousel" onClick={() => this.onToggleWidth()}>
-                    <i style={{ fontSize: this.props.carouselShow ? '16px' : '28px' }} className="material-icons">format_list_numbered</i>
+                <button className="btnToggleCarousel" style={{ display: 'flex', alignItems: 'center' }} onClick={() => this.onToggleWidth()}>
+                    <i style={{ fontSize: '24px', marginLeft: '4px' }} className="material-icons">{this.props.carouselShow ? 'keyboard_arrow_left' : 'menu'}</i>
                 </button>
                 {!this.props.carouselShow ? <br /> : null}
 

@@ -5,6 +5,7 @@ export const TransitionPickerContainer = styled.div`
   box-sizing: border-box;
   height: 150px;
   width: 100%;
+  max-width: 400px;
   margin-top: 10px;
   display: flex;
   flex-direction: row;

@@ -8,10 +8,6 @@ export const CarList = styled.div`
     .material-icons{
         padding: 0 12px 0px 12px;
     }
-    -webkit-transition: height .25s  ease-in-out;
-    -moz-transition: height .25s  ease-in-out;
-    -ms-transition: height .25s  ease-in-out;
-    -o-transition: height .25s  ease-in-out;
     transition: height .25s  ease-in-out;
     background-color: #444;
     .empty-info{
@@ -38,7 +34,6 @@ export const WrapperCarousel = styled.div`
     .editorCarousel {
         .editIndexTitleIcon {
             font-size: 1em;
-            float: right;
             padding: 4px;
         }
     }
@@ -50,10 +45,6 @@ export const WrapperCarousel = styled.div`
     ;
 
 export const ContainedViewsListContainer = styled.div`
-    -webkit-transition: height .25s  ease-in-out;
-    -moz-transition: height .25s  ease-in-out;
-    -ms-transition: height .25s  ease-in-out;
-    -o-transition: height .25s  ease-in-out;
     transition: height .25s  ease-in-out;
     background-color: #444;
     .empty-info{

@@ -50,7 +50,6 @@ export const ActualSectionTitle = styled.div`
     left: 0;
     width: 90%;
     color:rgb(204,204,204);
-    -webkit-transition-timing-function: linear; /* Safari and Chrome */
     transition-timing-function: linear;
     line-height: 1.2em;
     overflow: hidden;
@@ -61,5 +60,4 @@ export const ActualSectionTitle = styled.div`
     vertical-align: middle;
     margin-right: 25px;
     color: inherit;
-    
 `;

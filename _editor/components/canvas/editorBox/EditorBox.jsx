@@ -19,7 +19,6 @@ import _handlers from "../../../handlers/_handlers";
 import ErrorBoundary from "../../../containers/ErrorBoundary";
 import BoxContent from "./BoxContent";
 import { CKText, EditorBoxContainer, Overlay, ResizeContainer, ResizeHelper } from "./Styles";
-import AreaCreator from "../../richPlugins/areaCreator/AreaCreator";
 
 /**
  * Ediphy Box component.

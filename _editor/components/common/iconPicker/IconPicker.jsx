@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import IconButton from "./IconButton";
 import { ICONLIST } from "./icons";
 import PropTypes from 'prop-types';
@@ -27,7 +27,6 @@ const IconPicker = (props) => {
         });
 
     };
-    console.log("rerender");
     return (
         <StyledTable
             style={{ display: "flex", justifyContent: "start", alignItems: "center", flexDirection: "column" }}>
@@ -55,4 +54,8 @@ IconPicker.propTypes = {
      * Function to handle changes
      */
     onChange: PropTypes.func.isRequired,
+    /**
+     * Text entered on the search field
+     */
+    text: PropTypes.any,
 };

@@ -22,11 +22,11 @@ class EditorCarousel extends Component {
         return (
             <WrapperCarousel id="colLeft" className="wrapperCarousel"
                 style={{
-                    maxWidth: carouselShow ? (carouselFull ? '100%' : '212px') : '80px',
+                    maxWidth: carouselShow ? (carouselFull ? '100%' : '212px') : '40px',
                     overflowX: carouselFull ? 'hidden' : '',
                 }}>
                 <ErrorBoundary context={'carousel'}>
-                    <CarouselHeader />
+                    <CarouselHeader/>
                     <FileTree />
                     <CarouselButtons />
                 </ErrorBoundary>

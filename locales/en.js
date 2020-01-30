@@ -326,7 +326,9 @@ let en = {
             "wrong_value": "Wrong value",
             "save_changes": "Save changes",
             "selector": "Choose icon",
-
+            "wrong_area": "You have introduced an incorrect area",
+            "secret_area": "Secret area",
+            "new_shape": "Draw new shape",
         },
         "messages": {
             "add_new_mark": "Add new mark",
@@ -384,6 +386,7 @@ let en = {
             "instance_limit": "This plugin only allows one instance per page",
             "depth_limit": "You cannot insert this kind of content here",
             "height_auto_warning": "The boxes inside can only have a relative height if you fix the container height",
+            "loading": "Loading...",
             "mark_input": "Something is wrong with your input",
             "no_internet": "You need Internet connection",
             "OK": "Accept",

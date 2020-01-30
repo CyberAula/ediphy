@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { findParentBySelector } from '../../../../common/utils';
 import _handlers from "../../../handlers/_handlers";
 import { MarkEditorContainer } from "./Styles";
-import AreaCreator from "../areaCreator/AreaCreator";
 /*
 * Component wrapper for editing marks by dragging them
 * @example <ClickNHold onClickNHold={e=>{...}} // callback
@@ -79,7 +78,6 @@ export default class MarkEditor extends Component {
      * @returns {code}
      */
     render() {
-        console.log(this.props);
         let classList = 'markeditor ';
         classList += this.state.holding ? 'holding ' : '';
         classList += this.state.ended ? 'ended ' : '';

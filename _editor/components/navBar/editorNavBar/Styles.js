@@ -74,6 +74,9 @@ export const NavButton = styled.button`
   &:hover {
     color: ${DARKEST_GREY};
   }
+  .material-icons{
+    font-size: 22px;
+  }
   @media screen and (max-width: 800px) {
     min-width: 20px;
     max-width: 35px;
@@ -148,6 +151,7 @@ export const PluginsMenus = styled.div.attrs({ className: 'pluginsMenu' })`
 `;
 
 export const PluginIcon = styled(MatIcon)`
+    font-size: 1.1em !important;
     display: none !important;
     @media screen and (max-width: 1147px){
         display: block !important;
