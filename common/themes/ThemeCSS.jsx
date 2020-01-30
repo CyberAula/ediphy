@@ -117,7 +117,7 @@ export default class ThemeCSS extends React.Component {
         let currentThemeIndex = themesStartIndex[theme];
 
         let chunkArr = css.slice(currentThemeIndex, nextLevelIndex);
-        let chunkStr = Object.values(chunkArr).reduce((l1, l2) => l1 + '\n' + l2);
+        let chunkStr = chunkArr ? Object.values(chunkArr).reduce((l1, l2) => l1 + '\n' + l2) : '';
 
         this.setState({ currentThemeCSS: chunkStr });
     };
