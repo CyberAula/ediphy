@@ -78,7 +78,22 @@ class StyleConfig extends Component {
                     <Modal.Body className="gcModalBody" style={{ overFlowY: 'auto' }}>
                         <Grid>
                             <Row>
-                                <Col xs={12} md={6} lg={6}><br/>
+                                <Col className={'col-md-push-6'} xs={12} md={6} lg={6}><br/>
+                                    <div className={"Preview"}>
+                                        <h4>{i18n.t("Style.preview")}</h4>
+                                        <ThemePreview
+                                            styleConfig={ this.state}
+                                            theme={ this.state.modifiedState ? this.state.theme : this.props.styleConfig.theme }
+                                        />
+
+                                    </div>
+                                    <h4>{i18n.t("Style.transitions")}</h4>
+                                    <FormGroup>
+                                        <TransitionPicker
+                                            onClick={this.handleTransitionChange}/>
+                                    </FormGroup>
+                                </Col>
+                                <Col className={'col-md-pull-6'} xs={12} md={6} lg={6}><br/>
                                     <h4>{i18n.t("Style.appearance")}</h4>
                                     <FormGroup>
                                         <ControlLabel>{i18n.t("Style.theme")}</ControlLabel>
@@ -115,21 +130,7 @@ class StyleConfig extends Component {
                                         }}>{i18n.t("Style.restore_theme_setup")}</Button>
                                     </FormGroup>
                                 </Col>
-                                <Col xs={12} md={6} lg={6}><br/>
-                                    <div className={"Preview"}>
-                                        <h4>{i18n.t("Style.preview")}</h4>
-                                        <ThemePreview
-                                            styleConfig={ this.state}
-                                            theme={ this.state.modifiedState ? this.state.theme : this.props.styleConfig.theme }
-                                        />
 
-                                    </div>
-                                    <h4>{i18n.t("Style.transitions")}</h4>
-                                    <FormGroup>
-                                        <TransitionPicker
-                                            onClick={this.handleTransitionChange}/>
-                                    </FormGroup>
-                                </Col>
                             </Row>
                         </Grid>
                     </Modal.Body>
