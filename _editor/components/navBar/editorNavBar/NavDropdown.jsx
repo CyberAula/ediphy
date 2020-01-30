@@ -35,7 +35,7 @@ class NavDropdown extends Component
             <EDDropDown id="dropdown-menu">
                 <Dropdown.Toggle noCaret className="navButton">
                     <NavButton>
-                        <MatIcon children={'more_vert'} className={'material-icons'} />
+                        <MatIcon children={'more_vert'} className={'material-icons'}/>
                         <Description className={'hideonresize'}>Menu</Description>
                     </NavButton>
                 </Dropdown.Toggle>
