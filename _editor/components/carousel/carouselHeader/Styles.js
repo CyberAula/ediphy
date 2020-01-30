@@ -14,10 +14,6 @@ export const CarouselListTitle = styled.div`
     &:hover {
         color: #fff !important;
     }
-    .material-icons {
-        padding: 10px;
-        &:hover{@include scale(1.2);}
-    }
     .btnToggleCarousel, .btnFullCarousel {
         height: 36px;
         width: 36px;
@@ -26,7 +22,7 @@ export const CarouselListTitle = styled.div`
         background-color: transparent;
         border: none;
         &:hover {
-            @include scale(1.2);
+           transform: scale(1.2);
         }
     }
 `;

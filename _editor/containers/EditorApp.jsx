@@ -100,7 +100,7 @@ class EditorApp extends Component {
                         <Col id="colRight" xs={12}
                             style={{
                                 height: (reactUI.carouselFull ? 0 : '100%'),
-                                width: (reactUI.carouselShow ? 'calc(100% - 212px)' : 'calc(100% - 80px)'),
+                                width: (reactUI.carouselShow ? 'calc(100% - 212px)' : 'calc(100% - 40px)'),
                             }}>
                             <Row id="actionsRibbon" style={{ marginTop: '0px' }}>
                                 <ActionsRibbon ribbonHeight={ribbonHeight + 'px'} />

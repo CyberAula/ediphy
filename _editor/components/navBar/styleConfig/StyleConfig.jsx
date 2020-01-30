@@ -85,7 +85,6 @@ class StyleConfig extends Component {
                                             styleConfig={ this.state}
                                             theme={ this.state.modifiedState ? this.state.theme : this.props.styleConfig.theme }
                                         />
-
                                     </div>
                                     <h4>{i18n.t("Style.transitions")}</h4>
                                     <FormGroup>

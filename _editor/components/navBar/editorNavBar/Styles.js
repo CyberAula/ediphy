@@ -74,6 +74,9 @@ export const NavButton = styled.button`
   &:hover {
     color: ${DARKEST_GREY};
   }
+  .material-icons{
+    font-size: 22px;
+  }
   @media screen and (max-width: 800px) {
     min-width: 20px;
     max-width: 35px;

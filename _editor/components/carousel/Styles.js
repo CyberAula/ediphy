@@ -68,10 +68,9 @@ export const FolderContainer = styled.div`
     box-sizing: border-box;
     font-size: 0.9em;
     border: none;
-    padding-left: 4px;
-    padding-right: 4px;
-
-
+    //padding-left: 4px;
+    //padding-right: 4px;
+    max-height: 33px;
 
     .material-icons{
     color: white;
@@ -92,7 +91,7 @@ export const FileContainer = styled.div`
     color: white;
     overflow: hidden;
     font-size: 0.9em;
-    max-height: 40px;
+    max-height: 33px;
     transition: max-height 0.3s ease-in-out;
 
     &.collapsed {

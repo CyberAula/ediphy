@@ -29,8 +29,8 @@ class CarouselHeader extends Component {
                 flexFlow: this.props.carouselShow ? 'row' : 'column',
             }}
             carouselShow={this.props.carouselShow}>
-                <button className="btnToggleCarousel" onClick={() => this.onToggleWidth()}>
-                    <i style={{ fontSize: this.props.carouselShow ? '16px' : '28px' }} className="material-icons">format_list_numbered</i>
+                <button className="btnToggleCarousel" style={{ display: 'flex', alignItems: 'center' }} onClick={() => this.onToggleWidth()}>
+                    <i style={{ fontSize: '24px', marginLeft: '4px' }} className="material-icons">{this.props.carouselShow ? 'keyboard_arrow_left' : 'menu'}</i>
                 </button>
                 {!this.props.carouselShow ? <br /> : null}
 
