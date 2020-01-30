@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import './../../../../node_modules/rc-color-picker/assets/index.css';
 import { connect } from "react-redux";
-
+import Picker from 'rc-color-picker';
 import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Grid, Radio } from 'react-bootstrap';
 import { updateUI } from "../../../../common/actions";
 import ToggleSwitch from '@trendmicro/react-toggle-switch';
@@ -14,12 +14,10 @@ import { isSection, isContainedView, nextAvailName, makeBoxes, isValidSvgPath } 
 import _handlers from "../../../handlers/_handlers";
 import { ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES } from '../../../../common/constants';
 import TemplatesModal from "../../carousel/templatesModal/TemplatesModal";
-
-import { ModalContainer, TypeSelector, MarkTypeTab, TypeTab, SizeSlider, LinkToContainer } from "./Styles";
+import { ModalContainer, TypeSelector, ConfigSize, MarkTypeTab, TypeTab, SizeSlider, LinkToContainer } from "./Styles";
+import { copyFile } from 'fs';
 import ColorPicker from "../../common/colorPicker/ColorPicker";
 import IconPicker from "../../common/iconPicker/IconPicker";
-import { MarkPreview } from "./MarkPreview";
-
 /**
  * Modal component to   edit marks' configuration
  */
@@ -39,12 +37,12 @@ class RichMarksModal extends Component {
             showAlert: false,
             showTemplates: false,
             boxes: [],
-            originalDimensions: {},
+            oDimensions: {},
             markType: "icon",
             secret: false,
-            color: '#000000',
             changed: false,
         };
+
         this.h = _handlers(this);
     }
 
@@ -56,24 +54,49 @@ class RichMarksModal extends Component {
     UNSAFE_componentWillReceiveProps(nextProps) {
         let current = nextProps.currentRichMark;
         let allViews = this.returnAllViews(nextProps);
-        this.setState({
-            id: current?.id ?? ID_PREFIX_RICH_MARK + Date.now(),
-            viewNames: allViews,
-            text: current?.text ?? '',
-            svg: Object.keys(current?.content?.svg || {}).length > 0 ? current.content.svg : nextProps.markCursorValue?.hasOwnProperty('svg') ? nextProps.markCursorValue : undefined,
-            selectedIcon: current?.content?.selectedIcon ?? 'room',
-            color: current?.color ?? '#000000',
-            size: current?.size ?? 25,
-            image: current?.content?.url ?? undefined,
-            connectMode: current?.connectMode ?? "new",
-            displayMode: current?.displayMode ?? "navigate",
-            newSelected: (current?.connectMode === "new" ? current.connection : ""),
-            newType: nextProps?.navItemsById[nextProps?.navItemSelected].type ?? "",
-            existingSelected: (current?.connectMode === "existing" && this.remapInObject(nextProps.navItemsById, nextProps.containedViewsById)[current?.connection] ?
-                this.remapInObject(nextProps.navItemsById, nextProps.containedViewsById)[current?.connection].id : ""),
-            markType: current?.markType ?? nextProps.markType ?? "icon",
-            changed: false,
-        });
+        if(nextProps.tempMarkState) {
+            console.log('Temporal mark: ', nextProps.tempMarkState);
+            this.setState({ ...nextProps.tempMarkState, svg: nextProps.markCursorValue });
+            this.h.onTempMartStateDeleted();
+        } else if (!this.props.richMarksVisible) {
+            if (current) {
+                console.log('Current mark', current);
+                this.setState({
+                    viewNames: allViews,
+                    text: current.text,
+                    svg: current.svg,
+                    selectedIcon: current.content.selectedIcon,
+                    color: current.color || null,
+                    size: current.size,
+                    image: current.content.url,
+                    connectMode: current.connectMode || "new",
+                    displayMode: current.displayMode || "navigate",
+                    newSelected: (current.connectMode === "new" ? current.connection : ""),
+                    newType: nextProps.navItemsById[nextProps.navItemSelected] ? nextProps.navItemsById[nextProps.navItemSelected].type : "",
+                    existingSelected: (current.connectMode === "existing" && this.remapInObject(nextProps.navItemsById, nextProps.containedViewsById)[current.connection] ?
+                        this.remapInObject(nextProps.navItemsById, nextProps.containedViewsById)[current.connection].id : ""),
+                    markType: current.markType,
+                    changed: false,
+                });
+            } else {
+                console.log('else', nextProps);
+                this.setState({
+                    viewNames: allViews,
+                    color: null,
+                    selectedIcon: "room",
+                    size: 25,
+                    image: false,
+                    svg: nextProps.markCursorValue?.hasOwnProperty('svg') ? nextProps.markCursorValue : false,
+                    connectMode: "new",
+                    displayMode: "navigate",
+                    newSelected: "",
+                    newType: nextProps.navItemsById[nextProps.navItemSelected] ? nextProps.navItemsById[nextProps.navItemSelected].type : "",
+                    existingSelected: "",
+                    markType: nextProps.markType || "icon",
+                    changed: false,
+                });
+            }
+        }
     }
 
     /**
@@ -86,7 +109,7 @@ class RichMarksModal extends Component {
         let marksType = pluginToolbar?.pluginId
                         && Ediphy.Plugins.get(pluginToolbar.pluginId)?.getConfig()?.marksType
             ? Ediphy.Plugins.get(pluginToolbar.pluginId).getConfig().marksType : {};
-        let current = this.props.currentRichMark;
+        let current = this.props.tempMarkState ?? this.props.currentRichMark;
         let selected = this.state.existingSelected && (this.props.containedViewsById[this.state.existingSelected] || this.props.navItemsById[this.state.existingSelected]) ? (isContainedView(this.state.existingSelected) ? { label: this.props.containedViewsById[this.state.existingSelected].name, id: this.state.existingSelected } :
             { label: this.props.navItemsById[this.state.existingSelected].name, id: this.state.existingSelected }) : this.returnAllViews(this.props)[0] || [];
         let newSelected = "";
@@ -94,11 +117,13 @@ class RichMarksModal extends Component {
             newSelected = this.props.viewToolbarsById[this.state.newSelected].viewName;
         }
         let plugin = (pluginToolbar && pluginToolbar.pluginId && Ediphy.Plugins.get(pluginToolbar.pluginId)) ? Ediphy.Plugins.get(pluginToolbar.pluginId) : undefined;
+        let defaultMarkValue = plugin ? Ediphy.Plugins.get(pluginToolbar.pluginId).getDefaultMarkValue(pluginToolbar.state, this.props.boxSelected) : '';
         let pluginType = (pluginToolbar && pluginToolbar.config) ? pluginToolbar.config.displayName : 'Plugin';
         let config = plugin ? plugin.getConfig() : null;
         let newId = "";
         let imageSize = (this.state.size / 100);
-
+        let width = 0;
+        let imageModal = this.state.image;
         let originalDimensions = this.state.oDimensions;
         let previewSize = {};
         if(this.props.boxesById[this.props.boxSelected] && document.getElementById("box-" + this.props.boxesById[this.props.boxSelected].id)) {
@@ -115,6 +140,7 @@ class RichMarksModal extends Component {
                 setTimeout(() => resolve(import("../../common/iconPicker/IconPicker")), 5);
             });
         });
+
         return (
             <ModalContainer backdrop bsSize="large" show={this.props.richMarksVisible}>
                 <Modal.Header>
@@ -132,6 +158,20 @@ class RichMarksModal extends Component {
                                         type="text"
                                         defaultValue={current ? current.title : ''}/><br/>
                                     {/* Input need to have certain label like richValue*/}
+                                    <ControlLabel>{marksType.name ? marksType.name : i18n.t("marks.value")}</ControlLabel><br/>
+                                    <ControlLabel style={{ color: 'grey', fontWeight: 'lighter', marginTop: '-5px' }}>
+                                        {(config &&
+                                                config.marksType &&
+                                                config.marksType &&
+                                                config.marksType.format) ?
+                                            config.marksType.format : "x,y"}
+                                    </ControlLabel>
+                                    <FormControl
+                                        key={this.props.markCursorValue}
+                                        ref="value"
+                                        type={this.state.actualMarkType}
+                                        defaultValue={this.props.markCursorValue ? this.props.markCursorValue : (current ? current.value : (defaultMarkValue ? defaultMarkValue : 0))}
+                                    />
                                     <ControlLabel>{i18n.t("type")}</ControlLabel>
                                     <MarkTypeTab type="radio" value={this.state.markType} name="markTypeSelector">
                                         <TypeTab
@@ -146,12 +186,12 @@ class RichMarksModal extends Component {
                                             name="mark_type"
                                             onClick={() => this.setState({ markType: "image", changed: false })}
                                         >{i18n.t("image")}</TypeTab>
-                                        {this.areasAllowed(config) ? <TypeTab
+                                        <TypeTab
                                             type="radio"
                                             value="area"
                                             name="mark_type"
                                             onClick={() => this.setState({ markType: "area", changed: false })}
-                                        >{i18n.t("area")}</TypeTab> : null}
+                                        >{i18n.t("area")}</TypeTab>
                                     </MarkTypeTab>
                                 </FormGroup>
                                 <FormGroup>
@@ -160,13 +200,14 @@ class RichMarksModal extends Component {
                                         {this.state.markType === 'area' ? 'SVG Path' : config?.marksType?.format ?? "x,y"}
                                     </ControlLabel>
                                     <FormControl
-                                        key={this.props.markCursorValue + this.state.markType}
+                                        key={this.props.markCursorValue}
                                         ref="value"
-                                        defaultValue={this.getMarkValue()}
+                                        type={this.state.actualtype}
+                                        defaultValue={this.props.markCursorValue ? this.state.svg ? this.props.markCursorValue.svgPath : this.props.markCursorValue : (current ? current.value : (defaultMarkValue ? defaultMarkValue : 0))}
                                     />
                                     {this.state.markType === 'area' ?
                                         [<br/>,
-                                            <button style={{ width: "100%" }} className="avatarButtons btn btn-primary" onClick={this.openAreaCreator}>{i18n.t("marks.new_shape")}</button>]
+                                            <button style={{ width: "100%" }} className="avatarButtons btn btn-primary" onClick={this.openAreaCreator}>Draw new shape</button>]
                                         : null
                                     }
                                 </FormGroup>
@@ -178,14 +219,14 @@ class RichMarksModal extends Component {
                                                 <ColorPicker
                                                     color={this.state.color || marksType.defaultColor}
                                                     value={this.state.color || marksType.defaultColor}
-                                                    onChange={e=>{this.setState({ color: e.color, changed: true, secretArea: false });}}
+                                                    onChange={e=>{this.setState({ color: e.color, changed: true });}}
                                                 />
                                                 {
                                                     this.state.markType === "area" ?
                                                         ([<br/>,
                                                             <div>
-                                                                <ToggleSwitch onChange={()=>{this.setState({ secretArea: !this.state.secretArea, color: this.state.secretArea ? '#000000' : 'rgba(255,255,255,0)' });}} checked={this.state.secretArea}/>
-                                                                {i18n.t("marks.secret_area")}
+                                                                <ToggleSwitch onChange={()=>{this.setState({ secretArea: !this.state.secretArea, color: 'rgba(255,255,255,0)' });}} checked={this.state.secretArea}/>
+                                                        Área secreta
                                                             </div>])
                                                         : null
                                                 }
@@ -220,7 +261,34 @@ class RichMarksModal extends Component {
                             </Col>
                             <Col xs={12} md={6} lg={6}>
                                 <Row>
-                                    <MarkPreview state={this.state} props={this.props}/>
+                                    <FormGroup>
+                                        <h4>{i18n.t("marks.preview")}</h4>
+                                        <br/>
+                                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '150px' }}>
+                                            { (()=>{switch(this.state.markType) {
+                                            case "icon":
+                                                return <i className="material-icons" style={{ color: (this.state.color || "black"), fontSize: (this.state.size / 10) + "em", paddingLeft: "7%" }}>{this.state.selectedIcon}</i>;
+                                            case "image":
+                                                width = (Number(previewSize.height.replace('em', '')) > Number(previewSize.width.replace('em', '')) || (originalDimensions.aspectRatio > previewSize.aspectRatio)) ? 100 * imageSize : (100 * imageSize / previewSize.aspectRatio * originalDimensions.aspectRatio);
+                                                return (<div style={{ height: previewSize.height, width: previewSize.width, marginLeft: "7%", border: "1px dashed grey" }}>
+                                                    <img height="auto" width={String(width) + "%"} onLoad={this.onImgLoad} src={imageModal || this.props.fileModalResult.value}/>
+                                                </div>);
+                                            case "area":
+                                                return this.state.svg ? (
+                                                    <div style={{ width: '100%' }}>
+                                                        <svg viewBox={`0 0 ${this.state.svg.canvasSize.width} ${this.state.svg.canvasSize.height}`}
+                                                            style={{ pointerEvents: 'none' }}
+                                                            height={'100%'} width={'100%'}
+                                                            preserveAspectRatio="none">
+                                                            <path d={this.state.svg.svgPath} fill={this.state.color || '#000'}/>
+                                                        </svg>
+                                                    </div>
+                                                ) : null;
+                                            default:
+                                                return <h4>{this.state.markType}</h4>;
+                                            }})()}
+                                        </div>
+                                    </FormGroup>
                                     <FormGroup>
                                         <h4>{i18n.t("marks.link_to")}</h4>
                                         <div>
@@ -252,7 +320,7 @@ class RichMarksModal extends Component {
                                                     }}>{i18n.t("marks.popup")}</Radio>
                                             </LinkToContainer>
                                         </div>
-                                        <div style={{ display: this.state.connectMode === "new" ? "none" : "initial" }}>
+                                        <div style={{ display: this.state.newSelected === "" ? "none" : "initial" }}>
                                             {i18n.t("marks.hover_message")} <strong>{newSelected}</strong>
                                         </div>
                                     </FormGroup>
@@ -260,11 +328,16 @@ class RichMarksModal extends Component {
                                 <Row>
                                     <FormGroup>
                                         <FormGroup style={{ display: this.state.connectMode === "new" ? "block" : "none" }}>
-                                            <h4>{i18n.t("marks.new_content_label")}</h4>
+                                            <h4 style={{
+                                                display: this.state.newSelected === "" ? "initial" : "none",
+                                            }}>{i18n.t("marks.new_content_label")}</h4>
                                             <TypeSelector>
                                                 <FormControl componentClass="select"
                                                     defaultValue={this.state.newType}
-                                                    style={{ width: "80%" }}
+                                                    style={{
+                                                        display: this.state.newSelected === "" ? "initial" : "none",
+                                                        width: "80%",
+                                                    }}
                                                     onChange={e => {
                                                         this.setState({ newType: e.nativeEvent.target.value });
                                                     }}>
@@ -302,6 +375,7 @@ class RichMarksModal extends Component {
                         </Row>
                     </Grid>
                 </Modal.Body>
+
                 <Modal.Footer>
                     {/* <span>También puedes arrastrar el icono <i className="material-icons">room</i> dentro del plugin del vídeo para añadir una nueva marca</span>*/}
                     <Button onClick={() => {
@@ -314,12 +388,12 @@ class RichMarksModal extends Component {
                         let newMark = current && current.id ? current.id : ID_PREFIX_RICH_MARK + Date.now();
                         let connectMode = this.state.connectMode;
                         let connection = selected.id;
-                        let markState;
                         let value = ReactDOM.findDOMNode(this.refs.value).value;
+                        // let value = this.props.markCursorValue;
                         if(this.state.markType === 'area' && !isValidSvgPath(value)) {
                             this.setState({
                                 showAlert: true,
-                                alertMsg: i18n.t("marks.wrong_area"),
+                                alertMsg: 'No has introducido un área correcta',
                             });
                             return;
                         }
@@ -335,7 +409,6 @@ class RichMarksModal extends Component {
                         case "area":
                             color = this.state.color || marksType.defaultColor || '#222222';
                             content.svg = this.state.svg;
-                            content.secretArea = this.state.secretArea;
                             break;
                         case "image":
                             size = this.state.size;
@@ -352,6 +425,8 @@ class RichMarksModal extends Component {
                         let name = connectMode === "existing" ? this.props.viewToolbarsById[connection].viewName : nextAvailName(i18n.t('contained_view'), this.props.viewToolbarsById, 'viewName');
                         // Mark name
                         title = title || nextAvailName(i18n.t("marks.new_mark"), this.props.marksById, 'title');
+                        let markState;
+                        // let value = this.props.markCursorValue;
                         // First of all we need to check if the plugin creator has provided a function to check if the input value is allowed
                         if (plugin && plugin.validateValueInput) {
                             let val = plugin.validateValueInput(value);
@@ -386,6 +461,7 @@ class RichMarksModal extends Component {
                                     type: this.state.newType,
                                     id: newId,
                                     parent: { [newMark]: this.props.boxSelected },
+                                    // name: name,
                                     boxes: this.state.newType === "document" ? [sortable_id] : [],
                                     extraFiles: {},
                                 },
@@ -458,8 +534,11 @@ class RichMarksModal extends Component {
                             };
                             break;
                         }
-                        let updateMark = this.props.marksById[newMark] === undefined ? this.h.onRichMarkAdded : this.h.onRichMarkUpdated;
-                        updateMark(markState.mark, markState.view, markState.viewToolbar);
+                        if(this.props.marksById[newMark] === undefined) {
+                            this.h.onRichMarkAdded(markState.mark, markState.view, markState.viewToolbar);
+                        } else{
+                            this.h.onRichMarkUpdated(markState.mark, markState.view, markState.viewToolbar);
+                        }
                         this.generateTemplateBoxes(this.state.boxes, newId);
                         this.restoreDefaultTemplate();
                         this.h.onRichMarksModalToggled();
@@ -486,6 +565,7 @@ class RichMarksModal extends Component {
                     idSlide = {newId || ""}/>
             </ModalContainer>
         );
+
     }
 
     /**
@@ -524,6 +604,7 @@ class RichMarksModal extends Component {
         });
         return viewNames;
     };
+
             /**
              * Method used to remap navItems and containedViews together
              * @param objects
@@ -532,12 +613,14 @@ class RichMarksModal extends Component {
             remapInObject = (...objects) => {
                 return Object.assign({}, ...objects);
             };
+
             toggleModal = (e) => {
                 let key = e.keyCode ? e.keyCode : e.which;
                 if (key === 27 && this.props.richMarksVisible) {
                     this.h.onRichMarksModalToggled();
                 }
             };
+
             /**
              * Shows/Hides the Import file modal
              */
@@ -546,6 +629,7 @@ class RichMarksModal extends Component {
                     showTemplates: !prevState.showTemplates,
                 }));
             };
+
             templateClick = (boxes) => {
                 this.setState({
                     boxes: boxes,
@@ -573,7 +657,7 @@ class RichMarksModal extends Component {
 
     // Function to get image size to render
     onImgLoad = ({ target: img }) => {
-        if(!this.state.originalDimensions.height) {
+        if(!this.state.oDimensions.height) {
             let aspectRatio = img.offsetWidth / img.offsetHeight;
             let biggerDimension;
             if(img.offsetHeight > img.offsetWidth) {
@@ -581,23 +665,20 @@ class RichMarksModal extends Component {
             }else{
                 biggerDimension = "Width";
             }
-            this.setState({ originalDimensions: { aspectRatio, biggerDimension } });
+            this.setState({ oDimensions: { aspectRatio, biggerDimension } });
         }
     };
 
     loadImage = () => {
         this.toggleFileUpload('image', 'image/*');
         this.setState({ image: false });
-        this.setState({ originalDimensions: false });
+        this.setState({ oDimensions: false });
     };
 
     openAreaCreator = () => {
         this.h.onAreaCreatorVisible('box-' + this.props.boxSelected, this.state);
         this.h.onRichMarksModalToggled();
-        this.h.onRichMarkEditPressed(this.state);
     };
-
-    areasAllowed = pluginConfig => pluginConfig?.name === "HotspotImages";
 
     toggleFileUpload = (id, accept) => {
         this.props.dispatch(updateUI({
@@ -607,14 +688,6 @@ class RichMarksModal extends Component {
         }));
     };
 
-    getMarkValue = () => {
-        switch (this.state.markType) {
-        case 'area':
-            return this.props.markCursorValue?.svgPath ?? this.props.currentRichMark?.content?.svg?.svgPath ?? 'Draw a shape';
-        default:
-            return this.props.markCursorValue ?? this.props.currentRichMark?.value ?? 0;
-        }
-    };
 }
 
 function mapStateToProps(state) {
@@ -656,10 +729,6 @@ RichMarksModal.propTypes = {
      * Object containing all contained views (identified by its ID)
      */
     containedViewsById: PropTypes.object.isRequired,
-    /**
-     * Type of mark
-     */
-    markType: PropTypes.any,
     /**
      * Object containing all views (by id)
      */

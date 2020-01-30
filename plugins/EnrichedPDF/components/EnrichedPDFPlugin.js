@@ -144,14 +144,13 @@ export default class EnrichedPDFPlugin extends React.Component {
             let isVisor = true;
             return(
                 bool ?
-                    <div key={id} style={{ position: 'absolute', top: y, left: x, width: '24px', height: '26px' }}>
+                    <div key={id} style={{ position: 'absolute', top: y, left: x, transform: "translate(-50%, -50%)" }}>
                         <Mark
                             markType={markType}
                             content={content}
                             color={color}
                             size={size}
                             idKey={id}
-                            type={type}
                             title={title}
                             isPopUp={isPopUp}
                             isVisor={isVisor}

@@ -140,8 +140,7 @@ export const HotspotImages = (base) => ({
         let markElements = Object.keys(marks).map((id) =>{
             let { value, title, markType, content, color, size } = marks[id];
             let position;
-            let width = markType === "image" ? String(content.imageDimensions.width) + "%" : null;
-            width = markType === "icon" ? size + "%" : width;
+            let width = markType === "image" ? String(content.imageDimensions.width) + "%" : "auto";
             if (value && value.split(',').length === 2) {
                 position = value.split(',');
             } else{
@@ -152,7 +151,7 @@ export const HotspotImages = (base) => ({
                 return null;
             }
             return (
-                <MarkEditor key={id} style={{ position: 'absolute', top: position[0] - (content?.imageDimensions?.height ?? 0) / 2 + "%", left: position[1] - (content?.imageDimensions?.width ?? 0) / 2 + "%", width, height: "auto" }} time={1.5} dispatch={ props.dispatch } onRichMarkMoved={_handlers({ props }).onRichMarkMoved} mark={id} base={base} marks={marks} state={state}>
+                <MarkEditor key={id} style={{ position: 'absolute', transform: "translate(-50%, -50%)", top: position[0] + "%", left: position[1] + "%", width: width, height: "auto" }} time={1.5} dispatch={ props.dispatch } onRichMarkMoved={_handlers({ props }).onRichMarkMoved} mark={id} base={base} marks={marks} state={state}>
                     <Mark style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} idKey={id} title={title} isImage markType={markType} content={content} color={color} size={size}/>
                 </MarkEditor>
             );

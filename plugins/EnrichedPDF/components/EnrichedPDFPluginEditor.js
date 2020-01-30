@@ -57,8 +57,8 @@ export default class EnrichedPDFPluginEditor extends React.Component {
             let color = marks[id].color;
             let size = marks[id].size;
             let position;
-            // eslint-disable-next-line no-unused-vars
-            let type = marks[id].type;
+            let markType = marks[id].markType;
+
             if (value && value.split(',').length === 3) {
                 position = value.split(',');
             } else {
@@ -74,7 +74,7 @@ export default class EnrichedPDFPluginEditor extends React.Component {
                     <MarkEditor
                         boxId={this.props.props.id}
                         key={id}
-                        style={{ left: x, top: y, position: "absolute" }}
+                        style={{ left: x, top: y, position: "absolute", transform: "translate(-50%, -50%)" }}
                         time={1.5}
                         mark={id}
                         onRichMarkMoved={this.h.onRichMarkMoved}
