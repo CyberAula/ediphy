@@ -16,7 +16,7 @@ export function HotspotImages() {
                 let width = markType === "image" ? String(marks[e].content.size.width) + "%" : null;
                 let isPopUp = marks[e].connectMode === "popup";
                 let isVisor = true;
-                if(markType === 'area') {
+                if (markType === 'area') {
                     svgMarks.push(marks[e]);
                     return null;
                 }
@@ -44,7 +44,7 @@ export function HotspotImages() {
                     height={'100%'} width={'100%'}
                     preserveAspectRatio="none">
                     <path d={mark.content.svg.svgPath} fill={mark.color || '#000'} style={{ pointerEvents: 'all', cursor: mark.content?.secretArea ? 'default' : 'pointer' }}
-                        onClick={()=>props.onMarkClicked(props.id, mark.value)}
+                        onClick={() => props.onMarkClicked(props.id, mark.value)}
                     />
                 </svg>
             ));

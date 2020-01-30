@@ -28,7 +28,7 @@ export default class ThemePreview extends React.Component {
                     style={{
                         width: '400px',
                         height: '220px',
-                        border: '1px solid gray',
+                        border: '1px solid #cecece',
                         marginBottom: '20px' }}>
                     <ThemeCSS
                         theme={this.props.theme}

@@ -38,6 +38,7 @@ export default class ThemePicker extends React.Component {
                                 onClick={()=>this.handleChange(index)}
                                 src = {`./themes/${key}/thumbnail.jpg`}
                                 style={{
+                                    border: '1px solid #cecece',
                                     height: this.props.fromStyleConfig ? '10em' : '5em' }} />
                         );
                     })}
