@@ -12,6 +12,7 @@ import TemplateThumbnail from "./TemplateThumbnail";
 import { getThemeTemplates } from "../../../../common/themes/themeLoader";
 import { EDModal } from "../../../../sass/general/EDModal";
 import { ItemsContainer, TemplateItem, TemplateName } from "./Styles";
+import _handlers from "../../../handlers/_handlers";
 
 class TemplatesModal extends Component {
 
@@ -125,7 +126,7 @@ class TemplatesModal extends Component {
                 let selectedTemplate = templatesCopy[template];
                 let boxes = selectedTemplate.boxes;
 
-                makeBoxes(boxes, newId, this.props);
+                makeBoxes(boxes, newId, this.props, this.props.onBoxAdded);
             }
             // reset state
             this.setState({

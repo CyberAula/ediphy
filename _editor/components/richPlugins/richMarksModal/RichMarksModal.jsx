@@ -480,6 +480,7 @@ class RichMarksModal extends Component {
                     onIndexSelected={this.props.onIndexSelected}
                     indexSelected={this.props.indexSelected}
                     onBoxAdded={this.h.onBoxAdded}
+                    onNavItemAdded={this.h.onNavItemAdded}
                     calculatePosition={this.calculatePosition}
                     templateClick={this.templateClick}
                     idSlide = {newId || ""}/>
