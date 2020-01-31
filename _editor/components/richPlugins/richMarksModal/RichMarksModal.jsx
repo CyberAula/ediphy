@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import './../../../../node_modules/rc-color-picker/assets/index.css';
 import { connect } from "react-redux";
-import Picker from 'rc-color-picker';
 import { Modal, Button, Row, Col, FormGroup, ControlLabel, FormControl, Grid, Radio } from 'react-bootstrap';
 import { updateUI } from "../../../../common/actions";
 import ToggleSwitch from '@trendmicro/react-toggle-switch';
@@ -14,8 +13,7 @@ import { isSection, isContainedView, nextAvailName, makeBoxes, isValidSvgPath } 
 import _handlers from "../../../handlers/_handlers";
 import { ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES } from '../../../../common/constants';
 import TemplatesModal from "../../carousel/templatesModal/TemplatesModal";
-import { ModalContainer, TypeSelector, ConfigSize, MarkTypeTab, TypeTab, SizeSlider, LinkToContainer } from "./Styles";
-import { copyFile } from 'fs';
+import { ModalContainer, TypeSelector, MarkTypeTab, TypeTab, SizeSlider, LinkToContainer } from "./Styles";
 import ColorPicker from "../../common/colorPicker/ColorPicker";
 import IconPicker from "../../common/iconPicker/IconPicker";
 /**
@@ -644,7 +642,7 @@ class RichMarksModal extends Component {
 
     generateTemplateBoxes = (boxes, newId) => {
         if(boxes.length > 0) {
-            makeBoxes(boxes, newId, this.props);
+            makeBoxes(boxes, newId, this.props, this.h.onBoxAdded);
         }
     };
 

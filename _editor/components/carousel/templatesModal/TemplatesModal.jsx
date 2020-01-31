@@ -67,7 +67,7 @@ class TemplatesModal extends Component {
                     }}>{i18n.t("importFile.footer.cancel")}</Button>
                     <Button bsStyle="primary" id="cancel_button" onClick={ (e) => {
                         if(this.props.fromRich) {
-                            this.getBoxes(this.state.itemSelected);
+                            this.getBoxes(this.state.itemSelected, templatesCopy);
                             this.closeModal();
                         } else {
                             this.AddNavItem(this.state.itemSelected);
@@ -91,10 +91,10 @@ class TemplatesModal extends Component {
         this.props.close();
     }
 
-    getBoxes(itemSelected) {
+    getBoxes(itemSelected, themeTemplates) {
         let boxes = [];
         if (itemSelected !== -1) {
-            let selectedTemplate = this.templates[itemSelected];
+            let selectedTemplate = themeTemplates[itemSelected];
             boxes = selectedTemplate.boxes;
         }
         this.props.templateClick(boxes);

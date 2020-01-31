@@ -509,7 +509,7 @@ export function vendorTransform(obj, val) {
         obj.transform = val;
 }
 
-export function makeBoxes(boxes, newId, props) {
+export function makeBoxes(boxes, newId, props, onBoxAdded) {
     boxes.map((item, index) => {
         let position = {
             x: item.box.x,
@@ -533,7 +533,7 @@ export function makeBoxes(boxes, newId, props) {
         } else if (item.toolbar.url) {
             initialParams.url = item.toolbar.url;
         }
-        createBox(initialParams, item.toolbar.name, true, props.onBoxAdded, props.boxes, item.toolbar.style);
+        createBox(initialParams, item.toolbar.name, true, onBoxAdded, props.boxes, item.toolbar.style);
     });
 }
 
