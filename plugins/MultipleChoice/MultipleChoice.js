@@ -81,7 +81,6 @@ export const MultipleChoice = () => ({
         let quizColor = state.quizColor.color;
         let customColor = generateCustomColors(quizColor, 1, true);
         let customStyle = { ...customColor };
-
         const clickHandler = e => props.setCorrectAnswer(parseInt(e.target.value, 10));
         const isCorrect = i => props.exercises.correctAnswer === i;
 

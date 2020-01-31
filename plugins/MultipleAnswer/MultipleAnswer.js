@@ -82,7 +82,7 @@ export const MultipleAnswer = () => ({
         showFeedback: true,
         letters: i18n.t("MultipleAnswer.ShowLetters"),
         allowPartialScore: false,
-        quizColor: { color: 'rgba(0, 173, 156, 1)', custom: false },
+        quizColor: { color: document.documentElement.style.getPropertyValue('--themeColor1'), custom: false },
     }),
     getRenderTemplate: function(state, props = {}) {
         let correctAnswers = "";

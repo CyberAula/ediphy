@@ -60,7 +60,7 @@ export function FreeResponse() {
                 showFeedback: true,
                 characters: true,
                 correct: true,
-                quizColor: { color: 'rgba(0, 173, 156, 1)', custom: false },
+                quizColor: { color: document.documentElement.style.getPropertyValue('--themeColor1'), custom: false },
             };
         },
         getRenderTemplate: function(state, props) {
