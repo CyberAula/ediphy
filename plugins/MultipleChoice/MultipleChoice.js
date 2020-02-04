@@ -20,6 +20,7 @@ import {
     MultipleChoicePlugin,
     RadioInput,
 } from "./Styles";
+import { PRIMARY_BLUE } from "../../sass/general/constants";
 
 /* eslint-disable react/prop-types */
 
@@ -78,9 +79,8 @@ export const MultipleChoice = () => ({
     }),
     getRenderTemplate: (state, props = {}) => {
         let correctAnswers = "";
-        let quizColor = state.quizColor.color;
-        let customColor = generateCustomColors(quizColor, 1, true);
-        let customStyle = { ...customColor };
+        let quizColor = state.quizColor.color || PRIMARY_BLUE;
+        let customStyle = state.quizColor.custom ? generateCustomColors(quizColor, 1, true) : null;
         const clickHandler = e => props.setCorrectAnswer(parseInt(e.target.value, 10));
         const isCorrect = i => props.exercises.correctAnswer === i;
 

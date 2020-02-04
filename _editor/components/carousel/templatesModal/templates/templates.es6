@@ -416,7 +416,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "MultipleChoice",
-                    "style": { "background-color": "rgba(0, 0, 0, 0)" },
+                    "style": { "background-color": 'var(--themeColor8)' },
                 },
                 "thumbnail": {
                     "icon": "radio_button_checked",
@@ -457,7 +457,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "MultipleAnswer",
-                    "style": { "background-color": "rgba(0, 0, 0, 0)" },
+                    "style": { "background-color": 'var(--themeColor8)' },
                 },
                 "thumbnail": {
                     "icon": "check_box",
@@ -498,7 +498,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "FreeResponse",
-                    "style": { "background-color": "rgba(0, 0, 0, 0)" },
+                    "style": { "background-color": 'var(--themeColor8)' },
                 },
                 "thumbnail": {
                     "icon": "message",
@@ -539,7 +539,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "TrueFalse",
-                    "style": { "background-color": "rgba(0, 0, 0, 0)" },
+                    "style": { "background-color": "'var(--themeColor8)'" },
                 },
                 "thumbnail": {
                     "icon": "check_circle",

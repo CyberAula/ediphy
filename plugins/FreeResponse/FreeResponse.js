@@ -5,6 +5,7 @@ import { generateCustomColors } from "../../common/themes/themeLoader";
 import { QUIZ_CONFIG, QUIZ_STYLE } from "../../common/quizzes";
 import { FreeResponsePlugin, AnswerRow, TextArea, ManyCharacters } from "./Styles";
 import { Feedback, FeedbackRow } from "../../sass/exercises";
+import { PRIMARY_BLUE } from "../../sass/general/constants";
 /* eslint-disable react/prop-types */
 
 export function FreeResponse() {
@@ -68,8 +69,8 @@ export function FreeResponse() {
                 props.setCorrectAnswer(e.target.value);
             };
 
-            let quizColor = state.quizColor.color;
-            let customStyle = generateCustomColors(quizColor, 1, true);
+            let quizColor = state.quizColor.color || PRIMARY_BLUE;
+            let customStyle = state.quizColor.custom ? generateCustomColors(quizColor, 1, true) : null;
             const manyCharacters = (state.correct && props.exercises.correctAnswer && props.exercises.correctAnswer.length && props.exercises.correctAnswer.length > 100);
 
             return <FreeResponsePlugin style={ customStyle }>

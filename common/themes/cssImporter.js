@@ -1,5 +1,6 @@
 import './scss-files/default/default.scss';
 import './scss-files/orange/orange.scss';
+import './scss-files/vish1/vish1.scss';
 import './scss-files/vish2/vish2.scss';
 import './scss-files/vish3/vish3.scss';
 import './scss-files/vish4/vish4.scss';

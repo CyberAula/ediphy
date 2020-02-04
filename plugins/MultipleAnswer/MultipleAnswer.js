@@ -21,6 +21,7 @@ import {
     QuestionRow,
 } from "../../sass/exercises";
 import { removeLastChar } from "../../common/utils";
+import { PRIMARY_BLUE } from "../../sass/general/constants";
 /* eslint-disable react/prop-types */
 
 export const MultipleAnswer = () => ({
@@ -86,8 +87,8 @@ export const MultipleAnswer = () => ({
     }),
     getRenderTemplate: function(state, props = {}) {
         let correctAnswers = "";
-        const quizColor = state.quizColor.color;
-        const customStyle = generateCustomColors(quizColor, 1, true);
+        let quizColor = state.quizColor.color || PRIMARY_BLUE;
+        let customStyle = state.quizColor.custom ? generateCustomColors(quizColor, 1, true) : null;
         const showLetters = state.letters === i18n.t("MultipleChoice.ShowLetters");
 
         const checked = i => (props.exercises.correctAnswer instanceof Array) && props.exercises.correctAnswer.indexOf(i) > -1;

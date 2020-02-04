@@ -6,6 +6,7 @@ import { generateCustomColors } from "../../common/themes/themeLoader";
 import { QUIZ_CONFIG, QUIZ_STYLE } from "../../common/quizzes";
 import { OrderingPlugin, AnswerLetter, AnswerRow, AnswerPlaceholder, AnswerText } from "./Styles";
 import { Feedback, FeedbackRow, QuestionRow } from "../../sass/exercises";
+import { PRIMARY_BLUE } from "../../sass/general/constants";
 /* eslint-disable react/prop-types */
 
 export const Ordering = () => ({
@@ -62,8 +63,8 @@ export const Ordering = () => ({
     getRenderTemplate: (state, props = {}) => {
         // eslint-disable-next-line no-unused-vars
         let correctAnswers = "";
-        const quizColor = state.quizColor.color;
-        const customStyle = state.quizColor.custom ? generateCustomColors(quizColor, 1, true) : null;
+        let quizColor = state.quizColor.color || PRIMARY_BLUE;
+        let customStyle = state.quizColor.custom ? generateCustomColors(quizColor, 1, true) : null;
         const showLetters = state.letters === i18n.t("Ordering.ShowLetters");
         const Answer = i => (
             <AnswerRow key={i + 1}>

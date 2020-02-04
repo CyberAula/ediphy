@@ -12,7 +12,7 @@ export const QUIZ_STYLE = {
         backgroundColor: {
             __name: Ediphy.i18n.t('HotspotImages.backgroundColor'),
             type: 'color',
-            value: '#ffffff',
+            value: 'var(--themeColor8, #ffffff)',
         },
         borderWidth: {
             __name: Ediphy.i18n.t('HotspotImages.border_size'),
