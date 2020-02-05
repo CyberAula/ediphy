@@ -21,7 +21,7 @@ display: ${props => props.hide ? 'none' : 'block'};
   }
   li:last-child{
     a{
-      color: ${PRIMARY_BLUE};
+      color: ${props => props.doc ? 'var(--themeColor9)' : 'var(--themeColor1)'};
     }
   }
 }

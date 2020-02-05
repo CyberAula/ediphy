@@ -1,6 +1,13 @@
 .vish12 {
  font-family: var(--themePrimaryFont, 'Ubuntu');
 
+    .canvasDoc{
+    &.title .cab{
+      h2{
+        color: var(--themeColor9, black);
+      }
+    }
+  }
   .title {
     display: block;
     background-color: transparent;

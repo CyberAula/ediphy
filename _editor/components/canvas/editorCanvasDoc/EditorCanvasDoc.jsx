@@ -44,6 +44,7 @@ class EditorCanvasDoc extends Component {
                         e.stopPropagation();
                     }}>
                     <EditorHeader
+                        isDoc
                         titles={titles}
                         onBoxSelected={handleBoxes.onBoxSelected}
                         courseTitle={title}

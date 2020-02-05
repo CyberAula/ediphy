@@ -76,15 +76,16 @@ class EditorHeader extends Component {
             }
             if (currentNavItem.id !== 0) {
                 let hide = true;
+
                 for (let i in toolbar) {
                     if (toolbar[i] !== 'hidden') {
                         hide = false;
                         break;
                     }
                 }
-
+                let classes = this.props.isDoc ? "title ediphyHeader canvasDoc" : "title ediphyHeader";
                 return (
-                    <Title className="title ediphyHeader" onClick={(e) => {
+                    <Title className={classes} onClick={e => {
                         this.h.onBoxSelected(-1);
                         e.stopPropagation();
                     }}>
@@ -96,7 +97,6 @@ class EditorHeader extends Component {
                             <TitleBox>
                                 <Cab>
                                     <CabTableNumber hide={toolbar.numPage === 'hidden' || !pagenumber} children={pagenumber}/>
-
                                     <div className="tit_ud_cap">
                                         {/* Course title*/}
                                         {!this.state.editingTitle ?
@@ -224,7 +224,7 @@ class EditorHeader extends Component {
                                                     this.setState({ editingNavSubTitle: !this.state.editingNavSubTitle });
                                                     this.h.onViewTitleChanged(currentNavItem.id, { documentSubtitleContent: (this.state.currentNavSubTitle.length > 0) ? this.state.currentNavSubTitle : this.getDefaultValue() });
                                                 }} />)}
-                                        <BreadCrumb hide={toolbar.breadcrumb === 'hidden'} children={content}/>
+                                        <BreadCrumb doc={this.props.isDoc} hide={toolbar.breadcrumb === 'hidden'} children={content}/>
                                     </div>
 
                                     <div style={{ display: 'none' }} className="clear"/>
@@ -256,6 +256,10 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps)(EditorHeader);
 
 EditorHeader.propTypes = {
+    /**
+     * Current view is a document
+     */
+    isDoc: PropTypes.any,
     /**
      * Object containing view titles
      */

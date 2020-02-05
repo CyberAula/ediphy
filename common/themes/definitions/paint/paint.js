@@ -44,8 +44,8 @@ export const DEFINITION = {
         themeColor6: '#401813',
         themeColor7: '#3E3839',
         themeColor8: 'rgba(0,0,0,0)',
-        themeColor9: '#F62B73',
-        themeColor10: 'white',
+        themeColor9: '#B6D2C6',
+        themeColor10: '#ffffff',
     },
     images: {
         template1: { left: 'left.jpg', background: 3 },
