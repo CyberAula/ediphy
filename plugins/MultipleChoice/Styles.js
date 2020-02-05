@@ -36,7 +36,7 @@ export const AnswerInput = styled.div`
 `;
 
 export const AnswerLetter = styled.div`
-      color: white;
+      color: var(--themeColor10, white);
       background-color: var(--themeColor1);
       border-radius: 1em;
       width: 1.5em;

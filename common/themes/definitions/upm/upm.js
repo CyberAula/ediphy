@@ -43,6 +43,8 @@ export const DEFINITION = {
         themeColor6: '#0F3D59',
         themeColor7: '#0F3D59',
         themeColor8: 'rgba(0,0,0,0)',
+        themeColor9: '#F62B73',
+        themeColor10: 'black',
     },
     images: {
         template1: { left: 'left.jpg' },

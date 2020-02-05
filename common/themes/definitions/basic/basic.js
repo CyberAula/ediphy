@@ -50,6 +50,8 @@ export const DEFINITION = {
         themeColor6: '#FFFFFF',
         themeColor7: '#FFFFFF',
         themeColor8: '#1d2625',
+        themeColor9: '#B46741',
+        themeColor10: 'white',
     },
     images: {
         template0: { background: 4 },

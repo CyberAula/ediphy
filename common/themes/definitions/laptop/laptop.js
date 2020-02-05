@@ -40,9 +40,11 @@ export const DEFINITION = {
         themeColor6: '#031B3A',
         themeColor7: '#FFFFFF',
         themeColor8: 'rgba(0,0,0,0)',
+        themeColor9: '#F62B73',
+        themeColor10: 'white',
     },
     images: {
-        template1: { left: '' },
+        template1: { left: 'left.jpg' },
         template2: { background: 1 },
         template3: { background: 1, topLeft: 'topLeft.jpg', topRight: 'topRight.jpg', bottomLeft: 'bottomLeft.jpg', bottomRight: 'bottomRight.jpg' },
         template7: { left: 'seven.jpg' },
