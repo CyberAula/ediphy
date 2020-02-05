@@ -209,6 +209,9 @@ function definition() {
         themeColor4: '#65caff',
         themeColor5: '#ffbe45',
         themeColor6: '#1d1d1d',
+        themeColor8: 'rgba(0,0,0,0)',
+        themeColor9: '#F62B73',
+        themeColor10: 'white',
     },
     images: {
         template1: { left: 'colors_texture.jpg' },
