@@ -539,7 +539,7 @@ export const templates = () => { return (
                 },
                 "toolbar": {
                     "name": "TrueFalse",
-                    "style": { "background-color": "'var(--themeColor8)'" },
+                    "style": { "background-color": 'var(--themeColor8)' },
                 },
                 "thumbnail": {
                     "icon": "check_circle",

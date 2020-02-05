@@ -43,11 +43,12 @@ export const DEFINITION = {
         themeColor5: '#E2DAD8',
         themeColor6: '#000000',
         themeColor7: '#DF0000',
+        themeColor8: '#FFFFFF',
     },
     images: {
         template1: { background: 1, left: 'left.jpg' },
         template2: { background: 2 },
-        template3: { background: 2, topLeft: 'topLeft.png', topRight: 'topRight.png', bottomLeft: 'bottomLeft.png', bottomRight: 'bottomRight.png' },
+        template3: { background: 2, topLeft: 'red.jpg', topRight: 'red.jpg', bottomLeft: 'red.jpg', bottomRight: 'red.jpg' },
         template7: { left: 'seven.jpg' },
         template12: { background: 3 },
     },

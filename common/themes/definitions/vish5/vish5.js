@@ -38,9 +38,9 @@ export const DEFINITION = {
         themeColor6: '#004ba8',
     },
     images: {
-        template1: { left: '#3b86e3' },
-        template3: { topLeft: 'topLeft.png', topRight: 'topRight.png', bottomLeft: 'bottomLeft.png', bottomRight: 'bottomRight.png' },
-        template7: { left: 'placeholder.svg' },
+        template1: { left: 'left.jpg' },
+        template3: { topLeft: 'vish.svg', topRight: 'vish.svg', bottomLeft: 'vish.svg', bottomRight: 'vish.svg' },
+        template7: { left: 'vish.svg' },
     },
 };
 

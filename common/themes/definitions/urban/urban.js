@@ -41,7 +41,7 @@ export const DEFINITION = {
     },
     images: {
         template1: { left: 'left.jpg' },
-        template3: { topLeft: 'topLeft.png', topRight: 'topRight.png', bottomLeft: 'bottomLeft.png', bottomRight: 'bottomRight.png' },
+        template3: { topLeft: 'city1.jpg', topRight: 'city2.jpg', bottomLeft: 'city3.jpeg', bottomRight: 'city4.jpg' },
         template7: { left: 'seven.jpg' },
     },
 };
