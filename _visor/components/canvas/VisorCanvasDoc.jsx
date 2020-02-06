@@ -50,7 +50,7 @@ export default class VisorCanvasDoc extends Component {
             <Canvas id={(isCV ? "containedCanvas_" : "canvas_") + this.props.currentView} md={12} xs={12} className={(isCV ? "containedCanvasClass " : "canvasClass ") + animationType + (this.props.show ? "" : " hidden")}
                 style={{ display: 'initial', padding: '0', width: '100%' }}>
                 <div className={"safeZone"} style={{ height: 'inherit' }}>
-                    <div className={"scrollcontainer " + theme} style={{ background: toolbar.background }}>
+                    <div className={"scrollcontainer " + theme} style={{ background: toolbar.customBackground ? toolbar.background : '#ffffff' }}>
                         {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
                             <a href="#" className="btnOverBar cvBackButton" style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }}
                                 onClick={a => {

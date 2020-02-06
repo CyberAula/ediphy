@@ -1,5 +1,13 @@
 .vish11 {
- font-family: var(--themePrimaryFont, 'Ubuntu');
+  font-family: var(--themePrimaryFont, 'Ubuntu');
+
+  .canvasDoc {
+    &.title .cab {
+      h2 {
+        color: var(--themeColor9, black);
+      }
+    }
+  }
 
   .title {
     display: block;
@@ -8,51 +16,61 @@
     .cab {
       font-size: 2em;
       padding: 1em;
-      .cabtabla_numero{
+
+      .cabtabla_numero {
         padding: 0.2em 0.3em;
         line-height: 1em;
         color: var(--themeColor1);
         font-family: var(--themePrimaryFont, 'Ubuntu');
       }
-      .editCourseTitle{
+
+      .editCourseTitle {
         font-size: 1em;
         height: auto;
         border-radius: 0;
         border-color: var(--themeColor1);
       }
-      .editNavTitle{
+
+      .editNavTitle {
         font-size: 0.8em;
         height: auto;
         border-radius: 0;
         border-color: var(--themeColor1);
-      }.editNavSubTitle{
-         font-size: 0.6em;
-         height: auto;
-         border-radius: 0;
-         color: var(--themeColor1);
-       }
+      }
 
-      h1{
+      .editNavSubTitle {
+        font-size: 0.6em;
+        height: auto;
+        border-radius: 0;
+        color: var(--themeColor1);
+      }
+
+      h1 {
         margin: 0.1em;
         font-size: 1em;
       }
-      h2{
+
+      h2 {
         margin: 0.4em;
         font-size: 0.8em;
         color: var(--themeColor1);
       }
-      h3{
+
+      h3 {
         margin: 0.4em;
         font-size: 0.7em;
         color: var(--themeColor2);
       }
-      h4{
+
+      h4 {
         margin: 0.4em;
         font-size: 0.6em;
       }
-      .breadcrumb a{
+
+      .breadcrumb a {
         margin: 0.4em;
       }
+
       .infoIcon {
         cursor: help;
         font-size: 0.9em;

@@ -35,7 +35,7 @@ class EditorCanvasDoc extends Component {
                 style={{ display: containedViewSelected !== 0 && !fromCV ? 'none' : 'initial' }}>
 
                 <ScrollContainer className={"scrollcontainer parentRestrict " + theme}
-                    style={{ backgroundColor: show ? toolbar.background : 'transparent', display: show ? 'block' : 'none' }}
+                    style={{ backgroundColor: show ? toolbar.customBackground ? toolbar.background : '#ffffff' : 'transparent', display: show ? 'block' : 'none' }}
                     onMouseDown={e => {
                         if (e.target === e.currentTarget) {
                             handleBoxes.onBoxSelected(-1);
