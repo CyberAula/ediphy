@@ -37,8 +37,8 @@ export const DEFINITION = {
     colors: {
         themeColor1: '#D2D2D2',
         themeColor2: '#DBE0EF',
-        themeColor3: '#FFFFFF',
-        themeColor4: '#FFFFFF',
+        themeColor3: '#898989',
+        themeColor4: '#898989',
         themeColor5: '#DBE0EF',
         themeColor6: '#0F3D59',
         themeColor7: '#0F3D59',
