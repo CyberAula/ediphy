@@ -16,6 +16,7 @@ export const DEFINITION = {
         themeColor8: '#ffffff',
         themeColor9: '#17CFC8',
         themeColor10: '#ffffff',
+        themeColor11: '#ffffff',
     },
     images: {
         template1: { left: 'left.jpg' },

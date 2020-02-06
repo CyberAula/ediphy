@@ -224,6 +224,7 @@ export function isAncestorOrSibling(searchingId, actualId, boxes) {
 
     return isAncestorOrSibling(searchingId, parentId, boxes);
 }
+
 /**
  * Calculates next available name for a view
  * @param key Common part of name to look for. Example: "Page ", "Contained view "..
@@ -246,6 +247,7 @@ export function nextAvailName(key, views, name = 'name') {
     }
     return key + " " + 1;
 }
+
 /**
  * Same as previous but with toolbar
  * @param key Common part of name to look for. Example: "Page ", "Contained view "..
@@ -277,6 +279,7 @@ export function nextToolbarAvailName(key, views) {
     }
     return key + " " + 1;
 }
+
 /** **
  * Check if item is in collection
  * @param a: Collection
@@ -504,9 +507,9 @@ export function getTitles(itemSelected, viewToolbars, navItems, fromCV) {
 export function vendorTransform(obj, val) {
     obj.WebkitTransform =
         obj.MozTransform =
-        obj.msTransform =
-        obj.OTransform =
-        obj.transform = val;
+            obj.msTransform =
+                obj.OTransform =
+                    obj.transform = val;
 }
 
 export function makeBoxes(boxes, newId, props, onBoxAdded) {
@@ -564,17 +567,22 @@ export function isComplex(pluginName) {
 }
 
 export function get_browser() {
-    let ua = navigator.userAgent, tem, M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+    let ua = navigator.userAgent, tem,
+        M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
     if ((/trident/i).test(M[1])) {
         tem = (/\brv[ :]+(\d+)/g).exec(ua) || [];
         return { name: 'IE', version: (tem[1] || '') };
     }
     if (M[1] === 'Chrome') {
         tem = ua.match(/\bOPR|Edge\/(\d+)/);
-        if (tem !== null) { return { name: 'Opera', version: tem[1] }; }
+        if (tem !== null) {
+            return { name: 'Opera', version: tem[1] };
+        }
     }
     M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
-    if ((tem = ua.match(/version\/(\d+)/i)) !== null) { M.splice(1, 1, tem[1]); }
+    if ((tem = ua.match(/version\/(\d+)/i)) !== null) {
+        M.splice(1, 1, tem[1]);
+    }
     return {
         name: M[0],
         version: M[1],
@@ -628,4 +636,40 @@ export function isValidSvgPath(s) {
     const bInvalidStart = (/^[0-9-,.]/).test(s);
     const bInvalidEnd = (/.*[-,.]$/).test(s.trim());
     return !(bContainsIllegalCharacter || bContainsAdjacentLetters || bInvalidStart || bInvalidEnd);
+}
+
+export function isLightColor(color) {
+
+    // Variables for red, green, blue values
+    let r, g, b, hsp;
+
+    // Check the format of the color, HEX or RGB?
+    if (color.match(/^rgb/)) {
+
+        // If HEX --> store the red, green, blue values in separate variables
+        color = color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/);
+
+        r = color[1];
+        g = color[2];
+        b = color[3];
+    } else {
+
+        // If RGB --> Convert it to HEX: http://gist.github.com/983661
+        color = +("0x" + color.slice(1).replace(
+            color.length < 5 && /./g, '$&$&'));
+
+        r = color >> 16;
+        g = color >> 8 & 255;
+        b = color & 255;
+    }
+
+    // HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
+    hsp = Math.sqrt(
+        0.299 * (r * r) +
+        0.587 * (g * g) +
+        0.114 * (b * b)
+    );
+
+    // Using the HSP value, determine whether the color is light or dark
+    return (hsp > 173);
 }

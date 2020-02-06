@@ -20,7 +20,7 @@ import {
     FeedbackRow,
     QuestionRow,
 } from "../../sass/exercises";
-import { removeLastChar } from "../../common/utils";
+import { isLightColor, removeLastChar } from "../../common/utils";
 import { PRIMARY_BLUE } from "../../sass/general/constants";
 /* eslint-disable react/prop-types */
 
@@ -71,6 +71,11 @@ export const MultipleAnswer = () => ({
                                 type: 'custom_color_plugin',
                                 value: state.quizColor || getComputedStyle(document.documentElement).getPropertyValue('--themeColor1'),
                             },
+                            contrast: {
+                                __name: 'Improve contrast',
+                                type: 'checkbox',
+                                checked: state.contrast,
+                            },
                         },
                     },
                     style: QUIZ_STYLE,
@@ -84,6 +89,7 @@ export const MultipleAnswer = () => ({
         letters: i18n.t("MultipleAnswer.ShowLetters"),
         allowPartialScore: false,
         quizColor: { color: document.documentElement.style.getPropertyValue('--themeColor1'), custom: false },
+        contrast: false,
     }),
     getRenderTemplate: function(state, props = {}) {
         let correctAnswers = "";
@@ -106,7 +112,7 @@ export const MultipleAnswer = () => ({
         const Answer = i => (
             <AnswerRow key={i + 1}>
                 <AnswerInput>
-                    <AnswerLetter>
+                    <AnswerLetter light={isLightColor(quizColor)} contrast={state.contrast}>
                         {(state.letters === i18n.t("MultipleAnswer.ShowLetters")) ? letterFromNumber(i) : (i + 1)}
                     </AnswerLetter>
                     <CheckboxInput name={props.id} value={i} checked={checked(i)} onChange={() => clickHandler(i)}/>

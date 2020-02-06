@@ -36,7 +36,7 @@ export const AnswerInput = styled.div`
 `;
 
 export const AnswerLetter = styled.div`
-    color: var(--themeColor10, white);
+    color: ${ props => props.contrast ? props.light ? 'black' : 'white' : 'var(--themeColor11, white)' };
     background-color: var(--themeColor1);
     vertical-align: middle;
     width: 1.5em;
@@ -50,9 +50,7 @@ export const AnswerLetter = styled.div`
 `;
 
 export const AnswerText = styled.div`
-      margin: 0.2em 0;
-      margin-left: -1em;
-      margin-right: -1em;
+      margin: 0.2em -1em;
       padding: 0;
       width: 75%;
 `;
