@@ -135,9 +135,13 @@ export const Play = styled.button.attrs({ className: 'play-audio-button' })`
 export const Volume = styled.input.attrs({
     className: 'volume-audio-input', type: 'range',
     min: 0, max: 1, step: 'any' })`
-    position: relative;
+    width: 25% !important;
+    max-width: 120px;
+    position: absolute;
     top: 20%;
-    float: left;
+    right: 10px;
+    float: right;
+    background-color: transparent;
 `;
 
 export const MarkBar = styled.div.attrs({ className: 'markBar' })`

@@ -9,11 +9,8 @@
     margin: 0 auto;
     /*border: 0.7px solid orange;*/
     page-break-inside: avoid;
-
     display: -webkit-box;
-
     display: -ms-flexbox;
-
     display: flex;
     -webkit-box-align: center;
     -ms-flex-align: center;
@@ -48,11 +45,8 @@
 
   .slide169 {
     page-break-inside: avoid;
-
     display: -webkit-box;
-
     display: -ms-flexbox;
-
     display: flex;
     -webkit-transform: scale(1);
     -ms-transform: scale(1);
@@ -60,13 +54,9 @@
   }
 
   .slide43 {
-
     page-break-inside: avoid;
-
     display: -webkit-box;
-
     display: -ms-flexbox;
-
     display: flex;
     -webkit-transform: scale(1);
     -ms-transform: scale(1);
@@ -76,7 +66,6 @@
   .upOnPage {
     page-break-before: always;
   }
-
 
   .breakPage {
     page-break-after: always;
@@ -108,11 +97,9 @@
 
   .otherDoc {
     /*border: 1px solid #cf1629;*/
-
     margin: 0 auto;
     page-break-before: always;
     page-break-after: always;
-
 
     -webkit-transform: scale(1);
     -ms-transform: scale(1);
@@ -126,7 +113,6 @@
   }
 
   .importedDoc {
-
     margin: 0 auto;
     -webkit-transform: scale(1);
     -ms-transform: scale(1);
@@ -201,5 +187,4 @@
   .cvBackButton{
     display: none;
   }
-
 }
