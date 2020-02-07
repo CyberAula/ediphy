@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const ThemePickerContainer = styled.div.attrs({ className: 'themePicker' })`
     width: 100%;
-    .owl-nav{
+    .owl-carousel .owl-nav{
       display: flex;
       flex-direction: row;
       button{
