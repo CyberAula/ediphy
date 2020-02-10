@@ -72,7 +72,7 @@ export function AudioCue() {
         },
         getInitialState: () => {
             return {
-                url: 'http://vishub.org/audios/15288.mp3',
+                url: 'https://vishub.org/audios/15288.mp3',
                 autoplay: false,
                 cueColor: { color: 'rgba(0, 173, 157, 1)', custom: false },
                 useImage: false,

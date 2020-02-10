@@ -114,7 +114,7 @@ export function EnrichedAudio(base) {
         },
         getInitialState: function() {
             return {
-                url: 'http://vishub.org/audios/15288.mp3',
+                url: 'https://vishub.org/audios/15288.mp3',
                 autoplay: false,
                 controls: true,
                 waves: true,
