@@ -71,7 +71,6 @@ export const Play = styled(PlayerButton)`
 `;
 
 export const Progress = styled.div.attrs({ className: 'progress-player-input dropableRichZone' })`
-    height: 1.7em;
     position: relative;
     //bottom: 0.3em;
     background: transparent;
@@ -88,7 +87,7 @@ export const FakeProgress = styled.div.attrs({ className: "fakeProgress" })`
       position: absolute;
       width: 100%;
       z-index: ${props => props.visor ? '0' : undefined};
-      top: ${props => props.visor ? '0' : '0.3em'};
+      top: 0;
 `;
 
 export const FullScreen = styled(PlayerButton)`
@@ -120,7 +119,7 @@ export const MainSlider = styled.div.attrs({ className: 'mainSlider' })`
       position: absolute;
       margin-top: -0.1em;
       z-index: 9999;
-      top: 0.3em;
+      //top: 0.3em;
 `;
 
 export const VideoMark = styled.div`
