@@ -53,15 +53,119 @@
         top: 0.7em;
         right: 0.7em; }
 .orange {
-  font-family: var(--themePrimaryFont, "Ubuntu");
-  font-size: 1em; }
-  .orange h2 {
-    color: var(--themeColor1); }
-
-body {
-  display: none; }
+  font-family: var(--themePrimaryFont, "Ubuntu"); }
+  .orange .title {
+    display: block;
+    background-color: transparent; }
+    .orange .title .cab {
+      font-size: 2em;
+      padding: 1em; }
+      .orange .title .cab .cabtabla_numero {
+        padding: 0.2em 0.3em;
+        line-height: 1em;
+        color: var(--themeColor1);
+        font-family: var(--themePrimaryFont, "Ubuntu"); }
+      .orange .title .cab .editCourseTitle {
+        font-size: 1em;
+        height: auto;
+        border-radius: 0;
+        border-color: var(--themeColor1); }
+      .orange .title .cab .editNavTitle {
+        font-size: 0.8em;
+        height: auto;
+        border-radius: 0;
+        border-color: var(--themeColor1); }
+      .orange .title .cab .editNavSubTitle {
+        font-size: 0.6em;
+        height: auto;
+        border-radius: 0;
+        color: var(--themeColor1); }
+      .orange .title .cab h1 {
+        margin: 0.1em;
+        font-size: 1em;
+        color: var(--themeColor1); }
+      .orange .title .cab h2 {
+        margin: 0.4em;
+        font-size: 0.8em;
+        color: var(--themeColor1); }
+      .orange .title .cab h3 {
+        margin: 0.4em;
+        font-size: 0.7em;
+        color: var(--themeColor3); }
+      .orange .title .cab h4 {
+        margin: 0.4em;
+        font-size: 0.6em;
+        color: var(--themeColor4); }
+      .orange .title .cab .breadcrumb a {
+        margin: 0.4em; }
+      .orange .title .cab .infoIcon {
+        cursor: help;
+        font-size: 0.9em;
+        color: #555;
+        vertical-align: top;
+        position: absolute;
+        top: 0.7em;
+        right: 0.7em; }
+.vish1 {
+  font-family: var(--themePrimaryFont, "Ubuntu"); }
+  .vish1 .canvasDoc.title .cab h2 {
+    color: var(--themeColor9, black); }
+  .vish1 .title {
+    display: block;
+    background-color: transparent; }
+    .vish1 .title .cab {
+      font-size: 2em;
+      padding: 1em; }
+      .vish1 .title .cab .cabtabla_numero {
+        padding: 0.2em 0.3em;
+        line-height: 1em;
+        color: var(--themeColor1);
+        font-family: var(--themePrimaryFont, "Ubuntu"); }
+      .vish1 .title .cab .editCourseTitle {
+        font-size: 1em;
+        height: auto;
+        border-radius: 0;
+        border-color: var(--themeColor1); }
+      .vish1 .title .cab .editNavTitle {
+        font-size: 0.8em;
+        height: auto;
+        border-radius: 0;
+        border-color: var(--themeColor1); }
+      .vish1 .title .cab .editNavSubTitle {
+        font-size: 0.6em;
+        height: auto;
+        border-radius: 0;
+        color: var(--themeColor1); }
+      .vish1 .title .cab h1 {
+        margin: 0.1em;
+        font-size: 1em;
+        color: var(--themeColor1); }
+      .vish1 .title .cab h2 {
+        margin: 0.4em;
+        font-size: 0.8em;
+        color: var(--themeColor2); }
+      .vish1 .title .cab h3 {
+        margin: 0.4em;
+        font-size: 0.7em;
+        color: var(--themeColor3); }
+      .vish1 .title .cab h4 {
+        margin: 0.4em;
+        font-size: 0.6em;
+        color: var(--themeColor4); }
+      .vish1 .title .cab .breadcrumb a {
+        margin: 0.4em; }
+      .vish1 .title .cab .infoIcon {
+        cursor: help;
+        font-size: 0.9em;
+        color: #555;
+        vertical-align: top;
+        position: absolute;
+        top: 0.7em;
+        right: 0.7em; }
 .vish2 {
   font-family: var(--themePrimaryFont, "Ubuntu"); }
+  .vish2 .canvasDoc.title .cab h2 {
+    color: var(--themeColor9, black); }
   .vish2 .title {
     display: block;
     background-color: transparent; }
@@ -116,6 +220,8 @@ body {
         right: 0.7em; }
 .vish3 {
   font-family: var(--themePrimaryFont, "Ubuntu"); }
+  .vish3 .canvasDoc.title .cab h2 {
+    color: var(--themeColor9, black); }
   .vish3 .title {
     display: block;
     background-color: transparent; }
@@ -170,6 +276,8 @@ body {
         right: 0.7em; }
 .vish4 {
   font-family: var(--themePrimaryFont, "Ubuntu"); }
+  .vish4 .canvasDoc.title .cab h2 {
+    color: var(--themeColor9, black); }
   .vish4 .title {
     display: block;
     background-color: transparent; }
@@ -276,6 +384,8 @@ body {
         right: 0.7em; }
 .vish6 {
   font-family: var(--themePrimaryFont, "Ubuntu"); }
+  .vish6 .canvasDoc.title .cab h2 {
+    color: var(--themeColor9, black); }
   .vish6 .title {
     display: block;
     background-color: transparent; }
@@ -330,6 +440,8 @@ body {
         right: 0.7em; }
 .vish7 {
   font-family: var(--themePrimaryFont, "Ubuntu"); }
+  .vish7 .canvasDoc.title .cab h2 {
+    color: var(--themeColor9, black); }
   .vish7 .title {
     display: block;
     background-color: transparent; }
@@ -384,6 +496,8 @@ body {
         right: 0.7em; }
 .vish8 {
   font-family: var(--themePrimaryFont, "Ubuntu"); }
+  .vish8 .canvasDoc.title .cab h2 {
+    color: var(--themeColor9, black); }
   .vish8 .title {
     display: block;
     background-color: transparent; }
@@ -436,6 +550,8 @@ body {
         right: 0.7em; }
 .vish9 {
   font-family: var(--themePrimaryFont, "Ubuntu"); }
+  .vish9 .canvasDoc.title .cab h2 {
+    color: var(--themeColor9, black); }
   .vish9 .title {
     display: block;
     background-color: transparent; }
@@ -490,6 +606,8 @@ body {
         right: 0.7em; }
 .vish10 {
   font-family: var(--themePrimaryFont, "Ubuntu"); }
+  .vish10 .canvasDoc.title .cab h2 {
+    color: var(--themeColor9, black); }
   .vish10 .title {
     display: block;
     background-color: transparent; }
@@ -542,6 +660,8 @@ body {
         right: 0.7em; }
 .vish11 {
   font-family: var(--themePrimaryFont, "Ubuntu"); }
+  .vish11 .canvasDoc.title .cab h2 {
+    color: var(--themeColor9, black); }
   .vish11 .title {
     display: block;
     background-color: transparent; }
@@ -594,6 +714,8 @@ body {
         right: 0.7em; }
 .vish12 {
   font-family: var(--themePrimaryFont, "Ubuntu"); }
+  .vish12 .canvasDoc.title .cab h2 {
+    color: var(--themeColor9, black); }
   .vish12 .title {
     display: block;
     background-color: transparent; }
@@ -1124,7 +1246,7 @@ body {
       .code .title .cab .breadcrumb a {
         margin: 0.4em;
         font-family: var(--themePrimaryFont, "Ubuntu");
-        color: var(--themeColor4); }
+        color: var(--themeColor2); }
       .code .title .cab .infoIcon {
         cursor: help;
         font-size: 0.9em;
