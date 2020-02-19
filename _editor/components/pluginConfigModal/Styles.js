@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { EDModal } from "../../../sass/general/EDModal";
-import { BLUE_PRIMARY } from "EnrichedPlayer/Styles";
+import { BLUE_PRIMARY } from "../../../plugins/EnrichedPlayer/Styles";
 
 export const ConfigContainer = styled(EDModal).attrs({ className: 'pluginConfig' })`
 	.form-control {

@@ -2,8 +2,7 @@ import React from "react";
 import GoogleMapReact from 'google-map-react';
 import Mark from '../../../common/components/mark/Mark';
 import i18n from 'i18next';
-import { MiddleAlign, NoInternetBox } from "../Styles";
-import { MapPlugin } from "VirtualTour/Styles";
+import { MiddleAlign, NoInternetBox, MapPlugin } from "../Styles";
 
 window.mapsVisor = [];
 /* eslint-disable react/prop-types */
