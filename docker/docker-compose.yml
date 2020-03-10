@@ -1,0 +1,28 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+services:
+  db:
+    image: postgres:9.4
+    restart: always
+    volumes:
+      - ./pg-init-scripts:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: vish_dev
+      POSTGRES_PASSWORD: example
+      POSTGRES_MULTIPLE_DATABASES: vish_development, vish_production, test
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+     - 5000:8080
+  vish:
+    build: ./vish
+    container_name: "vish"
+    ports:
+     - 3000:3000
+    links:
+      - db
+    volumes:
+      - ./vish/resources/ediphy:/ediphy/dist
+
+

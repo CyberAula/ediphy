@@ -4,6 +4,8 @@ nbproject
 dist/*bundle.js
 dist/js/*bundle.js
 dist/prod/*
+docker/vish/resources
+docker/vish/resources/ediphy
 *.log
 webpack.config.js~
 *.orig

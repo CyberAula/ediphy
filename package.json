@@ -14,6 +14,7 @@
     "build-dev": "cat ediphy && webpack --config webpack.dev.js",
     "start": "cat ediphy && webpack-dev-server --open --colors --watch-poll --config webpack.dev.js",
     "bundle": "webpack && node bundle_script.js",
+    "dockerize": "docker/dockerize.sh",
     "both": "npm run start-webpack & npm run watch-sass",
     "start-webpack": "webpack-dev-server --progress",
     "watch-sass": "node-sass -w sass/style.scss -o dist/css/compiledsass.css",
