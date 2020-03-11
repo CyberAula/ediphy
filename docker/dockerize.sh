@@ -1,6 +1,4 @@
 #!/bin/bash
-
-
 yarn
 yarn build
 rm -r docker/vish/resources
