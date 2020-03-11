@@ -9,6 +9,4 @@ cd vish || exit
 mkdir resources
 cd resources || exit
 cp -r ../../../dist ./ediphy
-
-docker-compose build
 docker-compose up
