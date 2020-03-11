@@ -31,7 +31,6 @@ yarn start
 ## ViSH integration
 
 EDiphy can be integrated into multiple e-learning platforms. At UPM it is part of the ViSH platform. In order to test developments on such environment you can run:
-
 ```bash
 yarn dockerize
 ```
