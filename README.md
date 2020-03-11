@@ -21,7 +21,6 @@ yarn
 yarn upgrade
 
 ```
-
 Once everything is installed, you can run the application with the following line:
 
 ```bash
