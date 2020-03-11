@@ -119,6 +119,11 @@ export function globalConfig(state = { ...emptyState().undoGroup.present.globalC
     return newState;
 }
 
+export function styleConfig(state = { ...emptyState().undoGroup.present.styleConfig }) {
+    let newState = { ...state };
+    return newState;
+}
+
 /**
  * Function to make sure toolbarPlugin is properly built
  * @param recieved state
