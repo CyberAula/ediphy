@@ -5,3 +5,4 @@ sass
 ediphy_server
 webpack_plugins
 coverage
+docker
