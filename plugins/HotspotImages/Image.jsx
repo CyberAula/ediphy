@@ -48,10 +48,10 @@ export default class Image extends React.Component {
                 className="basicImageClass"
                 style={{ ...customImage, width: state.allowDeformed ? "100%" : "100%", height: state.allowDeformed ? "" : "auto", transform, WebkitTransform: transform, MozTransform: transform }}
                 src={source}
-                onError={(e) => {
-                    e.target.onError = null;
-                    this.setState({ error: true });
-                }}
+                // onError={(e) => {
+                //     e.target.onError = null;
+                //     this.setState({ error: true });
+                // }}
             />
             <div className="dropableRichZone" style={{ height: "100%", width: "100%", position: 'absolute', top: 0, left: 0 }} >
                 {markElements}

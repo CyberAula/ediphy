@@ -156,8 +156,8 @@ export const HotspotImages = (base) => ({
                 </MarkEditor>
             );
         });
-        let svgElements = svgMarks.map(mark => (
-            <svg viewBox={`0 0 ${mark.content.svg.canvasSize.width} ${mark.content.svg.canvasSize.height}`}
+        let svgElements = svgMarks.map((mark, i) => (
+            <svg key={i} viewBox={`0 0 ${mark.content.svg.canvasSize.width} ${mark.content.svg.canvasSize.height}`}
                 style={{ position: 'absolute', pointerEvents: 'none' }}
                 height={'100%'} width={'100%'}
                 preserveAspectRatio="none">
@@ -165,7 +165,7 @@ export const HotspotImages = (base) => ({
             </svg>
         ));
 
-        let svgContainer = (<div id={Date.now().toString()} className={'svgContainer'} style={{ width: '100%', height: '100%', position: 'absolute' }}>
+        let svgContainer = (<div key={markElements.length + 1} className={'svgContainer'} style={{ width: '100%', height: '100%', position: 'absolute' }}>
             {svgElements}
         </div>);
         markElements.push(svgContainer);

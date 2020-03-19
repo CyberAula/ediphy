@@ -26,6 +26,16 @@ Once everything is installed, you can run the application with the following lin
 yarn start
 ```
 
+## ViSH integration
+
+EDiphy can be integrated into multiple e-learning platforms. At UPM it is part of the ViSH platform. In order to test developments on such environment you can run:
+
+```bash
+yarn dockerize
+```
+
+This will build your EDiphy code and integrate it into a local ViSH instance you can access through port 3000
+
 ## Code quality and documentation
 
 We use ESDoc in order to generate our documentation.
