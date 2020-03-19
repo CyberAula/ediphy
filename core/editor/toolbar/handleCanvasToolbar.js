@@ -53,6 +53,9 @@ export function handleCanvasToolbar(name, value, accordions, toolbar) {
             font: wasCustomFont ? currentView.font : getThemeFont(value),
             colors: wasCustomColor ? currentView.colors : getThemeColors(value),
         });
+        // FORCE CUSTOM PROPERTIES UPDATE
+        setTimeout(() => h.onBoxSelected(-1), 0);
+        // h.onBoxSelected(-1);
         break;
     case 'theme_background':
         h.onViewToolbarUpdated(toolbarProps.navItemSelected, {

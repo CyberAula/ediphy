@@ -99,6 +99,7 @@ class EditorCanvasSli extends Component {
                                 key={id} id={id} grid={gridOn}
                                 page={itemSelected ? itemSelected.id : 0}
                                 themeColors={toolbar.colors ? toolbar.colors : getThemeColors(theme)}
+                                theme={theme}
                                 pageType={itemSelected.type || 0}
                             />;
                         })}

@@ -22,7 +22,6 @@ export default class Image extends React.Component {
     }
 
     render() {
-        console.log('rendering')
         let { props, state, markElements } = this.props;
         let scale = state.scale || 1;
         let translateX = (state.translate ? state.translate.x : 0) || 0;
@@ -33,26 +32,25 @@ export default class Image extends React.Component {
         let errorUrl = (url.replace(/ /g, '') === '' || url.indexOf('base64') !== -1) ? 'url(/images/placeholder.svg)' : 'url(/images/broken_link.png)';
         let customImage = isCustom ? {
             '--photoUrl': this.state.error ? errorUrl : 'url(' + url + ')',
-            content: 'var(--photoUrl, url(/images/broken_link.png))',
-            objectFit: this.state.error ? 'cover' : undefined } :
-            { content: 'var(--' + url.replace(/\//g, '_') + ')' };
+            // content: 'var(--photoUrl, url(/images/broken_link.png))',
+            objectFit: this.state.error ? 'cover' : undefined } : null;
+            // { content: 'var(--' + url.replace(/\//g, '_') + ')' };
+        // let content = isCustom ? this.state.error ? errorUrl : 'url(' + url + ')' : 'nothing';
 
-        let sourceProperty = isCustom ? url : url.replace(/\//g, '_');
+        let sourceProperty =  this.state.error ? errorUrl : isCustom ? url : url.replace(/\//g, '_');
         let styles = getComputedStyle(document.documentElement);
-        let source = styles.getPropertyValue('--' + sourceProperty);
-        source = source.replace('url(', '');
-        source = source.replace(')', '');
-        source = isCustom ? url : source;
+        let source = isCustom ? 'url(' + url + ')' : styles.getPropertyValue('--' + sourceProperty) || 'url(/images/placeholder.svg)';
+
+        // source = source.replace('url(', '');
+        // source = source.replace(')', '');
+        // source = isCustom ? url : source;
 
         return <ImagePlugin ref="draggableImage" onWheel={this.onWheel}>
             <BasicImage ref ="img" id={props.id + "-image"}
                 className="basicImageClass"
+                content={source}
+                // src={source}
                 style={{ ...customImage, width: state.allowDeformed ? "100%" : "100%", height: state.allowDeformed ? "" : "auto", transform, WebkitTransform: transform, MozTransform: transform }}
-                src={source}
-                // onError={(e) => {
-                //     e.target.onError = null;
-                //     this.setState({ error: true });
-                // }}
             />
             <div className="dropableRichZone" style={{ height: "100%", width: "100%", position: 'absolute', top: 0, left: 0 }} >
                 {markElements}
