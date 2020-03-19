@@ -42,6 +42,9 @@ class EditorCanvasSli extends Component {
         const { boxSelected, containedViewsById, containedViewSelected, fromCV, grid, globalConfig, navItemSelected,
             navItemsById, pluginToolbarsById, styleConfig, viewToolbarsById } = this.props;
 
+        console.log('THIS ARE MY PROPS');
+        console.log(this.props);
+
         const itemSelected = fromCV ? containedViewsById[containedViewSelected] : navItemsById[navItemSelected];
         const titles = getTitles(itemSelected, viewToolbarsById, navItemsById, fromCV);
         const title = globalConfig.title || '---';

@@ -20,8 +20,6 @@ RUN apt-get update && \
 # RUN ssh-keygen
 RUN ssh-keygen -q -t rsa -N '' -f /id_rsa
 RUN git clone -b docker_integration https://github.com/aljimenez97/vish.git
-#ADD resources/vish /vish
-#ADD resources/ediphy /ediphy
 RUN apt-get install -y ruby2.2-dev libxml2-dev libxslt-dev libmagickcore-dev libmagickwand-dev libmysqlclient-dev libsqlite3-dev
 RUN apt-get install -y imagemagick libpq-dev nodejs
 

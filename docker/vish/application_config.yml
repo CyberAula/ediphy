@@ -22,8 +22,6 @@
 #  password:
 #  socket: /var/run/mysqld/mysqld.sock
 
-
-
 # PostgreSQL setup (default)
 development:
   adapter: postgresql
