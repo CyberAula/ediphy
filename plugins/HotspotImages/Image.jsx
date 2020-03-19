@@ -22,6 +22,7 @@ export default class Image extends React.Component {
     }
 
     render() {
+        console.log('rendering')
         let { props, state, markElements } = this.props;
         let scale = state.scale || 1;
         let translateX = (state.translate ? state.translate.x : 0) || 0;
