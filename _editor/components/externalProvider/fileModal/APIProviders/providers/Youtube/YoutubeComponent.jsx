@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Col, Form, FormGroup, ControlLabel, Button, Modal, ModalBody } from 'react-bootstrap';
 import i18n from 'i18next';
 import SearchComponent from '../../common/SearchComponent';
+import { ExternalResultsContainer } from "../../../Styles";
 
 export default class YoutubeComponent extends React.Component {
     state = {
@@ -28,7 +29,7 @@ export default class YoutubeComponent extends React.Component {
                 </FormGroup>
 
             </Form>
-            <Form className={"ExternalResults"}>
+            <ExternalResultsContainer>
                 {this.state.results.length > 0 ?
                     (
                         <FormGroup>
@@ -69,7 +70,7 @@ export default class YoutubeComponent extends React.Component {
                         </FormGroup>
                     )
                 }
-            </Form>
+            </ExternalResultsContainer>
             <Modal className="pageModal previewVideoModal" onHide={()=>{this.setState({ preview: false });}} show={this.state.preview && this.props.elementSelected}>
                 <Modal.Header closeButton><Modal.Title>{i18n.t("Preview")}</Modal.Title></Modal.Header>
                 <ModalBody>

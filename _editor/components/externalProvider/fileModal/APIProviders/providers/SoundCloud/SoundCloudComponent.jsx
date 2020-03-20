@@ -5,6 +5,7 @@ import i18n from 'i18next';
 import SearchComponent from '../../common/SearchComponent';
 
 import placeholder from '../../logos/soundcloud_placeholder.png';
+import { AudioGroupFlex, ExternalResultsContainer } from "../../../Styles";
 export default class SoundCloudComponent extends React.Component {
 
     state = {
@@ -32,7 +33,7 @@ export default class SoundCloudComponent extends React.Component {
                 </FormGroup>
 
             </Form>
-            <Form className={"ExternalResults"}>
+            <ExternalResultsContainer>
                 {this.state.results.length > 0 ?
                     (
                         <FormGroup>
@@ -49,14 +50,14 @@ export default class SoundCloudComponent extends React.Component {
                                             this.props.onElementSelected(item.title, item.url, 'audio');
                                             this.setState({ preview: false });
                                         }}>
-                                        <div className={"videoGroupFlex"}> <img key={index} src={item.thumbnail || placeholder} className={'soundCloudSong'} onError={(e)=>{
+                                        <AudioGroupFlex className={"videoGroupFlex"}> <img key={index} src={item.thumbnail || placeholder} className={'soundCloudSong'} onError={(e)=>{
                                             e.target.src = placeholder;
                                         }} />
-                                        <div className={"videoInfo"}>
+                                        <div className={"videoInfo"} style={{ padding: '10px' }}>
                                             <div><strong>{item.title}</strong></div>
                                             <div className={"lightFont"}>{item.userName}</div>
                                             <div className={"lightFont"}>{duration.toLocaleString(undefined, { minute: '2-digit', second: '2-digit' })}</div>
-                                        </div></div>
+                                        </div></AudioGroupFlex>
                                         {item.url === this.props.elementSelected ? (
                                             <Button title={i18n.t("Preview")} onClick={(e)=>{this.setState({ preview: !this.state.preview }); e.stopPropagation();}} className={"previewButton"}>
                                                 <i className="material-icons">volume_up</i>
@@ -82,7 +83,7 @@ export default class SoundCloudComponent extends React.Component {
                         <iframe width="100%" height="100%" scrolling="no" frameBorder="no" allow="autoplay" src={"https://w.soundcloud.com/player/?url=" + encodeURI(this.props.elementSelected) + "&color=%2317cfc8&auto_play=false&hide_related=true&show_comments=true&show_user=false&show_reposts=false&show_teaser=false&visual=true"} />
                     </ModalBody>
                 </Modal>
-            </Form>
+            </ExternalResultsContainer>
         </div>;
     }
 

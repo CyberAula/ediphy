@@ -37,7 +37,7 @@ export default class Image extends React.Component {
             // { content: 'var(--' + url.replace(/\//g, '_') + ')' };
         // let content = isCustom ? this.state.error ? errorUrl : 'url(' + url + ')' : 'nothing';
 
-        let sourceProperty =  this.state.error ? errorUrl : isCustom ? url : url.replace(/\//g, '_');
+        let sourceProperty = this.state.error ? errorUrl : isCustom ? url : url.replace(/\//g, '_');
         let styles = getComputedStyle(document.documentElement);
         let source = isCustom ? 'url(' + url + ')' : styles.getPropertyValue('--' + sourceProperty) || 'url(/images/placeholder.svg)';
 

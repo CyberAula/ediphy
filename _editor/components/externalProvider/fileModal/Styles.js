@@ -10,6 +10,7 @@ import {
     PRIMARY_BLUE, PRIMARY_BLUE_TRANSPARENT,
 } from "../../../../sass/general/constants";
 import { EDRadio } from "../../../../sass/general/EDInputs";
+import { Form } from "react-bootstrap";
 
 export const FileModalContainer = styled(EDModal)`
   .modal-footer {
@@ -88,11 +89,10 @@ export const FileModalContainer = styled(EDModal)`
       flex-direction: column;
 
       .contentComponent{
-        padding: 20px 0;
+        padding: 20px 0 0 0;
         min-height: 57vh;
         flex: 1;
         h5 {
-          margin: 0;
           padding: 0 20px;
           color: ${PRIMARY_BLUE};
           font-size: 16px;
@@ -654,8 +654,20 @@ export const MoodleDialog = styled.div.attrs({ className: 'moodleDialog' })`
   }
 `;
 
-export const ExternalResultsModal = styled.div.attrs({ className: 'externalResults' })`
+export const ExternalResultsContainer = styled(Form)`
+  height: 57vh;
   padding: 0 20px;
+  overflow: auto;
+`;
+
+export const ExternalResultsModal = styled.div.attrs({ className: 'externalResults' })`
+  height: 57vh;
+  overflow-y: auto;
+  padding: 0 20px;
+`;
+
+export const AudioGroupFlex = styled.div`
+  display: flex;
 `;
 
 export const ExternalResults = styled.div.attrs({ className: 'externalResults' })`
