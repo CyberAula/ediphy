@@ -38,6 +38,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
     let A4_RATIO = 1 / 1.4142;
     let addHTML;
 
+    let slideCounter = 0;
     let firstElementPage = true;
     let elemsUsed = 0;
     let firstPage = true;
