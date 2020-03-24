@@ -395,14 +395,15 @@ class GlobalConfig extends Component {
         let style = clone.style;
         style.width = '600px';
         style.position = 'relative';
+        clone.className = clone.className + ' safeZone';
         style.top = window.innerHeight + 'px';
         style.left = 0;
         document.body.appendChild(clone);
+        console.log(clone);
 
         html2canvas(clone, {
             onrendered: (canvas)=> {
                 let extra_canvas = document.createElement('canvas');
-
                 extra_canvas.setAttribute('width', 500);
                 extra_canvas.setAttribute('height', 500);
                 let ctx = extra_canvas.getContext('2d');
@@ -413,14 +414,12 @@ class GlobalConfig extends Component {
                         this.setState({ modifiedState: true, thumbnail });
                     }, "image/png");
                 });
-
                 // Uncomment this lines to download the image directly
                 // let a = document.createElement('a');
                 // a.href = a.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
                 // a.click();
                 document.body.removeChild(clone);
                 // this.setState({ modifiedState: true, thumbnail: extra_canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream") });
-
             },
             useCORS: true });
     };
