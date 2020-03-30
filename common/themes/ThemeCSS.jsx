@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import Ediphy from '../../core/editor/main';
 import { getThemeColors, getThemeFont, getThemeImages, THEMES } from './themeLoader';
 import loadFont from './fontLoader';
 import { setRgbaAlpha } from "../commonTools";
@@ -75,7 +76,7 @@ export default class ThemeCSS extends React.Component {
 
     loadCSS = () => {
         // TODO check si carga
-        fetch(`./theme.css`) // Webpack output CSS
+        fetch(Ediphy.Config.theme_css_url) // Webpack output CSS
             .then(res => {
                 if(!res.ok) {
                     throw new Error('Error');

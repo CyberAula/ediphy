@@ -1,3 +1,4 @@
+import Ediphy from '../../core/editor/main';
 import loadFont from './fontLoader';
 import { setRgbaAlpha } from "../commonTools";
 import { translatePxToEm } from "./cssParser";
@@ -77,7 +78,7 @@ export function sanitizeThemeToolbar(toolbar, styleConfig = {}) {
 }
 
 export function generateStyles(usedThemes) {
-    return fetch(`./theme.css`) // Webpack output CSS
+    return fetch(Ediphy.Config.theme_css_url) // Webpack output CSS
         .then(res => res.text())
         .then(data => {
             let lines = data.split('\n');

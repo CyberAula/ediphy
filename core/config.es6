@@ -24,9 +24,9 @@ export default {
     // OPTIONS
     transitions_url: "/transitions/",
     themes_url: "./themes/",
-    themes_absolute_url: "themes/",
-    theme_css: './theme.css',
-    theme_css_absolute: 'theme.css',
+    // themes_absolute_url: "themes/",
+    theme_css_url: './theme.css',
+    theme_css_absolute_url: 'theme.css',
     externalProviders: {
         enable_search: true,
         enable_external_upload: false,
