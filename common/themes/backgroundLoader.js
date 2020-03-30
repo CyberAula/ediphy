@@ -1,17 +1,21 @@
 import { THEMES } from './themeLoader';
-
+import Ediphy from '../../core/editor/main';
 export function loadBackground(theme = 'default', index = 0, aspectRatio = 16 / 9) {
     let i = THEMES[theme].images.hasOwnProperty('template' + index)
             && THEMES[theme].images['template' + index].background
         ? THEMES[theme].images['template' + index].background : 0;
     let ar = aspectRatio === 16 / 9 ? 'f16_9' : 'f4_3';
-    return (THEMES[theme] && THEMES[theme].background && THEMES[theme].background[ar]) ? THEMES[theme].background[ar][i] : '#ffffff';
+    return (THEMES[theme] && THEMES[theme].background && THEMES[theme].background[ar]) ?
+        `url(${Ediphy.Config.themes_url}${theme}/background_images/${THEMES[theme].background[ar][i]})` : '#ffffff';
 }
 
 export function isBackgroundColor(theme, index = 0, aspectRatio = 16 / 9) {
     let ar = aspectRatio === 16 / 9 ? 'f16_9' : 'f4_3';
     let i = THEMES[theme].images.hasOwnProperty('template' + index) && THEMES[theme].images['template' + index].background ? THEMES[theme].images['template' + index].background : 0;
-    return (THEMES[theme] && THEMES[theme].background && THEMES[theme].background[ar].hasOwnProperty(i) && THEMES[theme].background[ar][i].indexOf('url') === -1);
+    return (THEMES[theme] && THEMES[theme].background &&
+        THEMES[theme].background[ar].hasOwnProperty(i) &&
+        ((THEMES[theme].background[ar][i].indexOf('#') !== -1) ||
+            (THEMES[theme].background[ar][i].indexOf('rgb') !== -1)));
 }
 
 export function getThemeBackgrounds(theme) {
@@ -26,7 +30,7 @@ export function getBackgroundIndex(theme = 'default', back = 0) {
 export function getBackground(theme = 'default', index = 0, aspectRatio = 16 / 9) {
     let i = THEMES[theme].images.hasOwnProperty('template' + index) && THEMES[theme].images['template' + index].background ? THEMES[theme].images['template' + index].background : 0;
     let ar = aspectRatio === 16 / 9 ? 'f16_9' : 'f4_3';
-    return THEMES[theme].background[ar][i];
+    return `url(${Ediphy.Config.themes_url}${theme}/background_images/${THEMES[theme].background[ar][i]})`;
 }
 
 export function loadBackgroundStyle(show, toolbar, styleConfig = {}, visor = false, aspectRatio = 16 / 9, index = 0) {

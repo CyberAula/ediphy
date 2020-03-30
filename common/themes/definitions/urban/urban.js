@@ -23,10 +23,10 @@ export const DEFINITION = {
     font: 'Permanent Marker',
     background: {
         f16_9: [
-            'url(./themes/urban/background_images/urban_169.jpg)',
+            'urban_169.jpg',
         ],
         f4_3: [
-            'url(./themes/urban/background_images/urban_43.jpg)',
+            'urban_43.jpg',
         ],
     },
     colors: {

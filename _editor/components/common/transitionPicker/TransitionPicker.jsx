@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 
+import Ediphy from '../../../../core/editor/main';
 import { TRANSITIONS } from "../../../../common/themes/transitions/transitions";
 import { TransitionPickerContainer } from "./Styles";
 
@@ -25,7 +26,7 @@ export default class TransitionPicker extends React.Component {
             const className = " transition_template " + activeClass;
             return (
                 <div key={index} className={className} onClick={() => this.handleChange(index)}>
-                    <img src={trans.image} style={{ height: '60%' }}/>
+                    <img src={Ediphy.Config.transitions_url + trans.image} style={{ height: '60%' }}/>
                     <div className={"view_name"}>{trans.viewName[0]}</div>
                 </div>
             );

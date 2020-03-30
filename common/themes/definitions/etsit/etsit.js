@@ -23,18 +23,18 @@ export const DEFINITION = {
     font: 'Libre Franklin',
     background: {
         f16_9: [
-            'url(./themes/etsit/background_images/cabecera_169.jpg)',
-            'url(./themes/etsit/background_images/enBlanco_169.jpg)',
-            'url(./themes/etsit/background_images/textoYFoto_169.jpg)',
-            'url(./themes/etsit/background_images/titulo_169.jpg)',
-            'url(./themes/etsit/background_images/comparacion_169.jpg)',
+            'cabecera_169.jpg',
+            'enBlanco_169.jpg',
+            'textoYFoto_169.jpg',
+            'titulo_169.jpg',
+            'comparacion_169.jpg',
         ],
         f4_3: [
-            'url(./themes/etsit/background_images/cabecera_43.jpg)',
-            'url(./themes/etsit/background_images/enBlanco_43.jpg)',
-            'url(./themes/etsit/background_images/textoYFoto_43.jpg)',
-            'url(./themes/etsit/background_images/titulo_43.jpg)',
-            'url(./themes/etsit/background_images/comparacion_43.jpg)',
+            'cabecera_43.jpg',
+            'enBlanco_43.jpg',
+            'textoYFoto_43.jpg',
+            'titulo_43.jpg',
+            'comparacion_43.jpg',
         ],
     },
     colors: {

@@ -23,6 +23,11 @@ export default {
     includeVishProfile: true,
     defaultAspectRatio: 4 / 3,
     // OPTIONS
+    transitions_url: "/transitions/",
+    themes_url: "/assets/themes/",
+    themes_absolute_url: "/assets/themes/",
+    theme_css: '/assets/theme.css',
+    theme_css_absolute: '/assets/theme.css',
     externalProviders: {
         enable_search: true,
         enable_external_upload: true,

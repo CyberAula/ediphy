@@ -6,6 +6,7 @@ import img_placeholder from './../../dist/images/placeholder.svg';
 import Image from "./Image";
 import _handlers from "../../_editor/handlers/_handlers";
 import { isValidSvgPath } from "../../common/utils";
+
 /* eslint-disable react/prop-types */
 
 export const HotspotImages = (base) => ({

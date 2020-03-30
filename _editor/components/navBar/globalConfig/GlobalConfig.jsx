@@ -399,7 +399,6 @@ class GlobalConfig extends Component {
         style.top = window.innerHeight + 'px';
         style.left = 0;
         document.body.appendChild(clone);
-        console.log(clone);
 
         html2canvas(clone, {
             onrendered: (canvas)=> {

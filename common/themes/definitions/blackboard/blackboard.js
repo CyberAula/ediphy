@@ -23,10 +23,10 @@ export const DEFINITION = {
     font: 'Gloria Hallelujah',
     background: {
         f16_9: [
-            'url(./themes/blackboard/background_images/blackboard_169.jpg)',
+            'blackboard_169.jpg',
         ],
         f4_3: [
-            'url(./themes/blackboard/background_images/blackboard_43.jpg)',
+            'blackboard_43.jpg',
         ],
     },
     colors: {

@@ -24,12 +24,12 @@ export const DEFINITION = {
     font: 'Merriweather',
     background: {
         f16_9: [
-            'url(./themes/orange/background_images/orange0.jpg)',
-            'url(./themes/orange/background_images/orange1.jpg)',
+            'orange0.jpg',
+            'orange1.jpg',
         ],
         f4_3: [
-            'url(./themes/orange/background_images/orange0.jpg)',
-            'url(./themes/orange/background_images/orange1.jpg)',
+            'orange0.jpg',
+            'orange1.jpg',
         ],
     },
     colors: {

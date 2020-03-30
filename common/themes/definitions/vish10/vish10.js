@@ -23,10 +23,10 @@ export const DEFINITION = {
     font: 'Maven Pro',
     background: {
         f16_9: [
-            'url(./themes/vish10/background_images/vish10.jpg)',
+            'vish10.jpg',
         ],
         f4_3: [
-            'url(./themes/vish10/background_images/vish10.jpg)',
+            'vish10.jpg',
         ],
     },
     colors: {

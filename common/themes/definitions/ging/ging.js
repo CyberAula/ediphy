@@ -23,15 +23,15 @@ export const DEFINITION = {
     background: {
         f16_9: [
             '#ffffff',
-            'url(./themes/ging/background_images/title_169.png)',
-            'url(./themes/ging/background_images/mac_169.png)',
+            'title_169.png',
+            'mac_169.png',
             '#282828',
 
         ],
         f4_3: [
             '#ffffff',
-            'url(./themes/ging/background_images/title_43.png)',
-            'url(./themes/ging/background_images/mac_43.png)',
+            'title_43.png',
+            'mac_43.png',
             '#282828',
         ],
     },

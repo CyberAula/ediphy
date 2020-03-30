@@ -22,6 +22,11 @@ export default {
     profile_vish_url: ()=>`http://localhost:3000/users/demo/all_resources.json`,
     // includeVishProfile: true,
     // OPTIONS
+    transitions_url: "/transitions/",
+    themes_url: "./themes/",
+    themes_absolute_url: "themes/",
+    theme_css: './theme.css',
+    theme_css_absolute: 'theme.css',
     externalProviders: {
         enable_search: true,
         enable_external_upload: false,
