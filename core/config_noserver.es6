@@ -20,11 +20,11 @@ export default {
     upload_vish_url: false,
     defaultAspectRatio: 16 / 9,
     // OPTIONS
-    transitions_url: "/assets/transitions/",
-    themes_url: "/assets/themes/",
-    themes_absolute_url: "/assets/themes/",
-    theme_css_url: '/assets/theme.css',
-    theme_css_absolute_url: '/assets/theme.css',
+    transitions_url: "./transitions/",
+    themes_url: "./themes/",
+    themes_absolute_url: "./themes/",
+    theme_css_url: './theme.css',
+    theme_css_absolute_url: './theme.css',
     externalProviders: {
         enable_search: true,
         enable_external_upload: false,

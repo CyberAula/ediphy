@@ -115,6 +115,7 @@ export const VisorControls = styled(Controls)`
 `;
 
 export const Play = styled.button.attrs({ className: 'play-audio-button' })`
+    border: none;
     background-color: transparent;
     float:left;
     height: 100%;
