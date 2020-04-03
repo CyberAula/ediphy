@@ -1,12 +1,14 @@
 import { THEMES } from './themeLoader';
 import Ediphy from '../../core/editor/main';
-export function loadBackground(theme = 'default', index = 0, aspectRatio = 16 / 9) {
+
+export function loadBackground(theme = 'default', index = 0, aspectRatio = 16 / 9, isColor = false) {
     let i = THEMES[theme].images.hasOwnProperty('template' + index)
             && THEMES[theme].images['template' + index].background
         ? THEMES[theme].images['template' + index].background : 0;
     let ar = aspectRatio === 16 / 9 ? 'f16_9' : 'f4_3';
     return (THEMES[theme] && THEMES[theme].background && THEMES[theme].background[ar]) ?
-        `url(${Ediphy.Config.themes_url}${theme}/background_images/${THEMES[theme].background[ar][i]})` : '#ffffff';
+        isColor ? THEMES[theme].background[ar][i] :
+            `url(${Ediphy.Config.themes_url}${theme}/background_images/${THEMES[theme].background[ar][i]})` : '#ffffff';
 }
 
 export function isBackgroundColor(theme, index = 0, aspectRatio = 16 / 9) {
@@ -44,16 +46,17 @@ export function loadBackgroundStyle(show, toolbar, styleConfig = {}, visor = fal
 
     let urlImage = background.indexOf('url') === -1 && background.indexOf('image/jpeg') !== -1 ? 'url(' + background + ')' : background;
     let visibility = show ? 'visible' : 'hidden';
-    let backgroundColor = isCustom ? isColor ? background : '' : isCustomColor ? loadBackground(theme, index, aspectRatio) : '';
-    let backgroundImage = isCustom ? !isColor ? urlImage : '' : !isCustomColor ? loadBackground(theme, index, aspectRatio) : '';
+    let backgroundColor = isCustom ? isColor ? background : '' : isCustomColor ? loadBackground(theme, index, aspectRatio, isCustomColor) : '';
+    let backgroundImage = isCustom ? !isColor ? urlImage : '' : !isCustomColor ? loadBackground(theme, index, aspectRatio, isCustomColor) : '';
     let backgroundSize = (toolbar && background && (backgroundAttr === 'centered' || backgroundAttr === 'repeat')) ? (backgroundZoom !== undefined ? (backgroundZoom + '%') : '100%') : 'cover';
     let backgroundRepeat = (toolbar && background && (backgroundAttr === 'centered' || backgroundAttr === 'full')) ? 'no-repeat' : 'repeat';
     let backgroundPosition = (toolbar && background && (backgroundAttr === 'centered' || backgroundAttr === 'full')) ? 'center center' : '0% 0%';
     let zIndex = visor ? '' : '0';
+
     return { visibility, backgroundColor, backgroundSize, backgroundRepeat, backgroundPosition, zIndex, backgroundImage };
 }
 
 export function loadBackgroundStylePreview(theme) {
-    let background = loadBackground(theme, 0);
-    return { [background.indexOf('url') === -1 ? 'backgroundColor' : 'backgroundImage']: background, backgroundSize: "cover", fontSize: '7px', height: '100%' };
+    let background = loadBackground(theme, 0, 16 / 9, isBackgroundColor(theme));
+    return { [isBackgroundColor(theme) ? 'backgroundColor' : 'backgroundImage']: background, backgroundSize: "cover", fontSize: '7px', height: '100%' };
 }

@@ -179,6 +179,7 @@ class EditorBoxSortable extends Component {
 
     componentDidMount() {
         this.configureDropZone(ReactDOM.findDOMNode(this), "newContainer", ".rib");
+        let self = this;
 
         let list = jQuery(this.refs.sortableContainer);
         list.sortable({
@@ -276,6 +277,8 @@ class EditorBoxSortable extends Component {
                     }
                 }
                 let page = this.props.page;
+                console.log('drop area: ' + dropArea);
+                console.log('from ribbon ' + draggingFromRibbon);
                 if (dropArea === 'cell') {
                     // If element dragged is coming from PluginRibbon, create a new EditorBox
                     if (draggingFromRibbon) {
@@ -289,17 +292,25 @@ class EditorBoxSortable extends Component {
                             page: page,
                             id: (ID_PREFIX_BOX + Date.now()),
                         };
+                        console.log(this.h);
+                        console.log(this.h.onBoxAdded);
+                        console.log(typeof this.h.onBoxAdded);
+                        console.log(this.props);
                         createBox(initialParams, name, false, this.h.onBoxAdded, this.props.boxesById);
+                        console.log('meeeeeee');
                         e.dragEvent.stopPropagation();
                     } else {
+                        return;
                         let boxDragged = this.props.boxesById[this.props.boxSelected];
                         if (boxDragged) {
+                            console.log('viiiiiiii');
                             this.h.onBoxDropped(this.props.boxSelected,
                                 extraParams.j,
                                 extraParams.i,
                                 this.props.id,
                                 extraParams.idContainer,
                                 boxDragged.parent, boxDragged.container, undefined, newInd);
+                            console.log('muuuuuu');
                         }
 
                         for (let b in this.props.boxesById) {
@@ -308,6 +319,7 @@ class EditorBoxSortable extends Component {
                                 dombox.style.opacity = 1;
                             }
                         }
+                        console.log('end');
                     }
                 } else {
                     let initialParams = {};
