@@ -67,6 +67,7 @@ class EditorCanvasDoc extends Component {
                                     }
                                     return <EditorBoxSortable
                                         onBoxAdded={handleBoxes.onBoxAdded}
+                                        onBoxDropped={handleBoxes.onBoxDropped}
                                         key={id}
                                         id={id}
                                         pageType={itemSelected.type || 0}

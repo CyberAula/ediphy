@@ -282,10 +282,10 @@ export function createBox(ids, name, slide, addBox, boxes, styleCustom = {}) {
         createBox(box.ids, box.name, false, addBox, boxes);
 
     });
-    setTimeout(()=>{
-        let boxCreated = findBox(ids.id);
-        scrollElement(boxCreated);
-    }, 40);
+    // setTimeout(()=>{
+    //     let boxCreated = findBox(ids.id);
+    //     scrollElement(boxCreated);
+    // }, 40);
 
 }
 

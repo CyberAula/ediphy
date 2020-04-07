@@ -6,7 +6,7 @@ import interact from 'interactjs';
 import Alert from './../../common/alert/Alert';
 import EditorBox from '../editorBox/EditorBox';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
-import { isSortableBox } from '../../../../common/utils';
+import { getNewIndex, isSortableBox } from '../../../../common/utils';
 import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 
@@ -21,6 +21,7 @@ import {
     SortableContainerBox,
     SwapButton,
 } from "./Styles";
+import SortableCell from "./SortableCell";
 
 /**
  * EditorBoxSortable Component
@@ -75,23 +76,21 @@ class EditorBoxSortable extends Component {
                                             className={"colDist-i height100 disp_table_cell vert_al_top colNum" + i}
                                             style={{ width: col + "%" }}>
                                             {container.cols[i].map((row, j) => {
-                                                return (<div key={j}
+                                                return (<SortableCell key={j} row={j}
                                                     className={"colDist-j width100 pos_relative rowNum" + j}
-                                                    style={{ height: row + "%", minHeight: parseInt(100 / (container.cols[i].length), 10) + 'px' }}
-                                                    ref={e => {
-                                                        if (e !== null) {
-                                                            this.configureDropZone(
-                                                                ReactDOM.findDOMNode(e),
-                                                                "cell",
-                                                                ".rib, .dnd", // + idContainer,
-                                                                {
-                                                                    idContainer: idContainer,
-                                                                    i: i,
-                                                                    j: j,
-                                                                }
-                                                            );
-                                                        }
-                                                    }}>
+                                                    cellStyle={{ height: row + "%", minHeight: parseInt(100 / (container.cols[i].length), 10) + 'px' }}
+                                                    extraParams={{
+                                                        idContainer: idContainer,
+                                                        i: i,
+                                                        j: j,
+                                                    }}
+                                                    parent={this.props.id}
+                                                    onAlertClose={() => { this.setState({ alert: null });}}
+                                                    setAlert={() => this.setState({ alert: alert })}
+                                                    onBoxAdded={this.props.onBoxAdded}
+                                                    onBoxDropped={this.props.onBoxDropped}
+                                                    page={this.props.page}
+                                                >
                                                     {container.children.map((idBox, ind) => {
                                                         if (this.props.boxesById[idBox].col === i && this.props.boxesById[idBox].row === j) {
                                                             return (<EditorBox id={idBox}
@@ -100,13 +99,13 @@ class EditorBoxSortable extends Component {
                                                                 pageType={this.props.pageType}
                                                                 themeColors={this.props.themeColors} />);
                                                         } else if (ind === container.children.length - 1) {
-                                                            return (<span key={ind}><br /><br /></span>);
+                                                            return (<span key={ind}><br/><br /></span>);
                                                         }
 
                                                         return null;
                                                     })}
                                                     {container.children.length === 0 ? (<div key={-1} style={{ height: '46px' }} />) : null}
-                                                </div>);
+                                                </SortableCell>);
                                             })}
                                         </div>);
                                     }
@@ -179,8 +178,6 @@ class EditorBoxSortable extends Component {
 
     componentDidMount() {
         this.configureDropZone(ReactDOM.findDOMNode(this), "newContainer", ".rib");
-        let self = this;
-
         let list = jQuery(this.refs.sortableContainer);
         list.sortable({
             handle: '.drag-handle',
@@ -258,7 +255,7 @@ class EditorBoxSortable extends Component {
                     clone.parentNode.removeChild(clone);
                 }
                 let name = e.relatedTarget.getAttribute("name");
-                let newInd = extraParams ? this.getNewIndex(e.dragEvent.clientX, e.dragEvent.clientY, this.props.id, extraParams.idContainer, extraParams.i, extraParams.j) : 0;
+                let newInd = extraParams ? getNewIndex(e.dragEvent.clientX, e.dragEvent.clientY, this.props.id, extraParams.idContainer, extraParams.i, extraParams.j, this.props.boxesById) : 0;
                 if (isSortableBox(this.props.id) && Ediphy.Plugins.get(e.relatedTarget.getAttribute("name")).getConfig().limitToOneInstance) {
                     if (draggingFromRibbon && instanceExists(e.relatedTarget.getAttribute("name"))) {
                         let alert = (<Alert className="pageModal"
@@ -277,164 +274,42 @@ class EditorBoxSortable extends Component {
                     }
                 }
                 let page = this.props.page;
-                console.log('drop area: ' + dropArea);
-                console.log('from ribbon ' + draggingFromRibbon);
-                if (dropArea === 'cell') {
-                    // If element dragged is coming from PluginRibbon, create a new EditorBox
-                    if (draggingFromRibbon) {
-                        // Check if there is a limit in the number of plugin instances
-                        let initialParams = {
-                            parent: this.props.id,
-                            container: extraParams.idContainer,
-                            col: extraParams.i,
-                            row: extraParams.j,
-                            index: newInd,
-                            page: page,
-                            id: (ID_PREFIX_BOX + Date.now()),
-                        };
-                        console.log(this.h);
-                        console.log(this.h.onBoxAdded);
-                        console.log(typeof this.h.onBoxAdded);
-                        console.log(this.props);
-                        createBox(initialParams, name, false, this.h.onBoxAdded, this.props.boxesById);
-                        console.log('meeeeeee');
-                        e.dragEvent.stopPropagation();
-                    } else {
-                        return;
-                        let boxDragged = this.props.boxesById[this.props.boxSelected];
-                        if (boxDragged) {
-                            console.log('viiiiiiii');
-                            this.h.onBoxDropped(this.props.boxSelected,
-                                extraParams.j,
-                                extraParams.i,
-                                this.props.id,
-                                extraParams.idContainer,
-                                boxDragged.parent, boxDragged.container, undefined, newInd);
-                            console.log('muuuuuu');
-                        }
+                let initialParams = {};
+                if (dropArea === 'existingContainer') {
+                    initialParams = {
+                        parent: this.props.id,
+                        container: e.target.getAttribute("data-id"),
+                        index: newInd,
+                        page,
 
-                        for (let b in this.props.boxesById) {
-                            let dombox = findBox(b);
-                            if (dombox) {
-                                dombox.style.opacity = 1;
-                            }
-                        }
-                        console.log('end');
-                    }
-                } else {
-                    let initialParams = {};
-                    if (dropArea === 'existingContainer') {
-                        initialParams = {
-                            parent: this.props.id,
-                            container: e.target.getAttribute("data-id"),
-                            index: newInd,
-                            page,
-
-                        };
-                    } else if (dropArea === 'newContainer') {
-                        initialParams = {
-                            parent: this.props.id,
-                            container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
-                            index: newInd,
-                            page,
-                        };
-                    }
-                    initialParams.id = (ID_PREFIX_BOX + Date.now());
-                    initialParams.name = name;
-                    createBox(initialParams, name, false, this.h.onBoxAdded, this.props.boxesById);
-                    e.dragEvent.stopPropagation();
-
+                    };
+                } else if (dropArea === 'newContainer') {
+                    initialParams = {
+                        parent: this.props.id,
+                        container: ID_PREFIX_SORTABLE_CONTAINER + Date.now(),
+                        index: newInd,
+                        page,
+                    };
                 }
+                initialParams.id = (ID_PREFIX_BOX + Date.now());
+                initialParams.name = name;
+                createBox(initialParams, name, false, this.h.onBoxAdded, this.props.boxesById);
+                e.dragEvent.stopPropagation();
 
             }.bind(this),
+
             ondropdeactivate: function(e) {
                 e.target.classList.remove('drop-active');
                 e.target.classList.remove("drop-target");
+                e.preventDefault();
             },
         });
     }
-
-    getNewIndex = (x, y, parent, container, i, j) => {
-        let el = document.elementFromPoint(x, y);
-        let rc = releaseClick(el, 'box-');
-        let children = this.props.boxesById[parent].sortableContainers[container].children.filter(box => { return this.props.boxesById[box].row === j && this.props.boxesById[box].col === i; });
-        if (rc) {
-            let newInd = children.indexOf(rc);
-            return newInd === 0 ? 0 : ((newInd === -1 || newInd >= children.length) ? (children.length) : newInd);
-        }
-
-        let sameHeight = [];
-        let maxRowHeight = 0;
-        let curRowTop = 0;
-        let coordArr = [];
-        let newRow = [];
-        children.forEach((child, ind) => {
-            let coords = (this.offset(child));
-            if ((curRowTop !== coords.top && curRowTop !== 0)) {
-                coordArr.push({ top: curRowTop, maxRowHeight, cols: newRow });
-                curRowTop = coords.top;
-                newRow = [];
-                maxRowHeight = 0;
-            }
-            if (curRowTop === 0) {
-                curRowTop = coords.top;
-            }
-            if (maxRowHeight < coords.height) {
-                maxRowHeight = coords.height;
-            }
-            newRow.push(coords);
-            if (ind === children.length - 1) {
-                coordArr.push({ top: curRowTop, maxRowHeight, cols: newRow });
-            }
-        });
-        coordArr.map((r, inx) => {
-            if (inx === 0 && y < r.top) {
-                sameHeight = r.cols;
-            }
-            if (r.top < y && y < (r.top + r.maxRowHeight)) {
-                sameHeight = r.cols;
-            }
-            if ((inx === (coordArr.length - 1)) && y > (r.top + r.maxRowHeight)) {
-                sameHeight = r.cols;
-            }
-        });
-
-        sameHeight.sort((a, b) => a.left > b.left);
-        let closestBox = sameHeight[0] || rc;
-        sameHeight.map((box, inx) => {
-            if (inx === 0 && x < box.left) {
-                closestBox = children.indexOf(box.id);
-            }
-            if (box.left < x && x < (box.left + box.width)) {
-                closestBox = children.indexOf(box.id);
-            }
-            if ((inx === sameHeight.length - 1) && (x > box.left + box.width)) {
-                closestBox = children.indexOf(box.id);
-            }
-        });
-        return closestBox || 0;
-
-    };
 
     componentWillUnmount() {
         interact(ReactDOM.findDOMNode(this)).unset();
         interact(".editorBoxSortableContainer").unset();
     }
-
-    offset(id) {
-        let el = document.getElementById('box-' + id);
-        let rect = el.getBoundingClientRect(),
-            scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
-            scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        return {
-            id,
-            top: rect.top + scrollTop,
-            left: rect.left + scrollLeft,
-            width: el.clientWidth,
-            height: el.clientHeight,
-        };
-    }
-
 }
 
 function mapStateToProps(state) {
