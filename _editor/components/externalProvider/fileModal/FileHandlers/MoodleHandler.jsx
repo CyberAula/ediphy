@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { Row, Col, Button } from 'react-bootstrap';
 import i18n from 'i18next';
 import { DataTable } from 'react-datatable-bs';
+import { connect } from "react-redux";
 
 import Ediphy from "../../../../../core/editor/main";
 import { parseMoodleXML } from "./moodleXML";
-import { isBox, isContainedView, isPage, isSlide, isSortableBox } from "../../../../../common/utils";
+import { getIndex, isBox, isContainedView, isPage, isSlide, isSortableBox } from "../../../../../common/utils";
 import { randomPositionGenerator } from "../../../clipboard/clipboard.utils";
 import { createBox } from '../../../../../common/commonTools';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../../common/constants';
@@ -15,7 +16,7 @@ import _handlers from "../../../../handlers/_handlers";
 import { MoodleDialog } from "../Styles";
 require('react-datatable-bs/css/table-twbs.css');
 
-export default class MoodleHandler extends Component {
+class MoodleHandler extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -29,17 +30,8 @@ export default class MoodleHandler extends Component {
             i18n.t('FileModal.FileHandlers.question'),
             i18n.t('FileModal.FileHandlers.type'),
         ];
-        this.h = _handlers(this);
+        this.h = _handlers(props.self);
     }
-
-    /* selectAllRows = (select) => {
-        let selectedQuestions = [...this.state.selectedQuestions];
-        [].forEach.call(document.getElementsByClassName('moodleXMLquestion'), (el) => {
-            selectedQuestions[parseInt(el.dataset.id, 10)] = select;
-        });
-        this.setState({ selectedQuestions });
-        this.forceResetSearch();
-    };*/
 
     componentDidMount() {
         this.start();
@@ -127,7 +119,6 @@ export default class MoodleHandler extends Component {
     };
 
     render() {
-
         let data = this.createData(this.state.questions);
         let keys = data[0].map((i, index) => index);
         let cols = [];
@@ -231,7 +222,7 @@ export default class MoodleHandler extends Component {
                     isTargetSlide = container === 0;
                     row = self.props.boxesById[self.props.boxSelected].row;
                     col = self.props.boxesById[self.props.boxSelected].col;
-                    newInd = self.getIndex(parent, container);
+                    newInd = getIndex(parent, container);
                 }
 
                 initialParams = {
@@ -317,15 +308,22 @@ export default class MoodleHandler extends Component {
             }
 
         }
-
         this.props.self.close();
-
     };
 
     closeModal(bool) {
         this.props.close(bool);
     }
 }
+
+function mapStateToProps(state) {
+    const { boxesById } = state.undoGroup.present;
+    return {
+        boxesById,
+    };
+}
+
+export default connect(mapStateToProps)(MoodleHandler);
 
 MoodleHandler.propTypes = {
     /**

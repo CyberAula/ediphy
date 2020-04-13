@@ -71,7 +71,6 @@ export const TrueFalse = () => ({
     getRenderTemplate: (state, props = {}) => {
         let quizColor = state.quizColor.color || PRIMARY_BLUE;
         let customStyle = state.quizColor.custom ? generateCustomColors(quizColor, 1, true) : null;
-        console.log(customStyle);
         const clickHandler = (ind, val) => {
             if(props.exercises?.correctAnswer instanceof Array) {
                 let newAnswer = [...Array(state.nBoxes)].map((a, i) => (ind === i) ? val : props.exercises.correctAnswer[i]);
