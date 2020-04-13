@@ -211,7 +211,7 @@ class MoodleHandler extends Component {
             if (page) {
                 let containerId = ID_PREFIX_SORTABLE_CONTAINER + Date.now();
                 isTargetSlide = isSlide(page.type);
-                let parent = isTargetSlide ? page.id : page.boxesById[0];
+                let parent = isTargetSlide ? page.id : page.boxes[0];
                 let row = 0;
                 let col = 0;
                 let container = isTargetSlide ? 0 : containerId;
