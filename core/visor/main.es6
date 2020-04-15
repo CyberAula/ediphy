@@ -126,12 +126,11 @@ export default {
             });
 
             let themeBackgrounds = getThemeBackgrounds(theme);
+
             Object.keys(themeBackgrounds).map(ar => {
                 themeBackgrounds[ar].map(background => {
-                    if (background.includes('url')) {
-                        background = background.replace('url(.', 'dist');
-                        background = background.replace(')', '');
-                        paths.push(background);
+                    if (!background.includes('rgb(') && !background.includes('rgba(') && !background.includes('#')) {
+                        paths.push(`dist/themes/${theme}/background_images/${background}`);
                     }
                 });
             });
