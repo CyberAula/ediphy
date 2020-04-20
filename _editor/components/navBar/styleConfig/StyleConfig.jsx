@@ -30,7 +30,7 @@ class StyleConfig extends Component {
         theme: this.props.styleConfig.theme || 'default',
         font: this.props.styleConfig.font || getThemeFont(this.props.styleConfig.theme) || 'Ubuntu',
         color: getColor(this.props.styleConfig.theme),
-        transition: 0,
+        transition: this.props.styleConfig.transition || 0,
     };
 
     /**
@@ -44,14 +44,7 @@ class StyleConfig extends Component {
                     show={this.props.show}
                     backdrop={'static'} bsSize="large"
                     // aria-labelledby="contained-modal-title-lg"
-                    onHide={() => {
-                    // If anything has changed after last save show an alert, otherwise just leave
-                        if (this.state.modifiedState) {
-                            this.setState({ showAlert: true });
-                        } else {
-                            this.cancel();
-                        }
-                    }}>
+                    onHide={this.askAndClose}>
                     <Modal.Header closeButton>
                         <Modal.Title><span id="previewTitle">{i18n.t("Style.style_configuration")}</span></Modal.Title>
                     </Modal.Header>
@@ -59,7 +52,6 @@ class StyleConfig extends Component {
                         show={this.state.showAlert}
                         hasHeader
                         title={i18n.t("messages.save_changes")}
-                        closeButton
                         cancelButton
                         acceptButtonText={'OK'}
                         onClose={ok => {
@@ -135,7 +127,7 @@ class StyleConfig extends Component {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button bsStyle="default" id="cancel_insert_plugin_config_modal"
-                            onClick={this.cancel}>
+                            onClick={this.askAndClose}>
                             {i18n.t("globalConfig.Discard")}
                         </Button>
                         <Button bsStyle="primary" id="insert_plugin_config_modal"
@@ -151,17 +143,17 @@ class StyleConfig extends Component {
     /**
      * Save configuration changes
      */
-    saveState = (e) => {
+    saveState = () => {
         this.setState({ modifiedState: false });
         this.props.dispatch(changeStyleConfig("STATE", this.state));
         this.close();
-        e.preventDefault();
+        // e.preventDefault();
     };
 
     /**
      * Discard configuration changes
      */
-    cancel = (e) => {
+    cancel = () => {
         this.setState({
             ...this.props.styleConfig,
 
@@ -170,10 +162,18 @@ class StyleConfig extends Component {
         //  Comment the following line if you don't want to exit when changes are discarded
         this.close();
 
-        e.preventDefault();
+        // e.preventDefault();
     };
 
     close = () => this.props.dispatch(updateUI('showStyleConfig', false));
+
+    askAndClose = () => {
+        if (this.state.modifiedState) {
+            this.setState({ showAlert: true });
+        } else {
+            this.cancel();
+        }
+    };
 
     handleThemeChange = (id) => {
         let newTheme = getThemes()[id];
@@ -188,7 +188,7 @@ class StyleConfig extends Component {
 
     handleColorChange = e => this.setState({ color: e.color, modifiedState: true });
     handleFontChange = e => this.setState({ font: e.family, modifiedState: true });
-    handleTransitionChange = (index) => this.setState({ transition: index });
+    handleTransitionChange = (index) => this.setState({ transition: index, modifiedState: true });
 
 }
 

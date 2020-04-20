@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { connect } from 'react-redux';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 
@@ -8,9 +8,9 @@ import Ediphy from '../../../../core/editor/main';
 import { TRANSITIONS } from "../../../../common/themes/transitions/transitions";
 import { TransitionPickerContainer } from "./Styles";
 
-export default class TransitionPicker extends React.Component {
+class TransitionPicker extends React.Component {
     state = {
-        activeTransition: 0,
+        activeTransition: this.props.transition,
     };
 
     handleChange = (index) => {
@@ -38,9 +38,21 @@ export default class TransitionPicker extends React.Component {
     }
 }
 
+export default connect(mapStateToProps)(TransitionPicker);
+
+function mapStateToProps(state) {
+    return {
+        transition: state.undoGroup.present.styleConfig.transition || 0,
+    };
+}
+
 TransitionPicker.propTypes = {
     /**
      * Click handler
      */
     onClick: PropTypes.func,
+    /**
+     * Current transition
+     */
+    transition: PropTypes.any,
 };

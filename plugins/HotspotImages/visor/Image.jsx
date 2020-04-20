@@ -26,7 +26,7 @@ export default class Image extends React.Component {
                 <Link href={hyperlink} target="_blank" hyperlink={hyperlink}>
                     <BasicImage ref="img"
                         style={{ ...customImage, width: state.allowDeformed ? "100%" : "100%", height: state.allowDeformed ? "" : "auto", transform, WebkitTransform: transform, MozTransform: transform }}
-                        src={state.url}
+                        src={ state.error ? state.errorUrl : state.url}
                         onError={(e)=>{
                             e.target.onError = null;
                             if(!this.state.error) {

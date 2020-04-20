@@ -3,6 +3,7 @@ import i18n from 'i18next';
 import MarkEditor from '../../_editor/components/richPlugins/markEditor/MarkEditor';
 import Mark from '../../common/components/mark/Mark';
 import img_placeholder from './../../dist/images/placeholder.svg';
+import broken_link from './../../dist/images/nothing-found.svg';
 import Image from "./Image";
 import _handlers from "../../_editor/handlers/_handlers";
 import { isValidSvgPath } from "../../common/utils";
@@ -129,6 +130,7 @@ export const HotspotImages = (base) => ({
     getInitialState: function() {
         return {
             url: img_placeholder, // Ediphy.Config.image_placeholder,
+            errorUrl: broken_link,
             allowDeformed: true,
         };
     },
