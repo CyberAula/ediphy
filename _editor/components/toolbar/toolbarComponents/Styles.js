@@ -29,3 +29,4 @@ export const RangeOutput = styled.span.attrs({ className: 'rangeOutput' })`
     font-size: 0.9em;
     margin-top:9px;
 `;
+
