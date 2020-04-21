@@ -73,6 +73,7 @@ export const NavButton = styled.button`
   }
   &:hover {
     color: ${DARKEST_GREY};
+    
   }
   .material-icons{
     font-size: 22px;
@@ -141,7 +142,6 @@ export const PluginButton = styled(NavButton).attrs({ className: 'navButtonPlug'
   &:hover {
     background-color: ${GREY_PANEL_HEADINGS};
     color: white;
-    @include scale(1);
   }
 `;
 
