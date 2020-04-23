@@ -50,6 +50,14 @@ export const NavButtons = styled.div.attrs({ className: 'navButtons' })`
 }
 `;
 
+export const ToggleButton = styled.div`
+display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  
+`;
+
 export const NavButton = styled.button`
   display: inline-grid;
   border: none;
