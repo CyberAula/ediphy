@@ -122,7 +122,6 @@ export const ConditionalText = (button, props, onChange) => {
 
 export const Size = (button, onChange, props, accordionKeys, buttonKey, toolbar_plugin_state, toolbar_props, auto, autoSizeChange, unitsChange) => {
     if (accordionKeys[0] === 'structure' && (buttonKey === 'width' || buttonKey === 'height')) {
-        console.log('hola');
         let advancedPanel = (
             <FormGroup style={{ display: button.hide ? 'none' : 'block' }}>
                 <ToggleSwitch label={i18n.t("Auto")}

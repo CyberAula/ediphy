@@ -10,7 +10,7 @@ import { getNewIndex, isSortableBox } from '../../../../common/utils';
 import Ediphy from '../../../../core/editor/main';
 import i18n from 'i18next';
 
-import { instanceExists, releaseClick, findBox, createBox } from '../../../../common/commonTools';
+import { instanceExists, createBox } from '../../../../common/commonTools';
 import { connect } from "react-redux";
 import _handlers from "../../../handlers/_handlers";
 import { PopoverButton } from '../../carousel/Styles';
@@ -87,8 +87,8 @@ class EditorBoxSortable extends Component {
                                                     parent={this.props.id}
                                                     onAlertClose={() => { this.setState({ alert: null });}}
                                                     setAlert={() => this.setState({ alert: alert })}
-                                                    onBoxAdded={this.props.onBoxAdded}
-                                                    onBoxDropped={this.props.onBoxDropped}
+                                                    onBoxAdded={this.h.onBoxAdded}
+                                                    onBoxDropped={this.h.onBoxDropped}
                                                     page={this.props.page}
                                                 >
                                                     {container.children.map((idBox, ind) => {

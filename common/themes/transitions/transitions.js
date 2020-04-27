@@ -1,4 +1,3 @@
-import Ediphy from '../../../core/editor/main';
 export const TRANSITIONS = [
     {
         key: 'none',

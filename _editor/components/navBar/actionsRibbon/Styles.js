@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Col } from "react-bootstrap";
-import { LIGHT_GREY, LIGHTEST_GREY, MEDIUM_GREY, PRIMARY_BLUE } from "../../../../sass/general/constants";
+import { MEDIUM_GREY, PRIMARY_BLUE } from "../../../../sass/general/constants";
 
 export const ActionRibbonContainer = styled(Col).attrs({ id: 'ActionRibbon' })`
   height: ${ props => props.height ? props.height : null };

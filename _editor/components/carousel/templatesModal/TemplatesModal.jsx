@@ -12,7 +12,6 @@ import TemplateThumbnail from "./TemplateThumbnail";
 import { getThemeTemplates } from "../../../../common/themes/themeLoader";
 import { EDModal } from "../../../../sass/general/EDModal";
 import { ItemsContainer, TemplateItem, TemplateName } from "./Styles";
-import _handlers from "../../../handlers/_handlers";
 
 class TemplatesModal extends Component {
 
@@ -173,4 +172,8 @@ TemplatesModal.propTypes = {
      * Add nav item
      */
     onNavItemAdded: PropTypes.func,
+    /**
+     * Add nav item
+     */
+    onBoxAdded: PropTypes.func,
 };

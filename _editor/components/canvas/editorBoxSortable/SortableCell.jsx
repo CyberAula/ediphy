@@ -11,7 +11,7 @@ import {
     isSortableBox,
     isSortableContainer,
 } from "../../../../common/utils";
-import { createBox, findBox, instanceExists, releaseClick } from "../../../../common/commonTools";
+import { createBox, findBox, instanceExists } from "../../../../common/commonTools";
 import handleBoxes from "../../../handlers/handleBoxes";
 import Alert from "../../common/alert/Alert";
 
@@ -139,6 +139,14 @@ SortableCell.propTypes = {
      * Current page
      */
     page: PropTypes.any,
+    /**
+     * Current row
+     */
+    row: PropTypes.any,
+    /**
+     * Object containing style of the cell
+     */
+    cellStyle: PropTypes.object,
     /**
      * Parent of cell
      */

@@ -38,6 +38,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
     let A4_RATIO = 1 / 1.4142;
     let addHTML;
 
+    // eslint-disable-next-line no-unused-vars
     let slideCounter = 0;
     let firstElementPage = true;
     let elemsUsed = 0;
