@@ -4,6 +4,7 @@ let dependency_loader = require('./webpack_plugins/dependencies_loader.js');
 let path = require('path');
 let ProgressBarPlugin = require('progress-bar-webpack-plugin');
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
+let svgToMiniDataURI = require('mini-svg-data-uri');
 const dotenv = require('dotenv');
 
 let envKeys;
@@ -105,13 +106,24 @@ module.exports = {
 
             },
             {
-                test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2|json|xml|ico)$/,
+                test: /\.(png|jpg|gif|eot|ttf|woff|woff2|json|xml|ico)$/,
                 use: [
                     {
                         loader: 'url-loader',
                         options: {
-                            limit: 10000,
+                            limit: 100000,
                             name: 'images/[hash]-[name].[ext]',
+                        },
+                    },
+                ],
+            },
+            {
+                test: /\.svg$/i,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            generator: (content) => svgToMiniDataURI(content.toString()),
                         },
                     },
                 ],
