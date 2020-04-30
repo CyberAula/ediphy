@@ -179,7 +179,7 @@ class EditorCanvasSli extends Component {
     aspectRatio = (props = this.props, state = this.state) => {
         let ar = props.globalConfig.canvasRatio;
         let fromCV = props.fromCV;
-        let itemSelected = fromCV ? props.containedViewSelected : props.navItemSelected;
+        let itemSelected = props.fromCV ? props.containedViewsById[props.containedViewSelected] : props.navItemsById[props.navItemSelected];
         let customSize = itemSelected.customSize;
         let calculated = aspectRatioFunction(ar, fromCV ? 'airlayer_cv' : 'airlayer', fromCV ? 'containedCanvas' : 'canvas', customSize);
         let { width, height, marginTop, marginBottom } = state;
