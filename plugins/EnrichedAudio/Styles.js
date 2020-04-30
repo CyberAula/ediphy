@@ -128,7 +128,8 @@ export const Play = styled.button.attrs({ className: 'play-audio-button' })`
     text-transform: uppercase;
     z-index: 9999;
      .material-icons {
-       font-size: 2em;
+        color: white;
+        font-size: 2em;
         margin-top: -0.2em;
       }
 `;
