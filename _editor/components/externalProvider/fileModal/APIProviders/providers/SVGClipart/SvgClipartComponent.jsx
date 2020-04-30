@@ -3,7 +3,7 @@ import i18n from 'i18next';
 
 import { ImagesPreview } from "../ImagesPreview";
 
-export default class OpenClipArtComponent extends React.Component {
+export default class SvgClipartComponent extends React.Component {
     state = {
         results: [],
         query: '',
@@ -19,7 +19,7 @@ export default class OpenClipArtComponent extends React.Component {
         fetch(BASE)
             .then(res => res.json()
             ).then(imgs => {
-                console.log(imgs)
+                console.log(imgs);
                 if (imgs && imgs.items) {
                     let results = imgs.items.map(img=>{
                         return {

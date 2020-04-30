@@ -29,7 +29,7 @@ export const BasicImage = styled.img.attrs({ className: 'basicImageClass' })`
      height: 100%;
      margin: 0;
      pointer-events: none;
-     background-image: url(/images/broken_link.png);
+     //background-image: url(/images/broken_link.png);
      background-position: center;
      content: ${props => props.content};
      &:not(.pointerEventsEnabled) &.dropableRichZone {

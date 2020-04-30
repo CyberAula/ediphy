@@ -719,6 +719,7 @@ export const ExternalResults = styled.div.attrs({ className: 'externalResults' }
             }
           }
           .videoInfo{
+            padding: 10px;
             .lightFont{
               color: #888;
               font-weight: lighter;

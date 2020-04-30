@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Col, Form, FormGroup, ControlLabel, Button, Modal, ModalBody } from 'react-bootstrap';
 import i18n from 'i18next';
 import SearchComponent from '../../common/SearchComponent';
-import { ExternalResultsContainer } from "../../../Styles";
+import { ExternalResults, ExternalResultsContainer } from "../../../Styles";
 
 export default class YoutubeComponent extends React.Component {
     state = {
@@ -35,33 +35,34 @@ export default class YoutubeComponent extends React.Component {
                         <FormGroup>
                             <ControlLabel>{ this.state.results.length + " " + i18n.t("FileModal.APIProviders.results")}</ControlLabel>
                             <br />
-                            {this.state.results.map((item, index) => {
-                                let border = item.url === this.props.elementSelected ? "solid #17CFC8 2px" : "solid transparent 2px";
-                                let background = item.url === this.props.elementSelected ? "rgba(23,207,200,0.1)" : "transparent";
-                                let date = new Date(item.publishedAt);
+                            <ExternalResults style={{ maxHeight: 'none' }}>
+                                {this.state.results.map((item, index) => {
+                                    let border = item.url === this.props.elementSelected ? "solid #17CFC8 2px" : "solid transparent 2px";
+                                    let background = item.url === this.props.elementSelected ? "rgba(23,207,200,0.1)" : "transparent";
+                                    let date = new Date(item.publishedAt);
 
-                                return (
-                                    <div
-                                        className={"videoItem"} key={index} style={{ border: border, backgroundColor: background }}
-                                        onClick={() => {
-                                            this.props.onElementSelected(item.title, item.url, 'video');
-                                        }}>
-                                        <div className={"videoGroupFlex"}><img key={index} src={item.thumbnail} className={'youtubeVideo'}/>
-                                            <div className={"videoInfo"}>
-                                                <div><strong>{item.title}</strong></div>
-                                                <div className={"lightFont"}>{item.channelTitle}</div>
-                                                <div className={"lightFont"}>{date.toLocaleString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+                                    return (
+                                        <div
+                                            className={"videoItem"} key={index} style={{ border: border, backgroundColor: background }}
+                                            onClick={() => {
+                                                this.props.onElementSelected(item.title, item.url, 'video');
+                                            }}>
+                                            <div className={"videoGroupFlex"}><img key={index} src={item.thumbnail} className={'youtubeVideo'}/>
+                                                <div className={"videoInfo"}>
+                                                    <div><strong>{item.title}</strong></div>
+                                                    <div className={"lightFont"}>{item.channelTitle}</div>
+                                                    <div className={"lightFont"}>{date.toLocaleString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}</div>
 
-                                            </div></div>
-                                        {item.url === this.props.elementSelected ? (
-                                            <Button title={i18n.t("Preview")} onClick={()=>{this.setState({ preview: true });}} className={"previewButton"}>
-                                                <i className="material-icons">remove_red_eye</i>
-                                            </Button>) :
-                                            null}
-                                    </div>
-                                );
-                            })}
-
+                                                </div></div>
+                                            {item.url === this.props.elementSelected ? (
+                                                <Button title={i18n.t("Preview")} onClick={()=>{this.setState({ preview: true });}} className={"previewButton"}>
+                                                    <i className="material-icons">remove_red_eye</i>
+                                                </Button>) :
+                                                null}
+                                        </div>
+                                    );
+                                })}
+                            </ExternalResults>
                         </FormGroup>
                     ) :
                     (

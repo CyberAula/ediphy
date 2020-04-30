@@ -9,13 +9,15 @@ import EuropeanaComponent from './providers/Europeana/EuropeanaComponent';
 import FlickrComponent from './providers/Flickr/FlickrComponent';
 import PolyComponent from './providers/Poly/PolyComponent';
 import LogoComponent from './providers/LogoComponent';
+import SvgClipartComponent from "./providers/SVGClipart/SvgClipartComponent";
 // import GoogleDriveComponent from './providers/GoogleDriveComponent';
 // import AudioBlocksComponent from './AudioBlocksComponent';
 // import PhetComponent from './PhetComponent';
-import OpenClipArtComponent from './providers/OpenClipArt/OpenClipArtComponent';
+// import OpenClipArtComponent from './providers/OpenClipArt/OpenClipArtComponent';
 // import GiphyComponent from './providers/GiphyComponent';
 import PixabayComponent from './providers/Pixabay/PixabayComponent';
 
+import SVGClipartIcon from './logos/SvgClipart.png';
 import VISHIcon from './logos/vish.svg';
 import FlickrIcon from './logos/flickrsvg.svg';
 import EuropeanaIcon from './logos/europeanaalt.svg';
@@ -24,7 +26,7 @@ import SoundCloudIcon from './logos/soundcloud_logo_0.png';
 import DropboxIcon from './logos/Dropboxlogo.png';
 // import AudioBlocksIcon from './logos/storyblocks-ab-alt.svg';
 import PolyIcon from './logos/PolyLogo.png';
-import OpenClipArtIcon from './logos/openclipart.svg';
+// import OpenClipArtIcon from './logos/openclipart.svg';
 // import GiphyIcon from './logos/giphy.png';
 import LogoIcon from './logos/avatar-gallery.png';
 import PixabayIcon from './logos/PixabayLogo.svg';
@@ -167,12 +169,19 @@ export default function menus(self) {
         //     component: AudioBlocksComponent
         // },
         {
-            name: 'OpenClipArt',
-            icon: OpenClipArtIcon,
+            name: 'SVGClipart',
+            icon: SVGClipartIcon,
             show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
-            component: OpenClipArtComponent,
+            component: SvgClipartComponent,
             props: { ...commonProps },
         },
+        // {
+        //     name: 'OpenClipart',
+        //     icon: OpenClipArtIcon,
+        //     show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
+        //     component: OpenClipArtComponent,
+        //     props: { ...commonProps },
+        // },
         /* {
           name: 'Thingiverse',
           icon: ThingiverseIcon,
