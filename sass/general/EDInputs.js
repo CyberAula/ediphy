@@ -15,7 +15,7 @@ export const EDRange = `
 input[type=range] {
     -webkit-appearance: none;
     width: 100%;
-    padding: 0 10px 0 0
+    padding: 0 0 0 0
     //margin: 5.7px 0;
   }
   input[type=range]:focus {

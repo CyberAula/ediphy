@@ -32,7 +32,6 @@ export default class SvgClipartComponent extends React.Component {
                 }
             }).catch(e=>{
                 // eslint-disable-next-line no-console
-                console.log('error');
                 console.error(e);
                 this.setState({ msg: i18n.t("FileModal.APIProviders.error") });
             });
