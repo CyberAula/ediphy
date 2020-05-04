@@ -130,10 +130,10 @@ class RichMarksModal extends Component {
                                     <FormControl ref="title"
                                         placeholder={i18n.t("marks.mark_name_preview")}
                                         type="text"
-                                        defaultValue={current ? current.title : ''}/><br/>
+                                        defaultValue={current ? current.title : ''}/><br key={"br_0"}/>
                                     {/* Input need to have certain label like richValue*/}
                                     <ControlLabel>{i18n.t("marks.mark_type")}</ControlLabel>
-                                    <MarkTypeTab type="radio" value={this.state.markType} name="markTypeSelector">
+                                    <MarkTypeTab type="radio" defaultValue={"icon"} name="markTypeSelector">
                                         <TypeTab
                                             type="radio"
                                             value="icon"
@@ -155,7 +155,7 @@ class RichMarksModal extends Component {
                                     </MarkTypeTab>
                                 </FormGroup>
                                 <FormGroup>
-                                    <ControlLabel>{this.state.markType === 'area' ? i18n.t("marks.mark_shape") : i18n.t("marks.mark_position")}</ControlLabel><br/>
+                                    <ControlLabel>{this.state.markType === 'area' ? i18n.t("marks.mark_shape") : i18n.t("marks.mark_position")}</ControlLabel><br key={"br_1"}/>
                                     <ControlLabel style={{ color: 'grey', fontWeight: 'lighter', marginTop: '-5px' }}>
                                         {this.state.markType === 'area' ? i18n.t("marks.mark_path_svg") : config?.marksType?.format ?? "x,y"}
                                     </ControlLabel>
@@ -165,8 +165,8 @@ class RichMarksModal extends Component {
                                         defaultValue={this.getMarkValue()}
                                     />
                                     {this.state.markType === 'area' ?
-                                        [<br/>,
-                                            <button style={{ width: "100%" }} className="avatarButtons btn btn-primary" onClick={this.openAreaCreator}>{i18n.t("marks.draw")}</button>]
+                                        [<br key={"br_2"}/>,
+                                            <button key={"draw_button"} style={{ width: "100%" }} className="avatarButtons btn btn-primary" onClick={this.openAreaCreator}>{i18n.t("marks.draw")}</button>]
                                         : null
                                     }
                                 </FormGroup>
@@ -174,7 +174,7 @@ class RichMarksModal extends Component {
                                     {(this.state.markType === "icon" || this.state.markType === "area") ? // Selector de color
                                         <FormGroup onClick={e => e.stopPropagation()}>
                                             <ControlLabel>Color</ControlLabel>
-                                            <div>
+                                            <div key={"color_picker_mark"}>
                                                 <ColorPicker
                                                     color={this.state.color || marksType.defaultColor}
                                                     value={this.state.color || marksType.defaultColor}
@@ -182,10 +182,10 @@ class RichMarksModal extends Component {
                                                 />
                                                 {
                                                     this.state.markType === "area" ?
-                                                        ([<br/>,
-                                                            <div>
+                                                        ([<br key={"br_3"}/>,
+                                                            <div key={"secret_mark_switch"}>
                                                                 <ToggleSwitch onChange={()=>{this.setState({ secretArea: !this.state.secretArea, color: this.state.secretArea ? '#000000' : 'rgba(255,255,255,0)' });}} checked={this.state.secretArea}/>
-                                                        Área secreta
+                                                                {i18n.t("marks.mark_secret")}
                                                             </div>])
                                                         : null
                                                 }
@@ -196,7 +196,7 @@ class RichMarksModal extends Component {
                                     {this.state.markType === "image" ? // Importar imagen
                                         <FormGroup>
                                             <ControlLabel>{i18n.t("marks.import_image")}</ControlLabel>
-                                            <button style={{ width: "100%" }} className="avatarButtons btn btn-primary" onClick={this.loadImage}>{i18n.t("marks.import_image")}</button>
+                                            <button key={"load_img_btn"} style={{ width: "100%" }} className="avatarButtons btn btn-primary" onClick={this.loadImage}>{i18n.t("marks.import_image")}</button>
                                         </FormGroup>
                                         : null
                                     }

@@ -24,6 +24,12 @@ const AreaCreator = (props) => {
         }
     }, [canvasSize, props]);
 
+    useEffect(() => {
+        if(props.active && props.boxSelected === -1) {
+            finishDrawing();
+        }
+    }, [props.boxSelected]);
+
     const addPoint = e => {
         const newPoint = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
         if(isNextToVertex(newPoint)) {finishDrawing();} else {
@@ -64,6 +70,7 @@ const AreaCreator = (props) => {
             </svg>;
 
             const response = {
+                boxId: props.canvas.replace('box-', ''),
                 canvasPosition: canvasPosition,
                 canvasSize: canvasSize,
                 svgPoints: points,
@@ -119,9 +126,9 @@ export default AreaCreator;
 
 AreaCreator.propTypes = {
     /**
-     * Canvas size
+     * Box id for canvas
      */
-    canvas: PropTypes.object,
+    canvas: PropTypes.string,
     /**
      * Callback triggered when area is created
      */
@@ -138,4 +145,8 @@ AreaCreator.propTypes = {
    * Area color
    */
     color: PropTypes.any,
+    /**
+   * BoxSelected
+   */
+    boxSelected: PropTypes.any,
 };

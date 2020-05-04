@@ -68,6 +68,9 @@ export default (self) => ({
             }));
         }
         if(fromAreaCreator) {
+            if(self.props.boxSelected === -1) {
+                self.props.dispatch(selectBox(value.boxId));
+            }
             self.props.dispatch(updateUI({
             }));
         }

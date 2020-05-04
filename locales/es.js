@@ -319,6 +319,7 @@ let es = {
             "marks_list": "Lista de marcas",
             "mark_path_svg": "Coordenadas SVG",
             "mark_position": "Posición",
+            "mark_secret": "Área secreta",
             "mark_shape": "Forma",
             "mark_type": "Tipo de marca",
             "new_content": "Nuevo contenido",

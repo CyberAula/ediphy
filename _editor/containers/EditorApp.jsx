@@ -126,9 +126,12 @@ class EditorApp extends Component {
                     <Toolbar top={(60 + ribbonHeight) + 'px'} />
                     <PluginConfigModal id={reactUI.pluginConfigModal} />
                     <AreaCreator undo active={reactUI.areaCreatorVisible}
+                        boxSelected={boxSelected}
                         color={reactUI.tempMarkState ?.color ?? 'black'} canvas={reactUI.canvas}
                         onEnd={(res) => {
-                            this.handleMarks.onRichMarksModalToggled(res, -1, true);
+                            if(res.svgPoints.length > 2) {
+                                this.handleMarks.onRichMarksModalToggled(res, -1, true);
+                            }
                             this.handleMarks.onAreaCreatorHidden();
                         }}
                     />

@@ -8,8 +8,8 @@ let translations = { en: en, es: es };
 i18n
     .use(LanguageDetector)
     .init({
-        whitelist: ['es', 'es'],
-        fallbackLng: 'es',
+        whitelist: ['en', 'es'],
+        fallbackLng: 'en',
         attributes: ['t', 'i18n'],
         resources: translations,
         debug: false,

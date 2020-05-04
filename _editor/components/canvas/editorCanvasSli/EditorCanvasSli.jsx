@@ -203,7 +203,7 @@ class EditorCanvasSli extends Component {
 
     hideTitle = e => {
         if (e.target === e.currentTarget) {
-            this.h.onBoxSelected(-1);
+            this.deselectBoxes();
             this.setState({ showTitle: false });
         }
         e.stopPropagation();
@@ -284,7 +284,9 @@ class EditorCanvasSli extends Component {
         this.setState({ fontBase: changeFontBase(calculated.width) });
     };
 
-    deselectBoxes = () => this.h.onBoxSelected(-1);
+    deselectBoxes = () => {
+        this.h.onBoxSelected(-1);
+    }
 }
 
 export default connect(mapStateToProps)(EditorCanvasSli);
