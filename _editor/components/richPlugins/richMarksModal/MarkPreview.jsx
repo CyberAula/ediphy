@@ -29,7 +29,7 @@ function getPreviewContent(props) {
                     <path d={path} strokeDasharray="5,5" stroke={props.state.secretArea ? 'black' : 'transparent' } fill={props.state.color || '#000000'}/>
                 </svg>
             </div>
-        ) : 'Draw a shape';
+        ) : i18n.t("marks.should_draw");
         break;
     case 'image':
         let originalDimensions = props.state.originalDimensions;

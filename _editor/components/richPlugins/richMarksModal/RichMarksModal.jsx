@@ -132,32 +132,32 @@ class RichMarksModal extends Component {
                                         type="text"
                                         defaultValue={current ? current.title : ''}/><br/>
                                     {/* Input need to have certain label like richValue*/}
-                                    <ControlLabel>{i18n.t("type")}</ControlLabel>
+                                    <ControlLabel>{i18n.t("marks.mark_type")}</ControlLabel>
                                     <MarkTypeTab type="radio" value={this.state.markType} name="markTypeSelector">
                                         <TypeTab
                                             type="radio"
                                             value="icon"
                                             name="mark_type"
                                             onClick={() => this.setState({ markType: "icon" })}
-                                        >{i18n.t("icon")}</TypeTab>
+                                        >{i18n.t("marks.mark_icon")}</TypeTab>
                                         <TypeTab
                                             type="radio"
                                             value="image"
                                             name="mark_type"
                                             onClick={() => this.setState({ markType: "image", changed: false })}
-                                        >{i18n.t("image")}</TypeTab>
+                                        >{i18n.t("marks.mark_image")}</TypeTab>
                                         {this.areasAllowed(config) ? <TypeTab
                                             type="radio"
                                             value="area"
                                             name="mark_type"
                                             onClick={() => this.setState({ markType: "area", changed: false })}
-                                        >{i18n.t("area")}</TypeTab> : null}
+                                        >{i18n.t("marks.mark_area")}</TypeTab> : null}
                                     </MarkTypeTab>
                                 </FormGroup>
                                 <FormGroup>
-                                    <ControlLabel>{this.state.markType === 'area' ? 'Shape' : 'Position'}</ControlLabel><br/>
+                                    <ControlLabel>{this.state.markType === 'area' ? i18n.t("marks.mark_shape") : i18n.t("marks.mark_position")}</ControlLabel><br/>
                                     <ControlLabel style={{ color: 'grey', fontWeight: 'lighter', marginTop: '-5px' }}>
-                                        {this.state.markType === 'area' ? 'SVG Path' : config?.marksType?.format ?? "x,y"}
+                                        {this.state.markType === 'area' ? i18n.t("marks.mark_path_svg") : config?.marksType?.format ?? "x,y"}
                                     </ControlLabel>
                                     <FormControl
                                         key={this.props.markCursorValue + this.state.markType}
@@ -166,7 +166,7 @@ class RichMarksModal extends Component {
                                     />
                                     {this.state.markType === 'area' ?
                                         [<br/>,
-                                            <button style={{ width: "100%" }} className="avatarButtons btn btn-primary" onClick={this.openAreaCreator}>Draw new shape</button>]
+                                            <button style={{ width: "100%" }} className="avatarButtons btn btn-primary" onClick={this.openAreaCreator}>{i18n.t("marks.draw")}</button>]
                                         : null
                                     }
                                 </FormGroup>
@@ -610,7 +610,7 @@ class RichMarksModal extends Component {
     getMarkValue = () => {
         switch (this.state.markType) {
         case 'area':
-            return this.props.markCursorValue?.svgPath ?? this.props.currentRichMark?.content?.svg?.svgPath ?? 'Draw a shape';
+            return this.props.markCursorValue?.svgPath ?? this.props.currentRichMark?.content?.svg?.svgPath ?? i18n.t("marks.should_draw");
         default:
             return this.props.markCursorValue ?? this.props.currentRichMark?.value ?? 0;
         }
