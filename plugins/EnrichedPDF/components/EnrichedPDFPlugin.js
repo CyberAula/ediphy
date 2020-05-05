@@ -145,7 +145,7 @@ export default class EnrichedPDFPlugin extends React.Component {
             return(
                 bool ?
                     <div key={id} style={{ position: 'absolute', top: y, left: x, transform: "translate(-50%, -50%)" }}>
-                        <Mark
+                        <Mark pluginType={'pdf'}
                             markType={markType}
                             content={content}
                             color={color}

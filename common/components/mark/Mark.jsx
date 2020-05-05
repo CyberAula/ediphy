@@ -25,7 +25,7 @@ export default class Mark extends Component {
                 overlay={this.props.isPopUp ? PopoverMark : ToolTipDefault }
                 trigger={triggerType} rootClose>
 
-                <div id={'mark-' + this.props.idKey} className="mapMarker" style={{ pointerEvents: 'all', height: "100%", width: "100%" }} href="#" onClick={(this.props.isVisor && !this.props.noTrigger) ? ()=>{this.props.onMarkClicked(this.props.boxID, this.props.markValue);} : null}>
+                <div id={'mark-' + this.props.idKey} className="mapMarker" style={{ pointerEvents: 'all', height: "100%", width: "100%", fontSize: '14px' }} href="#" onClick={(this.props.isVisor && !this.props.noTrigger) ? ()=>{this.props.onMarkClicked(this.props.boxID, this.props.markValue);} : null}>
                     {this.returnMark(markType)}
                 </div>
             </OverlayTrigger>
@@ -35,9 +35,14 @@ export default class Mark extends Component {
         switch(markType) {
         case "icon":
             let color = this.props.color || "black";
-            let size = (this.props.content.size / 10) + 'em' || '1em';
+            let size = (this.props.size / 10) + 'em' || '1em';
             let text = this.props.content.selectedIcon ? this.props.content.selectedIcon : "room";
-            return <i key="i" style={{ color: color, fontSize: size }} className="material-icons">{text}</i>;
+            return <i key="i"
+                style={{ color: color,
+                    fontSize: size,
+                    transform: this.props.pluginType === 'player' ? 'translate(calc(-50% + 5px), -100%)'
+                        : this.props.pluginType === 'map' ? 'translate(-50%, 0)' : null }}
+                className="material-icons">{text}</i>;
         case "image":
             let isHotspotImage = this.props.isImage === true;
             let width = isHotspotImage ? "100%" : String(this.props.content.imageDimensions.width) + "em";
@@ -75,6 +80,10 @@ Mark.propTypes = {
      *markType of the mark: image, icon or area
      */
     markType: PropTypes.string,
+    /**
+     *Number of dimensions of the drobpable area of the calling plugin
+     */
+    pluginType: PropTypes.oneOf(['img', 'player', 'map', 'pdf']),
     /**
      * Id of the mark
      */

@@ -23,6 +23,7 @@ export function HotspotImages() {
                 return(
                     <div key={e} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width, height: "auto" }}>
                         <Mark
+                            pluginType={'img'}
                             markType={markType}
                             content={content}
                             isImage

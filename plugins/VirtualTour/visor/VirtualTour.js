@@ -38,7 +38,7 @@ export function VirtualTour() {
                 let isPopUp = marks[e].connectMode === "popup";
                 let isVisor = true;
                 return(
-                    <Mark key={e} lat={position[0]} lng={position[1]}
+                    <Mark pluginType={'map'} key={e} lat={position[0]} lng={position[1]}
                         content={content}
                         color={color}
                         size={size}

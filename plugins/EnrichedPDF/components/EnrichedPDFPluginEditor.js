@@ -73,6 +73,7 @@ export default class EnrichedPDFPluginEditor extends React.Component {
                 bool ?
                     <MarkEditor
                         boxId={this.props.props.id}
+                        dispatch={this.props.props.dispatch}
                         key={id}
                         style={{ left: x, top: y, position: "absolute", transform: "translate(-50%, -50%)" }}
                         time={1.5}
@@ -81,6 +82,7 @@ export default class EnrichedPDFPluginEditor extends React.Component {
                         state={this.props.state}
                         base={this.props.base}>
                         <Mark
+                            pluginType={'pdf'}
                             style={{ position: 'relative', top: "-24px", left: "-10px" }}
                             content={content}
                             color={color}

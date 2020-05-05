@@ -148,8 +148,8 @@ export function VirtualTour(base) {
                     position = [0, 0];
                 }
                 return (
-                    <MarkEditor key={idKey} time={1.5} boxId={id} mark={idKey} base={base} onRichMarkMoved={props.onRichMarkMoved} state={state} lat={position[0]} lng={position[1]} >
-                        <Mark idBox={props.id} idKey={idKey} title={title} content={content} color={color} size={size} markType={markType}/>
+                    <MarkEditor dispatch={props.dispatch} key={idKey} time={1.5} boxId={id} mark={idKey} base={base} onRichMarkMoved={props.onRichMarkMoved} state={state} lat={position[0]} lng={position[1]} >
+                        <Mark pluginType={'map'} idBox={props.id} idKey={idKey} title={title} content={content} color={color} size={size} markType={markType}/>
                     </MarkEditor>);
 
             });

@@ -196,7 +196,7 @@ export default class BasicAudioPluginEditor extends React.Component {
                     onRichMarkMoved={this.h.onRichMarkMoved} state={this.props.state}
                     base={this.props.base}>
                     <AudioMark style={{ background: color || "var(--themeColor1)" }}>
-                        <Mark style={{ position: 'relative', top: "-1.7em", left: "-1em" }}
+                        <Mark pluginType={'player'} style={{ position: 'relative', top: "-1.7em", left: "-1em", transform: 'translate(calc(-50% + 5px), -100%)' }}
                             idKey={id} title={title} markType={markType} content={content} size={size} color={color}/>
                     </AudioMark>
                 </MarkEditor>);

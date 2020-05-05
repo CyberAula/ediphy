@@ -146,7 +146,9 @@ export default class BasicAudioPlugin extends React.Component {
 
             return(
                 <AudioMark key={id} style={{ background: markColor || themeColor || "#17CFC8", left: value, position: "absolute" }} >
-                    <Mark style={{ position: 'relative', top: "-1.7em", left: "-1em" }}
+                    <Mark
+                        pluginType={'player'}
+                        style={{ position: 'relative', top: "-1.7em", left: "-1em" }}
                         content={content}
                         color={colorImage}
                         size={size}

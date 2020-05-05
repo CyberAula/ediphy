@@ -154,8 +154,8 @@ export const HotspotImages = (base) => ({
                 return null;
             }
             return (
-                <MarkEditor key={id} style={{ position: 'absolute', transform: "translate(-50%, -50%)", top: position[0] + "%", left: position[1] + "%", width: width, height: "auto" }} time={1.5} dispatch={ props.dispatch } onRichMarkMoved={_handlers({ props }).onRichMarkMoved} mark={id} base={base} marks={marks} state={state}>
-                    <Mark style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} idKey={id} title={title} isImage markType={markType} content={content} color={color} size={size}/>
+                <MarkEditor key={id} style={{ position: 'absolute', transform: "translate(-50%, -100%)", top: position[0] + "%", left: position[1] + "%", width: width, height: "auto" }} time={1.5} dispatch={ props.dispatch } onRichMarkMoved={_handlers({ props }).onRichMarkMoved} mark={id} base={base} marks={marks} state={state}>
+                    <Mark pluginType={'img'} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} idKey={id} title={title} isImage markType={markType} content={content} color={color} size={size}/>
                 </MarkEditor>
             );
         });
