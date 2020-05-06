@@ -13,7 +13,7 @@ export function HotspotImages() {
             let markElements = Object.keys(marks).map((e) =>{
                 let { value, title, markType, content, color, size } = marks[e];
                 let position = (value && value.split(',').length === 2) ? value.split(',') : [0, 0];
-                let width = markType === "image" ? String(marks[e].content.size.width) + "%" : null;
+                let width = markType === "image" ? String(marks[e].content.imageDimensions.width) + "%" : null;
                 let isPopUp = marks[e].connectMode === "popup";
                 let isVisor = true;
                 if (markType === 'area') {

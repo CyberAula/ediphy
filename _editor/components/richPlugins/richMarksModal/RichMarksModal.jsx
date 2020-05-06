@@ -71,9 +71,12 @@ class RichMarksModal extends Component {
             newType: nextProps?.navItemsById[nextProps?.navItemSelected].type ?? "",
             existingSelected: (current?.connectMode === "existing" && this.remapInObject(nextProps.navItemsById, nextProps.containedViewsById)[current?.connection] ?
                 this.remapInObject(nextProps.navItemsById, nextProps.containedViewsById)[current?.connection].id : ""),
-            markType: current?.markType ?? nextProps.markType ?? "icon",
             changed: false,
         });
+
+        if(current && current.markType) {
+            this.setState({ markType: current.markType });
+        }
     }
 
     /**
@@ -133,7 +136,7 @@ class RichMarksModal extends Component {
                                         defaultValue={current ? current.title : ''}/><br key={"br_0"}/>
                                     {/* Input need to have certain label like richValue*/}
                                     <ControlLabel>{i18n.t("marks.mark_type")}</ControlLabel>
-                                    <MarkTypeTab type="radio" defaultValue={"icon"} name="markTypeSelector">
+                                    <MarkTypeTab type="radio" value={ this.state.markType } name="markTypeSelector">
                                         <TypeTab
                                             type="radio"
                                             value="icon"
@@ -587,8 +590,7 @@ class RichMarksModal extends Component {
 
     loadImage = () => {
         this.toggleFileUpload('image', 'image/*');
-        this.setState({ image: false });
-        this.setState({ originalDimensions: false });
+        this.setState({ image: false, originalDimensions: false });
     };
 
     openAreaCreator = () => {
