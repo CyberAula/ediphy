@@ -164,7 +164,7 @@ export const HotspotImages = (base) => ({
                 style={{ position: 'absolute', pointerEvents: 'none' }}
                 height={'100%'} width={'100%'}
                 preserveAspectRatio="none">
-                <path d={mark.content.svg.svgPath} fill={mark.color || '#000'}/>
+                <path d={mark.content.svg.svgPath} fill={mark.content.secretArea ? 'rgba(255,255,255,0.5)' : mark.color || '#000'}/>
             </svg>
         ));
 

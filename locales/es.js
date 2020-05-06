@@ -312,6 +312,7 @@ let es = {
             "link_to": "Enlazar con",
             "mark_area": "Área",
             "mark_color": "Color de la marca",
+            "mark_cursor": "Cambiar el cursor al pasar por encima",
             "mark_icon": "Icono",
             "mark_image": "Imagen",
             "mark_name": "Nombre de la marca",

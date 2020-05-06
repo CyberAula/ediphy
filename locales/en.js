@@ -312,6 +312,7 @@ let en = {
             "link_to": "Link to",
             "mark_area": "Area",
             "mark_color": "Mark color",
+            "mark_cursor": "Change cursor on hover",
             "mark_icon": "Icono",
             "mark_image": "Image",
             "mark_name": "Mark name",

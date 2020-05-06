@@ -44,7 +44,7 @@ export function HotspotImages() {
                     style={{ position: 'absolute', pointerEvents: 'none' }}
                     height={'100%'} width={'100%'}
                     preserveAspectRatio="none">
-                    <path d={mark.content.svg.svgPath} fill={mark.color || '#000'} style={{ pointerEvents: 'all', cursor: mark.content?.secretArea ? 'default' : 'pointer' }}
+                    <path d={mark.content.svg.svgPath} fill={mark.color || '#000'} style={{ pointerEvents: 'all', cursor: mark.content?.changeCursor ? 'pointer' : 'default' }}
                         onClick={() => props.onMarkClicked(props.id, mark.value)}
                     />
                 </svg>

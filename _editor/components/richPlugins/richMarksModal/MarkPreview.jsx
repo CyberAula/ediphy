@@ -1,6 +1,8 @@
 import React from "react";
 import i18n from 'i18next';
 import FormGroup from "react-bootstrap/lib/FormGroup";
+import Ediphy from '../../../../core/editor/main';
+
 export function MarkPreview(props) {
     return (
         <FormGroup>
@@ -44,7 +46,7 @@ function getPreviewContent(props) {
             previewSize.aspectRatio = selectedPluginAspectRatio;
         }
         let width = previewSize.height < previewSize.width ? 100 * imageSize : (100 * imageSize / previewSize.aspectRatio * originalDimensions.aspectRatio);
-        let source = props.state.image ? props.state.image : props.props.fileModalResult?.value || "https://live.staticflickr.com/65535/49246500741_6ef20b5fcd.jpg";
+        let source = props.state.image ? props.state.image : props.props.fileModalResult?.value || Ediphy.Config.image_mark;
         previewContent = (<div style={{
             height: previewSize.height,
             width: previewSize.width,

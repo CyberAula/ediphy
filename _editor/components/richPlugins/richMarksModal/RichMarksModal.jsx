@@ -42,7 +42,8 @@ class RichMarksModal extends Component {
             boxes: [],
             originalDimensions: {},
             markType: "icon",
-            secret: false,
+            secretArea: false,
+            changeCursor: true,
             color: '#000000',
             changed: false,
         };
@@ -68,6 +69,8 @@ class RichMarksModal extends Component {
             image: current?.content?.url ?? Ediphy.Config.image_mark,
             connectMode: current?.connectMode ?? "new",
             displayMode: current?.displayMode ?? "navigate",
+            secretArea: current?.secretArea ?? false,
+            changeCursor: current?.changeCursor ?? true,
             newSelected: (current?.connectMode === "new" ? current.connection : ""),
             newType: nextProps?.navItemsById[nextProps?.navItemSelected].type ?? "",
             existingSelected: (current?.connectMode === "existing" && this.remapInObject(nextProps.navItemsById, nextProps.containedViewsById)[current?.connection] ?
@@ -186,15 +189,23 @@ class RichMarksModal extends Component {
                                                 <ColorPicker
                                                     color={this.state.color || marksType.defaultColor}
                                                     value={this.state.color || marksType.defaultColor}
-                                                    onChange={e=>{this.setState({ color: e.color, changed: true, secretArea: false });}}
+                                                    onChange={e=>{
+                                                        this.setState({ color: e.color, changed: true, secretArea: e.color === 'rgba(0, 0, 0, 0)' });
+                                                    }}
                                                 />
                                                 {
                                                     this.state.markType === "area" ?
                                                         ([<br key={"br_3"}/>,
                                                             <div key={"secret_mark_switch"}>
-                                                                <ToggleSwitch onChange={()=>{this.setState({ secretArea: !this.state.secretArea, color: this.state.secretArea ? '#000000' : 'rgba(255,255,255,0)' });}} checked={this.state.secretArea}/>
+                                                                <ToggleSwitch onChange={()=>{this.setState({ secretArea: !this.state.secretArea, changeCursor: this.state.changeCursor ? this.state.secretArea : this.state.changeCursor, color: this.state.secretArea ? '#000000' : 'rgba(0, 0, 0, 0)' });}} checked={this.state.secretArea || this.state.color === "rgba(0, 0, 0, 0)"}/>
                                                                 {i18n.t("marks.mark_secret")}
-                                                            </div>])
+                                                            </div>,
+                                                            <br key={"br_4"}/>,
+                                                            <div key={"secret_mark_cursor"}>
+                                                                <ToggleSwitch disabled={!this.state.secretArea} onChange={()=>{this.setState({ changeCursor: !this.state.changeCursor });}} checked={ this.state.changeCursor }/>
+                                                                {i18n.t("marks.mark_cursor")}
+                                                            </div>,
+                                                        ])
                                                         : null
                                                 }
                                             </div>
@@ -344,6 +355,7 @@ class RichMarksModal extends Component {
                             color = this.state.color || marksType.defaultColor || '#222222';
                             content.svg = this.state.svg;
                             content.secretArea = this.state.secretArea;
+                            content.changeCursor = this.state.changeCursor;
                             break;
                         case "image":
                             size = this.state.size;
