@@ -19,6 +19,7 @@ import { ModalContainer, TypeSelector, MarkTypeTab, TypeTab, SizeSlider, LinkToC
 import ColorPicker from "../../common/colorPicker/ColorPicker";
 import IconPicker from "../../common/iconPicker/IconPicker";
 import { MarkPreview } from "./MarkPreview";
+import Ediphy from '../../../../core/editor/main';
 
 /**
  * Modal component to   edit marks' configuration
@@ -33,7 +34,7 @@ class RichMarksModal extends Component {
             newSelected: this.props.navItemsById[this.props.navItemSelected] ? this.props.navItemsById[this.props.navItemSelected].type : "",
             existingSelected: "",
             newType: PAGE_TYPES.SLIDE,
-            image: false,
+            image: Ediphy.Config.broken_link,
             svg: false,
             viewNames: this.returnAllViews(this.props),
             showAlert: false,
@@ -64,7 +65,7 @@ class RichMarksModal extends Component {
             selectedIcon: current?.content?.selectedIcon ?? 'room',
             color: current?.color ?? '#000000',
             size: current?.size ?? 25,
-            image: current?.content?.url ?? undefined,
+            image: current?.content?.url ?? Ediphy.Config.image_mark,
             connectMode: current?.connectMode ?? "new",
             displayMode: current?.displayMode ?? "navigate",
             newSelected: (current?.connectMode === "new" ? current.connection : ""),

@@ -10,6 +10,7 @@ export default {
     visor_bundle_zip: "visor-bundle.js",
     image_placeholder: "/assets/images/placeholder.svg",
     broken_link: "/assets/images/broken_link.png",
+    image_mark: "/assets/images/flower_mark.png",
     scorm_ejs: "/assets/lib/scorm/scorm_nav.ejs",
     visor_ejs: "/assets/lib/visor/index",
     scorm_zip_2004: "/assets/lib/scorm/scorm2004.zip",
