@@ -74,7 +74,7 @@ class RichMarksModal extends Component {
             changed: false,
         });
 
-        if(current && current.markType) {
+        if(this.state.markType === 'area' && current && current.markType) {
             this.setState({ markType: current.markType });
         }
     }
@@ -85,13 +85,16 @@ class RichMarksModal extends Component {
      */
     render() {
         // TODO refactor con ? ??
-        let pluginToolbar = this.props.pluginToolbarsById[this.props.boxSelected];
+        let { pluginToolbarsById, boxSelected, containedViewsById, navItemsById, boxesById } = this.props;
+        let { existingSelected } = this.state;
+        let pluginToolbar = pluginToolbarsById[boxSelected];
         let marksType = pluginToolbar?.pluginId
                         && Ediphy.Plugins.get(pluginToolbar.pluginId)?.getConfig()?.marksType
             ? Ediphy.Plugins.get(pluginToolbar.pluginId).getConfig().marksType : {};
         let current = this.props.currentRichMark;
-        let selected = this.state.existingSelected && (this.props.containedViewsById[this.state.existingSelected] || this.props.navItemsById[this.state.existingSelected]) ? (isContainedView(this.state.existingSelected) ? { label: this.props.containedViewsById[this.state.existingSelected].name, id: this.state.existingSelected } :
-            { label: this.props.navItemsById[this.state.existingSelected].name, id: this.state.existingSelected }) : this.returnAllViews(this.props)[0] || [];
+        let selected = existingSelected && (containedViewsById[existingSelected] || navItemsById[existingSelected]) ?
+            (isContainedView(existingSelected) ? { label: containedViewsById[existingSelected].name, id: existingSelected } :
+                { label: navItemsById[existingSelected].name, id: existingSelected }) : this.returnAllViews(this.props)[0] || [];
         let newSelected = "";
         if (this.props.viewToolbarsById[this.state.newSelected] !== undefined) {
             newSelected = this.props.viewToolbarsById[this.state.newSelected].viewName;
@@ -104,9 +107,10 @@ class RichMarksModal extends Component {
 
         let originalDimensions = this.state.oDimensions;
         let previewSize = {};
-        if(this.props.boxesById[this.props.boxSelected] && document.getElementById("box-" + this.props.boxesById[this.props.boxSelected].id)) {
-            let y = document.getElementById("box-" + this.props.boxesById[this.props.boxSelected].id).getBoundingClientRect().height;
-            let x = document.getElementById("box-" + this.props.boxesById[this.props.boxSelected].id).getBoundingClientRect().width;
+        if(boxesById[boxSelected] && document.getElementById("box-" + boxesById[boxSelected].id)) {
+            let htmlBox = document.getElementById("box-" + boxesById[boxSelected].id);
+            let y = htmlBox.getBoundingClientRect().height;
+            let x = htmlBox.getBoundingClientRect().width;
             let selectedPluginAspectRatio = x / y;
             previewSize.height = x > y ? String(15 / selectedPluginAspectRatio) + "em" : "15em";
             previewSize.width = x > y ? "15em" : String(15 * selectedPluginAspectRatio) + "em";
@@ -610,11 +614,15 @@ class RichMarksModal extends Component {
     };
 
     getMarkValue = () => {
-        switch (this.state.markType) {
+        let { markCursorValue, currentRichMark } = this.props;
+        let { markType } = this.state;
+        switch (markType) {
         case 'area':
-            return this.props.markCursorValue?.svgPath ?? this.props.currentRichMark?.content?.svg?.svgPath ?? i18n.t("marks.should_draw");
+            return markCursorValue?.svgPath ?? currentRichMark?.content?.svg?.svgPath ?? i18n.t("marks.should_draw");
         default:
-            return this.props.markCursorValue ?? this.props.currentRichMark?.value ?? 0;
+            let isSVG = (markCursorValue?.hasOwnProperty('svg') ?? false) || (currentRichMark?.content?.hasOwnProperty('svg') ?? false);
+            // If coming from area then place it in the middle
+            return isSVG ? '50.0,50.0' : markCursorValue ?? currentRichMark?.value ?? 0;
         }
     };
 }
