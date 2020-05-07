@@ -1,7 +1,7 @@
 import React from "react";
 import i18n from 'i18next';
 import FormGroup from "react-bootstrap/lib/FormGroup";
-import Ediphy from '../../../../core/editor/main';
+import flowerMark from "./../../../../dist/images/flower_mark.png";
 
 export function MarkPreview(props) {
     return (
@@ -46,7 +46,7 @@ function getPreviewContent(props) {
             previewSize.aspectRatio = selectedPluginAspectRatio;
         }
         let width = previewSize.height < previewSize.width ? 100 * imageSize : (100 * imageSize / previewSize.aspectRatio * originalDimensions.aspectRatio);
-        let source = props.state.image ? props.state.image : props.props.fileModalResult?.value || Ediphy.Config.image_mark;
+        let source = props.state.image ? props.state.image : props.props.fileModalResult?.value || flowerMark;
         previewContent = (<div style={{
             height: previewSize.height,
             width: previewSize.width,
