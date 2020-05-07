@@ -10,7 +10,13 @@ import { updateUI } from "../../../../common/actions";
 import ToggleSwitch from '@trendmicro/react-toggle-switch';
 import { Code } from 'react-content-loader';
 import Alert from './../../common/alert/Alert';
-import { isSection, isContainedView, nextAvailName, makeBoxes, isValidSvgPath } from '../../../../common/utils';
+import {
+    isSection,
+    isContainedView,
+    nextAvailName,
+    makeBoxes,
+    isValidSvgPath,
+} from '../../../../common/utils';
 import _handlers from "../../../handlers/_handlers";
 import { ID_PREFIX_RICH_MARK, ID_PREFIX_SORTABLE_BOX, ID_PREFIX_CONTAINED_VIEW, PAGE_TYPES } from '../../../../common/constants';
 import TemplatesModal from "../../carousel/templatesModal/TemplatesModal";
@@ -21,6 +27,7 @@ import IconPicker from "../../common/iconPicker/IconPicker";
 import { MarkPreview } from "./MarkPreview";
 import Ediphy from '../../../../core/editor/main';
 import flowerMark from "./../../../../dist/images/flower_mark.png";
+import { isURL } from "../../clipboard/clipboard.utils";
 
 /**
  * Modal component to   edit marks' configuration
@@ -69,6 +76,7 @@ class RichMarksModal extends Component {
             size: current?.size ?? 25,
             image: current?.content?.url ?? flowerMark,
             connectMode: current?.connectMode ?? "new",
+            connection: current?.connection ?? '',
             displayMode: current?.displayMode ?? "navigate",
             secretArea: current?.secretArea ?? false,
             changeCursor: current?.changeCursor ?? true,
@@ -127,6 +135,7 @@ class RichMarksModal extends Component {
                 setTimeout(() => resolve(import("../../common/iconPicker/IconPicker")), 5);
             });
         });
+
         return (
             <ModalContainer backdrop bsSize="large" show={this.props.richMarksVisible}>
                 <Modal.Header>
@@ -309,11 +318,11 @@ class RichMarksModal extends Component {
                                                 type="text"
                                                 defaultValue={current && this.state.connectMode === "external" ? current.connection : "http://vishub.org/"}
                                                 placeholder="URL"/>
-                                        </FormGroup>
+                                        </FormGroup>f
                                         <FormGroup style={{ display: this.state.connectMode === "popup" ? "initial" : "none" }}>
                                             <ControlLabel>{i18n.t("marks.popup_label")}</ControlLabel>
                                             <FormControl ref="popupSelected" componentClass="textarea"
-                                                defaultValue={current && this.state.connectMode === "popup" ? current.connection : ""}
+                                                defaultValue={current && this.state.connectMode === "popup" && !(isContainedView(current.connection)) ? current.connection : ""}
                                                 placeholder={i18n.t("marks.popup_placeholder")}/>
                                         </FormGroup>
                                     </FormGroup>
