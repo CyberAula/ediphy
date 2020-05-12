@@ -36,24 +36,27 @@ function getPreviewContent(props) {
     case 'image':
         let originalDimensions = props.state.originalDimensions;
         let previewSize = {};
+        let selectedPluginAspectRatio = 1;
         let imageSize = (props.state.size / 100);
         if (props.props.boxesById[props.props.boxSelected] && document.getElementById("box-" + props.props.boxesById[props.props.boxSelected].id)) {
             let y = document.getElementById("box-" + props.props.boxesById[props.props.boxSelected].id).getBoundingClientRect().height;
             let x = document.getElementById("box-" + props.props.boxesById[props.props.boxSelected].id).getBoundingClientRect().width;
-            let selectedPluginAspectRatio = x / y;
+            selectedPluginAspectRatio = x / y;
             previewSize.height = x > y ? String(15 / selectedPluginAspectRatio) + "em" : "15em";
             previewSize.width = x > y ? "15em" : String(15 * selectedPluginAspectRatio) + "em";
             previewSize.aspectRatio = selectedPluginAspectRatio;
         }
         let width = previewSize.height < previewSize.width ? 100 * imageSize : (100 * imageSize / previewSize.aspectRatio * originalDimensions.aspectRatio);
-        let source = props.state.image ? props.state.image : props.props.fileModalResult?.value || flowerMark;
+
+        let source = props.state.image ? props.state.image : flowerMark;
         previewContent = (<div style={{
             height: previewSize.height,
             width: previewSize.width,
-            marginLeft: "7%",
             border: "1px dashed grey",
         }}>
-            <img height="auto" width={String(width) + "%"} onLoad={props.onImgLoad} src={source}/>
+            <img width={ originalDimensions.aspectRatio > selectedPluginAspectRatio ? String(width) + "%" : 'auto' }
+                height={ originalDimensions.aspectRatio > selectedPluginAspectRatio ? 'auto' : String(width) + "%" }
+                onLoad={props.onImgLoad} src={source}/>
         </div>);
         break;
     case 'icon':

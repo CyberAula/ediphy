@@ -54,6 +54,7 @@ class RichMarksModal extends Component {
             changeCursor: true,
             color: '#000000',
             changed: false,
+            newImage: false,
         };
         this.h = _handlers(this);
     }
@@ -74,7 +75,7 @@ class RichMarksModal extends Component {
             selectedIcon: current?.content?.selectedIcon ?? 'room',
             color: current?.color ?? '#000000',
             size: current?.size ?? 25,
-            image: current?.content?.url ?? flowerMark,
+            image: current?.content?.url || false,
             connectMode: current?.connectMode ?? "new",
             connection: current?.connection ?? '',
             displayMode: current?.displayMode ?? "navigate",
@@ -89,6 +90,13 @@ class RichMarksModal extends Component {
 
         if(this.state.markType === 'area' && current && current.markType) {
             this.setState({ markType: current.markType });
+        }
+        if(!this.props.richMarksVisible && nextProps.richMarksVisible) {
+            if (!current) {
+                this.setState({ image: flowerMark });
+            }
+        } else if (this.state.newImage && nextProps.fileModalResult && nextProps.fileModalResult.value) {
+            this.setState({ image: nextProps.fileModalResult.value, newImage: false });
         }
     }
 
@@ -118,7 +126,7 @@ class RichMarksModal extends Component {
         let newId = "";
         let imageSize = (this.state.size / 100);
 
-        let originalDimensions = this.state.oDimensions;
+        let originalDimensions = this.state.originalDimensions;
         let previewSize = {};
         if(boxesById[boxSelected] && document.getElementById("box-" + boxesById[boxSelected].id)) {
             let htmlBox = document.getElementById("box-" + boxesById[boxSelected].id);
@@ -135,7 +143,6 @@ class RichMarksModal extends Component {
                 setTimeout(() => resolve(import("../../common/iconPicker/IconPicker")), 5);
             });
         });
-
         return (
             <ModalContainer backdrop bsSize="large" show={this.props.richMarksVisible}>
                 <Modal.Header>
@@ -249,7 +256,7 @@ class RichMarksModal extends Component {
                             </Col>
                             <Col xs={12} md={6} lg={6}>
                                 <Row>
-                                    <MarkPreview state={this.state} props={this.props}/>
+                                    <MarkPreview state={this.state} props={this.props} onImgLoad={this.onImgLoad}/>
                                     <FormGroup>
                                         <h4>{i18n.t("marks.link_to")}</h4>
                                         <div>
@@ -318,7 +325,7 @@ class RichMarksModal extends Component {
                                                 type="text"
                                                 defaultValue={current && this.state.connectMode === "external" ? current.connection : "http://vishub.org/"}
                                                 placeholder="URL"/>
-                                        </FormGroup>f
+                                        </FormGroup>
                                         <FormGroup style={{ display: this.state.connectMode === "popup" ? "initial" : "none" }}>
                                             <ControlLabel>{i18n.t("marks.popup_label")}</ControlLabel>
                                             <FormControl ref="popupSelected" componentClass="textarea"
@@ -371,7 +378,7 @@ class RichMarksModal extends Component {
                             size = this.state.size;
                             content.imageDimensions = ({});
                             content.imageDimensions.width = previewSize.height < previewSize.width ? 100 * imageSize : (100 * imageSize / previewSize.aspectRatio * originalDimensions.aspectRatio);
-                            content.url = this.state.image || this.props.fileModalResult.value;
+                            content.url = this.state.image || flowerMark;
                             break;
                         default:
                             break;
@@ -617,7 +624,7 @@ class RichMarksModal extends Component {
 
     loadImage = () => {
         this.toggleFileUpload('image', 'image/*');
-        this.setState({ image: false, originalDimensions: false });
+        this.setState({ image: false, originalDimensions: false, newImage: true });
     };
 
     openAreaCreator = () => {
@@ -632,7 +639,7 @@ class RichMarksModal extends Component {
         this.props.dispatch(updateUI({
             showFileUpload: accept,
             fileModalResult: { id: id, value: undefined },
-            fileUploadTa: 0,
+            fileUploadTab: 0,
         }));
     };
 
