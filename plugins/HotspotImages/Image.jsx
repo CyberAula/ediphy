@@ -44,7 +44,6 @@ export default class Image extends React.Component {
         // source = source.replace('url(', '');
         // source = source.replace(')', '');
         // source = isCustom ? url : source;
-
         return <ImagePlugin ref="draggableImage" onWheel={this.onWheel}>
             <BasicImage ref ="img" id={props.id + "-image"}
                 className="basicImageClass"
