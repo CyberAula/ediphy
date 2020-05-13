@@ -164,12 +164,13 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     let theme = toolbarProps.viewToolbarsById[navItemSelected]?.theme ?? 'default';
 
     let defaultHandler = (e) => {
-        const isNewValue = typeof e.target !== 'undefined' || typeof e.value !== 'undefined';
+        const isTarget = typeof e.target !== 'undefined';
+        const isValue = typeof e.value !== 'undefined';
         let value;
-        if (isNewValue) {
-            if (typeof e.target !== 'undefined') {
+        if (isTarget || isValue) {
+            if (isTarget) {
                 value = e.target;
-            } else if(typeof e.value !== 'undefined') {
+            } else if(isValue) {
                 value = e.value;
             }
             commitChanges(value);

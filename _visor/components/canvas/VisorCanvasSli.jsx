@@ -79,7 +79,7 @@ export default class VisorCanvasSli extends Component {
                     overflow: 'hidden',
                     fontSize: this.state.fontBase ? (this.state.fontBase + 'px') : '14px' }}>
 
-                <AirLayer id={(isCV ? 'airlayer_cv_' : 'airlayer_') + this.props.currentView}
+                <AirLayer id={(isCV ? 'airlayer_cv_' : 'airlayer_') + this.props.currentView} slide
                     className={' slide_air airlayer'}
                     style={{ margin: '0 auto',
                         width: this.state.width,

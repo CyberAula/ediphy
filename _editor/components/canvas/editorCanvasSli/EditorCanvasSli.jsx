@@ -62,7 +62,7 @@ class EditorCanvasSli extends Component {
                     display: containedViewSelected !== 0 && !fromCV ? 'none' : 'initial',
                     fontSize: this.state.fontBase ? (this.state.fontBase + 'px') : '14px',
                 }}>
-                <AirLayer id={fromCV ? 'airlayer_cv' : 'airlayer'}
+                <AirLayer id={fromCV ? 'airlayer_cv' : 'airlayer'} slide
                     className={'slide_air parentRestrict'}
                     style={{
                         margin: 'auto', visibility: (showCanvas ? 'visible' : 'hidden'),

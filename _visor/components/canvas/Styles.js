@@ -36,6 +36,7 @@ export const InnerCanvas = styled.div`
 
 export const AirLayer = styled.div`
    vertical-align: middle;
+   box-shadow: ${props => props.slide ? 'grey 1px 1px 20px' : 'none'};
    &.doc_air{
      height: 100%;
      overflow: hidden;
