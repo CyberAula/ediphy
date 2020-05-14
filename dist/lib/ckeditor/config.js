@@ -53,7 +53,7 @@ CKEDITOR.editorConfig = function (config) {
      */  
 
     config.mathJaxClass = 'math-tex';
-    config.mathJaxLib = 'http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML';    
+    config.mathJaxLib = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML';    
     
     config.plugins =
         'a11yhelp,' +
