@@ -21,6 +21,7 @@ export const AnswerRow = styled.div`
       cursor: move;
     }
     i:not(.order-drag-handle){
+    align-self: center;
       &.correct{
         color: ${DETAIL_GREEN};
       }

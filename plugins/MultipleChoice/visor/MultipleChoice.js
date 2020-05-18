@@ -9,7 +9,7 @@ import {
     CorrectAnswerLabel,
     ExerciseScore,
     Feedback,
-    FeedbackRow,
+    FeedbackRow, MatIconFeedback,
     QuestionRow,
     RadioStyleDangerous,
 } from "../../../sass/exercises";
@@ -52,8 +52,8 @@ export function MultipleChoice() {
                     <AnswerText onClick={() => clickHandler(i)}>
                         <VisorPluginPlaceholder {...props} key={i + 1} pluginContainer={"Answer" + i} />
                     </AnswerText>
-                    {(checked(i) && correct(i)) ? <i className={ "material-icons correct"}>done</i> : null}
-                    {(checked(i) && incorrect(i)) ? <i className={ "material-icons incorrect"}>clear</i> : null}
+                    {(checked(i) && correct(i)) ? <MatIconFeedback className={ "correct"}>done</MatIconFeedback> : null}
+                    {(checked(i) && incorrect(i)) ? <MatIconFeedback className={ "incorrect"}>clear</MatIconFeedback> : null}
                 </AnswerRow>
             );
 

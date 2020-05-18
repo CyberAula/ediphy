@@ -11,7 +11,8 @@ export const AnswerRow = styled.div`
       width: 75%;
     }
     i{
-      margin: 0.5em -1em;
+      margin: 0.5em 0;
+      align-self: center;
       &.correct{
         color: ${DETAIL_GREEN};
         font-size: 1.7em;

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {MatIcon} from "./general/constants";
 
 export const RadioStyleDangerous = (className) => `
         .${className} input[type="radio"]  {
@@ -49,4 +50,8 @@ export const CorrectAnswerLabel = styled.span`
 
 export const QuestionRow = styled.div`
       margin: 0 !important;
+`;
+
+export const MatIconFeedback = styled(MatIcon)`
+  margin-left: 0;
 `;

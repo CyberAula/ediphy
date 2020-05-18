@@ -8,7 +8,7 @@ import {
     CheckBoxStyleDangerous,
     CorrectAnswerFeedback,
     CorrectAnswerLabel,
-    ExerciseScore, Feedback, FeedbackRow, QuestionRow,
+    ExerciseScore, Feedback, FeedbackRow, MatIconFeedback, QuestionRow,
 } from "../../../sass/exercises";
 import { AnswerInput, AnswerLetter, AnswerRow, AnswerText, CheckboxInput, MultipleAnswerPlugin } from "../Styles";
 /* eslint-disable react/prop-types */
@@ -56,8 +56,8 @@ export function MultipleAnswer() {
                         <AnswerText onClick={() => setAnswer(i)}>
                             <VisorPluginPlaceholder {...props} key={i} pluginContainer={"Answer" + (i)}/>
                         </AnswerText>
-                        {(correct) ? <i className={"material-icons correct"}>done</i> : null}
-                        {(incorrect) ? <i className={"material-icons incorrect"}>clear</i> : null}
+                        {(correct) ? <MatIconFeedback className={"correct"}>done</MatIconFeedback> : null}
+                        {(incorrect) ? <MatIconFeedback className={"incorrect"}>clear</MatIconFeedback> : null}
                     </AnswerRow>
                 );
             };

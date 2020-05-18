@@ -87,7 +87,8 @@ export const AnswerRow = styled.div`
       display: flex;
       flex-direction: row;
       i{
-        margin: 0.5em -1em;
+        margin: 0.5em 0;
+        align-self: center;
         &.correct{
           color: ${DETAIL_GREEN};
         }
