@@ -7,7 +7,14 @@ import { connect } from "react-redux";
 
 import Ediphy from "../../../../../core/editor/main";
 import { parseMoodleXML } from "./moodleXML";
-import { getIndex, isBox, isContainedView, isPage, isSlide, isSortableBox } from "../../../../../common/utils";
+import {
+    getIndex,
+    isBox,
+    isContainedView,
+    isPage,
+    isSlide,
+    isSortableBox,
+} from "../../../../../common/utils";
 import { randomPositionGenerator } from "../../../clipboard/clipboard.utils";
 import { createBox } from '../../../../../common/commonTools';
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from '../../../../../common/constants';
@@ -266,6 +273,9 @@ class MoodleHandler extends Component {
 
         for (let question of toAdd) {
             let { initialParams, isTargetSlide } = getInitialParams(this.props.self, this.props.self.currentPage());
+            // Escape % symbol to avoid URI malformed
+            question.answers = question.answers.map(ans => ans.replace(/%(?![0-9][0-9a-fA-F]+)/g, '%25'));
+            question.question = question.question.replace(/%(?![0-9][0-9a-fA-F]+)/g, '%25');
             initialParams.exercises = question;
             initialParams.initialState = question.state;
 
