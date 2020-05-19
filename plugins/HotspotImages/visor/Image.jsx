@@ -33,7 +33,9 @@ export default class Image extends React.Component {
                                 this.setState({ error: true });
                             }
                         }}/>
-                    {markElements}
+                    <div style={{ height: "100%", width: "100%", position: 'absolute', top: 0, left: 0 }} >
+                        {markElements}
+                    </div>
                 </Link>
             </ImagePluginVisor>);
     }

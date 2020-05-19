@@ -21,7 +21,7 @@ export function HotspotImages() {
                     return null;
                 }
                 return(
-                    <div key={e} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%", width, height: "auto" }}>
+                    <div key={e} style={{ position: 'absolute', transform: "translate(-50%, -100%)", top: position[0] + "%", left: position[1] + "%", width: width, height: "auto" }}>
                         <Mark
                             pluginType={'img'}
                             markType={markType}
