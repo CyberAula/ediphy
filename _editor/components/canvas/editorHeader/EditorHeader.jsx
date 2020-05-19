@@ -120,7 +120,7 @@ class EditorHeader extends Component {
                                                 onKeyDown={e=> {
                                                     if (e.keyCode === 13) { // Enter Key
                                                         this.setState({ editingTitle: !this.state.editingTitle });
-                                                        this.h.onTitleChanged(courseTitle, (this.state.currentTitle.length > 0) ? this.state.currentTitle : this.getDefaultValue());
+                                                        this.h.onTitleChanged('title', (this.state.currentTitle.length > 0) ? this.state.currentTitle : this.getDefaultValue());
                                                     }
                                                     if (e.keyCode === 27) { // Escape key
                                                         this.setState({ editingTitle: !this.state.editingTitle });
@@ -138,7 +138,7 @@ class EditorHeader extends Component {
                                                 onBlur={() => {
                                                     /* Change to non-edition mode*/
                                                     this.setState({ editingTitle: !this.state.editingTitle });
-                                                    this.h.onTitleChanged(courseTitle, (this.state.currentTitle.length > 0) ? this.state.currentTitle : this.getDefaultValue());
+                                                    this.h.onTitleChanged('title', (this.state.currentTitle.length > 0) ? this.state.currentTitle : this.getDefaultValue());
                                                 }} />)}
                                         {/* NavItem title */}
                                         {!this.state.editingNavTitle ?
