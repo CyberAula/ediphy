@@ -5,7 +5,7 @@ import i18n from 'i18next';
 import SearchComponent from '../../common/SearchComponent';
 
 import placeholder from '../../logos/soundcloud_placeholder.png';
-import { AudioGroupFlex, ExternalResultsContainer } from "../../../Styles";
+import { AudioGroupFlex, ExternalResultsContainer, ExternalResults } from "../../../Styles";
 export default class SoundCloudComponent extends React.Component {
 
     state = {
@@ -39,36 +39,38 @@ export default class SoundCloudComponent extends React.Component {
                         <FormGroup>
                             <ControlLabel>{ this.state.results.length + " " + i18n.t("FileModal.APIProviders.results")}</ControlLabel>
                             <br />
-                            {this.state.results.map((item, index) => {
-                                let border = item.url === this.props.elementSelected ? "solid #17CFC8 2px" : "solid transparent 2px";
-                                let background = item.url === this.props.elementSelected ? "rgba(23,207,200,0.1)" : "transparent";
-                                let duration = new Date(item.duration);
-                                return (
-                                    <div
-                                        className={"audioItem"} key={index} style={{ border: border, backgroundColor: background }}
-                                        onClick={() => {
-                                            this.props.onElementSelected(item.title, item.url, 'audio');
-                                            this.setState({ preview: false });
-                                        }}>
-                                        <AudioGroupFlex className={"videoGroupFlex"}> <img key={index} src={item.thumbnail || placeholder} className={'soundCloudSong'} onError={(e)=>{
-                                            e.target.src = placeholder;
-                                        }} />
-                                        <div className={"videoInfo"} style={{ padding: '10px' }}>
-                                            <div><strong>{item.title}</strong></div>
-                                            <div className={"lightFont"}>{item.userName}</div>
-                                            <div className={"lightFont"}>{duration.toLocaleString(undefined, { minute: '2-digit', second: '2-digit' })}</div>
-                                        </div></AudioGroupFlex>
-                                        {item.url === this.props.elementSelected ? (
-                                            <Button title={i18n.t("Preview")} onClick={(e)=>{this.setState({ preview: !this.state.preview }); e.stopPropagation();}} className={"previewButton"}>
-                                                <i className="material-icons">volume_up</i>
-                                            </Button>) :
-                                            null}
-                                        {/* {(this.state.preview && this.props.elementSelected === item.url) ? <iframe  width="0px" height="0px" scrolling="no" frameBorder="no" allow="autoplay" src={"https://w.soundcloud.com/player/?url=" + encodeURI(this.props.elementSelected) + "&color=%2317cfc8&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false"} /> : null}*/}
+                            <ExternalResults style={{ maxHeight: 'none' }}>
+                                {this.state.results.map((item, index) => {
+                                    let border = item.url === this.props.elementSelected ? "solid #17CFC8 2px" : "solid transparent 2px";
+                                    let background = item.url === this.props.elementSelected ? "rgba(23,207,200,0.1)" : "transparent";
+                                    let duration = new Date(item.duration);
+                                    return (
+                                        <div
+                                            className={"audioItem"} key={index} style={{ border: border, backgroundColor: background }}
+                                            onClick={() => {
+                                                this.props.onElementSelected(item.title, item.url, 'audio');
+                                                this.setState({ preview: false });
+                                            }}>
+                                            <AudioGroupFlex className={"videoGroupFlex"}> <img key={index} src={item.thumbnail || placeholder} className={'soundCloudSong'} onError={(e)=>{
+                                                e.target.src = placeholder;
+                                            }} />
+                                            <div className={"videoInfo"} style={{ padding: '10px' }}>
+                                                <div><strong>{item.title}</strong></div>
+                                                <div className={"lightFont"}>{item.userName}</div>
+                                                <div className={"lightFont"}>{duration.toLocaleString(undefined, { minute: '2-digit', second: '2-digit' })}</div>
+                                            </div></AudioGroupFlex>
+                                            {item.url === this.props.elementSelected ? (
+                                                <Button title={i18n.t("Preview")} onClick={(e)=>{this.setState({ preview: !this.state.preview }); e.stopPropagation();}} className={"previewButton"}>
+                                                    <i className="material-icons">volume_up</i>
+                                                </Button>) :
+                                                null}
+                                            {/* {(this.state.preview && this.props.elementSelected === item.url) ? <iframe  width="0px" height="0px" scrolling="no" frameBorder="no" allow="autoplay" src={"https://w.soundcloud.com/player/?url=" + encodeURI(this.props.elementSelected) + "&color=%2317cfc8&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false"} /> : null}*/}
 
-                                    </div>
+                                        </div>
 
-                                );
-                            })}
+                                    );
+                                })}
+                            </ExternalResults>
                         </FormGroup>
                     ) :
                     (

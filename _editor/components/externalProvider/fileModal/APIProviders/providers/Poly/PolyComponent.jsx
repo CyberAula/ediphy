@@ -5,6 +5,8 @@ import i18n from 'i18next';
 import SearchComponent from '../../common/SearchComponent';
 
 import placeholder from '../../logos/soundcloud_placeholder.png';
+import { ExternalResults, ExternalResultsContainer } from "../../../Styles";
+
 export default class PolyComponent extends React.Component {
 
     state = {
@@ -31,37 +33,39 @@ export default class PolyComponent extends React.Component {
                 </FormGroup>
 
             </Form>
-            <Form className={"ExternalResults"}>
+            <ExternalResultsContainer className={"ExternalResults"}>
                 {this.state.results.length > 0 ?
                     (
                         <FormGroup>
                             <ControlLabel>{ this.state.results.length + " " + i18n.t("FileModal.APIProviders.results")}</ControlLabel>
                             <br />
-                            {this.state.results.map((item, index) => {
-                                let border = item.url === this.props.elementSelected ? "solid #17CFC8 2px" : "solid transparent 2px";
-                                let background = item.url === this.props.elementSelected ? "rgba(23,207,200,0.1)" : "transparent";
-                                return (
-                                    <div
-                                        className={"audioItem"} key={index} style={{ border: border, backgroundColor: background }}
-                                        onClick={() => {
-                                            this.props.onElementSelected(item.title, item.url, 'webapp');
-                                        }}>
-                                        <img key={index} src={item.thumbnail || placeholder} className={'polyObj'} onError={(e)=>{
-                                            e.target.src = placeholder;
-                                        }} />
-                                        <div className={"videoInfo polyInfo"}>
-                                            <div><strong>{item.title}</strong></div>
-                                            <div className={"lightFont overflowHidden"}>{item.userName}</div>
-                                            <div className={"lightFont overflowHidden"}>{item.description}</div>
+                            <ExternalResults style={{ maxHeight: 'none' }}>
+                                {this.state.results.map((item, index) => {
+                                    let border = item.url === this.props.elementSelected ? "solid #17CFC8 2px" : "solid transparent 2px";
+                                    let background = item.url === this.props.elementSelected ? "rgba(23,207,200,0.1)" : "transparent";
+                                    return (
+                                        <div
+                                            className={"audioItem"} key={index} style={{ border: border, backgroundColor: background }}
+                                            onClick={() => {
+                                                this.props.onElementSelected(item.title, item.url, 'webapp');
+                                            }}>
+                                            <img key={index} src={item.thumbnail || placeholder} className={'polyObj'} onError={(e)=>{
+                                                e.target.src = placeholder;
+                                            }} />
+                                            <div className={"videoInfo polyInfo"}>
+                                                <div><strong>{item.title}</strong></div>
+                                                <div className={"lightFont overflowHidden"}>{item.userName}</div>
+                                                <div className={"lightFont overflowHidden"}>{item.description}</div>
+                                            </div>
+                                            {item.url === this.props.elementSelected ? (
+                                                <Button title={i18n.t("Preview")} onClick={(e)=>{this.setState({ preview: !this.state.preview }); e.stopPropagation();}} className={"previewButton"}>
+                                                    <i className="material-icons">remove_red_eye</i>
+                                                </Button>) :
+                                                null}
                                         </div>
-                                        {item.url === this.props.elementSelected ? (
-                                            <Button title={i18n.t("Preview")} onClick={(e)=>{this.setState({ preview: !this.state.preview }); e.stopPropagation();}} className={"previewButton"}>
-                                                <i className="material-icons">remove_red_eye</i>
-                                            </Button>) :
-                                            null}
-                                    </div>
-                                );
-                            })}
+                                    );
+                                })}
+                            </ExternalResults>
                             <Modal className="pageModal previewVideoModal" onHide={()=>{this.setState({ preview: false });}} show={this.state.preview && this.props.elementSelected}>
                                 <Modal.Header closeButton><Modal.Title>{i18n.t("Preview")}</Modal.Title></Modal.Header>
                                 <ModalBody>
@@ -78,7 +82,7 @@ export default class PolyComponent extends React.Component {
                         </FormGroup>
                     )
                 }
-            </Form>
+            </ExternalResultsContainer>
         </div>;
     }
 

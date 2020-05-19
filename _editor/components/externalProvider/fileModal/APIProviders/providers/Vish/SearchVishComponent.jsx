@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import SearchComponent from '../../common/SearchComponent';
 import { extensionHandlers as extensions } from '../../../FileHandlers/FileHandlers';
-import { AudioGroupFlex, ExternalResultsContainer } from "../../../Styles";
+import { AudioGroupFlex, ExternalResults, ExternalResultsContainer } from "../../../Styles";
 
 const categories = {
     "Picture": { label: i18n.t("vish_search_types.Picture"), type: "image", icon: "picture" },
@@ -109,39 +109,41 @@ export default class SearchVishComponent extends React.Component {
                             <FormGroup>
                                 <ControlLabel>{ results.length + " " + i18n.t("FileModal.APIProviders.results")}</ControlLabel>
                                 <br />
-                                {results.map((item, index) => {
-                                    let url = (item.type === "EdiphyDocument" || item.type === "Excursion") ? item.url : item.url_full || item.file_url;
-                                    let border = url === this.props.elementSelected ? "solid #17CFC8 2px" : "solid transparent 2px";
-                                    let background = url === this.props.elementSelected ? "rgba(23,207,200,0.1)" : "transparent";
-                                    let date = new Date();
-                                    try {
-                                        date = new Date(...(item.updated_at).split("-").reverse());
-                                    } catch(e) {}
+                                <ExternalResults>
+                                    {results.map((item, index) => {
+                                        let url = (item.type === "EdiphyDocument" || item.type === "Excursion") ? item.url : item.url_full || item.file_url;
+                                        let border = url === this.props.elementSelected ? "solid #17CFC8 2px" : "solid transparent 2px";
+                                        let background = url === this.props.elementSelected ? "rgba(23,207,200,0.1)" : "transparent";
+                                        let date = new Date();
+                                        try {
+                                            date = new Date(...(item.updated_at).split("-").reverse());
+                                        } catch(e) {}
 
-                                    return (
-                                        <div
-                                            className={"videoItem"} key={index} style={{ border: border, backgroundColor: background }}
-                                            onClick={() => {
-                                                this.setState({ preview: false });
-                                                let allowClone = item.allow_clone || item.allow_clone === undefined;
-                                                this.props.onElementSelected(item.title, url, (item.type && categories[item.type]) ? categories[item.type].type : undefined, undefined, { allowClone });
-                                            }}>
-                                            <AudioGroupFlex className={"videoGroupFlex"}>{item.avatar_url ? <img key={index} src={item.avatar_url} className={'youtubeVideo'}/> : <span className="youtubeVideo vishSearchIcon"> <i className="material-icons">{(item.type && categories[item.type]) ? categories[item.type].icon : undefined}</i></span>}
-                                                <div className={"videoInfo"} style={{ padding: '10px' }}>
-                                                    <div><strong>{item.title}</strong></div>
-                                                    <div className={"lightFont"}>{item.author}</div>
-                                                    <div className={"lightFont"}>{date.toLocaleString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}</div>
-                                                </div></AudioGroupFlex>
-                                            {url === this.props.elementSelected && previewButton ? (
-                                                <Button title={i18n.t("Preview")} onClick={(e)=>{this.setState({ preview: !this.state.preview }); e.stopPropagation();}} className={"previewButton"}>
-                                                    {previewButton}
-                                                </Button>) :
-                                                null}
+                                        return (
+                                            <div
+                                                className={"videoItem"} key={index} style={{ border: border, backgroundColor: background }}
+                                                onClick={() => {
+                                                    this.setState({ preview: false });
+                                                    let allowClone = item.allow_clone || item.allow_clone === undefined;
+                                                    this.props.onElementSelected(item.title, url, (item.type && categories[item.type]) ? categories[item.type].type : undefined, undefined, { allowClone });
+                                                }}>
+                                                <AudioGroupFlex className={"videoGroupFlex"}>{item.avatar_url ? <img key={index} src={item.avatar_url} className={'youtubeVideo'}/> : <span className="youtubeVideo vishSearchIcon"> <i className="material-icons">{(item.type && categories[item.type]) ? categories[item.type].icon : undefined}</i></span>}
+                                                    <div className={"videoInfo"} style={{ padding: '10px' }}>
+                                                        <div><strong>{item.title}</strong></div>
+                                                        <div className={"lightFont"}>{item.author}</div>
+                                                        <div className={"lightFont"}>{date.toLocaleString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+                                                    </div></AudioGroupFlex>
+                                                {url === this.props.elementSelected && previewButton ? (
+                                                    <Button title={i18n.t("Preview")} onClick={(e)=>{this.setState({ preview: !this.state.preview }); e.stopPropagation();}} className={"previewButton"}>
+                                                        {previewButton}
+                                                    </Button>) :
+                                                    null}
 
-                                        </div>
-                                    );
+                                            </div>
+                                        );
 
-                                })}
+                                    })}
+                                </ExternalResults>
                             </FormGroup>
                         ) :
                         (

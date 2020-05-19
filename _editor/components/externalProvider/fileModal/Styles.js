@@ -673,8 +673,8 @@ export const AudioGroupFlex = styled.div`
 export const ExternalResults = styled.div.attrs({ className: 'externalResults' })`
         min-height: 44vh;
         overflow-y: auto;
-        max-height: 390px;
-        margin-top: -10px;
+        max-height: none;
+        margin-top: 0;
         margin-bottom: -20px;
         padding: 0 20px;
         .attribution {
