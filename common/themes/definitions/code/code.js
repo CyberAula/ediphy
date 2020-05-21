@@ -30,7 +30,7 @@ export const DEFINITION = {
         ],
     },
     colors: {
-        themeColor1: '#D906FB',
+        themeColor1: '#F62B73',
         themeColor2: '#F62B73',
         themeColor3: '#A6DF3E',
         themeColor4: '#FFE40B',
@@ -39,6 +39,8 @@ export const DEFINITION = {
         themeColor8: 'rgba(0,0,0,0)',
         themeColor9: '#F62B73',
         themeColor10: 'black',
+        themeColor12: '#282924',
+        themeColor13: '#9A9A9A', // Not last element of breadcrumb
     },
     images: {
         template1: { left: 'left.jpg' },

@@ -29,13 +29,13 @@ class EditorCanvasDoc extends Component {
         let toolbar = viewToolbarsById[itemSelected.id];
         let theme = toolbar && toolbar.theme ? toolbar.theme : styleConfig && styleConfig.theme ? styleConfig.theme : 'default';
         let colors = toolbar && toolbar.colors ? toolbar.colors : getThemeColors(theme);
-
+        console.log(toolbar);
         return (
             <Canvas id={(fromCV ? 'containedCanvas' : 'canvas')} md={12} xs={12} className="canvasDocClass safeZone"
                 style={{ display: containedViewSelected !== 0 && !fromCV ? 'none' : 'initial' }}>
 
                 <ScrollContainer className={"scrollcontainer parentRestrict " + theme}
-                    style={{ backgroundColor: show ? toolbar.customBackground ? toolbar.background : '#ffffff' : 'transparent', display: show ? 'block' : 'none' }}
+                    style={{ backgroundColor: show ? toolbar.customBackground ? toolbar.background : 'var(--themeColor12)' : '#ffffff', display: show ? 'block' : 'none' }}
                     onMouseDown={e => {
                         if (e.target === e.currentTarget) {
                             handleBoxes.onBoxSelected(-1);

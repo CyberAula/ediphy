@@ -53,7 +53,10 @@
         margin: 0.4em;
         font-family: var(--themePrimaryFont, 'Ubuntu');
         color: var(--themeColor2);
+      }
 
+      .breadcrumb > li + li:before {
+        color: #433c3c;
       }
       .infoIcon {
         cursor: help;

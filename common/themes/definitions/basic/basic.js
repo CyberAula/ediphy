@@ -38,7 +38,6 @@ export const DEFINITION = {
             'basic4_43.jpg',
             'basic5_43.jpg',
             'basic6_43.jpg',
-
         ],
     },
     colors: {
@@ -50,8 +49,10 @@ export const DEFINITION = {
         themeColor6: '#FFFFFF',
         themeColor7: '#FFFFFF',
         themeColor8: '#1d2625',
-        themeColor9: '#B46741',
+        themeColor9: '#B46741', // Last element of breadcrumb
         themeColor10: 'white',
+        themeColor12: '#1e2725',
+        themeColor13: '#9A9A9A', // Not last element of breadcrumb
     },
     images: {
         template0: { background: 4 },

@@ -51,6 +51,9 @@
         font-size: 0.6em;
         color: var(--themeColor3);
       }
+      .breadcrumb > li + li:before {
+        color: var(--themeColor1);
+      }
       .breadcrumb a{
         margin: 0.4em;
         font-family: var(--themePrimaryFont, 'Ubuntu');

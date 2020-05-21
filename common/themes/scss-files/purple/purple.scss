@@ -35,6 +35,7 @@
       h1{
         margin: 0.1em;
         font-size: 1em;
+        color: white;
       }
       h2{
         margin: 0.4em;
@@ -44,6 +45,7 @@
       h3{
         margin: 0.4em;
         font-size: 0.7em;
+        color: white;
       }
       h4{
         margin: 0.4em;
@@ -53,6 +55,9 @@
         margin: 0.4em;
         font-family: var(--themePrimaryFont, 'Ubuntu');
         color: var(--themeColor3);
+      }
+      .breadcrumb > li + li:before {
+        color: white;
       }
       .infoIcon {
         cursor: help;

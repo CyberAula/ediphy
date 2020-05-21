@@ -12,4 +12,5 @@ export const ScrollContainer = styled.div`
   width: 100%;
   min-height: 100%;
   background-color: white;
+  box-shadow: grey 1px 1px 20px;
 `;

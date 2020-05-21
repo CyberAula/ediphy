@@ -17,6 +17,8 @@ export const DEFINITION = {
         themeColor9: '#17CFC8',
         themeColor10: '#ffffff',
         themeColor11: '#ffffff',
+        themeColor12: '#ffffff', // Docs color background
+        themeColor13: '#9A9A9A', // Not last element of breadcrumb
     },
     images: {
         template1: { left: 'left.jpg' },

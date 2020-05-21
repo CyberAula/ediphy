@@ -31,14 +31,16 @@ export const DEFINITION = {
     },
     colors: {
         themeColor1: '#ffffff',
-        themeColor2: '#454545',
+        themeColor2: '#898888',
         themeColor3: '#6f6f6f',
         themeColor4: '#999999',
         themeColor5: '#afafaf',
         themeColor6: '#ffffff',
         themeColor8: 'rgba(0,0,0,0)',
-        themeColor9: '#0c1671',
+        themeColor9: '#ffffff',
         themeColor10: '#000000',
+        themeColor12: '#0E2A3C', // Docs color background
+        themeColor13: '#9A9A9A', // Not last element of breadcrumb
     },
     images: {
         template1: { left: 'left.jpg' },

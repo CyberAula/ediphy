@@ -12,7 +12,7 @@ display: ${props => props.hide ? 'none' : 'block'};
   a {
     margin: 0.4em;
     font-size: 0.6em;
-    color: ${MEDIUM_GREY};
+    color: var(--themeColor13, ${MEDIUM_GREY});
     text-decoration: none;
     &:hover, &:active, &:focus{
       text-decoration: none !important;
@@ -21,7 +21,7 @@ display: ${props => props.hide ? 'none' : 'block'};
   }
   li:last-child{
     a{
-      color: ${props => props.doc ? 'var(--themeColor9)' : 'var(--themeColor1)'};
+      color: var(--themeColor1)};
     }
   }
 }

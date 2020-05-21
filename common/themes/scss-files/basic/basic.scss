@@ -8,7 +8,7 @@
     .cab {
       font-size: 2em;
       padding: 1em;
-      
+
       .cabtabla_numero{
         padding: 0.2em 0.3em;
         line-height: 1em;
@@ -36,6 +36,7 @@
       h1{
         margin: 0.1em;
         font-size: 1em;
+        color: white;
       }
       h2{
         margin: 0.4em;
@@ -45,17 +46,17 @@
       h3{
         margin: 0.4em;
         font-size: 0.7em;
-        color: var(--themeColor1);
+        color: var(--themeColor13);
       }
       h4{
         margin: 0.4em;
         font-size: 0.6em;
         color: var(--themeColor1);
       }
-      .breadcrumb a{
-        margin: 0.4em;
-        color: var(--themeColor1);
-      }
+      //.breadcrumb a{
+      //  margin: 0.4em;
+      //  color: var(--themeColor1);
+      //}
       .infoIcon {
         cursor: help;
         font-size: 0.9em;
