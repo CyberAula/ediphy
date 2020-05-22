@@ -78,6 +78,7 @@ export const Tools = styled.div.attrs({ className: 'tools' })`
 
   .form-group {
     margin: 10px 0;
+
   }
   .form-control {
     box-shadow: none;
@@ -90,12 +91,27 @@ export const Tools = styled.div.attrs({ className: 'tools' })`
     &:active, &:focus {
       border-color: orange;
     }
+
   }
   label, .label {
     margin: 0 !important;
     padding: 0 0 0 0 !important;
     font-size: inherit;
     font-weight: 500;
+  }
+  
+   select.form-control{
+      cursor: pointer;
+      height: 39px;
+      -webkit-appearance: none;
+      -webkit-border-radius: 0px;
+      background-image: linear-gradient(45deg, transparent 50%, gray 50%), linear-gradient(135deg, gray 50%, transparent 50%);
+      background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;
+      background-size: 5px 5px, 5px 5px, 1px 1.5em;
+      background-repeat: no-repeat;
+      -moz-appearance: none;
+      display: block;
+      width: 100%;
   }
   .control-label{
     margin: 8px 0 !important;
