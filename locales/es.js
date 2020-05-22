@@ -15,7 +15,7 @@ let es = {
             "backgroundColor": "Cambiar color",
             "backgroundImage": "Imagen de fondo",
             "backgroundZoom": "Zoom del fondo",
-            "resetBackground": "Restablecer",
+            "resetBackground": "Restablecer fondo",
             "backgroundInputUrl": "Imágen URL",
             "full": "Cubrir página",
             "repeat": "Repetir imagen",

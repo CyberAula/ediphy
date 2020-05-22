@@ -71,7 +71,7 @@ export const BackgroundPicker = (button, props, toolbar, id, defaultBackground, 
                     value={backgroundZoom} style={{ display: isBackColor ? "none" : "block" }}
                     onChange={onChange}/>,
             ]}
-            <br key={'br'}/>
+            {/* <br key={'br'}/>*/}
             <ControlLabel key={'label_' + button.__name}>{i18n.t('background.resetBackground')}</ControlLabel>
             <ToolbarButton key={'button_' + button.__name} value={defaultBackground} onClick={onChange}>
                 <div key={props.label}>{i18n.t('background.resetBackground')}</div>
