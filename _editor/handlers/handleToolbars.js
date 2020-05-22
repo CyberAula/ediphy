@@ -73,5 +73,8 @@ export default (self) => ({
 
     onPluginToolbarUpdated: (id, state) => self.props.dispatch(updateBox(id, "", self.props.pluginToolbarsById[self.props.reactUI.pluginConfigModal], state)),
 
-    onViewToolbarUpdated: (id, toolbar) => self.props.dispatch(updateViewToolbar(id, toolbar)),
+    onViewToolbarUpdated: (id, toolbar) => {
+        self.props.dispatch(updateViewToolbar(id, toolbar));
+
+    },
 });

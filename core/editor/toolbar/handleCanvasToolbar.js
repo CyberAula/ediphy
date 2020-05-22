@@ -24,7 +24,7 @@ export function handleCanvasToolbar(name, value, accordions, toolbar) {
     case 'numPageContent':
     case 'viewName':
         h.onViewToolbarUpdated(toolbarProps.navItemSelected, {
-            [name]: value,
+            [name]: value.value,
         });
         break;
         // preview / export document
@@ -58,6 +58,7 @@ export function handleCanvasToolbar(name, value, accordions, toolbar) {
         // h.onBoxSelected(-1);
         break;
     case 'theme_background':
+
         h.onViewToolbarUpdated(toolbarProps.navItemSelected, {
             themeBackground: value,
             background: value,

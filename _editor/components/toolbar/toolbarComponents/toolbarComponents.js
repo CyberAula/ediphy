@@ -115,7 +115,7 @@ export const ConditionalText = (button, props, onChange) => {
                 {button.actualType === 'range' ? button.value : null}
             </RangeOutput>
             {delete props.accordionChecked}
-            <FormControl {...props} onChange={onChange}/>
+            <FormControl {...props} onChange={onChange} onBlur={onChange}/>
         </FormGroup>
     );
 };
