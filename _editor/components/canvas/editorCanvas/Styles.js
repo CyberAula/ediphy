@@ -12,6 +12,9 @@ export const Canvas = styled(Col)`
   .canvasSliClass {
     padding: 33px 8px 33px 8px;
   }
+  .scrollcontainer {
+    min-height: 100%;
+  }
 `;
 
 export const AirLayer = styled.div`
