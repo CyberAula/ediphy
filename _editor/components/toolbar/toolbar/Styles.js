@@ -49,6 +49,7 @@ export const TitleText = styled.span`
 
 export const PluginTitle = styled.div`
     display: ${ props => props.open ? 'block' : 'none' };
+    height: 19px;
     margin: -8px 6px 8px;
     color: ${ PRIMARY_BLUE };
     font-weight: 500;
