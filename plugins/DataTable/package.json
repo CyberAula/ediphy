@@ -1,8 +1,14 @@
 {
-    "name" : "DataTable",
-    "version" : "0.1.1",
-    "dependencies": {
-        "recharts": "^1.0.0-beta.10",
-        "react-datatable-bs": "^1.0.10"
-    }
+  "name": "DataTable",
+  "version": "0.1.1",
+  "dependencies": {
+    "recharts": "^1.0.0-beta.10",
+    "react-datatable-bs": "^1.0.10",
+    "snyk": "^1.316.1"
+  },
+  "scripts": {
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true
 }
