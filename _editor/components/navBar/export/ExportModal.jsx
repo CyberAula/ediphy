@@ -75,7 +75,7 @@ class ExportModal extends Component {
         let cancelEvent = new Event('canceled');
 
         let exportFormats = [
-            { format: "SCORM 1.2", handler: ()=> {this.props.scorm(false, callback, this.state.selfContained); } },
+            { format: "SCORM 1.2", handler: ()=> {this.props.scorm(false, callback, this.state.selfContained);} },
             { format: "SCORM 2004", handler: ()=> {this.props.scorm(true, callback, this.state.selfContained); } },
             { format: "HTML", handler: ()=> {this.props.export('HTML', callback, this.state.selfContained); } },
             { format: "PDF", formatRender: <span>PDF <sub className={"betaSub"}>BETA</sub></span>, handler: ()=> { this.props.export('PDF', callback, this.state);} },

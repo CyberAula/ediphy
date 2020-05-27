@@ -481,7 +481,7 @@ export function uploadEdiphyResourceAsync(file, keywords = "", callback) {
         let form = new FormData();
         form.append("file", file);
         let id = ID_PREFIX_FILE + Date.now();
-        fetch("http://localhost:8081/upload", {
+        fetch("https://localhost:8081/upload", {
             method: 'POST',
             credentials: 'same-origin',
             body: form,

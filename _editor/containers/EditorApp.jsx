@@ -50,6 +50,7 @@ class EditorApp extends Component {
         super(props);
         this.state = { alert: null };
         this.initializeHandlers();
+
     }
 
     render() {
@@ -79,7 +80,6 @@ class EditorApp extends Component {
             onToolbarUpdated: this.handleToolbars.onToolbarUpdated,
             setCorrectAnswer: this.handleExercises.setCorrectAnswer,
         };
-
         return (
             <ErrorBoundary context={'app'}>
                 <Grid id="app" fluid style={{ height: '100%', overflow: 'hidden' }} ref={'app'}>

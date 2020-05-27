@@ -32,7 +32,7 @@ export default (self) => ({
         }
     },
 
-    exportToScorm: () => (is2004, callback, selfContained = false) => {
+    exportToScorm: (is2004, callback, selfContained = false) => {
         let currentState = self.props.store.getState();
         Ediphy.Visor.exportScorm({
             ...currentState.undoGroup.present,
