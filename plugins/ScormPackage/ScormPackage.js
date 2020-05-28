@@ -87,8 +87,8 @@ export function ScormPackage() {
         },
         getInitialState: function() {
             return {
-                url: 'http://vishubcode.org/scorm/packages/211/vishubcode_scorm_wrapper.html',
-                // 'http://vishubcode.org/scorm/packages/170/dist/index.html',
+                url: 'https://vishubcode.org/scorm/packages/211/vishubcode_scorm_wrapper.html',
+                // 'https://vishubcode.org/scorm/packages/170/dist/index.html',
             };
         },
         getRenderTemplate: function(state) {

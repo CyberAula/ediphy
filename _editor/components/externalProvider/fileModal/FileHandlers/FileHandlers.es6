@@ -43,7 +43,6 @@ export default function handlers(self) {
     let icon = ext ? ext.icon : 'attach_file';
 
     let buttons = [];
-
     if (self.state.element) {
         if (self.props.fileModalResult && !self.props.fileModalResult.id) {
             Object.keys(pluginsAllowed).map(pluginName=>{
