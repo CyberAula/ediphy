@@ -111,7 +111,6 @@ export default class SearchVishComponent extends React.Component {
                                 <br />
                                 <ExternalResults>
                                     {results.map((item, index) => {
-                                        // TODO Reemplazar por https las url de la API?
                                         let url = (item.type === "EdiphyDocument" || item.type === "Excursion") ? item.url : item.url_full || item.file_url;
                                         url = url.replace("http", "https");
                                         let border = url === this.props.elementSelected ? "solid #17CFC8 2px" : "solid transparent 2px";

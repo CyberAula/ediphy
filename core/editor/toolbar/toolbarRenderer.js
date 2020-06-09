@@ -3,8 +3,25 @@ import { Panel } from "react-bootstrap";
 
 import MarksList from "../../../_editor/components/richPlugins/marksList/MarksList";
 import { SizeButton } from "../../../_editor/components/toolbar/toolbarComponents/sizeButton";
-import { Checkbox, Color, ConditionalText, DefaultComponent, External, FancyRadio, Font, MyRadio, MySelect, PluginColor, Range, Text, Theme } from "../../../_editor/components/toolbar/toolbarComponents/toolbarComponents";
-import { BackgroundPicker, handleBackground } from "../../../_editor/components/toolbar/toolbarComponents/backgroundPicker";
+import {
+    Checkbox,
+    Color,
+    ConditionalText,
+    DefaultComponent,
+    External,
+    FancyRadio,
+    Font,
+    MyRadio,
+    MySelect,
+    PluginColor,
+    Range,
+    Text,
+    Theme,
+} from "../../../_editor/components/toolbar/toolbarComponents/toolbarComponents";
+import {
+    BackgroundPicker,
+    handleBackground,
+} from "../../../_editor/components/toolbar/toolbarComponents/backgroundPicker";
 
 import { handleCanvasToolbar } from "./handleCanvasToolbar";
 import { getCurrentColor, getThemes } from "../../../common/themes/themeLoader";
@@ -170,7 +187,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         if (isTarget || isValue) {
             if (isTarget) {
                 value = e.target;
-            } else if(isValue) {
+            } else if (isValue) {
                 value = e.value;
             }
             commitChanges(value);
@@ -211,7 +228,10 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         return Theme(button, handler, { ...props, currentTheme: props.value, currentItem: toolbarProps.navItemSelected });
     case 'font_picker':
         handler = e => {
-            newValue = e.family && button?.kind === 'theme_font' ? e.family : { font: e.family, custom: !e.themeDefaultFont };
+            newValue = e.family && button?.kind === 'theme_font' ? e.family : {
+                font: e.family,
+                custom: !e.themeDefaultFont,
+            };
             commitChanges(newValue);
         };
         return Font(button, handler, { ...props, theme });
@@ -220,7 +240,8 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     case 'externalProvider':
         return External(button, props, toolbar, defaultHandler);
     case 'range':
-        return Range(button, props, defaultHandler);
+        handler = e => commitChanges(e.target.value);
+        return Range(button, props, handler);
     case 'conditionalText':
         props.style.marginTop = '5px';
         props.style.marginBottom = '15px';
