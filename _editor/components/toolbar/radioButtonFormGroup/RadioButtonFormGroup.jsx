@@ -42,7 +42,7 @@ export default class RadioButtonFormGroup extends Component {
                     return (
                         <OverlayTrigger placement="top" key={'item_' + index} overlay={overlay}>
                             <RadioButtonCustom value={option} selected={ this.props.selected === option }
-                                onClick={this.handleClick}>
+                                onClick={(e) => this.handleClick(e, option)}>
                                 <i className="material-icons">{this.props.icons[index]}</i>
                             </RadioButtonCustom>
                         </OverlayTrigger>);

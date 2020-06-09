@@ -27,7 +27,6 @@ import IconPicker from "../../common/iconPicker/IconPicker";
 import { MarkPreview } from "./MarkPreview";
 import Ediphy from '../../../../core/editor/main';
 import flowerMark from "./../../../../dist/images/flower_mark.png";
-import { isURL } from "../../clipboard/clipboard.utils";
 
 /**
  * Modal component to   edit marks' configuration
