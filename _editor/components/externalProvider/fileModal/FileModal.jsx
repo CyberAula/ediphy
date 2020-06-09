@@ -116,6 +116,9 @@ class FileModal extends React.Component {
                                         {i18n.t("FileModal.FileHandlers.cancel")}
                                     </Button>
                                     {(this.state.element && handler && handler.buttons) && handler.buttons.map((button, key)=>{
+                                        console.log(this.state.element);
+                                        console.log(handler);
+                                        console.log(button);
                                         return (
                                             <Button bsStyle="primary" key={key}
                                                 disabled={button.disabled}
@@ -159,6 +162,7 @@ class FileModal extends React.Component {
     };
 
     close = (fileModalResult) => {
+        console.log(fileModalResult);
         this.setState({ ...initialState });
         this.props.dispatch((updateUI({
             showFileUpload: false,
