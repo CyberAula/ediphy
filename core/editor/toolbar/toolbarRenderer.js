@@ -130,7 +130,6 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     let id = (toolbarProps.boxSelected !== -1) ? toolbarProps.boxSelected : (toolbarProps.containedViewSelected || toolbarProps.navItemSelected);
     let currentElement = (["structure", "style", "z__extra", "__marks_list", "__score"].indexOf(accordionKeys[0]) === -1) ? "state" : accordionKeys[0];
     let toolbarPluginState = toolbarProps.boxSelected !== -1 ? toolbarProps.pluginToolbarsById[toolbarProps.boxSelected] : undefined;
-
     let commitChanges = (val) => {
         if (toolbarProps.boxSelected === -1) {
             handleCanvasToolbar(buttonKey, val, accordion, toolbar, buttonKey);
@@ -238,7 +237,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
     case 'text':
         return Text(button, defaultHandler, props);
     case 'externalProvider':
-        return External(button, props, toolbar, defaultHandler);
+        return External(button, props, toolbar, defaultHandler, buttonKey);
     case 'range':
         handler = e => commitChanges(e.target.value);
         return Range(button, props, handler);

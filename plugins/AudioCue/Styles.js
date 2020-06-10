@@ -22,19 +22,20 @@ export const BasicImage = styled.img`
               width: 100%;
                 height: 100%;
                 position: absolute;
+                top: 0;
             }
         `;
 
 export const PlayButton = styled.img.attrs({
     src: props => props.playing ? imagePause : imagePlay,
-}
+},
 )`
             height: 45%;
             position: absolute;
             left: 0;
             right: 0;
-            top: ${props => props.hideAnimation ? '0' : '10%' };
-            bottom: ${props => props.hideAnimation ? '0' : undefined };
+            top: ${props => props.hideAnimation ? '0' : '10%'};
+            bottom: ${props => props.hideAnimation ? '0' : undefined};
             margin: auto;
             transition: transform .1s;
         `;
@@ -75,14 +76,18 @@ const sound = keyframes`
                }
         `;
 
-export const Bar = styled.div`
+export const Bar = styled.div.attrs(props => ({
+    style: {
+        background: props.background,
+        animationPlayState: props.animationState,
+        left: props.offset + '%',
+        animationDuration: props.time + 'ms',
+    },
+}))`
             background: rgba(255, 255, 255, 0.91);
             ${props => props.up ? 'bottom' : 'top'}: 50%;
             height: 3px;
             position: absolute;
             width: 4%;
             animation: ${sound} 0ms -800ms linear infinite alternate;
-            animation-play-state: ${props => props.animationState};
-            left: ${props => props.offset}%;
-            animation-duration: ${props => props.time}ms;
         `;

@@ -173,7 +173,7 @@ export const Size = (button, onChange, props, accordionKeys, buttonKey, toolbar_
     return null;
 };
 
-export const External = (button, props, toolbar, onChange) => {
+export const External = (button, props, toolbar, onChange, bKey) => {
     let hM = handleModals(toolbar);
     return (
         <ToolbarFileProvider
@@ -186,6 +186,7 @@ export const External = (button, props, toolbar, onChange) => {
             onChange={onChange}
             accept={button.accept}
             hide={button.hide}
+            buttonKey={bKey}
         />);
 };
 

@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import { ToolbarButton } from "../../../../toolbar/toolbarComponents/Styles";
 
 export default class ToolbarFileProvider extends Component {
-
+    state = {
+        caller: undefined,
+    };
     /**
      * Render React Component
      * @returns {XML}
@@ -23,11 +25,13 @@ export default class ToolbarFileProvider extends Component {
                 <ToolbarButton
                     onClick={() => {
                         openModal(id, accept);
+                        this.setState({ caller: this.props.buttonKey });
                     }}>{buttontext}</ToolbarButton>
             </FormGroup>);
     }
     UNSAFE_componentWillReceiveProps(nextProps) {
-        if(nextProps.id === nextProps.fileModalResult?.id
+        if(this.state.caller === nextProps.buttonKey &&
+            nextProps.id === nextProps.fileModalResult?.id
             && ((!this.props.fileModalResult && nextProps.fileModalResult.value)
             || (this.props.fileModalResult.value !== nextProps.fileModalResult.value))) {
             this.props.onChange({ value: nextProps.fileModalResult.value });
@@ -72,5 +76,8 @@ ToolbarFileProvider.propTypes = {
      * Hide external provider input type
      */
     hide: PropTypes.bool,
-
+    /**
+     * Toolbar button that calls the file provider
+     */
+    buttonKey: PropTypes.bool,
 };
