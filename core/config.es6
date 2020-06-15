@@ -67,6 +67,8 @@ export default {
         // 'Rating',
         'AudioCue',
         // 'Google3DPolyObject',
+        'Polygons',
+        'Circle',
     ],
     themeList: [
         'default',

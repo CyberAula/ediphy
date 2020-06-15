@@ -422,6 +422,7 @@ let es = {
         "NavItem_title": "Título de la página",
         "no_results": "Sin resultados",
         "Objects": "Objetos",
+        "Shapes":"Figuras",
         "OK": "OK",
         "Open": "Abrir",
         "Open_Catalog": "Ver imágenes subidas",

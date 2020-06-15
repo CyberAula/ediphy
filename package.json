@@ -248,6 +248,7 @@
     "react-shade": "^0.5.0",
     "react-sortly": "^1.5.5",
     "react-stack-grid": "^0.7.1",
+    "react-svg-polygon": "^2.0.6",
     "react-tag-input": "^6.4.2",
     "react-transition-group": "^2.2.1",
     "recharts": "^1.0.0-beta.1",

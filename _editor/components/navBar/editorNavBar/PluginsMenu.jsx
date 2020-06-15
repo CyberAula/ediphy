@@ -44,6 +44,11 @@ class PluginsMenu extends Component {
                 displayName: i18n.t("Evaluation"),
                 icon: 'school',
             },
+            {
+                name: 'shapes',
+                displayName: i18n.t("Shapes"),
+                icon: 'star',
+            },
 
         ];
         return (
