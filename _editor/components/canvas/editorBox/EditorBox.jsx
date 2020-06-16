@@ -12,6 +12,7 @@ import {
     vendorTransform,
 } from '../../../../common/utils';
 import { ID_PREFIX_SORTABLE_CONTAINER } from '../../../../common/constants';
+
 const SNAP_DRAG = 5;
 const SNAP_SIZE = 2;
 import { connect } from "react-redux";
@@ -94,7 +95,8 @@ class EditorBox extends Component {
         }
 
         vendorTransform(wholeBoxStyle, rotate);
-        let props = { ...this.props,
+        let props = {
+            ...this.props,
             marks: marks,
             allMarks: this.props.marksById,
             update: (key, value) => {
@@ -111,10 +113,14 @@ class EditorBox extends Component {
 
         let border = (
             <ResizeContainer visible={vis}>
-                <ResizeHelper onClick={this.stopEventPropagation} cornerSize={cornerSize} left top cursor={'nw-resize'}/>
-                <ResizeHelper onClick={this.stopEventPropagation} cornerSize={cornerSize} right top cursor={'ne-resize'}/>
-                <ResizeHelper onClick={this.stopEventPropagation} cornerSize={cornerSize} left bottom cursor={'sw-resize'}/>
-                <ResizeHelper onClick={this.stopEventPropagation} cornerSize={cornerSize} right bottom cursor={'se-resize'}/>
+                <ResizeHelper onClick={this.stopEventPropagation} cornerSize={cornerSize} left top
+                    cursor={'nw-resize'}/>
+                <ResizeHelper onClick={this.stopEventPropagation} cornerSize={cornerSize} right top
+                    cursor={'ne-resize'}/>
+                <ResizeHelper onClick={this.stopEventPropagation} cornerSize={cornerSize} left bottom
+                    cursor={'sw-resize'}/>
+                <ResizeHelper onClick={this.stopEventPropagation} cornerSize={cornerSize} right bottom
+                    cursor={'se-resize'}/>
             </ResizeContainer>
         );
 
@@ -131,7 +137,8 @@ class EditorBox extends Component {
         let verticalAlign = "top";
         wholeBoxStyle.verticalAlign = verticalAlign;
         return (
-            <EditorBoxContainer selectedBox={this.props.id === this.props.boxSelected} className={classes} id={'box-' + this.props.id} name={toolbar.pluginId}
+            <EditorBoxContainer selectedBox={this.props.id === this.props.boxSelected} className={classes}
+                id={'box-' + this.props.id} name={toolbar.pluginId}
                 onClick={e => {
                     if (this.props.boxSelected !== this.props.id) {
                         // Do not stop propagation if we are not allowed to select this box because of its level, so it selects the parent instead of itself
@@ -145,8 +152,8 @@ class EditorBox extends Component {
                     }
                     e.stopPropagation();
                 }}
-                onDoubleClick={(e)=> {
-                    if(config && config.needsTextEdition && this.props.id === this.props.boxSelected) {
+                onDoubleClick={(e) => {
+                    if (config && config.needsTextEdition && this.props.id === this.props.boxSelected) {
                         this.h.onTextEditorToggled(this.props.id, true);
                         e.stopPropagation();
                     }
@@ -162,9 +169,12 @@ class EditorBox extends Component {
                             props={props}
                             config={config}
                             renderChildren={this.renderChildren}
-                        /> }
-                    {toolbar.state.__text ? <CKText key={"ck-" + this.props.id} boxSelected={this.props.boxSelected} box={this.props.boxesById[this.props.id]}
-                        style={textareaStyle} className={"textAreaStyle"} pluginToolbarsById={this.props.pluginToolbarsById} id={this.props.id}
+                        />}
+                    {toolbar.state.__text ? <CKText key={"ck-" + this.props.id} boxSelected={this.props.boxSelected}
+                        box={this.props.boxesById[this.props.id]}
+                        style={textareaStyle} className={"textAreaStyle"}
+                        pluginToolbarsById={this.props.pluginToolbarsById}
+                        id={this.props.id}
                         onBlur={this.blurTextarea}/> : null}
                     <MarkCreator
                         boxSelected={this.props.boxSelected}
@@ -222,7 +232,8 @@ class EditorBox extends Component {
             if (prop.startsWith("on")) {
                 let value = props[prop];
                 if (typeof value === "string") {
-                    props[prop] = function() {};
+                    props[prop] = function() {
+                    };
                 }
             }
         });
@@ -296,8 +307,18 @@ class EditorBox extends Component {
         let offsetEl = document.getElementById('maincontent') ? document.getElementById('maincontent').getBoundingClientRect() : {};
         let leftO = offsetEl.left || 0;
         let topO = offsetEl.top || 0;
-        let gridTarget = interact.createSnapGrid({ x: SNAP_DRAG, y: SNAP_DRAG, range: Math.floor(SNAP_DRAG / 2), offset: { x: leftO, y: topO } });
-        let dragTarget = interact.createSnapGrid({ x: SNAP_DRAG, y: SNAP_DRAG, range: (SNAP_DRAG / 2 + 1), offset: { x: leftO, y: topO } });
+        let gridTarget = interact.createSnapGrid({
+            x: SNAP_DRAG,
+            y: SNAP_DRAG,
+            range: Math.floor(SNAP_DRAG / 2),
+            offset: { x: leftO, y: topO },
+        });
+        let dragTarget = interact.createSnapGrid({
+            x: SNAP_DRAG,
+            y: SNAP_DRAG,
+            range: (SNAP_DRAG / 2 + 1),
+            offset: { x: leftO, y: topO },
+        });
 
         let snap = { targets: [], relativePoints: [{ x: 0, y: 0 }] };
         let snapD = { targets: [], relativePoints: [{ x: 0, y: 0 }] };
@@ -305,9 +326,11 @@ class EditorBox extends Component {
         if (this.props.grid) {
             snap = { targets: [gridTarget], relativePoints: [{ x: 0, y: 0 }] };
             snapD = { targets: [dragTarget], relativePoints: [{ x: 0, y: 0 }] };
-            snapSize = { targets: [
-                { width: SNAP_SIZE, height: SNAP_SIZE, range: SNAP_SIZE },
-            ] };
+            snapSize = {
+                targets: [
+                    { width: SNAP_SIZE, height: SNAP_SIZE, range: SNAP_SIZE },
+                ],
+            };
         }
 
         if (prevProps.pluginToolbarsById[this.props.id] && (toolbar.showTextEditor !== prevProps.pluginToolbarsById[this.props.id].showTextEditor) && box.draggable) {
@@ -316,9 +339,13 @@ class EditorBox extends Component {
             interact(node).draggable({ snap: snapD });
         }
 
-        // if (box.resizable) {
-        interact(node).resizable({ preserveAspectRatio: this.checkAspectRatioValue(), snap: snap, snapSize: snapSize });
-        // }
+        // Resizable config
+        let preserveAspectRatio = this.checkAspectRatioValue();
+        let modifiers = [interact.modifiers.snap(snap), interact.modifiers.snapSize(snapSize)];
+        interact(node).resizable({
+            edges: { bottom: true, right: true },
+            modifiers: preserveAspectRatio ? [...modifiers, interact.modifiers.aspectRatio({ ratio: "preserve" })] : modifiers,
+        });
 
         if ((box.level > this.props.boxLevelSelected) && this.props.boxLevelSelected !== -1) {
             interact(node).draggable({ enabled: false });
@@ -337,8 +364,18 @@ class EditorBox extends Component {
         let offsetEl = document.getElementById('maincontent') ? document.getElementById('maincontent').getBoundingClientRect() : {};
         let leftO = offsetEl.left || 0;
         let topO = offsetEl.top || 0;
-        let gridTarget = interact.createSnapGrid({ x: SNAP_DRAG, y: SNAP_DRAG, range: Math.floor(SNAP_DRAG / 2), offset: { x: leftO, y: topO } });
-        let dragTarget = interact.createSnapGrid({ x: SNAP_DRAG, y: SNAP_DRAG, range: (SNAP_DRAG / 2 + 1), offset: { x: leftO, y: topO } });
+        let gridTarget = interact.createSnapGrid({
+            x: SNAP_DRAG,
+            y: SNAP_DRAG,
+            range: Math.floor(SNAP_DRAG / 2),
+            offset: { x: leftO, y: topO },
+        });
+        let dragTarget = interact.createSnapGrid({
+            x: SNAP_DRAG,
+            y: SNAP_DRAG,
+            range: (SNAP_DRAG / 2 + 1),
+            offset: { x: leftO, y: topO },
+        });
 
         let targets = this.props.grid ? [gridTarget] : [];
         let dragTargets = this.props.grid ? [dragTarget] : [];
@@ -435,7 +472,9 @@ class EditorBox extends Component {
                     let bar = this.props.containedViewSelected === 0 ?
                         document.getElementById('editorBoxIcons') :
                         document.getElementById('contained_editorBoxIcons');
-                    if (bar) {bar.classList.add('hidden');}
+                    if (bar) {
+                        bar.classList.add('hidden');
+                    }
 
                     // Level has to be the same to drag a box, unless a sortableContainer is selected, then it should allow level 0 boxes
                     if ((box.level - this.props.boxLevelSelected) === 0 || (box.level === 0 && this.props.boxLevelSelected < 1)) {
@@ -468,7 +507,9 @@ class EditorBox extends Component {
                     let bar = this.props.containedViewSelected === 0 ?
                         document.getElementById('editorBoxIcons') :
                         document.getElementById('contained_editorBoxIcons');
-                    if (bar) { bar.classList.remove('hidden');}
+                    if (bar) {
+                        bar.classList.remove('hidden');
+                    }
                     let target = event.target;
                     target.style.opacity = 1;
                     if (this.props.boxSelected !== this.props.id) {
@@ -534,7 +575,7 @@ class EditorBox extends Component {
                             this.props.boxesById[this.props.id].position.type,
                             box.parent,
                             containerHoverID ? ('sc-' + containerHoverID) : containerId,
-                            disposition
+                            disposition,
                         );
                     }
 
@@ -544,11 +585,13 @@ class EditorBox extends Component {
             })
             .resizable({
                 snap: { targets: targets },
-                snapSize: { targets: [
-                    // snap the width and height to multiples of 5 when the element size
-                    // is 25 pixels away from the target size
-                    { width: SNAP_SIZE, height: SNAP_SIZE, range: SNAP_SIZE },
-                ] },
+                snapSize: {
+                    targets: [
+                        // snap the width and height to multiples of 5 when the element size
+                        // is 25 pixels away from the target size
+                        { width: SNAP_SIZE, height: SNAP_SIZE, range: SNAP_SIZE },
+                    ],
+                },
                 preserveAspectRatio: this.checkAspectRatioValue(),
                 enabled: true, // (box.resizable),
                 restrict: {
@@ -565,7 +608,9 @@ class EditorBox extends Component {
                     let bar = this.props.containedViewSelected === 0 ?
                         document.getElementById('editorBoxIcons') :
                         document.getElementById('contained_editorBoxIcons');
-                    if (bar) {bar.classList.add('hidden');}
+                    if (bar) {
+                        bar.classList.add('hidden');
+                    }
                     // Append textbox with actual size
                     let sb = document.getElementsByClassName('selectedBox');
                     if (sb && sb[0] && ('box-' + this.props.boxSelected) === sb[0].getAttribute('id') && !document.getElementById('sizing')) {
@@ -597,7 +642,7 @@ class EditorBox extends Component {
 
                     x += event.deltaRect.left;
                     y += event.deltaRect.top;
-                    if(box.resizable) { // Only in slide
+                    if (box.resizable) { // Only in slide
                         let translate = 'translate(' + x + 'px,' + y + 'px)';
                         vendorTransform(target.style, translate + this.rotate());
                         target.setAttribute('data-x', x);
@@ -682,9 +727,9 @@ class EditorBox extends Component {
      * @returns {position} Position from left
      */
     getElementPositionFromLeft(left, width) {
-        if(left.indexOf("px") !== -1) {
+        if (left.indexOf("px") !== -1) {
             return left;
-        } else if(left.indexOf("%") !== -1) {
+        } else if (left.indexOf("%") !== -1) {
             return width * parseFloat(left) / 100;
         }
         return 0;
@@ -692,8 +737,8 @@ class EditorBox extends Component {
 
     getMarks = (marks, id) => {
         let myMarks = {};
-        Object.keys(marks || {}).forEach(mark =>{
-            if(marks[mark].origin === id) {
+        Object.keys(marks || {}).forEach(mark => {
+            if (marks[mark].origin === id) {
                 myMarks[mark] = marks[mark];
             }
         });
@@ -722,8 +767,10 @@ class EditorBox extends Component {
 }
 
 function mapStateToProps(state) {
-    const { boxesById, boxSelected, boxLevelSelected, containedViewsById, containedViewSelected, pluginToolbarsById,
-        marksById, exercises, lastActionDispatched } = state.undoGroup.present;
+    const {
+        boxesById, boxSelected, boxLevelSelected, containedViewsById, containedViewSelected, pluginToolbarsById,
+        marksById, exercises, lastActionDispatched,
+    } = state.undoGroup.present;
     return {
         boxesById,
         boxSelected,
@@ -778,15 +825,15 @@ EditorBox.propTypes = {
      */
     pageType: PropTypes.string.isRequired,
     /**
-      * Snap to grid flag
-      */
+     * Snap to grid flag
+     */
     grid: PropTypes.bool,
     /**
-       * Object containing all exercises
-       */
+     * Object containing all exercises
+     */
     exercises: PropTypes.object,
     /**
-      * Current page
-      */
+     * Current page
+     */
     page: PropTypes.any,
 };

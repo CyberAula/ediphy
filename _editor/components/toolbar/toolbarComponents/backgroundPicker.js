@@ -9,6 +9,7 @@ import { handleCanvasToolbar } from "../../../../core/editor/toolbar/handleCanva
 import { isColor, isSlide, isURI } from "../../../../common/utils";
 import _handlers from "../../../handlers/_handlers";
 import { RangeOutput, ToolbarButton } from "./Styles";
+
 /* eslint-disable react/prop-types */
 export const BackgroundPicker = (button, props, toolbar, id, defaultBackground, onChange) => {
 
@@ -76,6 +77,10 @@ export const BackgroundPicker = (button, props, toolbar, id, defaultBackground, 
             <ToolbarButton key={'button_' + button.__name} value={defaultBackground} onClick={onChange}>
                 <div key={props.label}>{i18n.t('background.resetBackground')}</div>
             </ToolbarButton>
+            <ToolbarButton key={'button_2' + button.__name} name={'themeReset'} value={defaultBackground}
+                onClick={onChange}>
+                <div key={props.label}>Reset theme</div>
+            </ToolbarButton>
         </FormGroup>
     );
 };
@@ -101,13 +106,14 @@ export function handleBackground(e, toolbar, accordion, buttonKey, commitChanges
     }
     // Restore background button
     if (e.currentTarget && e.currentTarget.type === "button") {
-        value = {
-            background: e.currentTarget.value,
-            backgroundAttr: 'full',
-            backgroundZoom: 100,
-            customBackground: false,
-            themeBackground: 0,
-        };
+        value =
+            {
+                background: e.currentTarget.value,
+                backgroundAttr: 'full',
+                backgroundZoom: 100,
+                customBackground: false,
+                themeBackground: 0,
+            };
     }
     if (e.target?.name === "image_display_zoom") {
         value = {
@@ -143,4 +149,5 @@ export function handleBackground(e, toolbar, accordion, buttonKey, commitChanges
     }
     commitChanges(value);
 }
+
 /* eslint-enable react/prop-types */

@@ -37,7 +37,7 @@
       .default .title .cab h3 {
         margin: 0.4em;
         font-size: 0.7em;
-        color: var(--themeColor3); }
+        color: #757f7a; }
       .default .title .cab h4 {
         margin: 0.4em;
         font-size: 0.6em;
@@ -276,8 +276,6 @@
         right: 0.7em; }
 .vish4 {
   font-family: var(--themePrimaryFont, "Ubuntu"); }
-  .vish4 .canvasDoc.title .cab h2 {
-    color: var(--themeColor9, black); }
   .vish4 .title {
     display: block;
     background-color: transparent; }
@@ -306,7 +304,8 @@
         color: var(--themeColor1); }
       .vish4 .title .cab h1 {
         margin: 0.1em;
-        font-size: 1em; }
+        font-size: 1em;
+        color: var(--themeColor13); }
       .vish4 .title .cab h2 {
         margin: 0.4em;
         font-size: 0.8em;
@@ -419,7 +418,7 @@
       .vish6 .title .cab h2 {
         margin: 0.4em;
         font-size: 0.8em;
-        color: var(--themeColor2); }
+        color: var(--themeColor5); }
       .vish6 .title .cab h3 {
         margin: 0.4em;
         font-size: 0.7em;
@@ -526,7 +525,8 @@
         color: var(--themeColor1); }
       .vish8 .title .cab h1 {
         margin: 0.1em;
-        font-size: 1em; }
+        font-size: 1em;
+        color: white; }
       .vish8 .title .cab h2 {
         margin: 0.4em;
         font-size: 0.8em;
@@ -550,8 +550,6 @@
         right: 0.7em; }
 .vish9 {
   font-family: var(--themePrimaryFont, "Ubuntu"); }
-  .vish9 .canvasDoc.title .cab h2 {
-    color: var(--themeColor9, black); }
   .vish9 .title {
     display: block;
     background-color: transparent; }
@@ -606,8 +604,6 @@
         right: 0.7em; }
 .vish10 {
   font-family: var(--themePrimaryFont, "Ubuntu"); }
-  .vish10 .canvasDoc.title .cab h2 {
-    color: var(--themeColor9, black); }
   .vish10 .title {
     display: block;
     background-color: transparent; }
@@ -660,8 +656,6 @@
         right: 0.7em; }
 .vish11 {
   font-family: var(--themePrimaryFont, "Ubuntu"); }
-  .vish11 .canvasDoc.title .cab h2 {
-    color: var(--themeColor9, black); }
   .vish11 .title {
     display: block;
     background-color: transparent; }
@@ -714,8 +708,6 @@
         right: 0.7em; }
 .vish12 {
   font-family: var(--themePrimaryFont, "Ubuntu"); }
-  .vish12 .canvasDoc.title .cab h2 {
-    color: var(--themeColor9, black); }
   .vish12 .title {
     display: block;
     background-color: transparent; }
@@ -744,7 +736,8 @@
         color: var(--themeColor1); }
       .vish12 .title .cab h1 {
         margin: 0.1em;
-        font-size: 1em; }
+        font-size: 1em;
+        color: white; }
       .vish12 .title .cab h2 {
         margin: 0.4em;
         font-size: 0.8em;
@@ -866,8 +859,7 @@
         color: var(--themeColor3); }
       .urban .title .cab .breadcrumb a {
         margin: 0.4em;
-        font-family: var(--themePrimaryFont, "Ubuntu");
-        color: var(--themeColor2); }
+        font-family: var(--themePrimaryFont, "Ubuntu"); }
       .urban .title .cab .infoIcon {
         cursor: help;
         font-size: 0.9em;
@@ -975,6 +967,8 @@
         margin: 0.4em;
         font-family: var(--themePrimaryFont, "Ubuntu");
         color: var(--themeColor2); }
+      .paint .title .cab .breadcrumb > li + li:before {
+        color: #433c3c; }
       .paint .title .cab .infoIcon {
         cursor: help;
         font-size: 0.9em;
@@ -1013,14 +1007,16 @@
         color: var(--themeColor1); }
       .purple .title .cab h1 {
         margin: 0.1em;
-        font-size: 1em; }
+        font-size: 1em;
+        color: white; }
       .purple .title .cab h2 {
         margin: 0.4em;
         font-size: 0.8em;
         color: var(--themeColor1); }
       .purple .title .cab h3 {
         margin: 0.4em;
-        font-size: 0.7em; }
+        font-size: 0.7em;
+        color: white; }
       .purple .title .cab h4 {
         margin: 0.4em;
         font-size: 0.6em; }
@@ -1028,6 +1024,8 @@
         margin: 0.4em;
         font-family: var(--themePrimaryFont, "Ubuntu");
         color: var(--themeColor3); }
+      .purple .title .cab .breadcrumb > li + li:before {
+        color: white; }
       .purple .title .cab .infoIcon {
         cursor: help;
         font-size: 0.9em;
@@ -1079,6 +1077,8 @@
         margin: 0.4em;
         font-size: 0.6em;
         color: var(--themeColor3); }
+      .natural .title .cab .breadcrumb > li + li:before {
+        color: var(--themeColor1); }
       .natural .title .cab .breadcrumb a {
         margin: 0.4em;
         font-family: var(--themePrimaryFont, "Ubuntu");
@@ -1245,8 +1245,7 @@
         color: var(--themeColor3); }
       .code .title .cab .breadcrumb a {
         margin: 0.4em;
-        font-family: var(--themePrimaryFont, "Ubuntu");
-        color: var(--themeColor2); }
+        font-family: var(--themePrimaryFont, "Ubuntu"); }
       .code .title .cab .infoIcon {
         cursor: help;
         font-size: 0.9em;
@@ -1452,7 +1451,8 @@
         color: var(--themeColor1); }
       .basic .title .cab h1 {
         margin: 0.1em;
-        font-size: 1em; }
+        font-size: 1em;
+        color: white; }
       .basic .title .cab h2 {
         margin: 0.4em;
         font-size: 0.8em;
@@ -1460,13 +1460,10 @@
       .basic .title .cab h3 {
         margin: 0.4em;
         font-size: 0.7em;
-        color: var(--themeColor1); }
+        color: var(--themeColor13); }
       .basic .title .cab h4 {
         margin: 0.4em;
         font-size: 0.6em;
-        color: var(--themeColor1); }
-      .basic .title .cab .breadcrumb a {
-        margin: 0.4em;
         color: var(--themeColor1); }
       .basic .title .cab .infoIcon {
         cursor: help;

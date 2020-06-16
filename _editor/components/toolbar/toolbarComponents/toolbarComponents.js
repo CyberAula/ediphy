@@ -129,7 +129,7 @@ export const Size = (button, onChange, props, accordionKeys, buttonKey, toolbar_
                     onChange={autoSizeChange}/>
                 {/* Disable px size in slides*/}
                 {isSlide(toolbar_props.navItemsById[toolbar_props.navItemSelected].type) ?
-                    (<span/>) :
+                    (<label>{i18n.t("Auto")}</label>) :
                     (<div><br/>
                         <ControlLabel>{i18n.t("Units")}</ControlLabel>
                         <FormControl componentClass='select'
