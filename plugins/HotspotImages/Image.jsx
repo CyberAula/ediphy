@@ -2,23 +2,25 @@ import React from 'react';
 import interact from 'interactjs';
 import ReactDOM from 'react-dom';
 import { BasicImage, ImagePlugin } from "./Styles";
+import img_placeholder from './../../dist/images/placeholder.svg';
 
 /* eslint-disable react/prop-types */
 
 export default class Image extends React.Component {
     state = { error: false };
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
-        if(nextProps.state.url !== this.props.state.url) {
-            this.setState({ error: false });
-        }
-    }
-
     onWheel = e => {
         const delta = Math.sign(e.deltaY);
         const scale = this.props.state.scale || 1;
         this.props.update('scale', Math.round(10 * Math.min(20, Math.max(0, scale - delta / 10))) / 10);
 
+    };
+
+    // eslint-disable-next-line no-unused-vars
+    UNSAFE_componentWillUpdate(nextProps, nextState, nextContext) {
+        if(this.props.state.url !== nextProps.state.url) {
+            this.setState({ error: false });
+        }
     }
 
     render() {
@@ -27,29 +29,36 @@ export default class Image extends React.Component {
         let translateX = (state.translate ? state.translate.x : 0) || 0;
         let translateY = (state.translate ? state.translate.y : 0) || 0;
         let transform = `translate(${translateX + "%"},${translateY + "%" }) scale(${scale})`;
-        let url = Array.isArray(state.url) ? state.url[0] : state.url ?? 'url(/images/placeholder.svg)';
+        let url = state.url === '' ? img_placeholder : Array.isArray(state.url) ? state.url[0] : state.url ?? img_placeholder;
+        let errorImage = Array.isArray(state.errorUrl) ? state.errorUrl[0] : state.errorUrl;
         let isCustom = url?.indexOf('templates/template') === -1;
-        let errorUrl = (url.replace(/ /g, '') === '' || url.indexOf('base64') !== -1) ? 'url(/images/placeholder.svg)' : 'url(/images/broken_link.png)';
         let customImage = isCustom ? {
-            '--photoUrl': this.state.error ? errorUrl : 'url(' + url + ')',
-            // content: 'var(--photoUrl, url(/images/broken_link.png))',
-            objectFit: this.state.error ? 'cover' : undefined } : null;
-            // { content: 'var(--' + url.replace(/\//g, '_') + ')' };
-        // let content = isCustom ? this.state.error ? errorUrl : 'url(' + url + ')' : 'nothing';
+            '--photoUrl': this.state.error ? 'url(' + errorImage + ')' : 'url(' + url + ')',
+            content: 'var(--photoUrl, url(/images/broken_link.png))',
+            objectFit: this.state.error ? 'cover' : undefined } :
+            { content: 'var(--' + url.replace(/\//g, '_') + ')' };
 
-        let sourceProperty = this.state.error ? errorUrl : isCustom ? url : url.replace(/\//g, '_');
+        let sourceProperty = isCustom ? url : url.replace(/\//g, '_');
         let styles = getComputedStyle(document.documentElement);
-        let source = isCustom ? 'url(' + url + ')' : styles.getPropertyValue('--' + sourceProperty) || 'url(/images/placeholder.svg)';
+        let source = styles.getPropertyValue('--' + sourceProperty);
+        source = source.replace('url(', '');
+        source = source.replace(')', '');
+        source = isCustom ? url : source;
 
-        // source = source.replace('url(', '');
-        // source = source.replace(')', '');
-        // source = isCustom ? url : source;
         return <ImagePlugin ref="draggableImage" onWheel={this.onWheel}>
             <BasicImage ref ="img" id={props.id + "-image"}
                 className="basicImageClass"
-                content={source}
-                // src={source}
                 style={{ ...customImage, width: state.allowDeformed ? "100%" : "100%", height: state.allowDeformed ? "" : "auto", transform, WebkitTransform: transform, MozTransform: transform }}
+                src={source}
+                onLoad={(e) => {
+                    e.target.onError = null;
+                    e.target.src = source;
+                }}
+                onError={(e) => {
+                    e.target.onError = null;
+                    this.setState({ error: true });
+
+                }}
             />
             <div className="dropableRichZone" style={{ height: "100%", width: "100%", position: 'absolute', top: 0, left: 0 }} >
                 {markElements}
