@@ -51,7 +51,7 @@ export const PluginColor = (button, onChange, props, toolbarProps, id) => {
     let theme = toolbarProps.viewToolbarsById[id] && toolbarProps.viewToolbarsById[id].theme ? toolbarProps.viewToolbarsById[id].theme : 'default';
     return (
         <FormGroup key={button.__name} style={{ display: button.hide ? 'none' : 'block' }}>
-            <ControlLabel key={'label_' + button.__name}> Color </ControlLabel>
+            <ControlLabel key={'label_' + button.__name}> {button.__name || ''} </ControlLabel>
             <ColorPicker
                 key={"cpicker_" + props.label}
                 value={(props.value && props.value.color && props.value.custom) ? props.value.color : getCurrentColor(theme)}
@@ -278,4 +278,3 @@ export const DefaultComponent = (button, props, onChange = undefined) => {
 };
 
 /* eslint-enable react/prop-types */
-
