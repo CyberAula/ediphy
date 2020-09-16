@@ -41,6 +41,7 @@ export default class VisorCanvasSli extends Component {
         let toolbar = viewToolbars[currentView];
 
         let theme = !toolbar || !toolbar.theme ? (styleConfig && styleConfig.theme ? styleConfig.theme : 'default') : toolbar.theme;
+        // let theme = toolbar && toolbar.theme ? toolbar.theme : styleConfig && styleConfig.theme ? styleConfig.theme : 'default';
         let colors = toolbar.colors ? toolbar.colors : getThemeColors(theme);
         let transition = getTransition(styleConfig, this.props.fromPDF, isCV, this.props.backwards);
         let isVisible = this.props.show || currentView === this.state.previousView;
@@ -151,7 +152,7 @@ export default class VisorCanvasSli extends Component {
                         styleConfig={this.props.styleConfig}
                         aspectRatio = {this.props.aspectRatio}
                         theme={ theme }
-                        toolbar = {{ ...toolbar, colors: colors }}
+                        toolbar = {{ ...toolbar, colors: toolbar && toolbar.colors ? toolbar.colors : {} }}
                         template = { itemSelected.background ? itemSelected.background : 0 }
                         fromPDF={this.props.fromPDF}
                         currentView={this.props.currentView}

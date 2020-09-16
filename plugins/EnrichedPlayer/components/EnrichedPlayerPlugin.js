@@ -136,6 +136,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
             let title = marks[id].title;
             let content = marks[id].content;
             let markType = marks[id].type;
+            let size = marks[id].size;
             let color = marks[id].color;
             let isPopUp = marks[id].connectMode === "popup";
             let noTrigger = false;
