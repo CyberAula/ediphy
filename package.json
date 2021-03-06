@@ -177,7 +177,7 @@
     "jszip-utils": "^0.0.2",
     "material-design-icons-font": "^2.2.3",
     "moodlexml-to-json": "^1.0.1-beta",
-    "pdfjs-dist": "2.0.305",
+    "pdfjs-dist": "2.0.943",
     "prismjs": "^1.11.0",
     "prop-types": "^15.6.0",
     "raw-loader": "0.5.1",
