@@ -136,6 +136,12 @@ export const VideoMark = styled.div`
       width: 1.9em;
       height: 1.9em;
       text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .material-icons {
+        transform: translate(calc(0px), -75%);
+      }
     }
     &:hover{
         transform: scale(1.2);
