@@ -42,7 +42,9 @@ export default class Mark extends Component {
                 style={{ color: color,
                     fontSize: size,
                     transform: this.props.pluginType === 'player' ? 'translate(calc(-50% + 5px), -100%)'
-                        : this.props.pluginType === 'map' ? 'translate(-50%, 0)' : null }}
+                        : this.props.pluginType === 'map' ? 'translate(-50%, 0)' :
+                            this.props.pluginType === 'img' ? 'translate(0 , 50%)' : null,
+                }}
                 className="material-icons">{text}</IconContainer>;
         case "image":
             let isHotspotImage = this.props.isImage === true;

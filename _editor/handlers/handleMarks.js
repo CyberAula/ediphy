@@ -34,7 +34,7 @@ export default (self) => ({
     },
 
     onRichMarkDeleted: (id) => {
-        let cvid = self.props.marksById[id].connection;
+        let cvid = self.props.marks[id].connection;
         // This checks if the deleted mark leaves an orphan contained view, and displays a message asking if the user would like to delete it as well
         if (isContainedView(cvid)) {
             let selfcv = self.props.containedViewsById[cvid];
