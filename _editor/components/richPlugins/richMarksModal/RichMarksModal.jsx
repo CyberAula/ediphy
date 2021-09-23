@@ -246,7 +246,7 @@ class RichMarksModal extends Component {
                                     </FormGroup>
                                     {this.state.markType === "icon" || this.state.markType === "image" ?
                                         <SizeSlider>
-                                            <ControlLabel>{i18n.t("size")}</ControlLabel>
+                                            <div style={{ display: "flex", justifyContent: "space-between" }}><ControlLabel>{i18n.t("size")}</ControlLabel><ControlLabel>{Math.round(this.state.size || 0)}%</ControlLabel></div>
                                             <FormControl type={'range'} min={10} max={100} step={1} value={this.state.size} onChange={()=>{this.setState({ size: event.target.value, changed: true });}} />
                                         </SizeSlider>
                                         : null
