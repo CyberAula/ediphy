@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+/* eslint-disable react/prop-types */
 export default function TracerHook(props) {
     const [canvasPosition, setCanvasPosition] = useState({ top: 0, left: 0 });
     const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
@@ -26,27 +26,26 @@ export default function TracerHook(props) {
         }
     };
 
-    const tracePath = points => {
-        const pathMaker = (trace, newPoint, index, points) => {
+    const tracePath = pts => {
+        return pts.reduce((trace, newPoint, index, pnts) => {
             if (index === 0) {
                 return `M${newPoint.x} ${newPoint.y}`;
-            } else if (index === points.length - 1) {
+            } else if (index === pnts.length - 1) {
                 return `${trace} L${newPoint.x} ${newPoint.y} Z`;
             }
             return `${trace} L${newPoint.x} ${newPoint.y}`;
 
-        };
-        return points.reduce(pathMaker, '');
+        }, '');
     };
 
-    const drawVertex = points => {
-        return points.map((point, i) => <circle key={i} cx={point.x} cy={point.y} r="2" fill="white" />);
+    const drawVertex = pts => {
+        return pts.map((point, i) => <circle key={i} cx={point.x} cy={point.y} r="2" fill="white" />);
     };
 
     const getPosition = (e) => {
-        const hoverPoint = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
-        setHoverPoint(hoverPoint);
-        setNextToVertex(isNextToVertex(hoverPoint));
+        const hoverPt = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
+        setHoverPoint(hoverPt);
+        setNextToVertex(isNextToVertex(hoverPt));
     };
 
     const finishDrawing = () => {
@@ -69,7 +68,7 @@ export default function TracerHook(props) {
     };
 
     const isNextToVertex = (point, tolerance = 2) => {
-        return points.find(p => Math.sqrt((p.x - point.x) ^ 2 + (p.y - point.y) ^ 2) < tolerance);
+        return points.find(p => Math.sqrt(Math.pow(p.x - point.x, 2) + Math.pow(p.y - point.y), 2) < tolerance);
     };
 
     const handleKeyDown = e => {

@@ -2,14 +2,14 @@ import React from 'react';
 import MyFilesComponent from './providers/Files/MyFilesComponent';
 import UploadComponent from './providers/Files/UploadComponent';
 import SearchVishComponent from './providers/Vish/SearchVishComponent';
-import SoundCloudComponent from './providers/SoundCloud/SoundCloudComponent';
-import DropboxComponent from './providers/Dropbox/DropboxComponent';
+// import SoundCloudComponent from './providers/SoundCloud/SoundCloudComponent';
+// import DropboxComponent from './providers/Dropbox/DropboxComponent';
 import YoutubeComponent from './providers/Youtube/YoutubeComponent';
 import EuropeanaComponent from './providers/Europeana/EuropeanaComponent';
 import FlickrComponent from './providers/Flickr/FlickrComponent';
-import PolyComponent from './providers/Poly/PolyComponent';
+// import PolyComponent from './providers/Poly/PolyComponent';
 import LogoComponent from './providers/LogoComponent';
-import SvgClipartComponent from "./providers/SVGClipart/SvgClipartComponent";
+// import SvgClipartComponent from "./providers/SVGClipart/SvgClipartComponent";
 // import GoogleDriveComponent from './providers/GoogleDriveComponent';
 // import AudioBlocksComponent from './AudioBlocksComponent';
 // import PhetComponent from './PhetComponent';
@@ -17,15 +17,15 @@ import SvgClipartComponent from "./providers/SVGClipart/SvgClipartComponent";
 // import GiphyComponent from './providers/GiphyComponent';
 import PixabayComponent from './providers/Pixabay/PixabayComponent';
 
-import SVGClipartIcon from './logos/SvgClipart.png';
+// import SVGClipartIcon from './logos/SvgClipart.png';
 import VISHIcon from './logos/vish.svg';
 import FlickrIcon from './logos/flickrsvg.svg';
 import EuropeanaIcon from './logos/europeanaalt.svg';
 import YoutubeIcon from './logos/youtube.svg';
-import SoundCloudIcon from './logos/soundcloud_logo_0.png';
-import DropboxIcon from './logos/Dropboxlogo.png';
+// import SoundCloudIcon from './logos/soundcloud_logo_0.png';
+// import DropboxIcon from './logos/Dropboxlogo.png';
 // import AudioBlocksIcon from './logos/storyblocks-ab-alt.svg';
-import PolyIcon from './logos/PolyLogo.png';
+// import PolyIcon from './logos/PolyLogo.png';
 // import OpenClipArtIcon from './logos/openclipart.svg';
 // import GiphyIcon from './logos/giphy.png';
 import LogoIcon from './logos/avatar-gallery.png';
@@ -96,7 +96,7 @@ export default function menus(self) {
             props: { ...commonProps, elementSelectedType: self.state.type,
             },
         },
-        {
+        /* {
             name: 'Dropbox',
             icon: DropboxIcon,
             show: !(avatar) ? ((allowedMIME) ? allowedMIME : false) : false,
@@ -110,7 +110,7 @@ export default function menus(self) {
                 filesUploaded: self.props.filesUploaded,
                 uploadFunction: self.props.handleExportImport.uploadFunction,
             },
-        },
+        },*/
         /* {
          name: 'Google',
          icon: SoundCloudIcon,
@@ -140,8 +140,7 @@ export default function menus(self) {
             component: EuropeanaComponent,
             props: { ...commonProps,
             },
-        },
-        /* {
+        }, /* {
             name: 'Phet',
             icon: YoutubeIcon,
             show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('video')),
@@ -155,33 +154,33 @@ export default function menus(self) {
             component: GiphyComponent,
             props: { ...commonProps },
         },*/
-        {
+        /* {
             name: 'SoundCloud',
             icon: SoundCloudIcon,
             show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('audio')),
             component: SoundCloudComponent,
             props: { ...commonProps },
-        },
-        // {
-        //     name: 'AudioBlocks',
-        //     icon: AudioBlocksIcon,
-        //     show: (allowedMIME === "*" || allowedMIME.match('audio')),
-        //     component: AudioBlocksComponent
-        // },
-        {
+        },*/
+        /* {
+            name: 'AudioBlocks',
+            icon: AudioBlocksIcon,
+            show: (allowedMIME === "*" || allowedMIME.match('audio')),
+            component: AudioBlocksComponent
+        },*/
+        /* {
             name: 'SVGClipart',
             icon: SVGClipartIcon,
             show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
             component: SvgClipartComponent,
             props: { ...commonProps },
-        },
-        // {
-        //     name: 'OpenClipart',
-        //     icon: OpenClipArtIcon,
-        //     show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
-        //     component: OpenClipArtComponent,
-        //     props: { ...commonProps },
-        // },
+        },*/
+        /* {
+            name: 'OpenClipart',
+            icon: OpenClipArtIcon,
+            show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('image')),
+            component: OpenClipArtComponent,
+            props: { ...commonProps },
+        }*/
         /* {
           name: 'Thingiverse',
           icon: ThingiverseIcon,
@@ -189,13 +188,13 @@ export default function menus(self) {
           component: ThingiverseComponent,
           props: { ...commonProps },
       }*/
-        {
+        /* {
             name: 'Google Poly',
             icon: PolyIcon,
             show: !(avatar) && (allowedMIME === "*" || allowedMIME.match('webapp')),
             component: PolyComponent,
             props: { ...commonProps },
-        },
+        },*/
         {
             name: 'Avatar',
             icon: LogoIcon,
