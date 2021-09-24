@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Ediphy from '../../../../core/editor/main';
 
 import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
@@ -36,7 +37,7 @@ export default class ThemePicker extends React.Component {
                                 alt={key}
                                 className={"item" + selected + toolbar }
                                 onClick={()=>this.handleChange(index)}
-                                src = {`themes/${key}/thumbnail.jpg`}
+                                src = {`${Ediphy.Config.themes_url}/${key}/thumbnail.jpg`}
                                 style={{
                                     border: '1px solid #cecece',
                                     height: this.props.fromStyleConfig ? '10em' : '5em' }} />
