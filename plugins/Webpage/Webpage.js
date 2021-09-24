@@ -103,13 +103,21 @@ export function Webpage() {
             };
         },
         getRenderTemplate: function(state) {
-            if (state.url && state.url.match("poly.google.com")) {
-                return(
-                    <WebPlugin width="100%" height="100%" src={state.url} frameBorder="0"
-                        allowvr="yes" allow="vr; xr; accelerometer; magnetometer; gyroscope; autoplay;" allowFullScreen
-                        mozallowfullscreen="true" webkitallowfullscreen="true" onMouseWheel="" scrolling={"no"}/>);
+            let url = state.url;
+            if (url) {
+                if (url.match("poly.google.com")) {
+                    return(
+                        <WebPlugin width="100%" height="100%" src={url} frameBorder="0"
+                            allowvr="yes" allow="vr; xr; accelerometer; magnetometer; gyroscope; autoplay;" allowFullScreen
+                            mozallowfullscreen="true" webkitallowfullscreen="true" onMouseWheel="" scrolling={"no"}/>);
+                }
+                const params = new URLSearchParams(window.location.search);
+                if (params.has('ESCAPP_USER') && params.has('ESCAPP_TOKEN')) {
+                    url = url.replace("%%ESCAPP_USER%%", params.get('ESCAPP_USER'));
+                    url = url.replace("%%ESCAPP_TOKEN%%", params.get('ESCAPP_TOKEN'));
+                }
             }
-            return <WebPlugin scrolling={state.fixedPosition ? 'no' : 'yes'} src={state.url}/>;
+            return <WebPlugin scrolling={state.fixedPosition ? 'no' : 'yes'} src={url}/>;
 
         },
 

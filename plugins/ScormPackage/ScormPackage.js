@@ -92,7 +92,13 @@ export function ScormPackage() {
             };
         },
         getRenderTemplate: function(state) {
-            return (<iframe style={{ width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none', border: 'none' }} src={state.url}/>);
+            const params = new URLSearchParams(window.location.search);
+            let url = state.url;
+            if (url && params.has('ESCAPP_USER') && params.has('ESCAPP_TOKEN')) {
+                url = url.replace("%%ESCAPP_USER%%", params.get('ESCAPP_USER'));
+                url = url.replace("%%ESCAPP_TOKEN%%", params.get('ESCAPP_TOKEN'));
+            }
+            return (<iframe style={{ width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none', border: 'none' }} src={url}/>);
         },
     };
 }
