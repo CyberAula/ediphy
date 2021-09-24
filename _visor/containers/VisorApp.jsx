@@ -75,6 +75,17 @@ export default class Visor extends Component {
                 }
             };
         }
+        fetch(Ediphy.Config.theme_css_url) // Webpack output CSS
+            .then(res => {
+                if(!res.ok) {
+                    throw new Error('Error');
+                }
+                return res.text();
+            })
+            .then(data => {
+                window.theme_css = data;
+            })
+            .catch(()=> '');
     }
 
     setHoverClass = () => {

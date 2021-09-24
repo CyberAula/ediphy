@@ -48,7 +48,8 @@ class ErrorBoundary extends React.Component {
             // eslint-disable-next-line no-console
                 .catch(err => console.error('Error:', err));
         } else {
-            console.error('Error:', err);
+            console.error('Error. No crash url');
+            console.error(parsedError);
         }
     }
 

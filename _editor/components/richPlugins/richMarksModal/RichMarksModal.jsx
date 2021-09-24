@@ -26,7 +26,7 @@ import ColorPicker from "../../common/colorPicker/ColorPicker";
 import IconPicker from "../../common/iconPicker/IconPicker";
 import { MarkPreview } from "./MarkPreview";
 import Ediphy from '../../../../core/editor/main';
-import flowerMark from "./../../../../dist/images/flower_mark.png";
+import treasureMark from "./../../../../dist/images/treasure.png";
 
 /**
  * Modal component to   edit marks' configuration
@@ -41,7 +41,7 @@ class RichMarksModal extends Component {
             newSelected: this.props.navItemsById[this.props.navItemSelected] ? this.props.navItemsById[this.props.navItemSelected].type : "",
             existingSelected: "",
             newType: PAGE_TYPES.SLIDE,
-            image: flowerMark,
+            image: treasureMark,
             svg: false,
             viewNames: this.returnAllViews(this.props),
             showAlert: false,
@@ -92,7 +92,7 @@ class RichMarksModal extends Component {
         }
         if(!this.props.richMarksVisible && nextProps.richMarksVisible) {
             if (!current) {
-                this.setState({ image: flowerMark });
+                this.setState({ image: treasureMark });
             }
         } else if (this.state.newImage && nextProps.fileModalResult && nextProps.fileModalResult.value) {
             this.setState({ image: nextProps.fileModalResult.value, newImage: false });
@@ -377,7 +377,7 @@ class RichMarksModal extends Component {
                             size = this.state.size;
                             content.imageDimensions = ({});
                             content.imageDimensions.width = previewSize.height < previewSize.width ? 100 * imageSize : (100 * imageSize / previewSize.aspectRatio * originalDimensions.aspectRatio);
-                            content.url = this.state.image || flowerMark;
+                            content.url = this.state.image || treasureMark;
                             break;
                         default:
                             break;

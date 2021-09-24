@@ -1,7 +1,7 @@
 import React from "react";
 import i18n from 'i18next';
 import FormGroup from "react-bootstrap/lib/FormGroup";
-import flowerMark from "./../../../../dist/images/flower_mark.png";
+import treasureMark from "./../../../../dist/images/treasure.png";
 
 export function MarkPreview(props) {
     return (
@@ -48,7 +48,7 @@ function getPreviewContent(props) {
         }
         let width = previewSize.height < previewSize.width ? 100 * imageSize : (100 * imageSize / previewSize.aspectRatio * originalDimensions.aspectRatio);
 
-        let source = props.state.image ? props.state.image : flowerMark;
+        let source = props.state.image ? props.state.image : treasureMark;
         previewContent = (<div style={{
             height: previewSize.height,
             width: previewSize.width,

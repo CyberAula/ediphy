@@ -76,20 +76,29 @@ export default class ThemeCSS extends React.Component {
 
     loadCSS = () => {
         // TODO check si carga
-        fetch(Ediphy.Config.theme_css_url) // Webpack output CSS
-            .then(res => {
-                if(!res.ok) {
-                    throw new Error('Error');
-                }
-                return res.text();
-            })
-            .then(data => {
-                let processedData = this.processCSS(data);
-                this.setState({ themesStartIndex: processedData.themesStartIndex, css: processedData.safeCSS }, () => {
-                    this.getThemeCSS(this.props.theme);
-                });
-            })
-            .catch(()=> '');
+        if (window.theme_css) {
+            let processedData = this.processCSS(window.theme_css);
+            this.setState({ themesStartIndex: processedData.themesStartIndex, css: processedData.safeCSS }, () => {
+                this.getThemeCSS(this.props.theme);
+            });
+        } else {
+            fetch(Ediphy.Config.theme_css_url) // Webpack output CSS
+                .then(res => {
+                    if(!res.ok) {
+                        throw new Error('Error');
+                    }
+                    return res.text();
+                })
+                .then(data => {
+                    window.theme_css = data;
+                    let processedData = this.processCSS(data);
+                    this.setState({ themesStartIndex: processedData.themesStartIndex, css: processedData.safeCSS }, () => {
+                        this.getThemeCSS(this.props.theme);
+                    });
+                })
+                .catch(()=> '');
+        }
+
     };
 
     processCSS = (css) => {
