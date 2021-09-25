@@ -678,3 +678,79 @@ li > .selectedNavItemVisor {
   }
 }
 
+.breadcrumb a{
+  margin: 0.4em;
+  color: var(--themeColor1);
+  font-size: 0.6em;
+  text-decoration: none;
+}
+
+.wholeboxvisor {
+  display: inline-block;
+  word-break: break-word;
+  border: 1px solid transparent;
+  vertical-align: top;
+  word-wrap: break-word;
+}
+
+.cab {
+  display: flex;
+  font-size: 2em;
+  padding: 1em;
+  h1{
+    margin: 0.1em;
+    font-size: 1em;
+  }
+  h2{
+    margin: 0.4em;
+    font-size: 0.8em;
+    color: var(--themeColor1, $blueprimary);
+  }
+  h3{
+    margin: 0.4em;
+    font-size: 0.7em;
+    color: $grisadams;
+  }
+  h4{
+    margin: 0.4em;
+    font-size: 0.6em;
+    color: $grismedio;
+  }
+}
+
+.caja {
+  border: 1px solid transparent;
+    box-sizing: border-box;
+}
+
+.cabtabla_numero {
+  display: block;
+  padding: 0.2em 0.3em;
+  line-height: 1em;
+  color: var(--themeColor1,#17CFC8);
+  font-family: Ubuntu, sans-serif;
+}
+
+
+.breadcrumb {
+  padding: 0;
+  li + li:before{
+    font-size: 0.5em;
+  }
+  a {
+    margin: 0.4em;
+    font-size: 0.6em;
+    color: var(--themeColor13, $grismedio);
+    text-decoration: none;
+    &:hover, &:active, &:focus{
+      text-decoration: none !important;
+      cursor: default;
+    }
+  }
+  li:last-child{
+    a{
+      color: var(--themeColor1);
+    }
+  }
+}
+

@@ -106,7 +106,7 @@ export const TRANSITIONS = [
 ];
 
 export function getTransition(styleConfig, fromPDF = false, isCV = false, backwards = false) {
-    let hasTransition = styleConfig.hasOwnProperty('transition');
+    let hasTransition = styleConfig && styleConfig.hasOwnProperty('transition');
     let transition = hasTransition && !fromPDF ? TRANSITIONS[styleConfig.transition].transition : TRANSITIONS[0].transition;
     transition = isCV ? TRANSITIONS[4].transition : transition;
     transition.out = isCV ? 'zoomIn' : transition.out;

@@ -15,8 +15,8 @@ import { AirLayer, Canvas, InnerCanvas } from "../editorCanvas/Styles";
 
 class EditorCanvasDoc extends Component {
     render() {
-        const { aspectRatio, boxSelected, containedViewsById, containedViewSelected, fromCV, lastActionDispatched, navItemsById, navItemSelected, onToolbarUpdated, pluginToolbarsById, styleConfig, title, viewToolbarsById, handleBoxes, handleMarks } = this.props;
-
+        const { globalConfig, aspectRatio, boxSelected, containedViewsById, containedViewSelected, fromCV, lastActionDispatched, navItemsById, navItemSelected, onToolbarUpdated, pluginToolbarsById, styleConfig, viewToolbarsById, handleBoxes, handleMarks } = this.props;
+        const { title } = globalConfig;
         const { onTextEditorToggled, onTitleChanged, onViewTitleChanged } = this.props.handleCanvas;
         const { openConfigModal, openFileModal } = this.props.handleModals;
 
@@ -179,4 +179,8 @@ EditorCanvasDoc.propTypes = {
      * Collection of callbacks for modals handling
      */
     handleModals: PropTypes.object.isRequired,
+    /**
+     * Config
+     */
+    globalConfig: PropTypes.object,
 };

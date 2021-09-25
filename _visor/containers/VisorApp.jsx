@@ -254,7 +254,7 @@ export default class Visor extends Component {
             ediphy_document_id,
             ediphy_platform,
             exercises,
-            styleConfig,
+            styleConfig: styleConfig || {},
         };
 
         let navItemComponents = Object.keys(navItemsById).filter(nav=>isPage(nav)).map((nav, i)=>{

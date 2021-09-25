@@ -3,7 +3,7 @@ import interact from 'interactjs';
 import ReactDOM from 'react-dom';
 import { BasicImage, ImagePlugin } from "./Styles";
 import img_placeholder from './../../dist/images/placeholder.svg';
-
+import Ediphy from '../../core/editor/main';
 /* eslint-disable react/prop-types */
 
 export default class Image extends React.Component {
@@ -30,11 +30,11 @@ export default class Image extends React.Component {
         let translateY = (state.translate ? state.translate.y : 0) || 0;
         let transform = `translate(${translateX + "%"},${translateY + "%" }) scale(${scale})`;
         let url = state.url === '' ? img_placeholder : Array.isArray(state.url) ? state.url[0] : state.url ?? img_placeholder;
-        let errorImage = Array.isArray(state.errorUrl) ? state.errorUrl[0] : state.errorUrl;
+        let errorImage = Ediphy.Config.broken_link;
         let isCustom = url?.indexOf('templates/template') === -1;
         let customImage = isCustom ? {
             '--photoUrl': this.state.error ? 'url(' + errorImage + ')' : 'url(' + url + ')',
-            content: 'var(--photoUrl, url(/images/broken_link.png))',
+            content: `var(--photoUrl, url(${errorImage}))`,
             objectFit: this.state.error ? 'cover' : undefined } :
             { content: 'var(--' + url.replace(/\//g, '_') + ')' };
 

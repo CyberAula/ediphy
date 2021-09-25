@@ -1,6 +1,8 @@
 import React from 'react';
 import { BasicImage, ImagePluginVisor, Link } from "../Styles";
 import { checkHyperlink } from "../../../common/utils";
+import Ediphy from '../../../core/editor/main';
+
 /* eslint-disable react/prop-types */
 
 export default class Image extends React.Component {
@@ -13,11 +15,10 @@ export default class Image extends React.Component {
         let translateY = (state.translate ? state.translate.y : 0) || 0;
         let transform = `translate(${translateX}%,${translateY}%) scale(${scale})`;
         let isCustom = state.url.indexOf('templates/template') === -1;
-
-        let errorUrl = (state.url.replace(/ /g, '') === '') ? 'url(/images/placeholder.svg)' : 'url(/images/broken_link.png)';
+        let errorUrl = `url(${(state.url.replace(/ /g, '') === '') ? Ediphy.Config.image_placeholder : Ediphy.Config.broken_link})`;
         let customImage = isCustom ? {
             '--photoUrl': this.state.error ? errorUrl : 'url(' + state.url + ')',
-            content: 'var(--photoUrl, url(/images/broken_link.png))',
+            content: 'var(--photoUrl, url(' + Ediphy.Config.broken_link + '))',
             objectFit: this.state.error ? 'cover' : undefined } :
             { content: 'var(--' + state.url.replace(/\//g, '_') + ')' };
 

@@ -66,7 +66,7 @@ export const Cab = styled.div.attrs({ className: 'cab' })`
 `;
 
 export const CabTableNumber = styled.div.attrs({ className: 'cabtabla_numero' })`
-      display: ${ props => props.hide ? 'none' : 'block' };
+      display: ${ props => props.hide ? 'none' : 'block' } !important;
       padding: 0.2em 0.3em;
       line-height: 1em;
       color: var(--themeColor1, ${PRIMARY_BLUE});

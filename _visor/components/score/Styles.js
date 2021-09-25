@@ -10,6 +10,7 @@ export const GlobalScoreContainer = styled.div`
   position: fixed;
   top:50px;
   right: 40px;
+  z-index: 9999;
   &:hover {
     opacity: 0.2;
   }

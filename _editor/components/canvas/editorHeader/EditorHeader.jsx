@@ -93,10 +93,9 @@ class EditorHeader extends Component {
                             backgroundColor: 'transparent',
                             display: (!hide && titles.length !== 0) ? 'initial' : 'none',
                         }}>
-                            {/* <div className={this.props.showButtons ? "caja selectedTitle selectedBox" : "caja"} > */}
                             <TitleBox>
                                 <Cab>
-                                    <CabTableNumber hide={toolbar.numPage === 'hidden' || !pagenumber} children={pagenumber}/>
+                                    <CabTableNumber hide={(toolbar.numPage === 'hidden') || !pagenumber} children={pagenumber}/>
                                     <div className="tit_ud_cap">
                                         {/* Course title*/}
                                         {!this.state.editingTitle ?

@@ -11,7 +11,7 @@ import i18n from 'i18next';
 import { getThemeColors } from "../../../common/themes/themeLoader";
 import ThemeCSS from "../../../common/themes/ThemeCSS";
 import { Canvas } from "../../../_editor/components/canvas/editorCanvas/Styles";
-import { AirLayer, InnerCanvas } from "./Styles";
+import { AirLayer, CVBackButton, InnerCanvas } from "./Styles";
 
 export default class VisorCanvasDoc extends Component {
 
@@ -45,21 +45,23 @@ export default class VisorCanvasDoc extends Component {
         let styleConfig = this.props.styleConfig;
         let theme = !toolbar || !toolbar.theme ? (styleConfig && styleConfig.theme ? styleConfig.theme : 'default') : toolbar.theme;
         let colors = toolbar.colors ? toolbar.colors : getThemeColors(theme);
-
         return (
             <Canvas id={(isCV ? "containedCanvas_" : "canvas_") + this.props.currentView} md={12} xs={12} className={(isCV ? "containedCanvasClass " : "canvasClass ") + animationType + (this.props.show ? "" : " hidden")}
                 style={{ display: 'initial', padding: '0', width: '100%' }}>
                 <div className={"safeZone"} style={{ height: 'inherit' }}>
-                    <div className={"scrollcontainer " + theme} style={{ background: toolbar.customBackground ? toolbar.background : '#ffffff' }}>
+                    <div className={"scrollcontainer " + theme} style={{ background: toolbar.customBackground ? toolbar.background : 'var(--themeColor12)' }}>
                         {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
-                            <a href="#" className="btnOverBar cvBackButton" style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }}
+                            <CVBackButton href="#"
+                                className="btnOverBar cvBackButton"
+                                style={{ pointerEvents: this.props.viewsArray.length > 1 ? 'initial' : 'none', color: this.props.viewsArray.length > 1 ? 'black' : 'gray' }}
                                 onClick={a => {
                                     ReactDOM.findDOMNode(this).classList.add("exitCanvas");
                                     setTimeout(function() {
                                         this.props.removeLastView();
                                     }.bind(this), 500);
                                     a.stopPropagation();
-                                }}><i className="material-icons">close</i></a></OverlayTrigger>) : (<span />)}
+                                }}>
+                                <i className="material-icons">close</i></CVBackButton></OverlayTrigger>) : (<span />)}
                         <VisorHeader titles={titles}
                             courseTitle={this.props.title}
                             titleMode={itemSelected.titleMode}
@@ -71,10 +73,10 @@ export default class VisorCanvasDoc extends Component {
                         <div className="outter canvasvisor">
                             <AirLayer id={(isCV ? 'airlayer_cv_' : 'airlayer_') + this.props.currentView}
                                 className={(isCV ? 'airlayer_cv' : 'airlayer') + ' doc_air'}
-                                style={{ background: itemSelected.background, visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
+                                style={{ background: "transparent", visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
                                 <InnerCanvas id={isCV ? "contained_maincontent" : "maincontent"}
                                     className={'innercanvas doc'}
-                                    style={{ background: itemSelected.background, visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
+                                    style={{ background: "transparent", visibility: (this.props.showCanvas ? 'visible' : 'hidden') }}>
                                     <br/>
                                     {boxes.map(id => {
                                         let box = this.props.boxes[id];
@@ -114,6 +116,7 @@ export default class VisorCanvasDoc extends Component {
                         aspectRatio = {this.props.aspectRatio}
                         theme={ theme }
                         fromPDF={this.props.fromPDF}
+                        currentView={this.props.currentView}
                         toolbar = {{ ...toolbar, colors: colors }}
                     />) : null}
             </Canvas>
