@@ -41,8 +41,8 @@ export default class AudioCueComponent extends React.Component {
     render() {
         let { state } = this.props;
         this.managePlaying();
-        let cueColor = state.cueColor.color || 'rgba(0, 173, 156, 1)';
-        let customStyle = state.cueColor.custom ? generateCustomColors(cueColor, 1, true) : null;
+        let cueColor = state.cueColor?.color || 'rgba(0, 173, 156, 1)';
+        let customStyle = state.cueColor?.custom ? generateCustomColors(cueColor, 1, true) : null;
 
         let animationState = this.state.playing ? "running" : "paused";
         let times = Array(15).fill().map(() => Math.floor(Math.random() * 100) + 400);

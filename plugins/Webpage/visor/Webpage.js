@@ -13,8 +13,8 @@ export function Webpage() {
                 }
                 const params = new URLSearchParams(window.location.search);
                 if (params.has('ESCAPP_USER') && params.has('ESCAPP_TOKEN')) {
-                    url = url.replace("%%ESCAPP_USER%%", params.get('ESCAPP_USER'));
-                    url = url.replace("%%ESCAPP_TOKEN%%", params.get('ESCAPP_TOKEN'));
+                    url = url.replace("__ESCAPP_USER__", params.get('ESCAPP_USER'));
+                    url = url.replace("__ESCAPP_TOKEN__", params.get('ESCAPP_TOKEN'));
                 }
             }
             return (<WebPlugin visor onLoad={(e)=>{e.target.contentWindow.scrollTo(0, state.scrollY);}}

@@ -50,10 +50,6 @@ export default class Image extends React.Component {
                 className="basicImageClass"
                 style={{ ...customImage, width: state.allowDeformed ? "100%" : "100%", height: state.allowDeformed ? "" : "auto", transform, WebkitTransform: transform, MozTransform: transform }}
                 src={source}
-                onLoad={(e) => {
-                    e.target.onError = null;
-                    e.target.src = source;
-                }}
                 onError={(e) => {
                     e.target.onError = null;
                     this.setState({ error: true });

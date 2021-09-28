@@ -14,20 +14,21 @@ export default class Image extends React.Component {
         let translateX = (state.translate ? state.translate.x : 0) || 0;
         let translateY = (state.translate ? state.translate.y : 0) || 0;
         let transform = `translate(${translateX}%,${translateY}%) scale(${scale})`;
-        let isCustom = state.url.indexOf('templates/template') === -1;
-        let errorUrl = `url(${(state.url.replace(/ /g, '') === '') ? Ediphy.Config.image_placeholder : Ediphy.Config.broken_link})`;
+        let url = (!state.url || state.url === '') ? img_placeholder : Array.isArray(state.url) ? state.url[0] : state.url ?? img_placeholder;
+        let isCustom = url.indexOf('templates/template') === -1;
+        let errorUrl = `url(${(url.replace(/ /g, '') === '') ? Ediphy.Config.image_placeholder : Ediphy.Config.broken_link})`;
         let customImage = isCustom ? {
-            '--photoUrl': this.state.error ? errorUrl : 'url(' + state.url + ')',
+            '--photoUrl': this.state.error ? errorUrl : 'url(' + url + ')',
             content: 'var(--photoUrl, url(' + Ediphy.Config.broken_link + '))',
             objectFit: this.state.error ? 'cover' : undefined } :
-            { content: 'var(--' + state.url.replace(/\//g, '_') + ')' };
+            { content: 'var(--' + url.replace(/\//g, '_') + ')' };
 
         return(
             <ImagePluginVisor ref="draggableImageVisor">
                 <Link href={hyperlink} target="_blank" hyperlink={hyperlink}>
                     <BasicImage ref="img"
                         style={{ ...customImage, width: state.allowDeformed ? "100%" : "100%", height: state.allowDeformed ? "" : "auto", transform, WebkitTransform: transform, MozTransform: transform }}
-                        src={ state.error ? state.errorUrl : state.url}
+                        src={ state.error ? state.errorUrl : url}
                         onError={(e)=>{
                             e.target.onError = null;
                             if(!this.state.error) {

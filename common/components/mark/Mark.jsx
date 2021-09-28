@@ -37,7 +37,7 @@ export default class Mark extends Component {
         case "icon":
             let color = this.props.color || "black";
             let size = (this.props.size / 10) + 'em' || '1em';
-            let text = this.props.content.selectedIcon ? this.props.content.selectedIcon : "room";
+            let text = this.props.content?.selectedIcon ? this.props.content?.selectedIcon : "room";
             return <IconContainer key="i"
                 style={{ color: color,
                     fontSize: size,
