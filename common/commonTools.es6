@@ -206,7 +206,7 @@ export function instanceExists(name) {
 export function scrollElement(node, options) {
     let cfg = options || { duration: 300, centerIfNeeded: true, easing: 'easeInOut' };
     if (node) {
-        let isSafari = (/constructor/i).test(window.HTMLElement) || (function(p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification));
+        let isSafari = (/constructor/i).test(window.HTMLElement) || (function(p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window.safari || (typeof window.safari !== 'undefined' && window.safari.pushNotification));
 
         if (!isSafari) {
             scrollIntoViewIfNeeded(node, cfg);

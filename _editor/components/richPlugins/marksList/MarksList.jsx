@@ -26,8 +26,11 @@ export default class MarksList extends Component {
                         }
                         let name = mark.connection;
                         let color = mark.color || "#337ab7";
+                        const isTransparent = color?.toString().indexOf(", 0)") !== -1;
+                        color = isTransparent ? "#dddddd" : color;
                         let hasImage = mark.markType === "image";
                         let text = hasImage ? "image" : mark.content?.selectedIcon || "room";
+                        text = mark.markType === "area" ? "texture" : text;
                         let widthScroll = Math.max(mark.title.length / 11 * 100, 100);
                         try {
                             switch (mark.connectMode) {

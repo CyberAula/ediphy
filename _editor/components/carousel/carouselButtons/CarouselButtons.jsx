@@ -43,7 +43,10 @@ class CarouselButtons extends Component {
         if (isSection(indexSelected)) {
             return navItemsById[indexSelected];
         }
-        return navItemsById[navItemsById[indexSelected].parent] || navItemsById[0];
+        if (navItemsById[indexSelected] && navItemsById[indexSelected].parent && navItemsById[navItemsById[indexSelected].parent]) {
+            return navItemsById[navItemsById[indexSelected].parent];
+        }
+        return navItemsById[0];
     };
 
     /**

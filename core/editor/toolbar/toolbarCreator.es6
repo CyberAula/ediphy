@@ -187,7 +187,7 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
     }
     type = "number";
 
-    if (isSortableContainer(container) && isSortableBox(parent) && config.needsTextEdition) {
+    if (isSortableContainer(container) && isSortableBox(parent) && initialParams.needsTextEdition) {
         displayValue = 25;
         value = 25;
         units = '%';
@@ -241,7 +241,7 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
         type: type,
         displayValue: displayValue,
         value: value,
-        step: 5,
+        step: 1,
         units: units,
         min: 0,
         max: units === '%' ? 100 : 100000,
@@ -252,6 +252,7 @@ export function createSizeButtons(controls, state, initialParams, floatingBox, c
         __name: i18n.t('Rotate'),
         type: 'range',
         value: 0,
+        step: 1,
         min: 0,
         max: 360,
     };

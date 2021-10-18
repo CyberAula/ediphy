@@ -25,10 +25,10 @@ export default class Mark extends Component {
                 container={document.getElementById('app')}
                 overlay={this.props.isPopUp ? PopoverMark : ToolTipDefault }
                 trigger={triggerType} rootClose>
-
-                <div id={'mark-' + this.props.idKey} className="mapMarker" style={{ pointerEvents: 'all', height: "100%", width: "100%" }} href="#" onClick={(this.props.isVisor && !this.props.noTrigger) ? ()=>{this.props.onMarkClicked(this.props.boxID, this.props.markValue);} : null}>
-                    {this.returnMark(markType)}
-                </div>
+                { markType === "area" ? this.props.children :
+                    <div id={'mark-' + this.props.idKey} className="mapMarker" style={{ pointerEvents: 'all', height: "100%", width: "100%" }} href="#" onClick={(this.props.isVisor && !this.props.noTrigger) ? ()=>{this.props.onMarkClicked(this.props.boxID, this.props.markValue);} : null}>
+                        {this.returnMark(markType)}
+                    </div>}
             </OverlayTrigger>
         );
     }
@@ -79,6 +79,10 @@ Mark.propTypes = {
      * Mark information which varies with type
      */
     content: PropTypes.any,
+    /**
+     * Content of the Mark
+     */
+    children: PropTypes.any,
     /**
      *markType of the mark: image, icon or area
      */

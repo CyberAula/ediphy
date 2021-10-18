@@ -2,6 +2,7 @@ import React from 'react';
 import { BasicImage, ImagePluginVisor, Link } from "../Styles";
 import { checkHyperlink } from "../../../common/utils";
 import Ediphy from '../../../core/editor/main';
+import img_placeholder from './../../../dist/images/placeholder.svg';
 
 /* eslint-disable react/prop-types */
 

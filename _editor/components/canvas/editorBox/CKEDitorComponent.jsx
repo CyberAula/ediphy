@@ -38,7 +38,7 @@ export default class CKEDitorComponent extends Component {
           editor.focus();
 
           // SAFARI FIX: Problema con CKEditor y Safari al intentar crear un editor inline sobre un div con display: none. Solución propuesta en: https://dev.ckeditor.com/ticket/9814
-          let isSafari = (/constructor/i).test(window.HTMLElement) || (function(p) { return p.toString() === '[object SafariRemoteNotification]'; })(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification));
+          let isSafari = (/constructor/i).test(window.HTMLElement) || (function(p) { return p.toString() === '[object SafariRemoteNotification]'; })(!window.safari || (typeof window.safari !== 'undefined' && window.safari.pushNotification));
           if (isSafari) {
               editor.on('focus', () => {
                   editor.setReadOnly(false);

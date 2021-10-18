@@ -119,7 +119,6 @@ export default class VisorCanvasSli extends Component {
                                 containedViews={this.props.containedViews}
                                 showButton/>
                             <br/>
-
                             {boxes.map(id => {
                                 return <VisorBox key={id}
                                     id={id}

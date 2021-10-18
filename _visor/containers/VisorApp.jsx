@@ -359,9 +359,12 @@ export default class Visor extends Component {
      * @param options
      */
     export(format, callback, options = false) {
-        if(format === "PDF") {
-            printToPDF(Ediphy.State, callback, options);
+        /* if(format === "PDF") {
+            Ediphy.Visor.printToPDF(Ediphy.State, callback, options);
         } else {
+            Ediphy.Visor.exportsHTML(Ediphy.State, callback, options);
+        }*/
+        if(format !== "PDF") {
             Ediphy.Visor.exportsHTML(Ediphy.State, callback, options);
         }
     }
@@ -524,7 +527,7 @@ export default class Visor extends Component {
         let new_array = state;
         new_array.forEach(mark=>{
             if(mark.currentState === 'TRIGGERED') {
-                mark.currentState = 'DONE';
+                // mark.currentState = 'DONE';
             }
         });
         return new_array;
@@ -788,9 +791,11 @@ export default class Visor extends Component {
                 this.setState({ containedViewSelected: 0 });
             }
         }
+        const triggeredMarks = this.unTriggerLastMark(this.state.triggeredMarks);
+
         this.setState({
             currentView: newViews,
-            triggeredMarks: this.unTriggerLastMark(this.state.triggeredMarks),
+            triggeredMarks,
             richElementState: this.getActualBoxesStates(this.state.backupElementStates, this.state.richElementState),
         });
     }

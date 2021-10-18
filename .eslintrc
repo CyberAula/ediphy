@@ -11,6 +11,19 @@
       "jsx": true
     }
   },
+    "globals": {
+    "Ediphy": "writable",
+    "google": "readonly",
+    "jQuery": "readonly",
+    "ArrayBuffer": "readonly",
+    "Uint8Array": "readonly",
+    "Promise": "readonly",
+    "Set": "readonly",
+    "EJS": "readonly",
+    "ediphy_editor_params": "readonly",
+    "CKEDITOR": "readonly",
+    "$": "readonly"
+  },
   "parser": "babel-eslint",
   "plugins": [
     "babel",
@@ -19,7 +32,6 @@
   ],
   "extends": ["plugin:jest/recommended"],
   "rules": {
-
     /*Possible Errors */
     "comma-dangle": [1, "always-multiline"],
     "no-cond-assign": [1, "except-parens"],
@@ -114,7 +126,7 @@
     "no-shadow-restricted-names": 1,
     "no-shadow": 1,
     "no-undef-init": 1,
-//    "no-undef": 1,
+    "no-undef": 1,
 //    "no-undefined": 1,
     "no-unused-vars": [1, { "vars": "all", "args": "after-used" }],
 //    "no-use-before-define": 1,

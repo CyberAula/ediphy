@@ -79,7 +79,7 @@ export default (self) => ({
             });
         });
         let marksRemoving = getDescendantLinkedBoxes(viewRemoving, self.props.navItemsById) || [];
-        dispatch(deleteNavItem(
+        self.props.dispatch(deleteNavItem(
             viewRemoving,
             self.props.navItemsById[navsel].parent,
             boxesRemoving,

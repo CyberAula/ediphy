@@ -5,7 +5,7 @@ import {
     CHANGE_BOX_LAYER, CHANGE_BACKGROUND, DROP_BOX, DUPLICATE_NAV_ITEM, IMPORT_EDI,
 } from '../../common/actions';
 
-import { changeProp, deleteProps, isContainedView } from '../../common/utils';
+import { changeProp, deleteProps, isContainedView, changeProps } from '../../common/utils';
 import { singleContainedViewReducer } from './singleContainedViewReducer';
 
 export default function(state = {}, action = {}) {

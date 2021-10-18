@@ -80,6 +80,7 @@ class RichMarksModal extends Component {
             displayMode: current?.displayMode ?? "navigate",
             secretArea: current?.secretArea ?? false,
             changeCursor: current?.changeCursor ?? true,
+            markType: current?.markType ?? "icon",
             newSelected: (current?.connectMode === "new" ? current.connection : ""),
             newType: nextProps?.navItemsById[nextProps?.navItemSelected].type ?? "",
             existingSelected: (current?.connectMode === "existing" && this.remapInObject(nextProps.navItemsById, nextProps.containedViewsById)[current?.connection] ?
@@ -247,7 +248,7 @@ class RichMarksModal extends Component {
                                     {this.state.markType === "icon" || this.state.markType === "image" ?
                                         <SizeSlider>
                                             <div style={{ display: "flex", justifyContent: "space-between" }}><ControlLabel>{i18n.t("size")}</ControlLabel><ControlLabel>{Math.round(this.state.size || 0)}%</ControlLabel></div>
-                                            <FormControl type={'range'} min={10} max={100} step={1} value={this.state.size} onChange={()=>{this.setState({ size: event.target.value, changed: true });}} />
+                                            <FormControl type={'range'} min={1} max={100} step={1} value={this.state.size} onChange={()=>{this.setState({ size: event.target.value, changed: true });}} />
                                         </SizeSlider>
                                         : null
                                     }

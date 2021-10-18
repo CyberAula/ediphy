@@ -69,12 +69,12 @@ class NavDropdown extends Component
                 cancelButton
                 acceptButtonText={i18n.t("messages.OK")}
                 onClose={(bool)=>{
-                    if (bool && ediphy_editor_params) {
+                    if (bool && window.ediphy_editor_params) {
                         let form = new FormData();
-                        form.append("authenticity_token", ediphy_editor_params.authenticity_token);
+                        form.append("authenticity_token", window.ediphy_editor_params.authenticity_token);
                         form.append("_method", 'delete');
 
-                        fetch(ediphy_editor_params.export_url, {
+                        fetch(window.ediphy_editor_params.export_url, {
                             credentials: 'same-origin',
                             method: 'POST',
                             body: form,

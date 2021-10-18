@@ -43,7 +43,7 @@ export default (self) => ({
                 return;
             }
         }
-        self.props.dispatch(deleteRichMark(marks[id]));
+        self.props.dispatch(deleteRichMark(self.props.marks[id]));
     },
 
     onRichMarkEditPressed: (mark) => self.props.dispatch(updateUI({ currentRichMark: mark })),

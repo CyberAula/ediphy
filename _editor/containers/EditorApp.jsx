@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Cookies from "universal-cookie";
 import { Grid, Col, Row } from 'react-bootstrap';
-
 import ActionsRibbon from '../components/navBar/actionsRibbon/ActionsRibbon';
 import AlertModal from "../components/modals/AlertModal";
 import AutoSave from '../components/autosave/AutoSave';
@@ -159,8 +158,8 @@ class EditorApp extends Component {
         const inProduction = process.env.NODE_ENV === 'production';
         const isDoc = process.env.DOC === 'doc';
 
-        if (inProduction && !isDoc && ediphy_editor_json && ediphy_editor_json !== 'undefined') {
-            this.handleExportImport.importState(ediphy_editor_json);
+        if (inProduction && !isDoc && window.ediphy_editor_json && window.ediphy_editor_json !== 'undefined') {
+            this.handleExportImport.importState(window.ediphy_editor_json);
         }
 
         if (inProduction && isDoc) {

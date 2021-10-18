@@ -46,7 +46,7 @@ export function navView(state) {
  */
 export function boxes(state) {
     let boxesDefault = {
-        level: level,
+        level: state.level,
         col: 0,
         row: 0,
         position: {

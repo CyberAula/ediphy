@@ -51,7 +51,7 @@ class AlertModal extends React.Component {
                 let boxesRemoving = [];
                 this.props.containedViewsById[cvId].boxes.map(boxId => {
                     boxesRemoving.push(boxId);
-                    boxesRemoving = boxesByIdRemoving.concat(getDescendantBoxes(boxes[boxId], boxesById));
+                    boxesRemoving.push(getDescendantBoxes(boxesById[boxId], boxesById));
                 });
 
                 this.props.dispatch(deleteContainedView([cvId], boxesRemoving, containedViewsById[cvId]));

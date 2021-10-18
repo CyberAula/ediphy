@@ -53,7 +53,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
     let hideDocs = false;
     let hideSlides = false;
     let treatAsImportedDoc = false;
-    let isSafari = (/constructor/i).test(window.HTMLElement) || (function(p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification));
+    let isSafari = (/constructor/i).test(window.HTMLElement) || (function(p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window.safari || (typeof window.safari !== 'undefined' && window.safari.pushNotification));
     let isFirefox = typeof InstallTrigger !== 'undefined';
     let isLandscape = false;
     const SAFARI_HEIGHT = 1300;
@@ -634,7 +634,6 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
                                 let doc = document.getElementById('pageContainer_' + l);
                                 doc.id = 'pageContainer_' + counter;
                                 if (!doc.className.includes('not_show')) {
-                                    slideToFill = l;
                                     if (counter % 4 === 0) {
                                         index++;
                                         let bigContainer = document.createElement('div');

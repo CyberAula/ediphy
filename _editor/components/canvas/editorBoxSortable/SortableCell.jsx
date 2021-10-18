@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import interact from "interactjs";
 import { connect } from "react-redux";
-
+import i18n from 'i18next';
 import Ediphy from "../../../../core/editor/main";
 import { ID_PREFIX_BOX, ID_PREFIX_SORTABLE_CONTAINER } from "../../../../common/constants";
 import {
