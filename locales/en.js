@@ -328,7 +328,7 @@ let en = {
             "new_document": "Page",
             "new_slide": "Slide",
             "new_mark": "Nueva marca",
-            "popup": "Show PopUp",
+            "popup": "Show text pop-up",
             "popup_label": "Mark text",
             "popup_placeholder": "Write the text you want to show when you click on mark",
             "preview": "Preview",

@@ -13,7 +13,7 @@ class MarkCreator extends React.Component {
     state = {
         onCreation: false,
         triggeredMarkCreator: false,
-        value: 0,
+        value: "0,0",
         promptRes: "",
         modalToggled: false,
     };
@@ -55,7 +55,7 @@ class MarkCreator extends React.Component {
 
                 let cursor_x_offset = 12;
                 let cursor_y_offset = 20;
-                let cursorStyle = 'url("/images/mark.svg") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
+                let cursorStyle = 'url("' + Ediphy.Config.default_mark + '") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
                 let thisBox = findBox(this.props.markCreatorVisible);
                 if (thisBox) {
                     thisBox.style.cursor = cursorStyle;

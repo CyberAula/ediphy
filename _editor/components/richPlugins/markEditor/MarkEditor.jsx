@@ -88,6 +88,7 @@ export default class MarkEditor extends Component {
                 holding={this.state.holding}
                 draggable="true"
                 className={classList}
+                isImage={this.props.marks[this.props.mark]?.markType === "image"}
                 style={this.props.style}
                 onMouseDown={this.start}
                 onTouchStart={this.start}

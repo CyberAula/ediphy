@@ -190,7 +190,7 @@ class RichMarksModal extends Component {
                                     <FormControl
                                         key={this.props.markCursorValue + this.state.markType}
                                         ref="value"
-                                        defaultValue={this.getMarkValue()}
+                                        defaultValue={this.getMarkValue(marksType)}
                                     />
                                     {this.state.markType === 'area' ?
                                         [<br key={"br_2"}/>,
@@ -288,7 +288,7 @@ class RichMarksModal extends Component {
                                                     }}>{i18n.t("marks.popup")}</Radio>
                                             </LinkToContainer>
                                         </div>
-                                        <div style={{ display: this.state.connectMode === "new" ? "none" : "initial" }}>
+                                        <div style={{ display: (this.state.connectMode === "new" || this.state.connectMode === "popup") ? "none" : "initial" }}>
                                             {i18n.t("marks.hover_message")} <strong>{newSelected}</strong>
                                         </div>
                                     </FormGroup>
@@ -643,7 +643,7 @@ class RichMarksModal extends Component {
         }));
     };
 
-    getMarkValue = () => {
+    getMarkValue = (initialMarkType) => {
         let { markCursorValue, currentRichMark } = this.props;
         let { markType } = this.state;
         switch (markType) {
@@ -652,7 +652,7 @@ class RichMarksModal extends Component {
         default:
             let isSVG = (markCursorValue?.hasOwnProperty('svg') ?? false) || (currentRichMark?.content?.hasOwnProperty('svg') ?? false);
             // If coming from area then place it in the middle
-            return isSVG ? '50.0,50.0' : markCursorValue ?? currentRichMark?.value ?? 0;
+            return isSVG ? '50.0,50.0' : markCursorValue ?? currentRichMark?.value ?? initialMarkType?.default ?? 0;
         }
     };
 }

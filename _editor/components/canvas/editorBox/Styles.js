@@ -53,7 +53,7 @@ export const CKText = styled(CKEDitorComponent).attrs({ classes: 'textAreaStyle'
     line-height: normal;
     z-index: 999;
     position: relative;
-    float: left;
+    float: left;ﬁ
     resize: none;
     top: 0;
     color: black;
@@ -77,6 +77,12 @@ export const Box = styled.div.attrs({ className: '' })`
     pre, pre * {
       word-break: break-all !important;
       white-space: pre-wrap;
+    }
+    .overlay {
+        ${props => `
+            cursor: url("${Ediphy.Config.default_mark}") 12 20, crosshair !important;
+        `}
+        
     }
 `;
 

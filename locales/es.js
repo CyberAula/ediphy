@@ -328,7 +328,7 @@ let es = {
             "new_document": "Página",
             "new_slide": "Diapositiva",
             "new_mark": "Nueva marca",
-            "popup": "Mostrar PopUp",
+            "popup": "Mostrar pop-up de texto",
             "popup_label": "Texto de la marca",
             "popup_placeholder": "Escribe el texto que quieres que aparezca al hacer click en la marca",
             "preview": "Previsualización",
