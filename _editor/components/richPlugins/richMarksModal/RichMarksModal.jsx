@@ -80,7 +80,7 @@ class RichMarksModal extends Component {
             displayMode: current?.displayMode ?? "navigate",
             secretArea: current?.secretArea ?? false,
             changeCursor: current?.changeCursor ?? true,
-            markType: current?.markType ?? "icon",
+            markType: current?.markType ?? (this.state.markType || "icon"),
             newSelected: (current?.connectMode === "new" ? current.connection : ""),
             newType: nextProps?.navItemsById[nextProps?.navItemSelected].type ?? "",
             existingSelected: (current?.connectMode === "existing" && this.remapInObject(nextProps.navItemsById, nextProps.containedViewsById)[current?.connection] ?

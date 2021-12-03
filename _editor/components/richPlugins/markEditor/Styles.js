@@ -17,17 +17,19 @@ i{
   opacity: 1;
 }
 ${props => props.editing ? `
-    cursor: url("${Ediphy.Config.default_mark}") 12 20, crosshair !important;
+    // cursor: url("${Ediphy.Config.default_mark}") 12 20, crosshair !important;
+    cursor: crosshair !important;
     i {
         display: none;
     }
     * {
-        cursor: url("${Ediphy.Config.default_mark}") 12 20, crosshair !important;
+        // cursor: url("${Ediphy.Config.default_mark}") 12 20, crosshair !important;
+        cursor: crosshair !important;
     }
 ` : null }
 
 ${props => (props.editing && props.isImage) ? `
-    .mapMarker:after {
+    .4mapMarker:after {
       position: absolute;
       display: inline-block;
       content: '';
@@ -79,7 +81,8 @@ ${props => props.holding ? `
         animation: stripes 3s forwards;
     }
     * {
-        cursor: url("${Ediphy.Config.default_mark}") 12 20, crosshair !important;
+      cursor: crosshair !important;
+      // cursor: url("${Ediphy.Config.default_mark}") 12 20, crosshair !important;
     }
 ` : null }
 `;

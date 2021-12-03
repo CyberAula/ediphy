@@ -18,6 +18,8 @@ export default class MarkEditor extends Component {
         holding: false,
         start: 0,
         ended: false,
+        offsetX: 0,
+        offsetY: 0,
     };
 
     h = _handlers(this);
@@ -31,9 +33,10 @@ export default class MarkEditor extends Component {
             return;
         }
         let start = Date.now();
-        this.setState({ start: start, holding: true, ended: false });
+        this.setState({ start: start, holding: true, ended: false, offsetX: e.clientX, offsetY: e.clientY });
         setTimeout(function() {this.timeout(start);}.bind(this), 1 /* time * 100 + 1 */);
         e.stopPropagation();
+
     };
 
     /**
@@ -41,7 +44,7 @@ export default class MarkEditor extends Component {
      * @param e Event
      */
     end = (e) => {
-        this.setState({ start: 0, holding: false, ended: true });
+        this.setState({ start: 0, holding: false, ended: true, offsetY: 0, offsetX: 0 });
         e.stopPropagation();
     };
 
@@ -77,37 +80,41 @@ export default class MarkEditor extends Component {
      * Render React Component
      * @returns {code}
      */
-    render() {
-        let classList = 'markeditor ';
-        classList += this.state.holding ? 'holding ' : '';
-        classList += this.state.ended ? 'ended ' : '';
-        classList += this.state.editing ? 'editing' : '';
-        return (
-            <MarkEditorContainer
-                editing={this.state.editing}
-                holding={this.state.holding}
-                draggable="true"
-                className={classList}
-                isImage={this.props.marks[this.props.mark]?.markType === "image"}
-                style={this.props.style}
-                onMouseDown={this.start}
-                onTouchStart={this.start}
-                onMouseUp={this.end}
-                onMouseEnter={()=>{ this.props.base.pointerEventsCallback('mouseenter', this.props.state);}}
-                onMouseLeave={(e)=>{
-                    let bool = findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled');
-                    this.props.base.pointerEventsCallback('mouseleave_' + (bool && !this.state.editing ? 'true' : 'false'), this.props.state);
-                    this.mouseLeave(e);
-                }}
-                onTouchCancel={this.end}
-                onTouchEnd={this.end}
-                onDragStart={(e)=>{e.stopPropagation();}}
-                onDoubleClick={(e) => e.stopPropagation()}
-                onDrag={(e)=>e.stopPropagation()}>
-                {this.props.children}
-            </MarkEditorContainer>
-        );
-    }
+
+     move = (e) => {
+         e.stopPropagation();
+     }
+     render() {
+         let classList = 'markeditor ';
+         classList += this.state.holding ? 'holding ' : '';
+         classList += this.state.ended ? 'ended ' : '';
+         classList += this.state.editing ? 'editing' : '';
+         return (
+             <MarkEditorContainer
+                 editing={this.state.editing}
+                 holding={this.state.holding}
+                 draggable="true"
+                 className={classList}
+                 isImage={this.props.marks[this.props.mark]?.markType === "image"}
+                 style={this.props.style}
+                 onMouseDown={this.start}
+                 onTouchStart={this.start}
+                 onMouseUp={this.end}
+                 onMouseEnter={()=>{ this.props.base.pointerEventsCallback('mouseenter', this.props.state);}}
+                 onMouseLeave={(e)=>{
+                     let bool = findParentBySelector(ReactDOM.findDOMNode(this), '.pointerEventsEnabled');
+                     this.props.base.pointerEventsCallback('mouseleave_' + (bool && !this.state.editing ? 'true' : 'false'), this.props.state);
+                     this.mouseLeave(e);
+                 }}
+                 onTouchCancel={this.end}
+                 onTouchEnd={this.end}
+                 onDragStart={(e)=>{e.stopPropagation();}}
+                 onDoubleClick={(e) => e.stopPropagation()}
+                 onDrag={this.move}>
+                 {this.props.children}
+             </MarkEditorContainer>
+         );
+     }
 
     /**
      * Overlay creation
@@ -176,6 +183,9 @@ export default class MarkEditor extends Component {
         };
         let onRichMarkMoved = this.h.onRichMarkMoved;
         let boxId = this.props.boxId;
+        let offsetX = this.state.offsetX;
+        let offsetY = this.state.offsetY;
+        let mark = this.props.marks[this.props.mark];
         let mouseup = function(event) {
             if (event.which === 3) {
                 exitFunction();
@@ -186,7 +196,7 @@ export default class MarkEditor extends Component {
             const y = event.clientY - square.top - cursor_y_offset;// event.offsetY;
             const width = square.right - square.left;
             const height = square.bottom - square.top;
-            const value = parseRichMarkInput(x, y, width, height, toolbarState, boxId);
+            const value = parseRichMarkInput(x, y, width, height, toolbarState, boxId, offsetX - event.clientX, offsetY - event.clientY, mark);
             document.body.style.cursor = 'default';
             boxStyle.classList.remove('norotate');
             document.documentElement.removeEventListener('mouseup', clickOutside, true);
@@ -194,7 +204,7 @@ export default class MarkEditor extends Component {
             overlay.remove();
             dropableElement.classList.remove('rich_overlay');
             if (component) {
-                component.setState({ editing: false });
+                component.setState({ editing: false, x: 0, y: 0 });
             }
             let boxParent = findParentBySelector(myself, '.wholebox');
             if (boxParent) {

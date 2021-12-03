@@ -80,7 +80,8 @@ export const Box = styled.div.attrs({ className: '' })`
     }
     .overlay {
         ${props => `
-            cursor: url("${Ediphy.Config.default_mark}") 12 20, crosshair !important;
+            //cursor: url("${Ediphy.Config.default_mark}") 12 20, crosshair !important;
+            cursor: crosshair !important;
         `}
         
     }

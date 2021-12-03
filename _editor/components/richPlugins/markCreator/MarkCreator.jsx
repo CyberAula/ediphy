@@ -55,7 +55,8 @@ class MarkCreator extends React.Component {
 
                 let cursor_x_offset = 12;
                 let cursor_y_offset = 20;
-                let cursorStyle = 'url("' + Ediphy.Config.default_mark + '") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
+                // let cursorStyle = 'url("' + Ediphy.Config.default_mark + '") ' + cursor_x_offset + ' ' + cursor_y_offset + ', crosshair !important';
+                let cursorStyle = 'crosshair !important';
                 let thisBox = findBox(this.props.markCreatorVisible);
                 if (thisBox) {
                     thisBox.style.cursor = cursorStyle;
@@ -79,6 +80,7 @@ class MarkCreator extends React.Component {
                     component.exitFunction();
                     event.preventDefault();
                 };
+                console.log(this.props);
 
                 overlay.onmouseup = function(e) {
                     if (e.which === 3) {

@@ -176,9 +176,21 @@ export const HotspotImages = (base) => ({
             <Image markElements={markElements} state={state} props={props}/>
         );
     },
-    parseRichMarkInput: function(x, y, width, height) {
-        let xx = (x + 12) * 100 / width;
-        let yy = (y + 26) * 100 / height;
+    parseRichMarkInput: function(x, y, width, height, toolbarState, boxId, offsetX = 0, offsetY = 0, mark) {
+        let xx = x * 100 / width;
+        let yy = y * 100 / height;
+        if (mark) {
+            let position;
+            let value = mark.value;
+            if (value && value.split(',').length === 2) {
+                position = value.split(',');
+            } else{
+                position = [0, 0];
+            }
+            xx = parseFloat(position[1]) - offsetX * 100 / width;
+            yy = parseFloat(position[0]) - offsetY * 100 / height;
+        }
+
         return yy.toFixed(2) + "," + xx.toFixed(2);
     },
     validateValueInput: function(value) {
