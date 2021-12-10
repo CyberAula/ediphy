@@ -80,8 +80,6 @@ class MarkCreator extends React.Component {
                     component.exitFunction();
                     event.preventDefault();
                 };
-                console.log(this.props);
-
                 overlay.onmouseup = function(e) {
                     if (e.which === 3) {
                         component.exitFunction();

@@ -95,7 +95,7 @@ export default class MarkEditor extends Component {
                  holding={this.state.holding}
                  draggable="true"
                  className={classList}
-                 isImage={this.props.marks[this.props.mark]?.markType === "image"}
+                 isImage={this.props.mark ? this.props.marks[this.props.mark]?.markType === "image" : false}
                  style={this.props.style}
                  onMouseDown={this.start}
                  onTouchStart={this.start}
@@ -236,6 +236,10 @@ MarkEditor.propTypes = {
      * Base del estado del plugin
      */
     base: PropTypes.object.isRequired,
+    /**
+     * Objeto que contiene todas las marcas
+     */
+    marks: PropTypes.object.isRequired,
     /**
      * Estado de la toolbar del plugin
      */

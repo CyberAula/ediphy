@@ -78,6 +78,7 @@ export default class EnrichedPDFPluginEditor extends React.Component {
                         style={{ left: x, top: y, position: "absolute", transform: "translate(-50%, -50%)" }}
                         time={1.5}
                         mark={id}
+                        marks={marks}
                         onRichMarkMoved={this.h.onRichMarkMoved}
                         state={this.props.state}
                         base={this.props.base}>
