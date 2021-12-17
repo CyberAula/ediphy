@@ -138,6 +138,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
             let markType = marks[id].type;
             let size = marks[id].size;
             let color = marks[id].color;
+            let hideTooltip = marks[id].hideTooltip;
             let isPopUp = marks[id].connectMode === "popup";
             let noTrigger = false;
             let isVisor = true;
@@ -152,6 +153,7 @@ export default class EnrichedPlayerPlugin extends React.Component {
                         markType={markType}
                         isVisor={isVisor}
                         isPopUp={isPopUp}
+                        hideTooltip={hideTooltip}
                         markConnection={marks[id].connection}
                         noTrigger={noTrigger}
                         onMarkClicked={()=>{this.props.props.onMarkClicked(this.props.props.id, marks[id].value, true);}}

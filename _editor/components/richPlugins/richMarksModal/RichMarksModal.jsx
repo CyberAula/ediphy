@@ -38,6 +38,7 @@ class RichMarksModal extends Component {
         this.state = {
             connectMode: "new",
             displayMode: "navigate",
+            hideTooltip: false,
             newSelected: this.props.navItemsById[this.props.navItemSelected] ? this.props.navItemsById[this.props.navItemSelected].type : "",
             existingSelected: "",
             newType: PAGE_TYPES.SLIDE,
@@ -66,34 +67,45 @@ class RichMarksModal extends Component {
     UNSAFE_componentWillReceiveProps(nextProps) {
         let current = nextProps.currentRichMark;
         let allViews = this.returnAllViews(nextProps);
-        this.setState({
-            id: current?.id ?? ID_PREFIX_RICH_MARK + Date.now(),
-            viewNames: allViews,
-            text: current?.text ?? '',
-            svg: Object.keys(current?.content?.svg || {}).length > 0 ? current.content.svg : nextProps.markCursorValue?.hasOwnProperty('svg') ? nextProps.markCursorValue : undefined,
-            selectedIcon: current?.content?.selectedIcon ?? 'room',
-            color: current?.color ?? '#000000',
-            size: current?.size ?? 25,
-            image: current?.content?.url || false,
-            connectMode: current?.connectMode ?? "new",
-            connection: current?.connection ?? '',
-            displayMode: current?.displayMode ?? "navigate",
-            secretArea: current?.secretArea ?? false,
-            changeCursor: current?.changeCursor ?? true,
-            markType: current?.markType ?? (this.state.markType || "icon"),
-            newSelected: (current?.connectMode === "new" ? current.connection : ""),
-            newType: nextProps?.navItemsById[nextProps?.navItemSelected].type ?? "",
-            existingSelected: (current?.connectMode === "existing" && this.remapInObject(nextProps.navItemsById, nextProps.containedViewsById)[current?.connection] ?
-                this.remapInObject(nextProps.navItemsById, nextProps.containedViewsById)[current?.connection].id : ""),
-            changed: false,
-        });
+        if(!this.props.richMarksVisible && nextProps.richMarksVisible) {
+            if((current?.id != this.state.id) || (!current?.id && !this.state.id)) {
 
+                this.setState({
+                    id: current?.id ?? ID_PREFIX_RICH_MARK + Date.now(),
+                    viewNames: allViews,
+                    text: current?.text ?? '',
+                    svg: Object.keys(current?.content?.svg || {}).length > 0 ? current.content.svg : nextProps.markCursorValue?.hasOwnProperty('svg') ? nextProps.markCursorValue : undefined,
+                    selectedIcon: current?.content?.selectedIcon ?? 'room',
+                    color: current?.color ?? '#000000',
+                    size: current?.size ?? 25,
+                    image: current?.content?.url || treasureMark,
+                    connectMode: current?.connectMode ?? "new",
+                    connection: current?.connection ?? '',
+                    hideTooltip: current?.hideTooltip ?? false,
+                    displayMode: current?.displayMode ?? "navigate",
+                    secretArea: current?.secretArea ?? false,
+                    changeCursor: current?.changeCursor ?? true,
+                    markType: current?.markType ?? (this.state.markType || "icon"),
+                    newSelected: (current?.connectMode === "new" ? current.connection : ""),
+                    newType: nextProps?.navItemsById[nextProps?.navItemSelected].type ?? "",
+                    existingSelected: (current?.connectMode === "existing" && this.remapInObject(nextProps.navItemsById, nextProps.containedViewsById)[current?.connection] ?
+                        this.remapInObject(nextProps.navItemsById, nextProps.containedViewsById)[current?.connection].id : ""),
+                    changed: false,
+                });
+            } else {
+                this.setState({
+                    id: current?.id ?? ID_PREFIX_RICH_MARK + Date.now(),
+                    changed: false,
+                    svg: Object.keys(current?.content?.svg || {}).length > 0 ? current.content.svg : nextProps.markCursorValue?.hasOwnProperty('svg') ? nextProps.markCursorValue : undefined,
+                });
+            }
+        }
         if(this.state.markType === 'area' && current && current.markType) {
             this.setState({ markType: current.markType });
         }
         if(!this.props.richMarksVisible && nextProps.richMarksVisible) {
             if (!current) {
-                this.setState({ image: treasureMark });
+                // this.setState({ image: treasureMark });
             }
         } else if (this.state.newImage && nextProps.fileModalResult && nextProps.fileModalResult.value) {
             this.setState({ image: nextProps.fileModalResult.value, newImage: false });
@@ -159,6 +171,10 @@ class RichMarksModal extends Component {
                                         placeholder={i18n.t("marks.mark_name_preview")}
                                         type="text"
                                         defaultValue={current ? current.title : ''}/><br key={"br_0"}/>
+                                    <div key={"secret_mark_switch"}>
+                                        <ToggleSwitch disabled={this.state.connectMode === "popup"} onChange={()=>{this.setState({ hideTooltip: !this.state.hideTooltip });}} checked={this.state.connectMode !== "popup" && !this.state.hideTooltip}/>
+                                        {i18n.t("marks.show_tooltip")}
+                                    </div>
                                     {/* Input need to have certain label like richValue*/}
                                     <ControlLabel>{i18n.t("marks.mark_type")}</ControlLabel>
                                     <MarkTypeTab type="radio" value={ this.state.markType } name="markTypeSelector">
@@ -315,7 +331,7 @@ class RichMarksModal extends Component {
                                             <ControlLabel>{i18n.t("marks.existing_content_label")}</ControlLabel>
                                             {this.state.connectMode === "existing" && <FormControl componentClass="select" onChange={e=>{this.setState({ existingSelected: e.target.value });}}>
                                                 {this.returnAllViews(this.props).map(view=>{
-                                                    return <option key={view.id} value={view.id}>{this.props.viewToolbarsById[view.id].viewName}</option>;
+                                                    return <option key={view.id} selected={view.id === this.state.existingSelected} value={view.id}>{this.props.viewToolbarsById[view.id].viewName}</option>;
                                                 })}
                                             </FormControl>}
                                         </FormGroup>
@@ -411,6 +427,7 @@ class RichMarksModal extends Component {
                                     connection: newId,
                                     connectMode: connectMode,
                                     displayMode: this.state.displayMode,
+                                    hideTooltip: this.state.hideTooltip,
                                     value: value,
                                     markType: this.state.markType,
                                     content: content,
@@ -444,6 +461,7 @@ class RichMarksModal extends Component {
                                     displayMode: this.state.displayMode,
                                     value: value,
                                     markType: this.state.markType,
+                                    hideTooltip: this.state.hideTooltip,
                                     content: content,
                                     color: color,
                                     size: size,
@@ -470,6 +488,7 @@ class RichMarksModal extends Component {
                                     displayMode: this.state.displayMode,
                                     value: value,
                                     markType: this.state.markType,
+                                    hideTooltip: this.state.hideTooltip,
                                     content: content,
                                     color: color,
                                     size: size,
@@ -487,6 +506,7 @@ class RichMarksModal extends Component {
                                     displayMode: this.state.displayMode,
                                     value: value,
                                     markType: this.state.markType,
+                                    hideTooltip: this.state.hideTooltip,
                                     content: content,
                                     color: color,
                                     size: size,
@@ -498,6 +518,7 @@ class RichMarksModal extends Component {
                         updateMark(markState.mark, markState.view, markState.viewToolbar);
                         this.generateTemplateBoxes(this.state.boxes, newId);
                         this.restoreDefaultTemplate();
+                        this.setState({ id: null });
                         this.h.onRichMarksModalToggled();
                     }}>{i18n.t("marks.save_changes")}</Button>
                 </Modal.Footer>

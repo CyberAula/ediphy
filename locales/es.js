@@ -333,6 +333,7 @@ let es = {
             "popup_placeholder": "Escribe el texto que quieres que aparezca al hacer click en la marca",
             "preview": "Previsualización",
             "resize": "Tamaño",
+            "show_tooltip": "Mostrar título de la marca al pasar por encima",
             "value": "Valor",
             "wrong_value": "Valor incorrecto",
             "save_changes": "Guardar",

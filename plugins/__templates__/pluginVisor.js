@@ -21,6 +21,7 @@ export function ${options.name}(base) {
             let size = marks[ed].size;
             let color = marks[e].color;
             let image= marks[id].image;
+            let hideTooltip= marks[id].hideTooltip;
             let height= image !==false ? String(image.size.height)+"%":null;
             let width=image !==false ? String(image.size.width)+"%":null;
             let isPopUp = marks[e].connectMode === "popup";
@@ -35,6 +36,7 @@ export function ${options.name}(base) {
                         title={title}
                         isPopUp={isPopUp}
                         isVisor={isVisor}
+                        hideTooltip={hideTooltip}
                         markConnection={marks[e].connection}
                         markValue={marks[e].value}
                         boxID={boxId}

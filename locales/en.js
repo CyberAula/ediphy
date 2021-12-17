@@ -333,6 +333,7 @@ let en = {
             "popup_placeholder": "Write the text you want to show when you click on mark",
             "preview": "Preview",
             "resize": "Size",
+            "show_tooltip": "Show mark title on hover",
             "value": "Value",
             "wrong_value": "Wrong value",
             "save_changes": "Save changes",

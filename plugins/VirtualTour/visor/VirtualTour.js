@@ -49,6 +49,7 @@ export function VirtualTour() {
                         isVisor={isVisor}
                         markConnection={marks[e].connection}
                         markValue={marks[e].value}
+                        hideTooltip={marks[e].hideTooltip}
                         boxID={boxId}
                         onMarkClicked={props.onMarkClicked}/>
                 );

@@ -33,6 +33,7 @@ export function HotspotImages() {
                             isPopUp={isPopUp}
                             isVisor={isVisor}
                             markConnection={mark.connection}
+                            hideTooltip={mark.hideTooltip}
                             markValue={mark.value}
                             boxID={boxId}
                             size={size}
@@ -55,6 +56,7 @@ export function HotspotImages() {
                             isVisor={isVisor}
                             markConnection={mark.connection}
                             markValue={mark.value}
+                            hideTooltip={mark.hideTooltip}
                             boxID={boxId}
                             size={size}
                             color={color}

@@ -141,6 +141,7 @@ export default class EnrichedPDFPlugin extends React.Component {
             let y = "" + position[1] + "%";
             let bool = (parseFloat(position[2]) === this.state.pageNumber);
             let isPopUp = marks[id].connectMode === "popup";
+            let hideTooltip = marks[id].hideTooltip;
             let isVisor = true;
             return(
                 bool ?
@@ -154,6 +155,7 @@ export default class EnrichedPDFPlugin extends React.Component {
                             title={title}
                             isPopUp={isPopUp}
                             isVisor={isVisor}
+                            hideTooltip={hideTooltip}
                             markConnection={marks[id].connection}
                             markValue={marks[id].value}
                             boxID={this.props.props.id}

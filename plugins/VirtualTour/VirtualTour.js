@@ -141,6 +141,7 @@ export function VirtualTour(base) {
                 let color = marks[idKey].color;
                 let size = marks[idKey].size;
                 let markType = marks[idKey].markType;
+                let hideTooltip = marks[idKey].hideTooltip;
                 let position;
                 if (value && value.split(',').length === 2) {
                     position = value.split(',');
@@ -149,7 +150,7 @@ export function VirtualTour(base) {
                 }
                 return (
                     <MarkEditor dispatch={props.dispatch} key={idKey} time={1.5} boxId={id} mark={idKey} base={base} onRichMarkMoved={props.onRichMarkMoved} state={state} lat={position[0]} lng={position[1]} >
-                        <Mark pluginType={'map'} idBox={props.id} idKey={idKey} title={title} content={content} color={color} size={size} markType={markType}/>
+                        <Mark hideTooltip={hideTooltip} pluginType={'map'} idBox={props.id} idKey={idKey} title={title} content={content} color={color} size={size} markType={markType}/>
                     </MarkEditor>);
 
             });

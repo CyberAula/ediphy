@@ -141,7 +141,7 @@ export const HotspotImages = (base) => ({
         let marks = props.marks || {};
         let svgMarks = [];
         let markElements = Object.keys(marks).map((id) =>{
-            let { value, title, markType, content, color, size } = marks[id];
+            let { value, title, markType, content, color, size, hideTooltip } = marks[id];
             let position;
             let width = markType === "image" ? String(content.imageDimensions.width) + "%" : "auto";
             if (value && value.split(',').length === 2) {
@@ -155,7 +155,7 @@ export const HotspotImages = (base) => ({
             }
             return (
                 <MarkEditor key={id} style={{ position: 'absolute', transform: "translate(-50%, -100%)", top: position[0] + "%", left: position[1] + "%", width: width, height: "auto" }} dispatch={ props.dispatch } onRichMarkMoved={_handlers({ props }).onRichMarkMoved} mark={id} base={base} marks={marks} state={state}>
-                    <Mark pluginType={'img'} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} idKey={id} title={title} isImage markType={markType} content={content} color={color} size={size}/>
+                    <Mark pluginType={'img'} style={{ position: 'absolute', top: position[0] + "%", left: position[1] + "%" }} idKey={id} title={title} isImage hideTooltip={hideTooltip} markType={markType} content={content} color={color} size={size}/>
                 </MarkEditor>
             );
         });

@@ -139,6 +139,7 @@ export default class BasicAudioPlugin extends React.Component {
             let size = marks[id].size;
             let markColor = marks[id].color;
             let markType = marks[id].markType;
+            let hideTooltip = marks[id].hideTooltip;
             let themeColor = this.props.state.progressColor.custom ? this.props.state.progressColor.color : this.props.props.themeColors.themeColor1;
             let isPopUp = marks[id].connectMode === "popup";
             let noTrigger = false;
@@ -156,6 +157,7 @@ export default class BasicAudioPlugin extends React.Component {
                         idKey={id}
                         title={title}
                         isVisor={isVisor}
+                        hideTooltip={hideTooltip}
                         isPopUp={isPopUp}
                         markConnection={marks[id].connection}
                         noTrigger={noTrigger}

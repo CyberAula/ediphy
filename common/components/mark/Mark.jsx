@@ -23,7 +23,7 @@ export default class Mark extends Component {
                 text={this.props.title}
                 placement="top"
                 container={document.getElementById('app')}
-                overlay={this.props.isPopUp ? PopoverMark : ToolTipDefault }
+                overlay={ (this.props.isPopUp ? PopoverMark : (this.props.hideTooltip ? <div/> : ToolTipDefault))}
                 trigger={triggerType} rootClose>
                 { markType === "area" ? this.props.children :
                     <div id={'mark-' + this.props.idKey} className="mapMarker" style={{ pointerEvents: 'all', height: "100%", width: "100%" }} href="#" onClick={(this.props.isVisor && !this.props.noTrigger) ? ()=>{this.props.onMarkClicked(this.props.boxID, this.props.markValue);} : null}>
@@ -71,6 +71,10 @@ Mark.propTypes = {
      * Color of the mark
      */
     color: PropTypes.string,
+    /**
+     * Hide tooltip when hover
+     */
+    hideTooltip: PropTypes.boolean,
     /**
      * Value of rich mark modal slider for resizing
      */
