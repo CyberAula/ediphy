@@ -82,8 +82,8 @@ class RichMarksModal extends Component {
                     connection: current?.connection ?? '',
                     hideTooltip: current?.hideTooltip ?? false,
                     displayMode: current?.displayMode ?? "navigate",
-                    secretArea: (current?.secretArea || current?.color === "rgba(0, 0, 0, 0)") ?? false,
-                    changeCursor: current?.changeCursor ?? true,
+                    secretArea: current?.content?.secretArea ?? false,
+                    changeCursor: current?.content?.changeCursor ?? true,
                     markType: current?.markType ?? (this.state.markType || "icon"),
                     newSelected: (current?.connectMode === "new" ? current.connection : ""),
                     newType: nextProps?.navItemsById[nextProps?.navItemSelected].type ?? "",
@@ -95,8 +95,6 @@ class RichMarksModal extends Component {
                 this.setState({
                     id: current?.id ?? ID_PREFIX_RICH_MARK + Date.now(),
                     changed: false,
-                    color: current?.color ?? '#000000',
-                    secretArea: (current?.secretArea || current?.color === "rgba(0, 0, 0, 0)") ?? false,
                     svg: Object.keys(current?.content?.svg || {}).length > 0 ? current.content.svg : nextProps.markCursorValue?.hasOwnProperty('svg') ? nextProps.markCursorValue : undefined,
                 });
             }
@@ -231,12 +229,15 @@ class RichMarksModal extends Component {
                                                     this.state.markType === "area" ?
                                                         ([<br key={"br_3"}/>,
                                                             <div key={"secret_mark_switch"}>
-                                                                <ToggleSwitch onChange={()=>{this.setState({ secretArea: !this.state.secretArea, changeCursor: this.state.changeCursor ? this.state.secretArea : this.state.changeCursor, color: this.state.secretArea ? '#000000' : 'rgba(0, 0, 0, 0)' });}} checked={this.state.secretArea || this.state.color === "rgba(0, 0, 0, 0)"}/>
+                                                                <ToggleSwitch onChange={()=>{this.setState({ secretArea: !this.state.secretArea, changeCursor: this.state.changeCursor ? this.state.secretArea : this.state.changeCursor, color: this.state.secretArea ? '#000000' : 'rgba(0, 0, 0, 0)' });}}
+                                                                    checked={this.state.secretArea || this.state.color === "rgba(0, 0, 0, 0)"}/>
                                                                 {i18n.t("marks.mark_secret")}
                                                             </div>,
                                                             <br key={"br_4"}/>,
                                                             <div key={"secret_mark_cursor"}>
-                                                                <ToggleSwitch disabled={!this.state.secretArea} onChange={()=>{this.setState({ changeCursor: !this.state.changeCursor });}} checked={ this.state.changeCursor }/>
+                                                                <ToggleSwitch disabled={!(this.state.secretArea || this.state.color === "rgba(0, 0, 0, 0)")}
+                                                                    onChange={()=>{this.setState({ changeCursor: !this.state.changeCursor });}}
+                                                                    checked={ this.state.changeCursor }/>
                                                                 {i18n.t("marks.mark_cursor")}
                                                             </div>,
                                                         ])
