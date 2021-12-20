@@ -69,7 +69,6 @@ class RichMarksModal extends Component {
         let allViews = this.returnAllViews(nextProps);
         if(!this.props.richMarksVisible && nextProps.richMarksVisible) {
             if((current?.id != this.state.id) || (!current?.id && !this.state.id)) {
-
                 this.setState({
                     id: current?.id ?? ID_PREFIX_RICH_MARK + Date.now(),
                     viewNames: allViews,
@@ -83,7 +82,7 @@ class RichMarksModal extends Component {
                     connection: current?.connection ?? '',
                     hideTooltip: current?.hideTooltip ?? false,
                     displayMode: current?.displayMode ?? "navigate",
-                    secretArea: current?.secretArea ?? false,
+                    secretArea: (current?.secretArea || current?.color === "rgba(0, 0, 0, 0)") ?? false,
                     changeCursor: current?.changeCursor ?? true,
                     markType: current?.markType ?? (this.state.markType || "icon"),
                     newSelected: (current?.connectMode === "new" ? current.connection : ""),
@@ -96,6 +95,8 @@ class RichMarksModal extends Component {
                 this.setState({
                     id: current?.id ?? ID_PREFIX_RICH_MARK + Date.now(),
                     changed: false,
+                    color: current?.color ?? '#000000',
+                    secretArea: (current?.secretArea || current?.color === "rgba(0, 0, 0, 0)") ?? false,
                     svg: Object.keys(current?.content?.svg || {}).length > 0 ? current.content.svg : nextProps.markCursorValue?.hasOwnProperty('svg') ? nextProps.markCursorValue : undefined,
                 });
             }

@@ -541,17 +541,14 @@ export default class Visor extends Component {
      */
     santinizeViewsArray(triggeredMarks, arrayViews) {
         let final_array = arrayViews;
-
         triggeredMarks.forEach(mark=>{
             if(mark.currentState === "DONE" && final_array.indexOf(mark.connection) !== -1) {
                 final_array.splice(final_array.indexOf(mark.connection), 1);
             }
         });
-
         final_array = final_array.reverse().filter((v, i, a) => {
             return a.indexOf(v) === i || v.indexOf("pa-") === -1;
         }).reverse();
-
         return final_array;
     }
 
