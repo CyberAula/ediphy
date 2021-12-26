@@ -42,7 +42,7 @@ export default class VisorBoxSortable extends Component {
                                                             marks={this.props.marks}
                                                             onMarkClicked={this.props.onMarkClicked}
                                                             setAnswer={this.props.setAnswer}
-                                                            richElementsState={this.props.richElementsState}
+                                                            richElementState={this.props.richElementState}
                                                             themeColors = {this.props.themeColors}
                                                         />);
 
@@ -89,7 +89,7 @@ VisorBoxSortable.propTypes = {
     /**
      * Estado del plugin enriquecido en la transición
      */
-    richElementsState: PropTypes.object,
+    richElementState: PropTypes.object,
     /**
    * Whether the app is in SCORM mode or not
    */

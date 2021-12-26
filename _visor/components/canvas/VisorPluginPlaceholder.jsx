@@ -55,7 +55,7 @@ export default class VisorPluginPlaceholder extends Component {
                                                 marks={this.props.allMarks}
                                                 show={this.props.show}
                                                 onMarkClicked={this.props.onMarkClicked}
-                                                richElementsState={this.props.richElementsState}/>);
+                                                richElementState={this.props.richElementState}/>);
 
                                         } else if (index === container.children.length - 1) {
                                             return (<span><br/><br/></span>);
@@ -115,7 +115,7 @@ VisorPluginPlaceholder.propTypes = {
     /**
      * Rich plugin state during transition
      */
-    richElementsState: PropTypes.object,
+    richElementState: PropTypes.object,
     /**
    * Container id
    */

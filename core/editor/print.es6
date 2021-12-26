@@ -530,7 +530,7 @@ export default function printToPDF(state, callback, options = { forcePageBreak: 
             }, canvasRatio, containedViews,
             currentView, navItems, viewToolbars, styleConfig, pluginToolbars, title, triggeredMarks: [],
             showCanvas: (!isContainedView(currentView)), removeLastView: () => {
-            }, richElementsState: {},
+            }, richElementState: {},
             viewsArray: [currentView], setAnswer: () => {
             }, submitPage: () => {
             }, exercises: exercises,

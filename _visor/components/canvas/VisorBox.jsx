@@ -46,8 +46,8 @@ export default class VisorBox extends Component {
         }
 
         // pass currentState  of component if exists
-        if(this.props.richElementsState && this.props.richElementsState[box.id] !== undefined) {
-            toolbar.state.currentState = this.props.richElementsState[box.id];
+        if(this.props.richElementState && this.props.richElementState[box.id] !== undefined) {
+            toolbar.state.currentState = this.props.richElementState[box.id];
         }
 
         let rotate = 'rotate(0deg)';
@@ -149,7 +149,7 @@ export default class VisorBox extends Component {
                     parentBox: this.props.boxes[this.props.id],
                     boxes: this.props.boxes,
                     toolbars: this.props.toolbars,
-                    richElementsState: this.props.richElementsState,
+                    richElementState: this.props.richElementState,
                     changeCurrentView: this.props.changeCurrentView,
                     currentView: this.props.currentView,
                 });
@@ -225,7 +225,7 @@ VisorBox.propTypes = {
     /**
      * Estado del plugin enriquecido en la transición
      */
-    richElementsState: PropTypes.object,
+    richElementState: PropTypes.object,
     /**
    * Function for submitting a page Quiz
    */

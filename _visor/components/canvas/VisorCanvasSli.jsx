@@ -132,7 +132,7 @@ export default class VisorCanvasSli extends Component {
                                     marks={this.props.marks}
                                     setAnswer={this.props.setAnswer}
                                     onMarkClicked={this.props.onMarkClicked}
-                                    richElementsState={this.props.richElementsState}
+                                    richElementState={this.props.richElementState}
                                     themeColors={colors}
                                 />;
                             })}
@@ -277,7 +277,7 @@ VisorCanvasSli.propTypes = {
     /**
      * Rich plugin state during transition
      */
-    richElementsState: PropTypes.object,
+    richElementState: PropTypes.object,
     /**
      * Show canvas (a navItem needs to be chosen)
      */

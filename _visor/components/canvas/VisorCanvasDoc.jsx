@@ -95,7 +95,7 @@ export default class VisorCanvasDoc extends Component {
                                             setAnswer={this.props.setAnswer}
                                             marks={this.props.marks}
                                             onMarkClicked={this.props.onMarkClicked}
-                                            richElementsState={this.props.richElementsState}
+                                            richElementState={this.props.richElementState}
                                             themeColors = {colors}/>;
 
                                     })}
@@ -156,7 +156,7 @@ VisorCanvasDoc.propTypes = {
     /**
      * Rich plugin state during transition
      */
-    richElementsState: PropTypes.object,
+    richElementState: PropTypes.object,
     /**
      * Show canvas (a navItem needs to be chosen)
      */

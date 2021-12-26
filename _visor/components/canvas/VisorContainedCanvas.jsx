@@ -83,7 +83,7 @@ VisorContainedCanvas.propTypes = {
     /**
      * Rich plugin state during transition
      */
-    richElementsState: PropTypes.object,
+    richElementState: PropTypes.object,
     /**
      * Show canvas (a navItem needs to be chosen)
      */
