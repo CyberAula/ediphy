@@ -29,7 +29,7 @@ export default class VisorCanvasSli extends Component {
             fontBase: 14,
             previousView: '',
         };
-        this.TRANSITION_TIME = 800;
+        this.TRANSITION_TIME = 200;
     }
 
     render() {

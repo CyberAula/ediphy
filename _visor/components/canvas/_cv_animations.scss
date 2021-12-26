@@ -4,8 +4,8 @@
 #page-content-wrapper {
   #containedCanvas, #canvas, .containedCanvasClass, .canvasClass  {
 
-    animation-duration: 0.5s;
-    -webkit-animation-duration: 0.5s;
+    animation-duration: 0.15s;
+    -webkit-animation-duration: 0.15s;
 
     animation-timing-function: ease-in-out;
     -webkit-animation-timing-function: ease-in-out;
@@ -17,8 +17,8 @@
   }
   #containedCanvas, .containedCanvasClass.exitCanvas {
 
-    animation-duration: 0.5s;
-    -webkit-animation-duration: 0.5s;
+    animation-duration: 0.15s;
+    -webkit-animation-duration: 0.15s;
 
     animation-timing-function: ease-in-out;
     -webkit-animation-timing-function: ease-in-out;

@@ -214,7 +214,6 @@ export default class Visor extends Component {
         let visorNavButtonClass = 'hoverPlayerSelector';
         visorNavButtonClass = this.state.mouseMoving ? visorNavButtonClass + ' appearButton' : visorNavButtonClass + ' fadeButton';
         visorNavButtonClass = this.state.mouseOnPlayer ? visorNavButtonClass + ' hoverPlayerOn' : visorNavButtonClass;
-        console.log({ canvasProps });
         return (
             <div id="app" ref={'app'}
                 className={wrapperClasses}
@@ -535,7 +534,6 @@ export default class Visor extends Component {
         let new_array = marks.map(mark=>{
             if(mark.currentState === 'TRIGGERED') {
                 mark.currentState = 'DONE';
-                delete new_rich_el[mark.id];
             }
         });
         return new_array;
@@ -771,7 +769,6 @@ export default class Visor extends Component {
         if (newState.triggeredMarks && newState.triggeredMarks.length > 0) {
             nextState[newState.triggeredMarks[0].origin] = current[newState.triggeredMarks[0].origin];
         }
-        console.log({ backup, current, newState });
         return nextState;
     }
 
