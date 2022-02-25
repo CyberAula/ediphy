@@ -28,8 +28,8 @@ export default class VisorCanvasSli extends Component {
             marginBottom: 0,
             fontBase: 14,
             previousView: '',
+            TRANSITION_TIME: 200,
         };
-        this.TRANSITION_TIME = 200;
     }
 
     render() {
@@ -93,8 +93,8 @@ export default class VisorCanvasSli extends Component {
                         key={this.props.selectedView}
                         animationIn={transition.in}
                         animationOut={transition.out}
-                        animationInDuration={this.TRANSITION_TIME}
-                        animationOutDuration={this.TRANSITION_TIME}
+                        animationInDuration={this.state.TRANSITION_TIME}
+                        animationOutDuration={this.state.TRANSITION_TIME}
                         isVisible={this.props.show && this.state.show}
                         style={{ height: '100%', width: '100%' }}
                     >
@@ -223,19 +223,28 @@ export default class VisorCanvasSli extends Component {
 
     UNSAFE_componentWillUpdate(nextProps, nextState) {
         // Manage transition so animation in and out are simultaneous
-        if (!nextProps.show && this.props.show) {
-            let backwards = nextProps.navItemsIds.indexOf(nextProps.selectedView) < this.props.navItemsIds.indexOf(this.props.selectedView);
-            this.setState({ backwards, show: true, previousView: nextProps.currentView }, () => this.setTimeoutTransition(this.TRANSITION_TIME));
-        } else if(nextProps.show && !this.props.show) {
-            let backwards = nextProps.navItemsIds.indexOf(nextProps.selectedView) <= this.props.navItemsIds.indexOf(this.props.selectedView);
-            this.setState({ backwards: backwards });
-        }
+
+        let transitionTime = 200;
+
         let itemSel = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
         let nextItemSel = nextProps.navItems[nextProps.currentView] || nextProps.containedViews[nextProps.currentView];
+
+        if (isContainedView(itemSel) && !isContainedView(nextItemSel)) {
+            transitionTime = 0;
+        }
+
+        let newState = { transitionTime };
         if ((this.props.canvasRatio !== nextProps.canvasRatio) || (itemSel !== nextItemSel)) {
             window.canvasRatio = nextProps.canvasRatio;
             let calculated = this.aspectRatio(nextProps, nextState);
-            this.setState({ fontBase: changeFontBase(calculated.width) });
+            newState.fontBase = changeFontBase(calculated.width);
+        }
+        if (!nextProps.show && this.props.show) {
+            let backwards = nextProps.navItemsIds.indexOf(nextProps.selectedView) < this.props.navItemsIds.indexOf(this.props.selectedView);
+            this.setState({ ...newState, backwards, show: true, previousView: nextProps.currentView }, () => this.setTimeoutTransition(this.TRANSITION_TIME));
+        } else if(nextProps.show && !this.props.show) {
+            let backwards = nextProps.navItemsIds.indexOf(nextProps.selectedView) <= this.props.navItemsIds.indexOf(this.props.selectedView);
+            this.setState({ ...newState, backwards: backwards });
         }
 
     }
