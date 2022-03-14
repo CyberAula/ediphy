@@ -21,6 +21,7 @@ import { AirLayer, CVBackButton, InnerCanvas } from "./Styles";
 export default class VisorCanvasSli extends Component {
     constructor(props) {
         super(props);
+        this.TRANSITION_TIME = 400;
         this.state = {
             width: '100%',
             height: '100%',
@@ -28,7 +29,7 @@ export default class VisorCanvasSli extends Component {
             marginBottom: 0,
             fontBase: 14,
             previousView: '',
-            TRANSITION_TIME: 200,
+            transitionTime: this.TRANSITION_TIME,
         };
     }
 
@@ -45,7 +46,6 @@ export default class VisorCanvasSli extends Component {
         let colors = toolbar.colors ? toolbar.colors : getThemeColors(theme);
         let transition = getTransition(styleConfig, this.props.fromPDF, isCV, this.props.backwards);
         let isVisible = this.props.show || currentView === this.state.previousView;
-
         if (itemSelected !== 0 && !isCV) {
             let title = viewToolbars[currentView].viewName;
             titles.push(title);
@@ -63,7 +63,6 @@ export default class VisorCanvasSli extends Component {
 
         const tooltip = (<Tooltip id="tooltip">{thisView}</Tooltip>);
         let viewExercises = exercises[currentView];
-
         return (
             <Col ref={"canvas_" + this.props.currentView}
                 id={(isCV ? "containedCanvas_" : "canvas_") + this.props.currentView}
@@ -93,16 +92,15 @@ export default class VisorCanvasSli extends Component {
                         key={this.props.selectedView}
                         animationIn={transition.in}
                         animationOut={transition.out}
-                        animationInDuration={this.state.TRANSITION_TIME}
-                        animationOutDuration={this.state.TRANSITION_TIME}
+                        animationInDuration={this.state.transitionTime}
+                        animationOutDuration={this.state.transitionTime}
                         isVisible={this.props.show && this.state.show}
                         style={{ height: '100%', width: '100%' }}
                     >
 
                         <InnerCanvas id={isCV ? "contained_maincontent" : "maincontent"}
                             className={'innercanvas sli ' + theme + ' ' + this.props.currentView}
-                            style={{ ...loadBackgroundStyle(this.props.showCanvas, toolbar, styleConfig, true, this.props.canvasRatio, itemSelected.background),
-                                visibility: isVisible ? 'visible' : 'hidden' }}>
+                            style={{ ...loadBackgroundStyle(this.props.showCanvas, toolbar, styleConfig, true, this.props.canvasRatio, itemSelected.background), visibility: (transition.in == "none" || isVisible) ? 'visible' : 'hidden' }}>
                             {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
                                 <CVBackButton href="#"
                                     className="btnOverBar cvBackButton"
@@ -224,12 +222,12 @@ export default class VisorCanvasSli extends Component {
     UNSAFE_componentWillUpdate(nextProps, nextState) {
         // Manage transition so animation in and out are simultaneous
 
-        let transitionTime = 200;
+        let transitionTime = this.TRANSITION_TIME;
 
         let itemSel = this.props.navItems[this.props.currentView] || this.props.containedViews[this.props.currentView];
         let nextItemSel = nextProps.navItems[nextProps.currentView] || nextProps.containedViews[nextProps.currentView];
 
-        if (isContainedView(itemSel) && !isContainedView(nextItemSel)) {
+        if (isContainedView(itemSel?.id || "") && !isContainedView(nextItemSel?.id || "")) {
             transitionTime = 0;
         }
 
