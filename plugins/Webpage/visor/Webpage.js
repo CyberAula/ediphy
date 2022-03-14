@@ -12,9 +12,15 @@ export function Webpage() {
                         mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel="" />);
                 }
                 const params = new URLSearchParams(window.location.search);
-                if (params.has('ESCAPP_USER') && params.has('ESCAPP_TOKEN')) {
-                    url = url.replace("__ESCAPP_USER__", params.get('ESCAPP_USER'));
-                    url = url.replace("__ESCAPP_TOKEN__", params.get('ESCAPP_TOKEN'));
+                if (params.has('email') && params.has('token')) {
+                    if (url.includes('?')) {
+                        url += "&email=" + params.get('email') + "&token=" + params.get('token');
+                    } else {
+                        url += "?email=" + params.get('email') + "&token=" + params.get('token');
+                    }
+                }
+                if (window.location.protocol === "https:") {
+                    url = url.replace("http:", "https:");
                 }
             }
             return (<WebPlugin visor onLoad={(e)=>{e.target.contentWindow.scrollTo(0, state.scrollY);}}

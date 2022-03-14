@@ -3,6 +3,13 @@ import PropTypes from 'prop-types';
 
 export default class Watermark extends Component {
     render() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('nowatermark')) {
+            // eslint-disable-next-line eqeqeq
+            if (params.get('nowatermark') === true || params.get('nowatermark') == 1) {
+                return null;
+            }
+        }
         let id = this.props.ediphy_document_id || (window.ediphy_editor_params ? window.ediphy_editor_params.ediphy_resource_id : null);
         let parent = null;
         try {

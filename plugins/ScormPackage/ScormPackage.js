@@ -92,11 +92,17 @@ export function ScormPackage() {
             };
         },
         getRenderTemplate: function(state) {
-            const params = new URLSearchParams(window.location.search);
             let url = state.url;
-            if (url && params.has('ESCAPP_USER') && params.has('ESCAPP_TOKEN')) {
-                url = url.replace("__ESCAPP_USER__", params.get('ESCAPP_USER'));
-                url = url.replace("__ESCAPP_TOKEN__", params.get('ESCAPP_TOKEN'));
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('email') && params.has('token')) {
+                if (url.includes('?')) {
+                    url += "&email=" + params.get('email') + "&token=" + params.get('token');
+                } else {
+                    url += "?email=" + params.get('email') + "&token=" + params.get('token');
+                }
+            }
+            if (window.location.protocol === "https:") {
+                url = url.replace("http:", "https:");
             }
             return (<iframe style={{ width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none', border: 'none' }} src={url}/>);
         },

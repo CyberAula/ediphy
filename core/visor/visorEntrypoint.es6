@@ -1,6 +1,8 @@
 import Visor from './main';
 import Scorm from '../scorm/main';
-import Config from '../config';
+import DevConfig from '../config';
+import ProductionConfig from '../config_production';
+import NoServerConfig from '../config_noserver';
 import i18n from './../../locales/i18n';
 import { serialize } from '../../reducers/serializer';
 
@@ -13,6 +15,8 @@ let scss_visor_context = require.context('../../_visor', true, /\.scss$/);
 scss_visor_context.keys().map(scss_visor_context);
 
 window.ReactDOM = require('react-dom');
+const Config = process.env.DOC === "doc" ? NoServerConfig :
+    process.env.NODE_ENV === "production" ? ProductionConfig : DevConfig;
 
 window.Ediphy = {
     Visor: Visor,

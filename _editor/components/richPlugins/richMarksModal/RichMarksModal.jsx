@@ -68,6 +68,7 @@ class RichMarksModal extends Component {
         let current = nextProps.currentRichMark;
         let allViews = this.returnAllViews(nextProps);
         if(!this.props.richMarksVisible && nextProps.richMarksVisible) {
+            // eslint-disable-next-line eqeqeq
             if((current?.id != this.state.id) || (!current?.id && !this.state.id)) {
                 this.setState({
                     id: current?.id ?? ID_PREFIX_RICH_MARK + Date.now(),

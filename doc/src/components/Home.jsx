@@ -26,13 +26,11 @@ export default class Content extends Component {
 
     handleScroll() {
         let viewList = ["main", "why", "how", "what", "when"];
-        let where = "main";
         let nextInd = 0;
         for (let view in viewList) {
             let element = document.getElementById(viewList[view]);
             let rect = element.getBoundingClientRect();
             if (rect.top >= 0 || rect.bottom > 0) {
-                where = viewList[view];
                 nextInd = parseInt(view, 10) + 1;
                 if (nextInd === viewList.length) {
                     nextInd = 0;
