@@ -100,7 +100,7 @@ export default class VisorCanvasSli extends Component {
 
                         <InnerCanvas id={isCV ? "contained_maincontent" : "maincontent"}
                             className={'innercanvas sli ' + theme + ' ' + this.props.currentView}
-                            style={{ ...loadBackgroundStyle(this.props.showCanvas, toolbar, styleConfig, true, this.props.canvasRatio, itemSelected.background), visibility: (transition.in == "none" || isVisible) ? 'visible' : 'hidden' }}>
+                            style={{ ...loadBackgroundStyle(this.props.showCanvas, toolbar, styleConfig, true, this.props.canvasRatio, itemSelected.background), visibility: (transition.in === "none" || isVisible) ? 'visible' : 'hidden' }}>
                             {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
                                 <CVBackButton href="#"
                                     className="btnOverBar cvBackButton"
