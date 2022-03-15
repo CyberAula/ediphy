@@ -19,6 +19,13 @@ export function Webpage() {
                         url += "?email=" + params.get('email') + "&token=" + params.get('token');
                     }
                 }
+                if (params.has('locale')) {
+                    if (url.includes('?')) {
+                        url += "&locale=" + params.get('locale');
+                    } else {
+                        url += "?locale=" + params.get('locale');
+                    }
+                }
                 if (window.location.protocol === "https:") {
                     url = url.replace("http:", "https:");
                 }
