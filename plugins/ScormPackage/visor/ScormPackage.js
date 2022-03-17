@@ -7,11 +7,11 @@ export function ScormPackage() {
         getRenderTemplate: function(state, props) {
             let url = state.url;
             const params = new URLSearchParams(window.location.search);
-            if (params.has('email') && params.has('token')) {
+            if (params.has('escapp_email') && params.has('escapp_token')) {
                 if (url.includes('?')) {
-                    url += "&email=" + params.get('email') + "&token=" + params.get('token');
+                    url += "&escapp_email=" + encodeURIComponent(params.get('escapp_email')) + "&escapp_token=" + params.get('escapp_token');
                 } else {
-                    url += "?email=" + params.get('email') + "&token=" + params.get('token');
+                    url += "?escapp_email=" + encodeURIComponent(params.get('escapp_email')) + "&escapp_token=" + params.get('escapp_token');
                 }
             }
             if (params.has('locale')) {
