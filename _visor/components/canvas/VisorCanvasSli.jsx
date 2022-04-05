@@ -34,7 +34,7 @@ export default class VisorCanvasSli extends Component {
     }
 
     render() {
-        let { viewsArray, navItems, currentView, containedViews, viewToolbars, styleConfig, exercises } = this.props;
+        let { viewsArray, navItems, currentView, containedViews, viewToolbars, styleConfig, exercises, selectedView } = this.props;
 
         let titles = [];
         let itemSelected = navItems[currentView] || containedViews[currentView];
@@ -42,10 +42,9 @@ export default class VisorCanvasSli extends Component {
         let toolbar = viewToolbars[currentView];
 
         let theme = !toolbar || !toolbar.theme ? (styleConfig && styleConfig.theme ? styleConfig.theme : 'default') : toolbar.theme;
-        // let theme = toolbar && toolbar.theme ? toolbar.theme : styleConfig && styleConfig.theme ? styleConfig.theme : 'default';
         let colors = toolbar.colors ? toolbar.colors : getThemeColors(theme);
         let transition = getTransition(styleConfig, this.props.fromPDF, isCV, this.props.backwards);
-        let isVisible = this.props.show || currentView === this.state.previousView;
+        let isVisible = ((viewsArray?.length > 1) ? ((viewsArray[viewsArray.length - 1] == currentView) || (viewsArray[viewsArray.length - 2] == currentView)) : this.props.show);
         if (itemSelected !== 0 && !isCV) {
             let title = viewToolbars[currentView].viewName;
             titles.push(title);
@@ -59,7 +58,8 @@ export default class VisorCanvasSli extends Component {
         }
 
         let boxes = isCV ? containedViews[currentView].boxes || [] : navItems[currentView].boxes || [];
-        let thisView = viewsArray?.length > 1 ? (i18n.t('messages.go_back_to') + (isContainedView(viewsArray[viewsArray.length - 2]) ? viewToolbars[viewsArray[viewsArray.length - 2]].viewName : viewToolbars[viewsArray[viewsArray.length - 2]].viewName)) : i18n.t('messages.go_back');
+        // let thisView = viewsArray?.length > 1 ? (i18n.t('messages.go_back_to') + (isContainedView(viewsArray[viewsArray.length - 2]) ? viewToolbars[viewsArray[viewsArray.length - 2]].viewName : viewToolbars[viewsArray[viewsArray.length - 2]].viewName)) : i18n.t('messages.go_back');
+        let thisView = i18n.t('messages.go_back');
 
         const tooltip = (<Tooltip id="tooltip">{thisView}</Tooltip>);
         let viewExercises = exercises[currentView];
@@ -71,10 +71,8 @@ export default class VisorCanvasSli extends Component {
                 style={{
                     position: 'absolute',
                     backgroundColor: 'transparent',
-                    display: 'float',
-                    visibility: isVisible ? 'visible' : 'hidden',
-                    zIndex: this.props.show ? 100 : this.props.z,
                     width: '100%',
+                    display: (isVisible || this.state.show) ? 'block' : 'none',
                     padding: '0px',
                     overflow: 'hidden',
                     fontSize: this.state.fontBase ? (this.state.fontBase + 'px') : '14px' }}>
@@ -92,15 +90,15 @@ export default class VisorCanvasSli extends Component {
                         key={this.props.selectedView}
                         animationIn={transition.in}
                         animationOut={transition.out}
+                        isVisible={isVisible}
                         animationInDuration={this.state.transitionTime}
                         animationOutDuration={this.state.transitionTime}
-                        isVisible={this.props.show && this.state.show}
                         style={{ height: '100%', width: '100%' }}
                     >
 
                         <InnerCanvas id={isCV ? "contained_maincontent" : "maincontent"}
                             className={'innercanvas sli ' + theme + ' ' + this.props.currentView}
-                            style={{ ...loadBackgroundStyle(this.props.showCanvas, toolbar, styleConfig, true, this.props.canvasRatio, itemSelected.background), visibility: (transition.in === "none" || isVisible) ? 'visible' : 'hidden' }}>
+                            style={{ ...loadBackgroundStyle(this.props.showCanvas, toolbar, styleConfig, true, this.props.canvasRatio, itemSelected.background), visibility: 'visible' }}>
                             {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
                                 <CVBackButton href="#"
                                     className="btnOverBar cvBackButton"
@@ -213,8 +211,13 @@ export default class VisorCanvasSli extends Component {
     }
 
     onCloseContainedView = (event) => {
-        this.setState({ show: false }, () => {
-            setTimeout(this.props.removeLastView, this.TRANSITION_TIME);
+        this.setState({ show: true }, () => {
+            this.props.removeLastView();
+            setTimeout(()=>{
+                this.setState({ show: false }, () => {
+                    event.persist();
+                });
+            }, this.TRANSITION_TIME);
             event.persist();
         });
     };
@@ -239,10 +242,10 @@ export default class VisorCanvasSli extends Component {
         }
         if (!nextProps.show && this.props.show) {
             let backwards = nextProps.navItemsIds.indexOf(nextProps.selectedView) < this.props.navItemsIds.indexOf(this.props.selectedView);
-            this.setState({ ...newState, backwards, show: true, previousView: nextProps.currentView }, () => this.setTimeoutTransition(this.TRANSITION_TIME));
+            this.setState({ ...newState, backwards, show: isContainedView(nextItemSel?.id || ""), previousView: nextProps.currentView }, () => this.setTimeoutTransition(transitionTime));
         } else if(nextProps.show && !this.props.show) {
             let backwards = nextProps.navItemsIds.indexOf(nextProps.selectedView) <= this.props.navItemsIds.indexOf(this.props.selectedView);
-            this.setState({ ...newState, backwards: backwards });
+            this.setState({ ...newState, show: isContainedView(nextItemSel?.id || ""), backwards: backwards });
         }
 
     }
@@ -345,10 +348,6 @@ VisorCanvasSli.propTypes = {
      * Indicates the aspect ratio of the slides
      */
     aspectRatio: PropTypes.number,
-    /**
-     * Indicates the zIndex of the slide
-     */
-    z: PropTypes.number,
     /**
      * Indicates if user is navigating backwards
      */
