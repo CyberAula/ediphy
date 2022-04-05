@@ -549,6 +549,12 @@ li > .selectedNavItemVisor {
 .doc, .sli, #maincontent, #airlayer, .airlayer {
   overflow: visible;
 }
+#visorAppContent {
+  .doc, .sli, #maincontent, #airlayer, .airlayer {
+    overflow: hidden;
+  }
+}
+
 .cvBackButton {
    z-index:9999;
 }
