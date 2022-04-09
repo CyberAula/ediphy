@@ -26,6 +26,15 @@ export function Webpage() {
                         url += "?locale=" + params.get('locale');
                     }
                 }
+
+                if (params.has('escapp_endpoint')) {
+                    if (url.includes('?')) {
+                        url += "&escapp_endpoint=" + encodeURIComponent(params.get('escapp_endpoint'));
+                    } else {
+                        url += "?escapp_endpoint=" + encodeURIComponent(params.get('escapp_endpoint'));
+                    }
+                }
+
                 if (window.location.protocol === "https:") {
                     url = url.replace("http:", "https:");
                 }
