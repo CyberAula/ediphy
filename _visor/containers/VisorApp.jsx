@@ -147,6 +147,10 @@ export default class Visor extends Component {
             }.bind(this);
 
         }
+        try {
+            const filesToPreload = Object.values(Ediphy.State.pluginToolbarsById).filter(box => box.pluginId === "HotspotImages").map(box=>box.state ? box.state.url : undefined).filter(url => url !== undefined);
+            preload(filesToPreload);
+        } catch (e) {}
     }
 
     render() {
@@ -811,3 +815,10 @@ export default class Visor extends Component {
 }
 
 ReactDOM.render((<Visor />), document.getElementById('root'));
+
+function preload(urls) {
+    for (let i = 0; i < urls.length; i++) {
+        let image = new Image();
+        image.src = urls[i];
+    }
+}
