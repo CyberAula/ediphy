@@ -17,11 +17,11 @@ export default class Mark extends Component {
         if (this.props.isPopUp && !this.props.noTrigger) { triggerType = "click"; }
         if (this.props.noTrigger) { triggerType = "focus"; }
         let markType = this.props.markType || "icon";
-
+        let popupPosition = this.props.isPopUp ? (this.props.content?.popupPosition || "top") : "top";
         return (
             <OverlayTrigger key={this.props.idKey}
                 text={this.props.title}
-                placement="top"
+                placement={popupPosition}
                 container={document.getElementById('app')}
                 overlay={ (this.props.isPopUp ? PopoverMark : (this.props.hideTooltip ? <div/> : ToolTipDefault))}
                 trigger={triggerType} rootClose>

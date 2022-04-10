@@ -341,6 +341,10 @@ let es = {
             "wrong_area": "Has introducido un área incorrecta",
             "secret_area": "Área secreta",
             "new_shape": "Dibujar nueva forma",
+            "left": "Izquierda",
+            "right": "Derecha",
+            "top": "Arriba",
+            "bottom": "Abajo",
         },
         "messages": {
             "add_new_mark": "Añadir nueva marca",

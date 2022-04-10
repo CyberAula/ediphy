@@ -318,7 +318,7 @@ export default function(state = { 0: { id: 0, children: [], boxes: [], level: 0,
         oldNavItem.boxes.map((box, ind)=>{
             newNavItem.boxes[ind] = action.payload.boxes[box];
         });
-
+        console.log(action.payload.suffix);
         for (let nav in newState2) {
             if (newState2[nav].linkedBoxes) {
                 for (let lb in newState2[nav].linkedBoxes) {

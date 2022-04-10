@@ -40,10 +40,13 @@ export default class EditorIndexTitle extends Component {
             || (this.state.secondClick !== nextState.secondClick));
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
         if (this.props.courseTitle && this.props.title !== prevProps.title) {
             // If doc title changed from GlobalConfig
             // eslint-disable-next-line react/no-did-update-set-state
+            this.setState({ currentValue: this.props.title });
+        }
+        if (this.state.editing && !prevState.editing) {
             this.setState({ currentValue: this.props.title });
         }
 
@@ -64,7 +67,7 @@ export default class EditorIndexTitle extends Component {
      * @returns {code}
      */
     render() {
-
+        console.log({ state: this.state, props: this.props });
         return (
             <span id={this.props.id}>
                 {!this.state.editing ?

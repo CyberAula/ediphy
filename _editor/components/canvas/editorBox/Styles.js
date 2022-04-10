@@ -60,7 +60,7 @@ export const CKText = styled(CKEDitorComponent).attrs({ classes: 'textAreaStyle'
     background-color: transparent;
     padding: 10px;
     word-wrap: break-word !important;
-    word-break: break-all;
+    word-break: normal;
     pre {
       word-break: break-all !important;
     }
@@ -71,9 +71,9 @@ export const Box = styled.div.attrs({ className: '' })`
     height: 100%;
     line-height: normal;
     position: relative;
-    word-wrap: break-word;
+    //word-wrap: break-word;
     overflow: hidden;
-    word-break: break-all;
+    //word-break: break-all;
     pre, pre * {
       word-break: break-all !important;
       white-space: pre-wrap;

@@ -49,6 +49,7 @@ class RichMarksModal extends Component {
             showTemplates: false,
             boxes: [],
             originalDimensions: {},
+            popupPosition: "top",
             markType: "icon",
             secretArea: false,
             changeCursor: true,
@@ -72,6 +73,7 @@ class RichMarksModal extends Component {
             if((current?.id != this.state.id) || (!current?.id && !this.state.id)) {
                 this.setState({
                     id: current?.id ?? ID_PREFIX_RICH_MARK + Date.now(),
+                    title: current?.title || '',
                     viewNames: allViews,
                     text: current?.text ?? '',
                     svg: Object.keys(current?.content?.svg || {}).length > 0 ? current.content.svg : nextProps.markCursorValue?.hasOwnProperty('svg') ? nextProps.markCursorValue : undefined,
@@ -86,6 +88,7 @@ class RichMarksModal extends Component {
                     secretArea: current?.content?.secretArea ?? false,
                     changeCursor: current?.content?.changeCursor ?? true,
                     markType: current?.markType ?? (this.state.markType || "icon"),
+                    popupPosition: current?.content?.popupPosition ?? "top",
                     newSelected: (current?.connectMode === "new" ? current.connection : ""),
                     newType: nextProps?.navItemsById[nextProps?.navItemSelected].type ?? "",
                     existingSelected: (current?.connectMode === "existing" && this.remapInObject(nextProps.navItemsById, nextProps.containedViewsById)[current?.connection] ?
@@ -170,7 +173,8 @@ class RichMarksModal extends Component {
                                     <FormControl ref="title"
                                         placeholder={i18n.t("marks.mark_name_preview")}
                                         type="text"
-                                        defaultValue={current ? current.title : ''}/><br key={"br_0"}/>
+                                        onChange={(e)=>this.setState({ title: e.target.value })}
+                                        value={this.state.title}/><br key={"br_0"}/>
                                     <div key={"secret_mark_switch"}>
                                         <ToggleSwitch disabled={this.state.connectMode === "popup"} onChange={()=>{this.setState({ hideTooltip: !this.state.hideTooltip });}} checked={this.state.connectMode !== "popup" && !this.state.hideTooltip}/>
                                         {i18n.t("marks.show_tooltip")}
@@ -350,6 +354,21 @@ class RichMarksModal extends Component {
                                             <FormControl ref="popupSelected" componentClass="textarea"
                                                 defaultValue={current && this.state.connectMode === "popup" && !(isContainedView(current.connection)) ? current.connection : ""}
                                                 placeholder={i18n.t("marks.popup_placeholder")}/>
+                                            <TypeSelector>
+                                                <ControlLabel>{i18n.t("marks.mark_position")}</ControlLabel><br/>
+                                                <FormControl componentClass="select"
+                                                    defaultValue={this.state.popupPosition}
+                                                    style={{ width: "80%" }}
+                                                    onChange={e => {
+                                                        this.setState({ popupPosition: e.nativeEvent.target.value });
+                                                    }}>
+                                                    <option value={"top"}>{i18n.t("marks.top")}</option>
+                                                    <option value={"bottom"}>{i18n.t("marks.bottom")}</option>
+                                                    <option value={"left"}>{i18n.t("marks.left")}</option>
+                                                    <option value={"right"}>{i18n.t("marks.right")}</option>
+                                                </FormControl>
+
+                                            </TypeSelector>
                                         </FormGroup>
                                     </FormGroup>
                                 </Row>
@@ -364,7 +383,7 @@ class RichMarksModal extends Component {
                         this.restoreDefaultTemplate();
                     }}>Cancel</Button>
                     <Button bsStyle="primary" onClick={() => {
-                        let title = ReactDOM.findDOMNode(this.refs.title).value;
+                        let title = this.state.title;
                         newId = ID_PREFIX_CONTAINED_VIEW + Date.now();
                         let newMark = current && current.id ? current.id : ID_PREFIX_RICH_MARK + Date.now();
                         let connectMode = this.state.connectMode;
@@ -378,7 +397,7 @@ class RichMarksModal extends Component {
                             });
                             return;
                         }
-                        let content = ({});
+                        let content = ({ popupPosition: this.state.popupPosition || "top" });
                         let color;
                         let size;
                         switch(this.state.markType) {

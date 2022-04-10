@@ -341,6 +341,10 @@ let en = {
             "wrong_area": "You have introduced an incorrect area",
             "secret_area": "Secret area",
             "new_shape": "Draw new shape",
+            "left": "Left",
+            "right": "Right",
+            "top": "Top",
+            "bottom": "Bottom",
         },
         "messages": {
             "add_new_mark": "Add new mark",

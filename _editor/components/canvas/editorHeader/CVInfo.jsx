@@ -26,7 +26,9 @@ class CVInfo extends Component {
             let from = "unknown";
             let markName = "";
             for (let m in boxMarks[box]) {
-                markName += marks[boxMarks[box][m]].title + ', ';
+                if (marks[boxMarks[box][m]]) {
+                    markName += marks[boxMarks[box][m]].title + ', ';
+                }
             }
             markName = markName.slice(0, markName.length - 2) + " " + at + " ";
             if (isSortableBox(el.parent)) {
