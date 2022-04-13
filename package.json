@@ -67,7 +67,7 @@
     "> 1%"
   ],
   "devDependencies": {
-    "async": "^2.6.0",
+    "async": "^3.2.2",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.0.2",
     "babel-jest": "^22.1.0",
