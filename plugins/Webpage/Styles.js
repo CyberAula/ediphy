@@ -5,5 +5,5 @@ export const WebPlugin = styled.iframe`
     height: 100%; 
     pointer-events: ${ props => props.visor ? 'all' : 'none' }; 
     z-index: 0; 
-    border: 1px solid grey;
+    border: none;
 `;

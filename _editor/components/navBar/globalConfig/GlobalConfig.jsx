@@ -46,6 +46,7 @@ class GlobalConfig extends Component {
       rights: this.props.globalConfig.rights || 1,
       description: this.props.globalConfig.description || '',
       thumbnail: this.props.globalConfig.thumbnail || img_place_holder,
+      disableSelection: this.props.globalConfig.disableSelection,
       language: this.props.globalConfig.language,
       keywords: this.props.globalConfig.keywords || [],
       version: this.props.globalConfig.version || '0.0.0',
@@ -72,7 +73,7 @@ class GlobalConfig extends Component {
      * @returns {code}
      */
   render() {
-      const { title, author, canvasRatio, age, hideGlobalScore, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, keywords, status, context, allowDownload, allowClone, allowComments } = this.state;
+      const { title, author, canvasRatio, age, hideGlobalScore, disableSelection, typicalLearningTime, minTimeProgress, difficulty, rights, visorNav, description, language, keywords, status, context, allowDownload, allowClone, allowComments } = this.state;
       const { reactUI } = this.props;
       return (
           <GlobalConfigModal className="pageModal"
@@ -248,7 +249,10 @@ class GlobalConfig extends Component {
                                   <FormGroup >
                                       <ConfigInlineLabel>{i18n.t('globalConfig.hideGlobalScore')}</ConfigInlineLabel>
                                       <ToggleSwitch onChange={()=>{this.setState({ modifiedState: true, hideGlobalScore: !this.state.hideGlobalScore });}} checked={!hideGlobalScore}/>
-
+                                  </FormGroup>
+                                  <FormGroup >
+                                      <ConfigInlineLabel>{i18n.t('globalConfig.disableSelection')}</ConfigInlineLabel>
+                                      <ToggleSwitch onChange={()=>{this.setState({ modifiedState: true, disableSelection: !this.state.disableSelection });}} checked={!disableSelection}/>
                                   </FormGroup>
                                   <FormGroup >
                                       <ControlLabel>{i18n.t('globalConfig.minTimeProgress')}</ControlLabel><br/>

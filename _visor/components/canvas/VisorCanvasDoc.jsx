@@ -47,7 +47,7 @@ export default class VisorCanvasDoc extends Component {
         let colors = toolbar.colors ? toolbar.colors : getThemeColors(theme);
         return (
             <Canvas id={(isCV ? "containedCanvas_" : "canvas_") + this.props.currentView} md={12} xs={12} className={(isCV ? "containedCanvasClass " : "canvasClass ") + animationType + (this.props.show ? "" : " hidden")}
-                style={{ display: 'initial', padding: '0', width: '100%' }}>
+                style={{ display: 'initial', padding: '0', width: '100%', userSelect: this.props.disableSelection ? 'none' : 'initial' }}>
                 <div className={"safeZone"} style={{ height: 'inherit' }}>
                     <div className={"scrollcontainer " + theme} style={{ background: toolbar.customBackground ? toolbar.background : 'var(--themeColor12)' }}>
                         {isCV ? (< OverlayTrigger placement="bottom" overlay={tooltip}>
@@ -157,6 +157,10 @@ VisorCanvasDoc.propTypes = {
      * Rich plugin state during transition
      */
     richElementState: PropTypes.object,
+    /**
+     * Disable user selection of content
+     */
+    disableSelection: PropTypes.bool,
     /**
      * Show canvas (a navItem needs to be chosen)
      */

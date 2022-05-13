@@ -171,6 +171,7 @@ let es = {
             },
             "difficulty": "Dificultad",
             "Discard": "Cancelar",
+            "disableSelection": "Permitir seleccionar contenido",
             "hideGlobalScore": "Mostrar puntuación global",
             "keylist": {
                 "Art": "Arte",

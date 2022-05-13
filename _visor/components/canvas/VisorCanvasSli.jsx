@@ -75,6 +75,7 @@ export default class VisorCanvasSli extends Component {
                     display: (isVisible || this.state.show) ? 'block' : 'none',
                     padding: '0px',
                     overflow: 'hidden',
+                    userSelect: this.props.disableSelection ? 'none' : 'initial',
                     fontSize: this.state.fontBase ? (this.state.fontBase + 'px') : '14px' }}>
 
                 <AirLayer id={(isCV ? 'airlayer_cv_' : 'airlayer_') + this.props.currentView} slide
@@ -304,6 +305,10 @@ VisorCanvasSli.propTypes = {
      * Whether the app is in SCORM mode or not
      */
     fromScorm: PropTypes.bool,
+    /**
+     * Disable user selection of content
+     */
+    disableSelection: PropTypes.bool,
     /**
      * Object containing all the exercises in the course
      */

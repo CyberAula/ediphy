@@ -170,6 +170,7 @@ let en = {
             },
             "difficulty": "Difficulty",
             "Discard": "Cancel",
+            "disableSelection": "Allow content selection",
             "hideGlobalScore": "Show global score",
             "keylist": {
                 "Art": "Art",

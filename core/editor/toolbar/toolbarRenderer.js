@@ -183,14 +183,16 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         const isTarget = typeof e.target !== 'undefined';
         const isValue = typeof e.value !== 'undefined';
         let value;
+
         if (isTarget || isValue) {
             if (isTarget) {
-                value = e.target;
+                value = e.target.value == undefined ? e.target : e.target.value;
             } else if (isValue) {
                 value = e.value;
             }
             commitChanges(value);
         }
+        console.log(value);
     };
 
     if (buttonKey === 'width' || buttonKey === 'height' || buttonKey === 'aspectRatio') {
@@ -250,6 +252,7 @@ export function renderButton(accordion, tabKey, accordionKeys, buttonKey, state,
         return ConditionalText(button, props, defaultHandler);
         // As in Box style -> Border Style
     case 'select':
+        console.log(defaultHandler, props);
         return MySelect(button, props, defaultHandler);
     case 'radio':
         handler = e => {

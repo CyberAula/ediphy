@@ -169,6 +169,7 @@ export default class Visor extends Component {
         let title = globalConfig.title;
         let ratio = globalConfig.canvasRatio;
         let visorNav = globalConfig.visorNav;
+        let disableSelection = !!globalConfig.disableSelection;
         let wrapperClasses = this.state.toggledSidebar ? "visorwrapper toggled" : "visorwrapper";
         let toggleIcon = this.state.toggledSidebar ? "keyboard_arrow_left" : "keyboard_arrow_right";
         let toggleColor = this.state.toggledSidebar ? "toggleColor" : "";
@@ -188,6 +189,7 @@ export default class Visor extends Component {
             fromScorm: this.state.fromScorm,
             navItems: navItemsById,
             navItemsIds,
+            disableSelection,
             removeLastView: this.removeLastView,
             richElementState: this.state.richElementState,
             title,
