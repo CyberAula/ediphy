@@ -4,6 +4,13 @@
 $playerColor: #555;
 
 #visorAppContent {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-selectelect: none;
+}
+
+#visorAppContent  .caja, #visorAppContent  div[name="BasicText"] * {
   user-select: text;
   -moz-user-select: text;
   -webkit-user-select: text;

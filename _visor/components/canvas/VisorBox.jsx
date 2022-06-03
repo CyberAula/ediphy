@@ -112,7 +112,7 @@ export default class VisorBox extends Component {
         wholeBoxVisorStyle.transform = wholeBoxVisorStyle.WebkitTransform = wholeBoxVisorStyle.MsTransform = rotate;
 
         return (
-            <div className={classes} id={'box-' + this.props.id}
+            <div className={classes} id={'box-' + this.props.id} name={toolbar.pluginId}
                 style={wholeBoxVisorStyle}>
                 {content}
 
