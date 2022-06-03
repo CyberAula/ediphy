@@ -10,7 +10,7 @@ export const CVBackButton = styled.a`
   right:  1em;
   i.material-icons{
     color: white;
-    font-size: 1em;
+    font-size: 1.5em;
     background-color: ${PRIMARY_BLUE};
   }
   z-index:9999;
