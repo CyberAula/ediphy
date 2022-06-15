@@ -170,6 +170,7 @@ export default class Visor extends Component {
         let ratio = globalConfig.canvasRatio;
         let visorNav = globalConfig.visorNav;
         let disableSelection = !!globalConfig.disableSelection;
+        let disabeFullScreen = !!globalConfig.disabeFullScreen;
         let wrapperClasses = this.state.toggledSidebar ? "visorwrapper toggled" : "visorwrapper";
         let toggleIcon = this.state.toggledSidebar ? "keyboard_arrow_left" : "keyboard_arrow_right";
         let toggleColor = this.state.toggledSidebar ? "toggleColor" : "";
@@ -266,6 +267,7 @@ export default class Visor extends Component {
                                         setHover={this.setHoverClass}
                                         deleteHover = {this.deleteHoverClass}
                                         show={visorNav.player}
+                                        disabeFullScreen={disabeFullScreen}
                                         changeCurrentView={(page, backwards)=> {this.changeCurrentView(page, backwards);}}
                                         currentViews={this.state.currentView}
                                         navItemsById={navItemsById}
@@ -289,6 +291,7 @@ export default class Visor extends Component {
                                     setHover={this.setHoverClass}
                                     deleteHover = {this.deleteHoverClass}
                                     show={visorNav.player}
+                                    disabeFullScreen={disabeFullScreen}
                                     changeCurrentView={(page, backwards)=> {this.changeCurrentView(page, backwards);}}
                                     currentViews={this.state.currentView}
                                     navItemsById={navItemsById}

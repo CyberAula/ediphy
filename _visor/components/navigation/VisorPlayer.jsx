@@ -22,6 +22,8 @@ export default class VisorPlayer extends Component {
      */
     render() {
         let navItemsIds = this.props.navItemsIds;
+        let disabeFullScreen = this.props.disabeFullScreen;
+        console.log(disabeFullScreen);
         if (!Ediphy.Config.sections_have_content) {
             navItemsIds = this.props.navItemsIds.filter(this.isntSection);
         }
@@ -85,7 +87,7 @@ export default class VisorPlayer extends Component {
 
                         </span>) :
                         null }
-                    <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose overlay={this.createTooltip("fullscreen", i18n.t("messages.fullscreen"))}>
+                    {disabeFullScreen ? null : <OverlayTrigger placement="bottom" delay={0} trigger={['hover']} rootClose overlay={this.createTooltip("fullscreen", i18n.t("messages.fullscreen"))}>
                         <Button className="playerButton fullScreenButton"
                             bsStyle="primary"
                             onClick={()=> {
@@ -98,7 +100,7 @@ export default class VisorPlayer extends Component {
                                 (<i className="material-icons">fullscreen_exit</i>) :
                                 (<i className="material-icons">fullscreen</i>)}
                         </Button>
-                    </OverlayTrigger>
+                    </OverlayTrigger>}
                 </div>
             </div>
         );

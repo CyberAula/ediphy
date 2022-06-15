@@ -171,6 +171,7 @@ let en = {
             "difficulty": "Difficulty",
             "Discard": "Cancel",
             "disableSelection": "Allow content selection",
+            "disabeFullScreen": "Mostrar botón de pantalla completa",
             "hideGlobalScore": "Show global score",
             "keylist": {
                 "Art": "Art",

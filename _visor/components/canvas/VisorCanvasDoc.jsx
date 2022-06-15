@@ -162,6 +162,10 @@ VisorCanvasDoc.propTypes = {
      */
     disableSelection: PropTypes.bool,
     /**
+     * Disable fullscreen button
+     */
+    disabeFullScreen: PropTypes.bool,
+    /**
      * Show canvas (a navItem needs to be chosen)
      */
     showCanvas: PropTypes.bool,

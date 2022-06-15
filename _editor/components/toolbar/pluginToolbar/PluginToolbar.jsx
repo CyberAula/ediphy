@@ -59,7 +59,7 @@ export default class PluginToolbar extends Component {
                                 this.h.onTextEditorToggled(toolbar.id, !toolbar.showTextEditor, text, content);});
                         }}>
                         <ToolbarIcon>mode_edit</ToolbarIcon>
-                        {i18n.t("edit_text")}1
+                        {i18n.t("edit_text")}
                     </ToolbarButton>
                 </div>
             );
