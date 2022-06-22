@@ -179,10 +179,10 @@ export default class EnrichedPlayerPlugin extends React.Component {
                     onEnded={() => this.setState({ playing: false })}
                     onProgress={this.onProgress}
                     onDuration={duration => this.setState({ duration })}
-                    onReady={this.onReady}
+                    onReady={this.onReady} onClick={this.playPause}
                 />
                 {(this.state.controls) && (
-                    <VisorControls>
+                    <VisorControls className="VisorControls">
                         <Play onClick={this.playPause}>{this.state.playing ? <i className="material-icons">pause</i> : <i className="material-icons">play_arrow</i>}</Play>
                         <Progress
                             onMouseDown={this.onSeekMouseDown}

@@ -14,8 +14,8 @@ export const PlayerPlugin = styled(CustomRange)`
   }
 
   &:hover {
-    .visorControls {
-      opacity:1;
+    .VisorControls {
+      opacity: 0.7;
     }
   }
 `;
@@ -36,7 +36,7 @@ export const MediaControls = styled.div`
     transition: opacity .3s;
     pointer-events: all;
     &:hover{
-      opacity: 1;
+      opacity: 1 !important;
     }
 
 `;
