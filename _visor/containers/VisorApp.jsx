@@ -86,6 +86,7 @@ export default class Visor extends Component {
                 window.theme_css = data;
             })
             .catch(()=> '');
+
     }
 
     setHoverClass = () => {
@@ -114,6 +115,7 @@ export default class Visor extends Component {
         /*
         * Add Key bindings to app
         * */
+
         if(Ediphy.State.globalConfig.visorNav.keyBindings) {
             // First get window focus so arrows work right away
             window.focus();
