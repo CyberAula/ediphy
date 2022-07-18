@@ -170,7 +170,7 @@
     "isomorphic-fetch": "^2.2.1",
     "jest-cli": "^22.1.4",
     "jquery": "^3.2.1",
-    "jquery-ui": "^1.12.1",
+    "jquery-ui": "^1.13.2",
     "jquery-ui-touch-punch": "^0.2.3",
     "jspdf": "^1.3.5",
     "jszip": "^3.1.5",
